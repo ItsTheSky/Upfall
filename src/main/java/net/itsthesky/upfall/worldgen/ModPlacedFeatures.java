@@ -73,7 +73,7 @@ public final class ModPlacedFeatures {
         register(context, configured, UPFALL_CASCADE_DENSE, ModConfiguredFeatures.UPFALL_CASCADE,
                 CountPlacement.of(1), InSquarePlacement.spread(), SurfaceScanPlacement.ceiling(underIsland, MIN_Y, MAX_Y), BiomeFilter.biome());
         register(context, configured, DRIFTING_RUINS, ModConfiguredFeatures.DRIFTING_RUINS,
-                RarityFilter.onAverageOnceEvery(6), InSquarePlacement.spread(), SurfaceScanPlacement.floor(onGrass, MIN_Y, MAX_Y), BiomeFilter.biome());
+                RarityFilter.onAverageOnceEvery(32), InSquarePlacement.spread(), SurfaceScanPlacement.floor(onGrass, MIN_Y, MAX_Y), BiomeFilter.biome());
         register(context, configured, INVERTED_OBSERVATORY, ModConfiguredFeatures.INVERTED_OBSERVATORY,
                 RarityFilter.onAverageOnceEvery(14), InSquarePlacement.spread(), SurfaceScanPlacement.ceiling(underIsland, MIN_Y, MAX_Y),
                 BiomeFilter.biome());

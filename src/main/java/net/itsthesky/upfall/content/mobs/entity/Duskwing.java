@@ -42,7 +42,7 @@ public class Duskwing extends FlyingMob implements Enemy {
         return FlyingMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 26.0)
                 .add(Attributes.ARMOR, 4.0)
-                .add(Attributes.ATTACK_DAMAGE, 9.0)
+                .add(Attributes.ATTACK_DAMAGE, 6.75)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.8)
                 .add(Attributes.FOLLOW_RANGE, 40.0)
                 .add(Attributes.FLYING_SPEED, 0.9);

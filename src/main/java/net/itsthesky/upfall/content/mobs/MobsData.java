@@ -135,7 +135,7 @@ public class MobsData implements DataContribution {
         boolean roots = biome == ModBiomes.HANGING_ROOTS;
         boolean ridge = biome == ModBiomes.GILDED_RIDGE;
 
-        spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(MobEntities.DUSKWING.get(), mistsea ? 4 : ridge ? 8 : 6, 1, 2));
+        spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(MobEntities.DUSKWING.get(), mistsea ? 2 : ridge ? 4 : 3, 1, 1));
         if (!mistsea) {
             spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(MobEntities.CRAGMAW.get(), ridge ? 10 : roots ? 5 : 6, 1, 2));
         }

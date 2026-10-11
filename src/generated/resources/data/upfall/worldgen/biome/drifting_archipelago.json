@@ -94,9 +94,9 @@
     "monster": [
       {
         "type": "upfall:duskwing",
-        "maxCount": 2,
+        "maxCount": 1,
         "minCount": 1,
-        "weight": 6
+        "weight": 3
       },
       {
         "type": "upfall:cragmaw",
