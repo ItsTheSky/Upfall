@@ -1,0 +1,350 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            10.0,
+            6.0,
+            16.0
+          ]
+        },
+        "east": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            0.0,
+            6.0,
+            9.0
+          ]
+        },
+        "north": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            0.0,
+            6.0,
+            9.0
+          ]
+        },
+        "south": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            0.0,
+            6.0,
+            9.0
+          ]
+        },
+        "up": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            10.0,
+            6.0,
+            16.0
+          ]
+        },
+        "west": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            0.0,
+            6.0,
+            9.0
+          ]
+        }
+      },
+      "from": [
+        5,
+        0,
+        5
+      ],
+      "to": [
+        11,
+        9,
+        11
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            8.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            11.0,
+            6.0
+          ]
+        },
+        "north": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            8.0,
+            6.0
+          ]
+        },
+        "south": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            8.0,
+            6.0
+          ]
+        },
+        "up": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            8.0,
+            4.0
+          ]
+        },
+        "west": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            11.0,
+            6.0
+          ]
+        }
+      },
+      "from": [
+        5,
+        9,
+        6
+      ],
+      "to": [
+        6,
+        15,
+        10
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            8.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            11.0,
+            6.0
+          ]
+        },
+        "north": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            8.0,
+            6.0
+          ]
+        },
+        "south": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            8.0,
+            6.0
+          ]
+        },
+        "up": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            8.0,
+            4.0
+          ]
+        },
+        "west": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            0.0,
+            11.0,
+            6.0
+          ]
+        }
+      },
+      "from": [
+        10,
+        9,
+        6
+      ],
+      "to": [
+        11,
+        15,
+        10
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#main",
+          "uv": [
+            12.0,
+            0.0,
+            14.0,
+            6.0
+          ]
+        },
+        "east": {
+          "texture": "#main",
+          "uv": [
+            10.0,
+            10.0,
+            16.0,
+            16.0
+          ]
+        },
+        "north": {
+          "texture": "#main",
+          "uv": [
+            12.0,
+            0.0,
+            14.0,
+            6.0
+          ]
+        },
+        "south": {
+          "texture": "#main",
+          "uv": [
+            12.0,
+            0.0,
+            14.0,
+            6.0
+          ]
+        },
+        "up": {
+          "texture": "#main",
+          "uv": [
+            12.0,
+            0.0,
+            14.0,
+            6.0
+          ]
+        },
+        "west": {
+          "texture": "#main",
+          "uv": [
+            10.0,
+            10.0,
+            16.0,
+            16.0
+          ]
+        }
+      },
+      "from": [
+        7,
+        9,
+        5
+      ],
+      "to": [
+        9,
+        15,
+        11
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            7.0,
+            14.0,
+            8.0
+          ]
+        },
+        "east": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            7.0,
+            14.0,
+            8.0
+          ]
+        },
+        "north": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            7.0,
+            14.0,
+            8.0
+          ]
+        },
+        "south": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            7.0,
+            14.0,
+            8.0
+          ]
+        },
+        "up": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            7.0,
+            14.0,
+            8.0
+          ]
+        },
+        "west": {
+          "texture": "#main",
+          "uv": [
+            7.0,
+            7.0,
+            14.0,
+            8.0
+          ]
+        }
+      },
+      "from": [
+        4.5,
+        11.5,
+        7.5
+      ],
+      "to": [
+        11.5,
+        12.5,
+        8.5
+      ]
+    }
+  ],
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "main": "upfall:block/zipline_anchor",
+    "particle": "upfall:block/zipline_anchor"
+  }
+}

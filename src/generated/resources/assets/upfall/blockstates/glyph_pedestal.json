@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "mode=idle": {
+      "model": "upfall:block/glyph_pedestal_idle"
+    },
+    "mode=listening": {
+      "model": "upfall:block/glyph_pedestal_listening"
+    },
+    "mode=showing": {
+      "model": "upfall:block/glyph_pedestal_showing"
+    },
+    "mode=solved": {
+      "model": "upfall:block/glyph_pedestal_solved"
+    }
+  }
+}

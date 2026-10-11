@@ -1,0 +1,8 @@
+{
+  "type": "upfall:sky_lake",
+  "config": {
+    "max_depth": 2,
+    "max_radius": 4,
+    "min_radius": 2
+  }
+}

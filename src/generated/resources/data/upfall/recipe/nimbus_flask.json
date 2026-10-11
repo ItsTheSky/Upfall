@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "item": "upfall:cloud_pearl"
+    },
+    {
+      "item": "upfall:cloud_pearl"
+    },
+    {
+      "item": "upfall:dense_cloud"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:nimbus_flask"
+  }
+}

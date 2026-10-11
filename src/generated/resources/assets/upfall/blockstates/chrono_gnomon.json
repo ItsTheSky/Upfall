@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "phase=dawn,solved=false": {
+      "model": "upfall:block/chrono_gnomon_dawn"
+    },
+    "phase=dawn,solved=true": {
+      "model": "upfall:block/chrono_gnomon_dawn_solved"
+    },
+    "phase=dusk,solved=false": {
+      "model": "upfall:block/chrono_gnomon_dusk"
+    },
+    "phase=dusk,solved=true": {
+      "model": "upfall:block/chrono_gnomon_dusk_solved"
+    },
+    "phase=midnight,solved=false": {
+      "model": "upfall:block/chrono_gnomon_midnight"
+    },
+    "phase=midnight,solved=true": {
+      "model": "upfall:block/chrono_gnomon_midnight_solved"
+    },
+    "phase=noon,solved=false": {
+      "model": "upfall:block/chrono_gnomon_noon"
+    },
+    "phase=noon,solved=true": {
+      "model": "upfall:block/chrono_gnomon_noon_solved"
+    }
+  }
+}

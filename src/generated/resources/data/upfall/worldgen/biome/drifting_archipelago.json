@@ -1,0 +1,120 @@
+{
+  "carvers": {},
+  "creature_spawn_probability": 0.3,
+  "downfall": 0.4,
+  "effects": {
+    "additions_sound": {
+      "sound": "upfall:ambient.drifting_archipelago.additions",
+      "tick_chance": 0.006
+    },
+    "fog_color": 15250624,
+    "foliage_color": 10474692,
+    "grass_color": 10474692,
+    "mood_sound": {
+      "block_search_extent": 8,
+      "offset": 2.0,
+      "sound": "upfall:ambient.drifting_archipelago.mood",
+      "tick_delay": 6000
+    },
+    "music": {
+      "max_delay": 18000,
+      "min_delay": 6000,
+      "replace_current_music": false,
+      "sound": "upfall:music.upfall"
+    },
+    "particle": {
+      "options": {
+        "type": "upfall:petal"
+      },
+      "probability": 0.0025
+    },
+    "sky_color": 11127016,
+    "water_color": 10471648,
+    "water_fog_color": 8157854
+  },
+  "features": [
+    [],
+    [],
+    [
+      "upfall:sky_stream",
+      "upfall:sky_lake",
+      "upfall:sky_pond"
+    ],
+    [],
+    [
+      "upfall:drifting_ruins"
+    ],
+    [],
+    [
+      "upfall:ore_nimbusite",
+      "upfall:ore_pearled_cloud"
+    ],
+    [
+      "upfall:mistglow_crystal",
+      "upfall:upfall_cascade",
+      "upfall:glowvines",
+      "upfall:raincloud_patch",
+      "upfall:needle_tip"
+    ],
+    [],
+    [
+      "upfall:skyreach_trees",
+      "upfall:patch_gilded_tuft",
+      "upfall:patch_cloud_fern",
+      "upfall:patch_duskbloom",
+      "upfall:cloudstalks"
+    ],
+    [
+      "upfall:updraft_from_clouds",
+      "upfall:updraft_from_islands",
+      "upfall:cloudlets_rare"
+    ]
+  ],
+  "has_precipitation": false,
+  "spawn_costs": {},
+  "spawners": {
+    "ambient": [
+      {
+        "type": "upfall:skyray",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 8
+      }
+    ],
+    "axolotls": [],
+    "creature": [
+      {
+        "type": "upfall:skygrazer",
+        "maxCount": 4,
+        "minCount": 2,
+        "weight": 10
+      }
+    ],
+    "misc": [],
+    "monster": [
+      {
+        "type": "upfall:duskwing",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 6
+      },
+      {
+        "type": "upfall:cragmaw",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 6
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [
+      {
+        "type": "upfall:mistjelly",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 3
+      }
+    ],
+    "water_creature": []
+  },
+  "temperature": 0.7
+}

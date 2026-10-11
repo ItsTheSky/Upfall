@@ -1,0 +1,25 @@
+{
+  "feature": "upfall:upfall_cascade",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 1
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "upfall:surface_scan",
+      "max_y": 300,
+      "min_y": 64,
+      "support": {
+        "type": "minecraft:matching_block_tag",
+        "tag": "upfall:sky_plantable"
+      },
+      "surface": "ceiling"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

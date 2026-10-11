@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gildroot_log": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:gildroot_log"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:gildroot_wood"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gildroot_log"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:gildroot_wood"
+    ]
+  }
+}

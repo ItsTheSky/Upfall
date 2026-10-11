@@ -1,0 +1,33 @@
+{
+  "parent": "upfall:upfall/gilded_ridge",
+  "criteria": {
+    "has_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:levitite_shard"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.mine_levitite.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:levitite_shard"
+    },
+    "title": {
+      "translate": "advancements.upfall.mine_levitite.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_shard"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

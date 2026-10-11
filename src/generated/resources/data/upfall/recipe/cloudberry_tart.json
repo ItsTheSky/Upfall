@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "upfall:cloudberry"
+    },
+    {
+      "item": "upfall:cloudberry"
+    },
+    {
+      "item": "upfall:cloudberry"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "minecraft:wheat"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:cloudberry_tart"
+  }
+}

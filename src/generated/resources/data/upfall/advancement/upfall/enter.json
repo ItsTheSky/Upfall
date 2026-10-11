@@ -1,0 +1,29 @@
+{
+  "parent": "upfall:upfall/light_portal",
+  "criteria": {
+    "entered": {
+      "conditions": {
+        "to": "upfall:the_upfall"
+      },
+      "trigger": "minecraft:changed_dimension"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.enter.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:dense_cloud"
+    },
+    "title": {
+      "translate": "advancements.upfall.enter.title"
+    }
+  },
+  "requirements": [
+    [
+      "entered"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,29 @@
+{
+  "parent": "upfall:upfall/enter",
+  "criteria": {
+    "updraft": {
+      "conditions": {
+        "block": "upfall:updraft_mist"
+      },
+      "trigger": "minecraft:enter_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.updraft.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:updraft_vent"
+    },
+    "title": {
+      "translate": "advancements.upfall.updraft.title"
+    }
+  },
+  "requirements": [
+    [
+      "updraft"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_raw_nimbusite": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:raw_nimbusite"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:raw_nimbusite_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_raw_nimbusite"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:raw_nimbusite_block"
+    ]
+  }
+}

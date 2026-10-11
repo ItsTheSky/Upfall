@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 1.0,
+  "group": "nimbusite_ingot",
+  "ingredient": {
+    "item": "upfall:nimbusite_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "upfall:nimbusite_ingot"
+  }
+}

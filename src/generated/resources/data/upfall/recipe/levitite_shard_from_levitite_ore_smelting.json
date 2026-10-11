@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 2.0,
+  "group": "levitite_shard",
+  "ingredient": {
+    "item": "upfall:levitite_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "upfall:levitite_shard"
+  }
+}

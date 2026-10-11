@@ -1,0 +1,27 @@
+{
+  "parent": "upfall:upfall/skyward_key",
+  "criteria": {
+    "lit": {
+      "trigger": "upfall:portal_lit"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.light_portal.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "upfall:halo_frame"
+    },
+    "title": {
+      "translate": "advancements.upfall.light_portal.title"
+    }
+  },
+  "requirements": [
+    [
+      "lit"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

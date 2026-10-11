@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "upfall:skyreach_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "upfall:skyreach_planks"
+  }
+}

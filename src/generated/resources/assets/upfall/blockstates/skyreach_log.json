@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "upfall:block/skyreach_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "upfall:block/skyreach_log"
+    },
+    "axis=z": {
+      "model": "upfall:block/skyreach_log_horizontal",
+      "x": 90
+    }
+  }
+}

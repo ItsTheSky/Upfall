@@ -1,0 +1,33 @@
+{
+  "parent": "upfall:upfall/root",
+  "criteria": {
+    "has_key": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:skyward_key"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.skyward_key.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:skyward_key"
+    },
+    "title": {
+      "translate": "advancements.upfall.skyward_key.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_key"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "upfall:block/woven_slab"
+    },
+    "type=double": {
+      "model": "upfall:block/woven_planks"
+    },
+    "type=top": {
+      "model": "upfall:block/woven_slab_top"
+    }
+  }
+}

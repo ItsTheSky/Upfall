@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "upfall:block/gildroot_log",
+    "side": "upfall:block/gildroot_log"
+  }
+}

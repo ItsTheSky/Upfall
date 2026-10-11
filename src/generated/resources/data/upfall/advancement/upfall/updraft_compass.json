@@ -1,0 +1,33 @@
+{
+  "parent": "upfall:upfall/updraft",
+  "criteria": {
+    "has_compass": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:updraft_compass"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.updraft_compass.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:updraft_compass"
+    },
+    "title": {
+      "translate": "advancements.upfall.updraft_compass.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_compass"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

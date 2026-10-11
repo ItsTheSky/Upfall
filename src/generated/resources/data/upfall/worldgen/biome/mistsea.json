@@ -1,0 +1,98 @@
+{
+  "carvers": {},
+  "downfall": 0.4,
+  "effects": {
+    "ambient_sound": "upfall:ambient.mistsea.loop",
+    "fog_color": 15920885,
+    "foliage_color": 11853007,
+    "grass_color": 11853007,
+    "mood_sound": {
+      "block_search_extent": 8,
+      "offset": 2.0,
+      "sound": "upfall:ambient.mistsea.mood",
+      "tick_delay": 6000
+    },
+    "music": {
+      "max_delay": 18000,
+      "min_delay": 6000,
+      "replace_current_music": false,
+      "sound": "upfall:music.upfall"
+    },
+    "particle": {
+      "options": {
+        "type": "upfall:mist_mote"
+      },
+      "probability": 0.006
+    },
+    "sky_color": 12045798,
+    "water_color": 11850472,
+    "water_fog_color": 10131642
+  },
+  "features": [
+    [],
+    [],
+    [
+      "upfall:sky_pond_rare"
+    ],
+    [],
+    [
+      "upfall:drifting_ruins"
+    ],
+    [],
+    [
+      "upfall:ore_nimbusite",
+      "upfall:ore_pearled_cloud"
+    ],
+    [
+      "upfall:mistglow_crystal",
+      "upfall:glowvines",
+      "upfall:raincloud_patch",
+      "upfall:needle_tip"
+    ],
+    [],
+    [
+      "upfall:skyreach_trees_sparse",
+      "upfall:patch_gilded_tuft",
+      "upfall:patch_cloud_fern",
+      "upfall:cloudstalks_dense"
+    ],
+    [
+      "upfall:updraft_from_clouds",
+      "upfall:cloudlets"
+    ]
+  ],
+  "has_precipitation": false,
+  "spawn_costs": {},
+  "spawners": {
+    "ambient": [
+      {
+        "type": "upfall:skyray",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 12
+      }
+    ],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [
+      {
+        "type": "upfall:duskwing",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 4
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [
+      {
+        "type": "upfall:mistjelly",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 14
+      }
+    ],
+    "water_creature": []
+  },
+  "temperature": 0.7
+}

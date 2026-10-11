@@ -1,0 +1,202 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#main",
+          "uv": [
+            11.0,
+            0.0,
+            15.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            0.0,
+            4.0,
+            9.0
+          ]
+        },
+        "north": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            0.0,
+            4.0,
+            9.0
+          ]
+        },
+        "south": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            0.0,
+            4.0,
+            9.0
+          ]
+        },
+        "up": {
+          "texture": "#main",
+          "uv": [
+            11.0,
+            0.0,
+            15.0,
+            4.0
+          ]
+        },
+        "west": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            0.0,
+            4.0,
+            9.0
+          ]
+        }
+      },
+      "from": [
+        6,
+        0,
+        6
+      ],
+      "to": [
+        10,
+        9,
+        10
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#main"
+        },
+        "east": {
+          "texture": "#main",
+          "uv": [
+            5.0,
+            0.0,
+            11.0,
+            4.0
+          ]
+        },
+        "north": {
+          "texture": "#main",
+          "uv": [
+            5.0,
+            0.0,
+            11.0,
+            4.0
+          ]
+        },
+        "south": {
+          "texture": "#main",
+          "uv": [
+            5.0,
+            0.0,
+            11.0,
+            4.0
+          ]
+        },
+        "up": {
+          "texture": "#main"
+        },
+        "west": {
+          "texture": "#main",
+          "uv": [
+            5.0,
+            0.0,
+            11.0,
+            4.0
+          ]
+        }
+      },
+      "from": [
+        5,
+        3,
+        5
+      ],
+      "to": [
+        11,
+        7,
+        11
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#main",
+          "uv": [
+            6.0,
+            10.0,
+            12.0,
+            16.0
+          ]
+        },
+        "east": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            10.0,
+            6.0,
+            11.0
+          ]
+        },
+        "north": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            10.0,
+            6.0,
+            11.0
+          ]
+        },
+        "south": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            10.0,
+            6.0,
+            11.0
+          ]
+        },
+        "up": {
+          "texture": "#main",
+          "uv": [
+            6.0,
+            10.0,
+            12.0,
+            16.0
+          ]
+        },
+        "west": {
+          "texture": "#main",
+          "uv": [
+            0.0,
+            10.0,
+            6.0,
+            11.0
+          ]
+        }
+      },
+      "from": [
+        5,
+        9,
+        5
+      ],
+      "to": [
+        11,
+        10,
+        11
+      ]
+    }
+  ],
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "main": "upfall:block/rope_anchor",
+    "particle": "upfall:block/rope_anchor"
+  }
+}

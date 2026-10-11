@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "L": {
+      "item": "upfall:skyreach_log"
+    },
+    "R": {
+      "item": "upfall:rope"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RLR",
+    "RRR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:rope_spool"
+  }
+}

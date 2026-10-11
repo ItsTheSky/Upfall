@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "R": {
+      "item": "upfall:rope"
+    },
+    "S": {
+      "item": "upfall:woven_slab"
+    }
+  },
+  "pattern": [
+    "R R",
+    "SSS"
+  ],
+  "result": {
+    "count": 4,
+    "id": "upfall:rope_bridge"
+  }
+}

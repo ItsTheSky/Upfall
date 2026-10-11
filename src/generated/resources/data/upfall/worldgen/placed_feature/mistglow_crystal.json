@@ -1,0 +1,28 @@
+{
+  "feature": "upfall:mistglow_crystal",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 5
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "upfall:surface_scan",
+      "max_y": 300,
+      "min_y": 64,
+      "support": {
+        "type": "minecraft:matching_blocks",
+        "blocks": [
+          "upfall:pearlstone",
+          "upfall:duskslate"
+        ]
+      },
+      "surface": "ceiling"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

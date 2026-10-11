@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "phase=dawn": {
+      "model": "upfall:block/phase_wheel_dawn"
+    },
+    "phase=dusk": {
+      "model": "upfall:block/phase_wheel_dusk"
+    },
+    "phase=midnight": {
+      "model": "upfall:block/phase_wheel_midnight"
+    },
+    "phase=noon": {
+      "model": "upfall:block/phase_wheel_noon"
+    }
+  }
+}

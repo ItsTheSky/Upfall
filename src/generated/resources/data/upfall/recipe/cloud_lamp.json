@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "upfall:dense_cloud"
+    },
+    "P": {
+      "item": "upfall:cloud_pearl"
+    }
+  },
+  "pattern": [
+    " P ",
+    "PCP",
+    " P "
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:cloud_lamp"
+  }
+}

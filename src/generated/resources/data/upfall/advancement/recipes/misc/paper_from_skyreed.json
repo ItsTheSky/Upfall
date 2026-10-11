@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_skyreed": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:skyreed"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:paper_from_skyreed"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_skyreed"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:paper_from_skyreed"
+    ]
+  }
+}

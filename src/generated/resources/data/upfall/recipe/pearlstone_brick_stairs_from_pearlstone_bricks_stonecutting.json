@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "upfall:pearlstone_bricks"
+  },
+  "result": {
+    "count": 1,
+    "id": "upfall:pearlstone_brick_stairs"
+  }
+}

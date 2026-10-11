@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": {
+      "item": "upfall:chronostone_bricks"
+    },
+    "C": {
+      "item": "minecraft:clock"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    " C ",
+    "#G#",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:hour_dial"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "upfall:block/halo_portal_ns"
+    },
+    "axis=z": {
+      "model": "upfall:block/halo_portal_ew"
+    }
+  }
+}

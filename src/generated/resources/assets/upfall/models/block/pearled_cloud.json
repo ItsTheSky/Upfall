@@ -1,0 +1,93 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#base"
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#base"
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#base"
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#base"
+        },
+        "up": {
+          "cullface": "up",
+          "texture": "#base"
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#base"
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#pearls"
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#pearls"
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#pearls"
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#pearls"
+        },
+        "up": {
+          "cullface": "up",
+          "texture": "#pearls"
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#pearls"
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "neoforge_data": {
+        "ambient_occlusion": false,
+        "block_light": 15,
+        "sky_light": 15
+      },
+      "shade": false,
+      "to": [
+        16,
+        16,
+        16
+      ]
+    }
+  ],
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "base": "upfall:block/dense_cloud",
+    "particle": "upfall:block/dense_cloud",
+    "pearls": "upfall:block/pearled_cloud_pearls"
+  }
+}

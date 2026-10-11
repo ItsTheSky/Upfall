@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "G": {
+      "item": "minecraft:light_blue_stained_glass"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "P": {
+      "item": "minecraft:purpur_block"
+    }
+  },
+  "pattern": [
+    "GPG",
+    "PNP",
+    "GPG"
+  ],
+  "result": {
+    "count": 8,
+    "id": "upfall:halo_frame"
+  }
+}

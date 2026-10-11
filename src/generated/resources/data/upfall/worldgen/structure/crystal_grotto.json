@@ -1,0 +1,11 @@
+{
+  "type": "upfall:crystal_grotto",
+  "biomes": [
+    "upfall:drifting_archipelago",
+    "upfall:mistsea",
+    "upfall:hanging_roots",
+    "upfall:gilded_ridge"
+  ],
+  "spawn_overrides": {},
+  "step": "underground_structures"
+}

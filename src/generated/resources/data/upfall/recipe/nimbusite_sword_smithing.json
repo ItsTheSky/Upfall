@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "upfall:nimbusite_ingot"
+  },
+  "base": {
+    "item": "minecraft:netherite_sword"
+  },
+  "result": {
+    "count": 1,
+    "id": "upfall:nimbusite_sword"
+  },
+  "template": {
+    "item": "upfall:nimbusite_upgrade_smithing_template"
+  }
+}

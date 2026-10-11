@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dusk_canopy": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:dusk_canopy"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:dusk_canopy_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dusk_canopy"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:dusk_canopy_stairs"
+    ]
+  }
+}

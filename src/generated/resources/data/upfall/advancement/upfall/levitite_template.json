@@ -1,0 +1,34 @@
+{
+  "parent": "upfall:upfall/mine_levitite",
+  "criteria": {
+    "has_template": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:levitite_upgrade_smithing_template"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.levitite_template.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "upfall:levitite_upgrade_smithing_template"
+    },
+    "title": {
+      "translate": "advancements.upfall.levitite_template.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_template"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

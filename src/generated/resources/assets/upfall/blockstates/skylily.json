@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "upfall:block/skylily"
+      },
+      {
+        "model": "upfall:block/skylily",
+        "y": 90
+      },
+      {
+        "model": "upfall:block/skylily",
+        "y": 180
+      },
+      {
+        "model": "upfall:block/skylily",
+        "y": 270
+      }
+    ]
+  }
+}

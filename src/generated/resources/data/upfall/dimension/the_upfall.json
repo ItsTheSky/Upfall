@@ -1,0 +1,120 @@
+{
+  "type": "upfall:the_upfall",
+  "generator": {
+    "type": "minecraft:noise",
+    "biome_source": {
+      "type": "minecraft:multi_noise",
+      "biomes": [
+        {
+          "biome": "upfall:mistsea",
+          "parameters": {
+            "continentalness": [
+              -2.0,
+              -0.3
+            ],
+            "depth": 0.0,
+            "erosion": [
+              -2.0,
+              2.0
+            ],
+            "humidity": [
+              -2.0,
+              2.0
+            ],
+            "offset": 0.0,
+            "temperature": [
+              -2.0,
+              2.0
+            ],
+            "weirdness": [
+              -2.0,
+              2.0
+            ]
+          }
+        },
+        {
+          "biome": "upfall:hanging_roots",
+          "parameters": {
+            "continentalness": [
+              -0.3,
+              2.0
+            ],
+            "depth": 0.0,
+            "erosion": [
+              -2.0,
+              2.0
+            ],
+            "humidity": [
+              -2.0,
+              2.0
+            ],
+            "offset": 0.0,
+            "temperature": [
+              -2.0,
+              2.0
+            ],
+            "weirdness": [
+              0.3,
+              2.0
+            ]
+          }
+        },
+        {
+          "biome": "upfall:gilded_ridge",
+          "parameters": {
+            "continentalness": [
+              -0.3,
+              2.0
+            ],
+            "depth": 0.0,
+            "erosion": [
+              -2.0,
+              2.0
+            ],
+            "humidity": [
+              -2.0,
+              2.0
+            ],
+            "offset": 0.0,
+            "temperature": [
+              0.45,
+              2.0
+            ],
+            "weirdness": [
+              -2.0,
+              0.3
+            ]
+          }
+        },
+        {
+          "biome": "upfall:drifting_archipelago",
+          "parameters": {
+            "continentalness": [
+              -0.3,
+              2.0
+            ],
+            "depth": 0.0,
+            "erosion": [
+              -2.0,
+              2.0
+            ],
+            "humidity": [
+              -2.0,
+              2.0
+            ],
+            "offset": 0.0,
+            "temperature": [
+              -2.0,
+              0.45
+            ],
+            "weirdness": [
+              -2.0,
+              0.3
+            ]
+          }
+        }
+      ]
+    },
+    "settings": "upfall:the_upfall"
+  }
+}

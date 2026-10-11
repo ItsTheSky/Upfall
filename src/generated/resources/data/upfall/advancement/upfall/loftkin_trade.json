@@ -1,0 +1,37 @@
+{
+  "parent": "upfall:upfall/cloud_hamlet",
+  "criteria": {
+    "traded": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "upfall:loftkin"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:villager_trade"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.loftkin_trade.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:rope"
+    },
+    "title": {
+      "translate": "advancements.upfall.loftkin_trade.title"
+    }
+  },
+  "requirements": [
+    [
+      "traded"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

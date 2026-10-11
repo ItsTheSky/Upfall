@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 2.0,
+  "group": "levitite_shard",
+  "ingredient": {
+    "item": "upfall:levitite_ore"
+  },
+  "result": {
+    "count": 1,
+    "id": "upfall:levitite_shard"
+  }
+}

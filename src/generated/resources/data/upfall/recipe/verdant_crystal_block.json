@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "upfall:lumen_shard"
+    },
+    {
+      "item": "upfall:lumen_shard"
+    },
+    {
+      "item": "upfall:lumen_shard"
+    },
+    {
+      "item": "upfall:lumen_shard"
+    },
+    {
+      "item": "minecraft:lime_dye"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:verdant_crystal_block"
+  }
+}

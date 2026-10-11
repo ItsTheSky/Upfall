@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "inverted=false": [
+      {
+        "model": "upfall:block/skygrass_block"
+      },
+      {
+        "model": "upfall:block/skygrass_block",
+        "y": 90
+      },
+      {
+        "model": "upfall:block/skygrass_block",
+        "y": 180
+      },
+      {
+        "model": "upfall:block/skygrass_block",
+        "y": 270
+      }
+    ],
+    "inverted=true": {
+      "model": "upfall:block/skygrass_block",
+      "x": 180
+    }
+  }
+}

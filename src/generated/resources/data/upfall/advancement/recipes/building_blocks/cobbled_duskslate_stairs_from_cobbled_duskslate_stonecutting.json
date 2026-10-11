@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cobbled_duskslate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:cobbled_duskslate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:cobbled_duskslate_stairs_from_cobbled_duskslate_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cobbled_duskslate"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:cobbled_duskslate_stairs_from_cobbled_duskslate_stonecutting"
+    ]
+  }
+}

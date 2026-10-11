@@ -1,0 +1,98 @@
+{
+  "carvers": {},
+  "downfall": 0.4,
+  "effects": {
+    "additions_sound": {
+      "sound": "upfall:ambient.gilded_ridge.additions",
+      "tick_chance": 0.008
+    },
+    "fog_color": 15254682,
+    "foliage_color": 14858330,
+    "grass_color": 14207370,
+    "mood_sound": {
+      "block_search_extent": 8,
+      "offset": 2.0,
+      "sound": "upfall:ambient.drifting_archipelago.mood",
+      "tick_delay": 6000
+    },
+    "music": {
+      "max_delay": 18000,
+      "min_delay": 6000,
+      "replace_current_music": false,
+      "sound": "upfall:music.upfall"
+    },
+    "particle": {
+      "options": {
+        "type": "upfall:gilded_dust"
+      },
+      "probability": 0.005
+    },
+    "sky_color": 11715298,
+    "water_color": 11127016,
+    "water_fog_color": 8157854
+  },
+  "features": [
+    [],
+    [],
+    [
+      "upfall:sky_pond"
+    ],
+    [],
+    [
+      "upfall:drifting_ruins"
+    ],
+    [],
+    [
+      "upfall:ore_nimbusite",
+      "upfall:gilded_vein",
+      "upfall:ore_levitite",
+      "upfall:ore_pearled_cloud"
+    ],
+    [
+      "upfall:mistglow_crystal",
+      "upfall:upfall_cascade",
+      "upfall:glowvines",
+      "upfall:raincloud_patch",
+      "upfall:needle_tip"
+    ],
+    [],
+    [
+      "upfall:skyreach_trees_sparse",
+      "upfall:patch_gilded_tuft_dense",
+      "upfall:patch_cloud_fern",
+      "upfall:patch_duskbloom",
+      "upfall:cloudstalks"
+    ],
+    [
+      "upfall:updraft_from_clouds",
+      "upfall:updraft_from_islands",
+      "upfall:cloudlets_rare"
+    ]
+  ],
+  "has_precipitation": false,
+  "spawn_costs": {},
+  "spawners": {
+    "ambient": [],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [
+      {
+        "type": "upfall:duskwing",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 8
+      },
+      {
+        "type": "upfall:cragmaw",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 10
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [],
+    "water_creature": []
+  },
+  "temperature": 0.7
+}

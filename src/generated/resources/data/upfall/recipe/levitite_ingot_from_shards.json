@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "levitite_ingot",
+  "ingredients": [
+    {
+      "item": "upfall:levitite_shard"
+    },
+    {
+      "item": "upfall:levitite_shard"
+    },
+    {
+      "item": "upfall:levitite_shard"
+    },
+    {
+      "item": "upfall:levitite_shard"
+    },
+    {
+      "item": "upfall:nimbusite_ingot"
+    },
+    {
+      "item": "upfall:nimbusite_ingot"
+    },
+    {
+      "item": "upfall:nimbusite_ingot"
+    },
+    {
+      "item": "upfall:nimbusite_ingot"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:levitite_ingot"
+  }
+}

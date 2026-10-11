@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "upfall:levitite_ingot"
+  },
+  "base": {
+    "item": "upfall:nimbusite_shovel"
+  },
+  "result": {
+    "count": 1,
+    "id": "upfall:levitite_shovel"
+  },
+  "template": {
+    "item": "upfall:levitite_upgrade_smithing_template"
+  }
+}

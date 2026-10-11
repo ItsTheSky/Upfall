@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "upfall:block/duskslate_slab"
+    },
+    "type=double": {
+      "model": "upfall:block/duskslate"
+    },
+    "type=top": {
+      "model": "upfall:block/duskslate_slab_top"
+    }
+  }
+}

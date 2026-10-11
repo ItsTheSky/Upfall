@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "upfall:block/zipline_anchor",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "upfall:block/zipline_anchor"
+    },
+    "facing=south": {
+      "model": "upfall:block/zipline_anchor",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "upfall:block/zipline_anchor",
+      "y": 270
+    }
+  }
+}

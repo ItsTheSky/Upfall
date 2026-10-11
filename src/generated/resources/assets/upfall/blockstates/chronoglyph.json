@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "glyph=dawn,light=error": {
+      "model": "upfall:block/chronoglyph_dawn_error"
+    },
+    "glyph=dawn,light=off": {
+      "model": "upfall:block/chronoglyph_dawn"
+    },
+    "glyph=dawn,light=on": {
+      "model": "upfall:block/chronoglyph_dawn_on"
+    },
+    "glyph=dawn,light=solved": {
+      "model": "upfall:block/chronoglyph_dawn_on"
+    },
+    "glyph=dusk,light=error": {
+      "model": "upfall:block/chronoglyph_dusk_error"
+    },
+    "glyph=dusk,light=off": {
+      "model": "upfall:block/chronoglyph_dusk"
+    },
+    "glyph=dusk,light=on": {
+      "model": "upfall:block/chronoglyph_dusk_on"
+    },
+    "glyph=dusk,light=solved": {
+      "model": "upfall:block/chronoglyph_dusk_on"
+    },
+    "glyph=midnight,light=error": {
+      "model": "upfall:block/chronoglyph_midnight_error"
+    },
+    "glyph=midnight,light=off": {
+      "model": "upfall:block/chronoglyph_midnight"
+    },
+    "glyph=midnight,light=on": {
+      "model": "upfall:block/chronoglyph_midnight_on"
+    },
+    "glyph=midnight,light=solved": {
+      "model": "upfall:block/chronoglyph_midnight_on"
+    },
+    "glyph=noon,light=error": {
+      "model": "upfall:block/chronoglyph_noon_error"
+    },
+    "glyph=noon,light=off": {
+      "model": "upfall:block/chronoglyph_noon"
+    },
+    "glyph=noon,light=on": {
+      "model": "upfall:block/chronoglyph_noon_on"
+    },
+    "glyph=noon,light=solved": {
+      "model": "upfall:block/chronoglyph_noon_on"
+    }
+  }
+}

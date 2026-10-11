@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_duskslate_nimbusite_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:duskslate_nimbusite_ore"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:nimbusite_ingot_from_duskslate_nimbusite_ore_blasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_duskslate_nimbusite_ore"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:nimbusite_ingot_from_duskslate_nimbusite_ore_blasting"
+    ]
+  }
+}

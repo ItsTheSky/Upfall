@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "end=false": {
+      "model": "upfall:block/rope"
+    },
+    "end=true": {
+      "model": "upfall:block/rope_end"
+    }
+  }
+}

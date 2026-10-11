@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "upfall:chronostone"
+    },
+    "G": {
+      "item": "minecraft:gold_nugget"
+    },
+    "M": {
+      "item": "upfall:mistglow_crystal"
+    }
+  },
+  "pattern": [
+    "#G#",
+    "GMG",
+    "#G#"
+  ],
+  "result": {
+    "count": 4,
+    "id": "upfall:phase_lantern"
+  }
+}
