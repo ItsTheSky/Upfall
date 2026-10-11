@@ -11,6 +11,7 @@ import net.itsthesky.upfall.registry.ModBlockEntities;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModCreativeTabs;
 import net.itsthesky.upfall.registry.ModDataComponents;
+import net.itsthesky.upfall.registry.ModDensityFunctions;
 import net.itsthesky.upfall.registry.ModEffects;
 import net.itsthesky.upfall.registry.ModEntities;
 import net.itsthesky.upfall.registry.ModFeatures;
@@ -52,6 +53,7 @@ public class Upfall {
         ModItems.ITEMS.register(modEventBus);
         ModCreativeTabs.CREATIVE_TABS.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
+        ModDensityFunctions.DENSITY_FUNCTION_TYPES.register(modEventBus);
         ModPlacements.PLACEMENT_MODIFIERS.register(modEventBus);
         ModPoiTypes.POI_TYPES.register(modEventBus);
         ModTriggers.TRIGGERS.register(modEventBus);

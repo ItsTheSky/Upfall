@@ -170,14 +170,16 @@ public final class UpfallTerrain {
     }
 
     private static final double NEEDLE_HEIGHT = 98.0;
-    private static final double NEEDLE_WIDTH = 0.085;
 
     private static DensityFunction needles(Fields f, DensityFunction y) {
-        DensityFunction spread = max(noise2d(f.noises, ModNoises.NEEDLE_A, 1.0).abs(), noise2d(f.noises, ModNoises.NEEDLE_B, 1.0).abs());
-        DensityFunction shape = flatCache(add(constant(1.0), mul(spread, constant(-1.0 / NEEDLE_WIDTH))).clamp(-1.0, 1.0));
-        DensityFunction height = flatCache(mul(ramp(noise2d(f.noises, ModNoises.SPIRES, 1.0), 0.48, 0.66), constant(NEEDLE_HEIGHT)));
+        DensityFunction field = flatCache(new NeedleField(holder(f.noises, ModNoises.NEEDLE_A), holder(f.noises, ModNoises.NEEDLE_B),
+                holder(f.noises, ModNoises.SPIRES), NEEDLE_HEIGHT));
         DensityFunction rise = add(y, constant(-MIN_Y + 1.0));
-        return add(mul(height, shape), mul(rise, constant(-1.0)));
+        return add(field, mul(rise, constant(-1.0)));
+    }
+
+    private static DensityFunction.NoiseHolder holder(HolderGetter<NormalNoise.NoiseParameters> noises, ResourceKey<NormalNoise.NoiseParameters> key) {
+        return new DensityFunction.NoiseHolder(noises.getOrThrow(key));
     }
 
     static SurfaceRules.RuleSource surfaceRules() {

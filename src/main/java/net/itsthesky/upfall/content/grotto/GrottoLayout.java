@@ -25,6 +25,11 @@ public final class GrottoLayout {
     private static final double SHAFT_LINING = 4.7;
     private static final int NECK_BOTTOM = CENTER_Y + 6;
     private static final int MIST_ABOVE_TOP = 8;
+    private static final double REACH = 1.4;
+    private static final double SHELL = 0.07;
+    private static final double SHELL_PUFF = 0.08;
+    private static final double SHELL_MIST = 0.05;
+    private static final int SHELL_TOP = 46;
 
     private static final BlockState AIR = Blocks.AIR.defaultBlockState();
     private static final BlockState ROCK = GrottoBlocks.LUMEN_ROCK.get().defaultBlockState();
@@ -36,6 +41,8 @@ public final class GrottoLayout {
     private static final BlockState VENT = ModBlocks.UPDRAFT_VENT.get().defaultBlockState();
     private static final BlockState MIST = ModBlocks.UPDRAFT_MIST.get().defaultBlockState();
     private static final BlockState CACHE = ModBlocks.SKY_CACHE.get().defaultBlockState();
+    private static final BlockState CLOUD = ModBlocks.DENSE_CLOUD.get().defaultBlockState();
+    private static final BlockState CLOUD_MIST = ModBlocks.MIST.get().defaultBlockState();
 
     private record Spire(int x, int z, int baseY, int dir, int length, double radius, BlockState block, BlockState tip) {
         BlockState at(int px, int py, int pz) {
@@ -102,13 +109,13 @@ public final class GrottoLayout {
         int tipY = tipY();
         addSpire(cx, cz, tipY, -1, 8, 1.7, true);
 
-        int lo = Math.min(tipY - 9, CENTER_Y - BOTTOM - 6);
+        int lo = Math.min(tipY - 9, CENTER_Y - BOTTOM - 18);
         this.minY = lo;
         this.maxY = topY + MIST_ABOVE_TOP + 2;
     }
 
     public BoundingBox bounds() {
-        int reach = (int) Math.ceil(RADIUS * 1.3) + 2;
+        int reach = (int) Math.ceil(RADIUS * REACH) + 2;
         return new BoundingBox(cx - reach, minY, cz - reach, cx + reach, maxY, cz + reach);
     }
 
@@ -197,7 +204,7 @@ public final class GrottoLayout {
         if (y < minY || y > maxY) return null;
         int dx = x - cx;
         int dz = z - cz;
-        int reach = (int) Math.ceil(RADIUS * 1.3) + 1;
+        int reach = (int) Math.ceil(RADIUS * REACH) + 1;
         if (Math.abs(dx) > reach || Math.abs(dz) > reach) return null;
 
         for (Spire spire : spires) {
@@ -222,7 +229,7 @@ public final class GrottoLayout {
             if (base.isAir() && r > SHAFT_LINING + 0.2) return decorate(x, y, z, base);
             return base;
         }
-        return exteriorDecor(x, y, z, r);
+        return shellAt(x, y, z);
     }
 
     private BlockState stairAt(int x, int y, int z) {
@@ -311,17 +318,13 @@ public final class GrottoLayout {
         return air;
     }
 
-    private BlockState exteriorDecor(int x, int y, int z, double r) {
-        if (y > CENTER_Y + 10 || r < 7.0 || hash(41, x, y, z) > 0.16) return null;
+    private BlockState shellAt(int x, int y, int z) {
+        if (y > SHELL_TOP) return null;
         double f = f(x, y, z);
-        if (f < 1.0 || f > 1.3) return null;
-        BlockPos pos = new BlockPos(x, y, z);
-        int offset = (int) (hash(42, x, y, z) * 6);
-        for (int i = 0; i < 6; i++) {
-            Direction toSupport = Direction.values()[(i + offset) % 6];
-            if (solidBase(pos.relative(toSupport))) return cluster(x, y, z, toSupport.getOpposite());
-        }
-        return null;
+        if (f < 1.0) return null;
+        double cloud = 1.0 + SHELL + noise3(x * 0.11, y * 0.11, z * 0.11, 8) * SHELL_PUFF;
+        if (f <= cloud) return CLOUD;
+        return f <= cloud + SHELL_MIST ? CLOUD_MIST : null;
     }
 
     private BlockState cluster(int x, int y, int z, Direction facing) {
