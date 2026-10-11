@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "upfall:kairite_gear"
+  },
+  "base": {
+    "item": "minecraft:piston"
+  },
+  "result": {
+    "count": 2,
+    "id": "upfall:gearlift"
+  },
+  "template": {
+    "item": "upfall:gearlift_blueprint"
+  }
+}

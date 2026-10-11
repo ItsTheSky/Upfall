@@ -77,6 +77,142 @@
     ],
     "subtitle": "subtitles.upfall.ambient.mistsea.mood"
   },
+  "ambient.rustworks.additions": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.chain.step",
+        "pitch": 0.5,
+        "volume": 0.4,
+        "weight": 3
+      },
+      {
+        "type": "event",
+        "name": "block.anvil.land",
+        "pitch": 0.5,
+        "volume": 0.08
+      },
+      {
+        "type": "event",
+        "name": "block.iron_door.close",
+        "pitch": 0.5,
+        "volume": 0.2,
+        "weight": 2
+      },
+      {
+        "type": "event",
+        "name": "block.pointed_dripstone.drip_water",
+        "pitch": 0.8,
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "type": "event",
+        "name": "block.pointed_dripstone.drip_water_into_cauldron",
+        "pitch": 0.7,
+        "volume": 0.4,
+        "weight": 2
+      },
+      {
+        "type": "event",
+        "name": "entity.breeze.inhale",
+        "pitch": 0.5,
+        "volume": 0.25,
+        "weight": 2
+      },
+      {
+        "type": "event",
+        "name": "block.lava.extinguish",
+        "pitch": 0.6,
+        "volume": 0.1
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.rustworks.additions"
+  },
+  "ambient.rustworks.mood": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "ambient.basalt_deltas.mood",
+        "pitch": 0.7,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.rustworks.mood"
+  },
+  "block.drain_regulator.clank": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.anvil.land",
+        "pitch": 0.6,
+        "volume": 0.25
+      },
+      {
+        "type": "event",
+        "name": "block.iron_door.close",
+        "pitch": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.drain_regulator.clank"
+  },
+  "block.drain_regulator.drain": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.bubble_column.whirlpool_inside",
+        "pitch": 0.6,
+        "volume": 0.7
+      },
+      {
+        "type": "event",
+        "name": "block.fire.extinguish",
+        "pitch": 0.5,
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.drain_regulator.drain"
+  },
+  "block.drain_valve.turn": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.iron_trapdoor.open",
+        "pitch": 0.6,
+        "volume": 0.8
+      },
+      {
+        "type": "event",
+        "name": "block.chain.place",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.drain_valve.turn"
+  },
+  "block.exhaust_vent.hiss": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.fire.extinguish",
+        "pitch": 0.6,
+        "volume": 0.9,
+        "weight": 2
+      },
+      {
+        "type": "event",
+        "name": "entity.breeze.wind_burst",
+        "pitch": 0.7,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.lava.extinguish",
+        "pitch": 0.5,
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.exhaust_vent.hiss"
+  },
   "block.halo_portal.ambient": {
     "sounds": [
       {
@@ -130,6 +266,89 @@
       }
     ],
     "subtitle": "subtitles.upfall.block.halo_portal.trigger"
+  },
+  "block.pneumatic_pipe.bend": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.copper_bulb.turn_on",
+        "pitch": 0.7,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.copper_grate.step",
+        "pitch": 0.8,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.bend"
+  },
+  "block.pneumatic_pipe.enter": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.breeze.inhale",
+        "pitch": 1.4,
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.enter"
+  },
+  "block.pneumatic_pipe.exit": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.wind_charge.wind_burst",
+        "pitch": 1.3,
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.exit"
+  },
+  "block.pneumatic_pipe.item": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.breeze.inhale",
+        "pitch": 2.0,
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.item"
+  },
+  "block.pneumatic_pipe.jammed": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.iron_trapdoor.close",
+        "pitch": 0.6,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.jammed"
+  },
+  "block.pneumatic_pipe.pop": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.note_block.bit",
+        "pitch": 1.6,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.pop"
+  },
+  "block.pneumatic_pipe.travel": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.elytra.flying",
+        "pitch": 1.5,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.travel"
   },
   "block.rope.tie": {
     "sounds": [

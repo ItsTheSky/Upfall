@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 1307202611,
+    "separation": 1,
+    "spacing": 4
+  },
+  "structures": [
+    {
+      "structure": "upfall:pipe_bridge",
+      "weight": 1
+    }
+  ]
+}

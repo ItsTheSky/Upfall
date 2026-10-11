@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cobbled_rustslate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:cobbled_rustslate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:cobbled_rustslate_wall"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cobbled_rustslate"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:cobbled_rustslate_wall"
+    ]
+  }
+}

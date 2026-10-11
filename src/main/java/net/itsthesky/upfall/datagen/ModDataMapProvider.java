@@ -20,7 +20,7 @@ public class ModDataMapProvider extends DataMapProvider {
     @Override
     protected void gather(HolderLookup.Provider provider) {
         var compostables = builder(NeoForgeDataMaps.COMPOSTABLES);
-        for (ModBlocks.WoodSet set : new ModBlocks.WoodSet[]{ModBlocks.SKYREACH, ModBlocks.GILDROOT}) {
+        for (ModBlocks.WoodSet set : new ModBlocks.WoodSet[]{ModBlocks.SKYREACH, ModBlocks.GILDROOT, ModBlocks.IRONBARK}) {
             add(compostables, set.leaves().get(), 0.3F);
             add(compostables, set.sapling().get(), 0.3F);
         }

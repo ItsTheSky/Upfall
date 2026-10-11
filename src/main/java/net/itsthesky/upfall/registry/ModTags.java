@@ -18,6 +18,7 @@ public final class ModTags {
         public static final TagKey<Block> INCORRECT_FOR_LEVITITE_TOOL = tag("incorrect_for_levitite_tool");
         public static final TagKey<Block> SKYREACH_LOGS = tag("skyreach_logs");
         public static final TagKey<Block> GILDROOT_LOGS = tag("gildroot_logs");
+        public static final TagKey<Block> IRONBARK_LOGS = tag("ironbark_logs");
         public static final TagKey<Block> FEATURE_REPLACEABLE = tag("feature_replaceable");
         public static final TagKey<Block> HALO_PORTAL_FRAMES = tag("halo_portal_frames");
 
@@ -29,6 +30,7 @@ public final class ModTags {
     public static final class Items {
         public static final TagKey<Item> SKYREACH_LOGS = tag("skyreach_logs");
         public static final TagKey<Item> GILDROOT_LOGS = tag("gildroot_logs");
+        public static final TagKey<Item> IRONBARK_LOGS = tag("ironbark_logs");
         public static final TagKey<Item> NIMBUSITE_ARMOR = tag("nimbusite_armor");
         public static final TagKey<Item> LEVITITE_ARMOR = tag("levitite_armor");
 

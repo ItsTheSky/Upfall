@@ -1,5 +1,39 @@
 # Changelog
 
+## 1.1.0
+
+### Rustworks
+- New rare archipelago biome: Oxide Turf, Rustsoil and the Rustslate stone family under a rusty fog.
+  Rustworks form large self-contained zones, cut off from the rest of the archipelago by a gap of open sky.
+- Huge walkable pipes bridging islands, giant valves, half-buried cogs, pipes plunging into the cloud sea and
+  leaking pipes dripping over cauldrons.
+- Small, scattered islands linked by the pipe bridges.
+- Flora: Rivetgrass, Verdigris Moss, glowing Verdigris Blooms and hanging Wirevines; rust flakes drift in the air.
+- Ironbark trees with stacked gear-like canopies, and the full Ironbark wood set.
+- Exhaust Vents burst steam and launch whatever stands above them toward the island overhead.
+- Stalled automatons: wrecked Horologist machines, some hiding a Sky Cache.
+- Ambience: distant clanks, drips and pipes that breathe.
+- Rusty Plates (copper and Kairite Dust) craft every Rustworks metal block: plating, pipes, valves, cogs.
+
+### Kairite
+- Kairite Ore pulses slowly. Mined at its glow peak it gives a Kairite Gear, otherwise Kairite Dust (9 dust = 1 gear).
+- Leaking pipes slowly fill a cauldron below with Stillflow. A full cauldron turns a Kairite Dust into a Kairite Gear.
+- Kairite is out of the gear progression: it only powers utility machines.
+
+### Machines
+Built at the smithing table from a blueprint, a base item and a Kairite Gear.
+- Pneumatic Pipes: sneak into an entrance to be propelled to the exit; items and hoppers work too.
+- Void Tether: catches items falling into the void nearby and stores them in an adjacent container.
+- Rewinder: slowly restores the durability of a tool placed on it, fueled by Kairite.
+- Hastening Gear: speeds up an adjacent furnace or nearby crops, consuming Kairite.
+- Phase Watch: shows the current Chronospire phase and the time until the next one.
+- Gearlift: jump or sneak to travel between gearlifts in the same column.
+
+### Stalled Engine
+- New ruin in the Rustworks: collapsed pump hall, empty tanks, catwalks and a broken Heartgear.
+- Chests hold the machine blueprints. Open three valves to drain the flooded vault and reach the main chest.
+- Lecterns and engravings hint at a link with the Chronospire.
+
 ## 1.0.0
 
 First release, for Minecraft 1.21.1 and NeoForge 21.1.

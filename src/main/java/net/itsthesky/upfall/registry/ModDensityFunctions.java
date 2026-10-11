@@ -3,6 +3,7 @@ package net.itsthesky.upfall.registry;
 import com.mojang.serialization.MapCodec;
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.worldgen.NeedleField;
+import net.itsthesky.upfall.worldgen.RustworksZones;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -15,4 +16,6 @@ public final class ModDensityFunctions {
 
     public static final DeferredHolder<MapCodec<? extends DensityFunction>, MapCodec<NeedleField>> NEEDLES =
             DENSITY_FUNCTION_TYPES.register("needles", () -> NeedleField.MAP_CODEC);
+    public static final DeferredHolder<MapCodec<? extends DensityFunction>, MapCodec<RustworksZones>> RUSTWORKS_ZONES =
+            DENSITY_FUNCTION_TYPES.register("rustworks_zones", () -> RustworksZones.MAP_CODEC);
 }

@@ -60,6 +60,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         wood(ModBlocks.SKYREACH, false);
         wood(ModBlocks.GILDROOT, true);
+        wood(ModBlocks.IRONBARK, false);
 
         crossPlant(ModBlocks.DUSKBLOOM.get(), "duskbloom");
         crossPlant(ModBlocks.CLOUD_FERN.get(), "cloud_fern");
@@ -70,6 +71,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         pottedPlant(ModBlocks.POTTED_DUSKBLOOM.get(), "duskbloom");
         pottedPlant(ModBlocks.POTTED_CLOUD_FERN.get(), "cloud_fern");
         pottedPlant(ModBlocks.POTTED_SKYREACH_SAPLING.get(), "skyreach_sapling");
+        pottedPlant(ModBlocks.POTTED_IRONBARK_SAPLING.get(), "ironbark_sapling");
 
         ModelFile portalNs = models().withExistingParent("halo_portal_ns", mcLoc("block/nether_portal_ns"))
                 .texture("portal", blockTexture("halo_portal")).texture("particle", blockTexture("halo_portal")).renderType("translucent");

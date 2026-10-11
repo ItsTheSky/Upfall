@@ -9,9 +9,16 @@
     "upfall:glowvine_plant",
     "upfall:skyreach_leaves",
     "upfall:gildroot_leaves",
+    "upfall:ironbark_leaves",
     "upfall:skyreed",
     "upfall:skylily",
     "upfall:cloudstalk",
-    "upfall:cloudbloom"
+    "upfall:cloudbloom",
+    "upfall:rivetgrass",
+    "upfall:tall_rivetgrass",
+    "upfall:verdigris_bloom",
+    "upfall:wirevine",
+    "upfall:wirevine_plant",
+    "upfall:verdigris_moss"
   ]
 }

@@ -30,6 +30,7 @@ public final class ModNoises {
     public static final ResourceKey<NormalNoise.NoiseParameters> STALACTITES = key("stalactites");
     public static final ResourceKey<NormalNoise.NoiseParameters> SWELLS = key("swells");
     public static final ResourceKey<NormalNoise.NoiseParameters> RIFTS = key("rifts");
+    public static final ResourceKey<NormalNoise.NoiseParameters> RUSTWORKS = key("rustworks");
 
     public static void bootstrap(BootstrapContext<NormalNoise.NoiseParameters> context) {
         register(context, ARCHIPELAGO, -10, 1.0, 1.0, 0.5);
@@ -53,6 +54,7 @@ public final class ModNoises {
         register(context, STALACTITES, -3, 1.0, 0.4);
         register(context, SWELLS, -7, 1.0, 0.5);
         register(context, RIFTS, -8, 1.0, 0.4);
+        register(context, RUSTWORKS, -9, 1.0, 0.6);
     }
 
     private static void register(BootstrapContext<NormalNoise.NoiseParameters> context, ResourceKey<NormalNoise.NoiseParameters> key,

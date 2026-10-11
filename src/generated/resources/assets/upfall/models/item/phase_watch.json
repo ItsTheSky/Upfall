@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "upfall:item/phase_watch_dawn",
+      "predicate": {
+        "upfall:phase": 0.1
+      }
+    },
+    {
+      "model": "upfall:item/phase_watch_noon",
+      "predicate": {
+        "upfall:phase": 0.3
+      }
+    },
+    {
+      "model": "upfall:item/phase_watch_dusk",
+      "predicate": {
+        "upfall:phase": 0.5
+      }
+    },
+    {
+      "model": "upfall:item/phase_watch_midnight",
+      "predicate": {
+        "upfall:phase": 0.7
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "upfall:item/phase_watch"
+  }
+}

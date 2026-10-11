@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "upfall:block/ironbark_planks",
+    "side": "upfall:block/ironbark_planks",
+    "top": "upfall:block/ironbark_planks"
+  }
+}

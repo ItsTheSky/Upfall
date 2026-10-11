@@ -1,0 +1,6 @@
+{
+  "type": "upfall:stalled_engine",
+  "biomes": "#upfall:has_structure/stalled_engine",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

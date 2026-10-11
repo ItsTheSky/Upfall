@@ -10,10 +10,11 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 
 public class UpfallParticle extends TextureSheetParticle {
-    public enum Kind { PETAL, GILDED_DUST, RISING_DROPLET, MIST_MOTE }
+    public enum Kind { PETAL, GILDED_DUST, RISING_DROPLET, MIST_MOTE, RUST_FLAKE }
 
     private final Kind kind;
     private float spinSpeed;
+    private boolean spark;
 
     protected UpfallParticle(ClientLevel level, double x, double y, double z, double dx, double dy, double dz, Kind kind, SpriteSet sprites) {
         super(level, x, y, z, dx, dy, dz);
@@ -50,6 +51,29 @@ public class UpfallParticle extends TextureSheetParticle {
                 this.friction = 0.97F;
                 this.alpha = 0.0F;
             }
+            case RUST_FLAKE -> {
+                this.spark = random.nextInt(9) == 0;
+                this.alpha = 0.0F;
+                if (spark) {
+                    this.setSprite(sprites.get(3, 3));
+                    this.lifetime = 12 + random.nextInt(14);
+                    this.gravity = -0.002F;
+                    this.quadSize = 0.025F + random.nextFloat() * 0.015F;
+                    this.friction = 0.9F;
+                    this.xd += (random.nextFloat() - 0.5F) * 0.03F;
+                    this.zd += (random.nextFloat() - 0.5F) * 0.03F;
+                } else {
+                    this.setSprite(sprites.get(random.nextInt(3), 3));
+                    this.lifetime = 140 + random.nextInt(100);
+                    this.gravity = 0.0008F;
+                    this.quadSize = 0.035F + random.nextFloat() * 0.025F;
+                    this.friction = 0.99F;
+                    this.xd += 0.004F + random.nextFloat() * 0.004F;
+                    this.zd += (random.nextFloat() - 0.5F) * 0.006F;
+                    this.roll = random.nextFloat() * Mth.TWO_PI;
+                    this.oRoll = roll;
+                }
+            }
         }
     }
 
@@ -70,6 +94,17 @@ public class UpfallParticle extends TextureSheetParticle {
             }
             case GILDED_DUST, RISING_DROPLET -> alpha = 1.0F - life * life;
             case MIST_MOTE -> alpha = Mth.sin(life * Mth.PI) * 0.7F;
+            case RUST_FLAKE -> {
+                if (spark) {
+                    alpha = Math.min(1.0F, (1.0F - life) * 1.5F);
+                } else {
+                    alpha = Math.min(1.0F, Mth.sin(life * Mth.PI) * 3.0F) * 0.9F;
+                    oRoll = roll;
+                    roll += spinSpeed * 0.4F;
+                    yd += Math.sin(age * 0.09 + spinSpeed * 40.0) * 0.0006;
+                    zd += Math.cos(age * 0.07 + spinSpeed * 30.0) * 0.0004;
+                }
+            }
         }
     }
 
@@ -80,7 +115,7 @@ public class UpfallParticle extends TextureSheetParticle {
 
     @Override
     protected int getLightColor(float partialTick) {
-        return kind == Kind.GILDED_DUST || kind == Kind.PETAL ? 0xF000F0 : super.getLightColor(partialTick);
+        return kind == Kind.GILDED_DUST || kind == Kind.PETAL || kind == Kind.RUST_FLAKE && spark ? 0xF000F0 : super.getLightColor(partialTick);
     }
 
     public record Provider(SpriteSet sprites, Kind kind) implements ParticleProvider<SimpleParticleType> {

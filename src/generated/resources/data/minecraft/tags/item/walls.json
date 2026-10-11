@@ -7,6 +7,10 @@
     "upfall:duskslate_wall",
     "upfall:cobbled_duskslate_wall",
     "upfall:polished_duskslate_wall",
-    "upfall:duskslate_brick_wall"
+    "upfall:duskslate_brick_wall",
+    "upfall:rustslate_wall",
+    "upfall:cobbled_rustslate_wall",
+    "upfall:polished_rustslate_wall",
+    "upfall:rustslate_brick_wall"
   ]
 }

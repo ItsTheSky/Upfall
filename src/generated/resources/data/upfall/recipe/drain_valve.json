@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "D": {
+      "item": "upfall:kairite_dust"
+    },
+    "V": {
+      "item": "upfall:pipe_valve"
+    }
+  },
+  "pattern": [
+    "V",
+    "D"
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:drain_valve"
+  }
+}

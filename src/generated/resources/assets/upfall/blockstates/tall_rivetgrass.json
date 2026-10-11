@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "upfall:block/tall_rivetgrass_bottom"
+    },
+    "half=upper": {
+      "model": "upfall:block/tall_rivetgrass_top"
+    }
+  }
+}

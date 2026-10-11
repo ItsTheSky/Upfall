@@ -3,6 +3,7 @@ package net.itsthesky.upfall.worldgen;
 import com.mojang.datafixers.util.Pair;
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.UpfallModules;
+import net.itsthesky.upfall.content.rustworks.RustworksSounds;
 import net.itsthesky.upfall.registry.ModEntities;
 import net.itsthesky.upfall.registry.ModParticles;
 import net.itsthesky.upfall.registry.ModSounds;
@@ -34,7 +35,8 @@ public final class ModBiomes {
     public static final ResourceKey<Biome> MISTSEA = key("mistsea");
     public static final ResourceKey<Biome> HANGING_ROOTS = key("hanging_roots");
     public static final ResourceKey<Biome> GILDED_RIDGE = key("gilded_ridge");
-    public static final List<ResourceKey<Biome>> ALL = List.of(DRIFTING_ARCHIPELAGO, MISTSEA, HANGING_ROOTS, GILDED_RIDGE);
+    public static final ResourceKey<Biome> RUSTWORKS = key("rustworks");
+    public static final List<ResourceKey<Biome>> ALL = List.of(DRIFTING_ARCHIPELAGO, MISTSEA, HANGING_ROOTS, GILDED_RIDGE, RUSTWORKS);
 
     private static ResourceKey<Biome> key(String name) {
         return ResourceKey.create(Registries.BIOME, Upfall.id(name));
@@ -46,15 +48,20 @@ public final class ModBiomes {
         float mist = UpfallTerrain.BiomeThresholds.MISTSEA;
         float inv = UpfallTerrain.BiomeThresholds.INVERSION;
         float gild = UpfallTerrain.BiomeThresholds.GILDED;
+        float rust = UpfallTerrain.BiomeThresholds.RUSTWORKS;
         Climate.Parameter islands = Climate.Parameter.span(mist, 2.0F);
         return MultiNoiseBiomeSource.createFromList(new Climate.ParameterList<>(List.of(
                 Pair.of(Climate.parameters(any, any, Climate.Parameter.span(-2.0F, mist), any, zero, any, 0.0F),
                         biomes.getOrThrow(MISTSEA)),
-                Pair.of(Climate.parameters(any, any, islands, any, zero, Climate.Parameter.span(inv, 2.0F), 0.0F),
+                Pair.of(Climate.parameters(any, Climate.Parameter.span(-2.0F, rust), islands, any, zero, Climate.Parameter.span(inv, 2.0F), 0.0F),
                         biomes.getOrThrow(HANGING_ROOTS)),
-                Pair.of(Climate.parameters(Climate.Parameter.span(gild, 2.0F), any, islands, any, zero, Climate.Parameter.span(-2.0F, inv), 0.0F),
+                Pair.of(Climate.parameters(Climate.Parameter.span(gild, 2.0F), Climate.Parameter.span(-2.0F, rust), islands, any, zero,
+                                Climate.Parameter.span(-2.0F, inv), 0.0F),
                         biomes.getOrThrow(GILDED_RIDGE)),
-                Pair.of(Climate.parameters(Climate.Parameter.span(-2.0F, gild), any, islands, any, zero, Climate.Parameter.span(-2.0F, inv), 0.0F),
+                Pair.of(Climate.parameters(any, Climate.Parameter.span(rust, 2.0F), islands, any, zero, any, 0.0F),
+                        biomes.getOrThrow(RUSTWORKS)),
+                Pair.of(Climate.parameters(Climate.Parameter.span(-2.0F, gild), Climate.Parameter.span(-2.0F, rust), islands, any, zero,
+                                Climate.Parameter.span(-2.0F, inv), 0.0F),
                         biomes.getOrThrow(DRIFTING_ARCHIPELAGO)))));
     }
 
@@ -92,6 +99,14 @@ public final class ModBiomes {
                 .ambientParticle(new AmbientParticleSettings(ModParticles.GILDED_DUST.get(), 0.005F))
                 .ambientMoodSound(new AmbientMoodSettings(ModSounds.AMBIENT_ARCHIPELAGO_MOOD, 6000, 8, 2.0))
                 .ambientAdditionsSound(new AmbientAdditionsSettings(ModSounds.AMBIENT_GILDED_RIDGE_ADDITIONS, 0.008))
+                .backgroundMusic(music())));
+
+        context.register(RUSTWORKS, biome(features, carvers, RUSTWORKS, new BiomeSpecialEffects.Builder()
+                .skyColor(0xB4A2B4).fogColor(0xC98A6E).waterColor(0x5FB8A0).waterFogColor(0x3E6E66)
+                .grassColorOverride(0xB0705A).foliageColorOverride(0x5FA898)
+                .ambientParticle(new AmbientParticleSettings(ModParticles.RUST_FLAKE.get(), 0.006F))
+                .ambientMoodSound(new AmbientMoodSettings(RustworksSounds.AMBIENT_MOOD, 6000, 8, 2.0))
+                .ambientAdditionsSound(new AmbientAdditionsSettings(RustworksSounds.AMBIENT_ADDITIONS, 0.006))
                 .backgroundMusic(music())));
     }
 

@@ -2,6 +2,7 @@ package net.itsthesky.upfall.worldgen;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.block.SkygrassBlock;
+import net.itsthesky.upfall.content.rustworks.RustworksBlocks;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
@@ -62,18 +63,32 @@ public final class UpfallTerrain {
         final DensityFunction archipelago;
         final DensityFunction inversion;
         final DensityFunction gilded;
+        final DensityFunction rustworks;
         final DensityFunction invertBlend;
         final DensityFunction gildedBlend;
         final DensityFunction mistseaBlend;
+        final DensityFunction rustChannel;
+        final DensityFunction rustInside;
+        final DensityFunction rustThin;
+        final DensityFunction rustFlat;
 
         Fields(HolderGetter<NormalNoise.NoiseParameters> noises) {
             this.noises = noises;
             this.archipelago = flatCache(noise2d(noises, ModNoises.ARCHIPELAGO, 1.0));
             this.inversion = flatCache(noise2d(noises, ModNoises.INVERSION, 1.0));
             this.gilded = flatCache(noise2d(noises, ModNoises.GILDED, 1.0));
-            this.invertBlend = flatCache(ramp(inversion, BiomeThresholds.INVERSION - 0.08, BiomeThresholds.INVERSION + 0.1));
-            this.gildedBlend = flatCache(ramp(gilded, BiomeThresholds.GILDED - 0.06, BiomeThresholds.GILDED + 0.1));
+            DensityFunction zones = flatCache(new RustworksZones(holder(noises, ModNoises.RUSTWORKS), holder(noises, ModNoises.ARCHIPELAGO),
+                    BiomeThresholds.MISTSEA));
+            this.rustworks = flatCache(mul(zones, constant(1.0 / RustworksZones.LIMIT)));
+            DensityFunction outsideRustworks = add(constant(1.0), mul(ramp(zones, -RUST_CHANNEL_OUTER, -RUST_CHANNEL_INNER), constant(-1.0)));
+            this.invertBlend = flatCache(mul(ramp(inversion, BiomeThresholds.INVERSION - 0.08, BiomeThresholds.INVERSION + 0.1), outsideRustworks));
+            this.gildedBlend = flatCache(mul(ramp(gilded, BiomeThresholds.GILDED - 0.06, BiomeThresholds.GILDED + 0.1), outsideRustworks));
             this.mistseaBlend = flatCache(ramp(mul(archipelago, constant(-1.0)), -BiomeThresholds.MISTSEA - 0.05, -BiomeThresholds.MISTSEA + 0.25));
+            DensityFunction rustEdge = min(zones, mul(add(archipelago, constant(-BiomeThresholds.MISTSEA)), constant(RUST_MIST_SCALE)));
+            this.rustChannel = flatCache(ramp(rustEdge.abs(), RUST_CHANNEL_OUTER, RUST_CHANNEL_INNER));
+            this.rustInside = flatCache(ramp(zones, RUST_CHANNEL_INNER, RUST_CHANNEL_OUTER));
+            this.rustThin = flatCache(add(constant(1.0), mul(rustInside, constant(RUST_THICKNESS - 1.0))));
+            this.rustFlat = flatCache(add(constant(1.0), mul(rustInside, constant(RUST_ROLLING - 1.0))));
         }
     }
 
@@ -81,7 +96,18 @@ public final class UpfallTerrain {
         public static final float MISTSEA = -0.3F;
         public static final float INVERSION = 0.3F;
         public static final float GILDED = 0.45F;
+        public static final float RUSTWORKS = 0.0F;
     }
+
+    private static final double RUST_CHANNEL_INNER = 8.0;
+    private static final double RUST_CHANNEL_OUTER = 44.0;
+    private static final double RUST_MIST_SCALE = 400.0;
+    private static final double RUST_CARVE = 1.2;
+    private static final double RUST_MASK_SCALE = 3.0;
+    private static final double RUST_MASK_BASE = 0.3;
+    private static final double RUST_MASK_SHIFT = 0.14;
+    private static final double RUST_THICKNESS = 0.5;
+    private static final double RUST_ROLLING = 0.6;
 
     static NoiseRouter router(Fields f) {
         DensityFunction y = DensityFunctions.yClampedGradient(MIN_Y, MIN_Y + HEIGHT, MIN_Y, MIN_Y + HEIGHT);
@@ -107,7 +133,7 @@ public final class UpfallTerrain {
 
         return new NoiseRouter(
                 DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero(),
-                f.gilded, DensityFunctions.zero(), f.archipelago, DensityFunctions.zero(), DensityFunctions.zero(), f.inversion,
+                f.gilded, f.rustworks, f.archipelago, DensityFunctions.zero(), DensityFunctions.zero(), f.inversion,
                 constant(-1.0), finalDensity,
                 DensityFunctions.zero(), DensityFunctions.zero(), DensityFunctions.zero());
     }
@@ -119,20 +145,24 @@ public final class UpfallTerrain {
     private static DensityFunction islandLayer(Fields f, DensityFunction y, ResourceKey<NormalNoise.NoiseParameters> maskKey,
                                                ResourceKey<NormalNoise.NoiseParameters> heightKey, double baseY, double heightAmplitude,
                                                DensityFunction threshold, DensityFunction hills, DensityFunction peaks, DensityFunction drips) {
-        DensityFunction m = flatCache(add(add(noise2d(f.noises, maskKey, 1.0), mul(threshold, constant(-1.0))),
-                add(mul(f.invertBlend, constant(0.08)), mul(f.gildedBlend, constant(0.1)))));
+        DensityFunction mask = noise2d(f.noises, maskKey, 1.0);
+        DensityFunction rustMask = add(add(noise2d(f.noises, maskKey, RUST_MASK_SCALE), mul(mask, constant(RUST_MASK_BASE - 1.0))),
+                constant(-RUST_MASK_SHIFT));
+        mask = add(mask, mul(f.rustInside, rustMask));
+        DensityFunction m = flatCache(add(add(mask, mul(threshold, constant(-1.0))),
+                add(add(mul(f.invertBlend, constant(0.08)), mul(f.gildedBlend, constant(0.1))), mul(f.rustChannel, constant(-RUST_CARVE)))));
         DensityFunction h = flatCache(add(constant(baseY), mul(noise2d(f.noises, heightKey, 1.0), constant(heightAmplitude))));
         DensityFunction inner = flatCache(m.clamp(0.0, 0.125));
         DensityFunction core = flatCache(m.clamp(0.0, 0.3));
 
         DensityFunction flatFace = spline(m, PROFILE_M, FLAT_FACE);
         DensityFunction deepFace = spline(m, PROFILE_M, DEEP_FACE);
-        DensityFunction rolling = mul(mul(hills, core), constant(85.0));
+        DensityFunction rolling = mul(mul(mul(hills, core), constant(85.0)), f.rustFlat);
         DensityFunction ridges = mul(mul(peaks, mul(f.gildedBlend, inner)), constant(360.0));
         DensityFunction hanging = mul(mul(drips, inner), constant(260.0));
 
         DensityFunction top = add(add(flatFace, rolling), ridges);
-        DensityFunction bottom = add(deepFace, hanging);
+        DensityFunction bottom = mul(add(deepFace, hanging), f.rustThin);
         DensityFunction invTop = mul(deepFace, constant(0.8));
         DensityFunction invBottom = add(add(mul(flatFace, constant(1.2)), mul(rolling, constant(0.7))), mul(hanging, constant(0.25)));
 
@@ -147,7 +177,8 @@ public final class UpfallTerrain {
 
     private static DensityFunction islets(Fields f, DensityFunction y, DensityFunction hills) {
         DensityFunction threshold = DensityFunctions.lerp(f.mistseaBlend, 0.52, constant(0.42));
-        DensityFunction m = flatCache(add(mul(noise2d(f.noises, ModNoises.ISLET_MASK, 1.0), constant(1.0)), mul(threshold, constant(-1.0))));
+        DensityFunction m = flatCache(add(add(mul(noise2d(f.noises, ModNoises.ISLET_MASK, 1.0), constant(1.0)), mul(threshold, constant(-1.0))),
+                mul(f.rustChannel, constant(-RUST_CARVE))));
         DensityFunction altitude = flatCache(add(constant(140.0), mul(noise2d(f.noises, ModNoises.ISLET_HEIGHT, 1.0), constant(60.0))));
         DensityFunction lowAltitude = flatCache(add(constant(76.0), mul(noise2d(f.noises, ModNoises.ISLET_HEIGHT, 1.0), constant(6.0))));
         DensityFunction h = flatCache(DensityFunctions.lerp(f.mistseaBlend, altitude, lowAltitude));
@@ -190,6 +221,9 @@ public final class UpfallTerrain {
         SurfaceRules.RuleSource hangingGrass = state(ModBlocks.SKYGRASS_BLOCK.get().defaultBlockState().setValue(SkygrassBlock.INVERTED, true));
         SurfaceRules.RuleSource mist = state(ModBlocks.MIST.get().defaultBlockState());
         SurfaceRules.RuleSource cloud = state(ModBlocks.DENSE_CLOUD.get().defaultBlockState());
+        SurfaceRules.RuleSource turf = state(RustworksBlocks.OXIDE_TURF.get().defaultBlockState());
+        SurfaceRules.RuleSource rustsoil = state(RustworksBlocks.RUSTSOIL.get().defaultBlockState());
+        SurfaceRules.RuleSource rustslate = state(RustworksBlocks.RUSTSLATE.get().defaultBlockState());
 
         SurfaceRules.ConditionSource inCloudBand = SurfaceRules.yBlockCheck(VerticalAnchor.absolute(CLOUD_BAND_MIN), 0);
         SurfaceRules.ConditionSource aboveCloudBand = SurfaceRules.yBlockCheck(VerticalAnchor.absolute(CLOUD_BAND_MAX), 0);
@@ -200,6 +234,7 @@ public final class UpfallTerrain {
         SurfaceRules.ConditionSource gilded = SurfaceRules.isBiome(ModBiomes.GILDED_RIDGE);
         SurfaceRules.ConditionSource hanging = SurfaceRules.isBiome(ModBiomes.HANGING_ROOTS);
         SurfaceRules.ConditionSource mistsea = SurfaceRules.isBiome(ModBiomes.MISTSEA);
+        SurfaceRules.ConditionSource rustworks = SurfaceRules.isBiome(ModBiomes.RUSTWORKS);
         SurfaceRules.ConditionSource grassPatch = SurfaceRules.noiseCondition(ModNoises.SURFACE_PATCHES, -0.15);
 
         SurfaceRules.RuleSource cloudRules = SurfaceRules.sequence(
@@ -212,6 +247,10 @@ public final class UpfallTerrain {
                         SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.ifTrue(grassPatch,
                                 SurfaceRules.ifTrue(SurfaceRules.not(SurfaceRules.steep()), grass))),
                         dusk)),
+                SurfaceRules.ifTrue(rustworks, SurfaceRules.sequence(
+                        SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, turf),
+                        SurfaceRules.ifTrue(underFloor, rustsoil),
+                        rustslate)),
                 SurfaceRules.ifTrue(hanging, SurfaceRules.sequence(
                         SurfaceRules.ifTrue(SurfaceRules.ON_CEILING, hangingGrass),
                         SurfaceRules.ifTrue(underCeiling, soil))),

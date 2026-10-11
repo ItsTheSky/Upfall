@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "upfall:rusty_plate"
+    },
+    "B": {
+      "item": "minecraft:iron_bars"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "P": {
+      "item": "upfall:rusty_pipe"
+    }
+  },
+  "pattern": [
+    "#B#",
+    "#P#",
+    "#F#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:exhaust_vent"
+  }
+}

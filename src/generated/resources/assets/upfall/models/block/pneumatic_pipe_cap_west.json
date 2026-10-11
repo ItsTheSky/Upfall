@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "east": {
+          "texture": "#glass"
+        },
+        "west": {
+          "texture": "#glass"
+        }
+      },
+      "from": [
+        2,
+        2,
+        2
+      ],
+      "to": [
+        2,
+        14,
+        14
+      ]
+    }
+  ],
+  "render_type": "minecraft:translucent",
+  "textures": {
+    "band": "upfall:block/pneumatic_pipe_band",
+    "glass": "upfall:block/pneumatic_pipe_glass",
+    "particle": "upfall:block/pneumatic_pipe_band"
+  }
+}

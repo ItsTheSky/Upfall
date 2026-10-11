@@ -14,6 +14,7 @@ import net.itsthesky.upfall.block.UpdraftMistBlock;
 import net.itsthesky.upfall.block.UpdraftVentBlock;
 import net.itsthesky.upfall.block.UpfallCascadeBlock;
 import net.itsthesky.upfall.block.UpfallLogBlock;
+import net.itsthesky.upfall.content.rustworks.worldgen.RustworksFeatures;
 import net.itsthesky.upfall.worldgen.ModFeatureKeys;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.effect.MobEffects;
@@ -63,8 +64,10 @@ public final class ModBlocks {
 
     public static final BlockSetType SKYREACH_SET = BlockSetType.register(new BlockSetType("upfall:skyreach"));
     public static final BlockSetType GILDROOT_SET = BlockSetType.register(new BlockSetType("upfall:gildroot"));
+    public static final BlockSetType IRONBARK_SET = BlockSetType.register(new BlockSetType("upfall:ironbark"));
     public static final WoodType SKYREACH_WOOD_TYPE = WoodType.register(new WoodType("upfall:skyreach", SKYREACH_SET));
     public static final WoodType GILDROOT_WOOD_TYPE = WoodType.register(new WoodType("upfall:gildroot", GILDROOT_SET));
+    public static final WoodType IRONBARK_WOOD_TYPE = WoodType.register(new WoodType("upfall:ironbark", IRONBARK_SET));
 
     public static final DeferredBlock<Block> PEARLSTONE = block("pearlstone", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE));
     public static final StoneVariants PEARLSTONE_VARIANTS = variants("pearlstone", PEARLSTONE);
@@ -110,6 +113,9 @@ public final class ModBlocks {
             props -> new SaplingBlock(new TreeGrower("upfall_skyreach", Optional.empty(), Optional.of(ModFeatureKeys.SKYREACH_TREE), Optional.empty()), props));
     public static final WoodSet GILDROOT = wood("gildroot", GILDROOT_SET, GILDROOT_WOOD_TYPE, MapColor.GOLD, MapColor.COLOR_YELLOW,
             props -> new HangingSaplingBlock(new TreeGrower("upfall_gildroot", Optional.empty(), Optional.of(ModFeatureKeys.GILDROOT_TREE), Optional.empty()), props));
+    public static final WoodSet IRONBARK = wood("ironbark", IRONBARK_SET, IRONBARK_WOOD_TYPE, MapColor.TERRACOTTA_PURPLE, MapColor.COLOR_PURPLE,
+            props -> new SaplingBlock(new TreeGrower("upfall_ironbark", Optional.of(RustworksFeatures.Configured.IRONBARK_TREE_LARGE),
+                    Optional.of(RustworksFeatures.Configured.IRONBARK_TREE), Optional.empty()), props));
 
     public static final DeferredBlock<FlowerBlock> DUSKBLOOM = block("duskbloom", props -> new FlowerBlock(MobEffects.SLOW_FALLING, 7.0F, props), plant(MapColor.COLOR_PINK));
     public static final DeferredBlock<SkyPlantBlock> CLOUD_FERN = block("cloud_fern", SkyPlantBlock::new, plant(MapColor.COLOR_CYAN).replaceable());
@@ -126,6 +132,7 @@ public final class ModBlocks {
     public static final DeferredBlock<FlowerPotBlock> POTTED_DUSKBLOOM = pot("potted_duskbloom", DUSKBLOOM);
     public static final DeferredBlock<FlowerPotBlock> POTTED_CLOUD_FERN = pot("potted_cloud_fern", CLOUD_FERN);
     public static final DeferredBlock<FlowerPotBlock> POTTED_SKYREACH_SAPLING = pot("potted_skyreach_sapling", SKYREACH.sapling());
+    public static final DeferredBlock<FlowerPotBlock> POTTED_IRONBARK_SAPLING = pot("potted_ironbark_sapling", IRONBARK.sapling());
 
     public static final DeferredBlock<DropExperienceBlock> NIMBUSITE_ORE = block("nimbusite_ore",
             props -> new DropExperienceBlock(UniformInt.of(3, 7), props), stone(MapColor.QUARTZ, 6.0F, SoundType.CALCITE).explosionResistance(9.0F));
@@ -221,7 +228,7 @@ public final class ModBlocks {
         DeferredBlock<PressurePlateBlock> plate = block(name + "_pressure_plate", p -> new PressurePlateBlock(setType, p),
                 wooden(planksColor).forceSolidOn().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY));
         DeferredBlock<LeavesBlock> leaves = block(name + "_leaves", LeavesBlock::new, BlockBehaviour.Properties.of()
-                .mapColor(barkColor == MapColor.GOLD ? MapColor.COLOR_YELLOW : MapColor.COLOR_CYAN)
+                .mapColor(barkColor == MapColor.GOLD ? MapColor.COLOR_YELLOW : barkColor == MapColor.COLOR_PURPLE ? MapColor.COLOR_ORANGE : MapColor.COLOR_CYAN)
                 .strength(0.2F).randomTicks().sound(SoundType.AZALEA_LEAVES).noOcclusion()
                 .isValidSpawn(Blocks::ocelotOrParrot).isSuffocating((s, l, p) -> false).isViewBlocking((s, l, p) -> false)
                 .ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor((s, l, p) -> false));

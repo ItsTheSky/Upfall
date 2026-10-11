@@ -78,6 +78,7 @@ public class UpfallClient {
         event.registerSpriteSet(ModParticles.GILDED_DUST.get(), sprites -> new UpfallParticle.Provider(sprites, UpfallParticle.Kind.GILDED_DUST));
         event.registerSpriteSet(ModParticles.RISING_DROPLET.get(), sprites -> new UpfallParticle.Provider(sprites, UpfallParticle.Kind.RISING_DROPLET));
         event.registerSpriteSet(ModParticles.MIST_MOTE.get(), sprites -> new UpfallParticle.Provider(sprites, UpfallParticle.Kind.MIST_MOTE));
+        event.registerSpriteSet(ModParticles.RUST_FLAKE.get(), sprites -> new UpfallParticle.Provider(sprites, UpfallParticle.Kind.RUST_FLAKE));
     }
 
     private static void registerClientExtensions(RegisterClientExtensionsEvent event) {

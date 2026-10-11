@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "upfall:block/cobbled_rustslate",
+    "side": "upfall:block/cobbled_rustslate",
+    "top": "upfall:block/cobbled_rustslate"
+  }
+}

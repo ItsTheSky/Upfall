@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "upfall:block/stripped_ironbark_log_top",
+    "side": "upfall:block/stripped_ironbark_log"
+  }
+}

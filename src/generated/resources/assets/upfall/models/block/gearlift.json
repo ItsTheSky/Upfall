@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "upfall:block/gearlift_bottom",
+    "side": "upfall:block/gearlift_side",
+    "top": "upfall:block/gearlift_top"
+  }
+}

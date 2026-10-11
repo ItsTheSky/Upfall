@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "upfall:block/rustsoil",
+    "side": "upfall:block/oxide_turf_side",
+    "top": "upfall:block/oxide_turf_top"
+  }
+}

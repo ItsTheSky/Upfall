@@ -74,9 +74,10 @@ public class Upfall {
             pot.addPlant(ModBlocks.DUSKBLOOM.getId(), ModBlocks.POTTED_DUSKBLOOM);
             pot.addPlant(ModBlocks.CLOUD_FERN.getId(), ModBlocks.POTTED_CLOUD_FERN);
             pot.addPlant(ModBlocks.SKYREACH.sapling().getId(), ModBlocks.POTTED_SKYREACH_SAPLING);
+            pot.addPlant(ModBlocks.IRONBARK.sapling().getId(), ModBlocks.POTTED_IRONBARK_SAPLING);
 
             FireBlock fire = (FireBlock) Blocks.FIRE;
-            for (ModBlocks.WoodSet set : new ModBlocks.WoodSet[]{ModBlocks.SKYREACH, ModBlocks.GILDROOT}) {
+            for (ModBlocks.WoodSet set : new ModBlocks.WoodSet[]{ModBlocks.SKYREACH, ModBlocks.GILDROOT, ModBlocks.IRONBARK}) {
                 for (Block log : new Block[]{set.log().get(), set.wood().get(), set.strippedLog().get(), set.strippedWood().get()}) {
                     fire.setFlammable(log, 5, 5);
                 }

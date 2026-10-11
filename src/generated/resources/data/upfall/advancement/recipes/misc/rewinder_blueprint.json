@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_rewinder_blueprint": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:rewinder_blueprint"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:rewinder_blueprint"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rewinder_blueprint"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:rewinder_blueprint"
+    ]
+  }
+}

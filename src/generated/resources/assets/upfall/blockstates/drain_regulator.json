@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "drained=false,facing=east": {
+      "model": "upfall:block/drain_regulator",
+      "y": 90
+    },
+    "drained=false,facing=north": {
+      "model": "upfall:block/drain_regulator"
+    },
+    "drained=false,facing=south": {
+      "model": "upfall:block/drain_regulator",
+      "y": 180
+    },
+    "drained=false,facing=west": {
+      "model": "upfall:block/drain_regulator",
+      "y": 270
+    },
+    "drained=true,facing=east": {
+      "model": "upfall:block/drain_regulator_drained",
+      "y": 90
+    },
+    "drained=true,facing=north": {
+      "model": "upfall:block/drain_regulator_drained"
+    },
+    "drained=true,facing=south": {
+      "model": "upfall:block/drain_regulator_drained",
+      "y": 180
+    },
+    "drained=true,facing=west": {
+      "model": "upfall:block/drain_regulator_drained",
+      "y": 270
+    }
+  }
+}

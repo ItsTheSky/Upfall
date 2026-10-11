@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "upfall:kairite_gear"
+  },
+  "base": {
+    "item": "minecraft:ender_pearl"
+  },
+  "result": {
+    "count": 1,
+    "id": "upfall:void_tether"
+  },
+  "template": {
+    "item": "upfall:void_tether_blueprint"
+  }
+}

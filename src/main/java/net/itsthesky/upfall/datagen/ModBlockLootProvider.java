@@ -54,11 +54,12 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
             add(variants.slab().get(), this::createSlabItemTable);
         }
 
-        for (ModBlocks.WoodSet set : new ModBlocks.WoodSet[]{ModBlocks.SKYREACH, ModBlocks.GILDROOT}) {
+        for (ModBlocks.WoodSet set : new ModBlocks.WoodSet[]{ModBlocks.SKYREACH, ModBlocks.GILDROOT, ModBlocks.IRONBARK}) {
             add(set.slab().get(), this::createSlabItemTable);
             add(set.door().get(), this::createDoorTable);
         }
         add(ModBlocks.SKYREACH.leaves().get(), b -> createLeavesDrops(b, ModBlocks.SKYREACH.sapling().get(), SAPLING_CHANCES));
+        add(ModBlocks.IRONBARK.leaves().get(), b -> createLeavesDrops(b, ModBlocks.IRONBARK.sapling().get(), SAPLING_CHANCES));
         add(ModBlocks.GILDROOT.leaves().get(), b -> createLeavesDrops(b, ModBlocks.GILDROOT.sapling().get(), SAPLING_CHANCES)
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F))
                         .when(shearsOrSilkTouch().invert())
@@ -79,6 +80,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         dropPottedContents(ModBlocks.POTTED_DUSKBLOOM.get());
         dropPottedContents(ModBlocks.POTTED_CLOUD_FERN.get());
         dropPottedContents(ModBlocks.POTTED_SKYREACH_SAPLING.get());
+        dropPottedContents(ModBlocks.POTTED_IRONBARK_SAPLING.get());
         UpfallModules.forEachData(data -> data.blockLoot(this));
     }
 
@@ -137,6 +139,18 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
     public <T extends net.minecraft.world.level.storage.loot.functions.FunctionUserBuilder<T>> T explosionDecay(
             net.minecraft.world.level.ItemLike item, net.minecraft.world.level.storage.loot.functions.FunctionUserBuilder<T> builder) {
         return applyExplosionDecay(item, builder);
+    }
+
+    public LootTable.Builder shearsOnlyDrop(net.minecraft.world.level.ItemLike item) {
+        return createShearsOnlyDrop(item);
+    }
+
+    public LootTable.Builder doublePlantShearsDrop(Block sheared) {
+        return createDoublePlantShearsDrop(sheared);
+    }
+
+    public void pottedContents(Block pot) {
+        dropPottedContents(pot);
     }
 
     public HolderLookup.Provider registries() {

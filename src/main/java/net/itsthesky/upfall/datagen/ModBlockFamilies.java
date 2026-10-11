@@ -22,6 +22,7 @@ public final class ModBlockFamilies {
         families.add(stone(ModBlocks.DUSKSLATE_BRICKS.get(), ModBlocks.DUSKSLATE_BRICK_VARIANTS));
         families.add(wood(ModBlocks.SKYREACH));
         families.add(wood(ModBlocks.GILDROOT));
+        families.add(wood(ModBlocks.IRONBARK));
         return families;
     }
 

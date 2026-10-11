@@ -31,7 +31,7 @@ public final class ModTagProviders {
             ModBlocks.PEARLSTONE_VARIANTS, ModBlocks.COBBLED_PEARLSTONE_VARIANTS, ModBlocks.POLISHED_PEARLSTONE_VARIANTS,
             ModBlocks.PEARLSTONE_BRICK_VARIANTS, ModBlocks.DUSKSLATE_VARIANTS, ModBlocks.COBBLED_DUSKSLATE_VARIANTS,
             ModBlocks.POLISHED_DUSKSLATE_VARIANTS, ModBlocks.DUSKSLATE_BRICK_VARIANTS);
-    private static final List<ModBlocks.WoodSet> WOODS = List.of(ModBlocks.SKYREACH, ModBlocks.GILDROOT);
+    private static final List<ModBlocks.WoodSet> WOODS = List.of(ModBlocks.SKYREACH, ModBlocks.GILDROOT, ModBlocks.IRONBARK);
 
     public static final TagKey<Block> C_ORES_NIMBUSITE = TagKey.create(Registries.BLOCK, Tags.Blocks.ORES.location().withSuffix("/nimbusite"));
     public static final TagKey<Block> C_ORES_LEVITITE = TagKey.create(Registries.BLOCK, Tags.Blocks.ORES.location().withSuffix("/levitite"));
@@ -77,7 +77,7 @@ public final class ModTagProviders {
             tag(ModTags.Blocks.INCORRECT_FOR_LEVITITE_TOOL);
 
             for (ModBlocks.WoodSet set : WOODS) {
-                TagKey<Block> logs = set == ModBlocks.SKYREACH ? ModTags.Blocks.SKYREACH_LOGS : ModTags.Blocks.GILDROOT_LOGS;
+                TagKey<Block> logs = set == ModBlocks.SKYREACH ? ModTags.Blocks.SKYREACH_LOGS : set == ModBlocks.IRONBARK ? ModTags.Blocks.IRONBARK_LOGS : ModTags.Blocks.GILDROOT_LOGS;
                 tag(logs).add(set.log().get(), set.wood().get(), set.strippedLog().get(), set.strippedWood().get());
                 tag(BlockTags.LOGS_THAT_BURN).addTag(logs);
                 tag(BlockTags.PLANKS).add(set.planks().get());
@@ -96,7 +96,8 @@ public final class ModTagProviders {
             }
 
             tag(BlockTags.SMALL_FLOWERS).add(ModBlocks.DUSKBLOOM.get());
-            tag(BlockTags.FLOWER_POTS).add(ModBlocks.POTTED_DUSKBLOOM.get(), ModBlocks.POTTED_CLOUD_FERN.get(), ModBlocks.POTTED_SKYREACH_SAPLING.get());
+            tag(BlockTags.FLOWER_POTS).add(ModBlocks.POTTED_DUSKBLOOM.get(), ModBlocks.POTTED_CLOUD_FERN.get(), ModBlocks.POTTED_SKYREACH_SAPLING.get(),
+                    ModBlocks.POTTED_IRONBARK_SAPLING.get());
             tag(BlockTags.REPLACEABLE_BY_TREES).add(ModBlocks.CLOUD_FERN.get(), ModBlocks.GILDED_TUFT.get(), ModBlocks.MIST.get(),
                     ModBlocks.GLOWVINE.get(), ModBlocks.GLOWVINE_PLANT.get());
             tag(BlockTags.SWORD_EFFICIENT).add(ModBlocks.CLOUD_FERN.get(), ModBlocks.GILDED_TUFT.get(), ModBlocks.DUSKBLOOM.get(),
@@ -109,7 +110,7 @@ public final class ModTagProviders {
             tag(ModTags.Blocks.UPFALL_STONE).add(ModBlocks.PEARLSTONE.get(), ModBlocks.DUSKSLATE.get());
             tag(ModTags.Blocks.FEATURE_REPLACEABLE).add(net.minecraft.world.level.block.Blocks.AIR, ModBlocks.MIST.get(),
                     ModBlocks.CLOUD_FERN.get(), ModBlocks.GILDED_TUFT.get(), ModBlocks.DUSKBLOOM.get(), ModBlocks.GLOWVINE.get(),
-                    ModBlocks.GLOWVINE_PLANT.get(), ModBlocks.SKYREACH.leaves().get(), ModBlocks.GILDROOT.leaves().get());
+                    ModBlocks.GLOWVINE_PLANT.get(), ModBlocks.SKYREACH.leaves().get(), ModBlocks.GILDROOT.leaves().get(), ModBlocks.IRONBARK.leaves().get());
             tag(ModTags.Blocks.HALO_PORTAL_FRAMES).add(ModBlocks.HALO_FRAME.get());
 
             tag(C_ORES_NIMBUSITE).add(ModBlocks.NIMBUSITE_ORE.get(), ModBlocks.DUSKSLATE_NIMBUSITE_ORE.get());
@@ -142,6 +143,7 @@ public final class ModTagProviders {
         protected void addTags(HolderLookup.Provider provider) {
             copy(ModTags.Blocks.SKYREACH_LOGS, ModTags.Items.SKYREACH_LOGS);
             copy(ModTags.Blocks.GILDROOT_LOGS, ModTags.Items.GILDROOT_LOGS);
+            copy(ModTags.Blocks.IRONBARK_LOGS, ModTags.Items.IRONBARK_LOGS);
             copy(BlockTags.LOGS_THAT_BURN, ItemTags.LOGS_THAT_BURN);
             copy(BlockTags.PLANKS, ItemTags.PLANKS);
             copy(BlockTags.WOODEN_STAIRS, ItemTags.WOODEN_STAIRS);

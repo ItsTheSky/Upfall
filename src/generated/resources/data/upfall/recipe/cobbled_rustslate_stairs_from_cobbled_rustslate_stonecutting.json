@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "upfall:cobbled_rustslate"
+  },
+  "result": {
+    "count": 1,
+    "id": "upfall:cobbled_rustslate_stairs"
+  }
+}

@@ -13,6 +13,10 @@
     "upfall:duskslate_brick_slab",
     "upfall:dusk_canopy_slab",
     "upfall:pearl_canopy_slab",
-    "upfall:sky_canopy_slab"
+    "upfall:sky_canopy_slab",
+    "upfall:rustslate_slab",
+    "upfall:cobbled_rustslate_slab",
+    "upfall:polished_rustslate_slab",
+    "upfall:rustslate_brick_slab"
   ]
 }

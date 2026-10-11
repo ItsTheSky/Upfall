@@ -33,6 +33,15 @@
     "upfall:glowvine": {
       "chance": 0.5
     },
+    "upfall:ironbark_leaves": {
+      "chance": 0.3
+    },
+    "upfall:ironbark_sapling": {
+      "chance": 0.3
+    },
+    "upfall:rivetgrass": {
+      "chance": 0.3
+    },
     "upfall:skylily": {
       "chance": 0.65
     },
@@ -43,6 +52,18 @@
       "chance": 0.3
     },
     "upfall:skyreed": {
+      "chance": 0.5
+    },
+    "upfall:verdigris_bloom": {
+      "chance": 0.65
+    },
+    "upfall:verdigris_moss": {
+      "chance": 0.3
+    },
+    "upfall:verdigris_moss_block": {
+      "chance": 0.65
+    },
+    "upfall:wirevine": {
       "chance": 0.5
     }
   }

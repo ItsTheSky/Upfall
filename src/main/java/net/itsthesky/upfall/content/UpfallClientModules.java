@@ -5,6 +5,8 @@ import net.itsthesky.upfall.content.enchanting.client.EnchantingClientModule;
 import net.itsthesky.upfall.content.gravity.client.GravityClientModule;
 import net.itsthesky.upfall.content.grotto.client.GrottoClientModule;
 import net.itsthesky.upfall.content.hamlet.client.HamletClientModule;
+import net.itsthesky.upfall.content.machines.client.ClockworkClientModule;
+import net.itsthesky.upfall.content.machines.client.MachinesClientModule;
 import net.itsthesky.upfall.content.mobs.client.MobsClientModule;
 import net.itsthesky.upfall.content.world.client.WorldClientModule;
 
@@ -20,5 +22,7 @@ public final class UpfallClientModules {
             new WorldClientModule(),
             new ChronospireClientModule(),
             new HamletClientModule(),
-            new GrottoClientModule());
+            new GrottoClientModule(),
+            new MachinesClientModule(),
+            new ClockworkClientModule());
 }

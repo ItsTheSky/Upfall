@@ -41,6 +41,7 @@ public class ModRecipeProvider extends RecipeProvider {
         stoneRecipes(output);
         woodRecipes(output, ModBlocks.SKYREACH, ModTags.Items.SKYREACH_LOGS);
         woodRecipes(output, ModBlocks.GILDROOT, ModTags.Items.GILDROOT_LOGS);
+        woodRecipes(output, ModBlocks.IRONBARK, ModTags.Items.IRONBARK_LOGS);
         materialRecipes(output);
         gearRecipes(output);
         miscRecipes(output);

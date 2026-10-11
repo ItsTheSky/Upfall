@@ -22,13 +22,17 @@ public final class UpfallSmithingTemplates {
     private static final List<ResourceLocation> ADDITION_ICONS = List.of(vanilla("item/empty_slot_ingot"));
 
     public static Supplier<SmithingTemplateItem> create(String upgrade) {
+        return create(upgrade, BASE_ICONS, ADDITION_ICONS);
+    }
+
+    public static Supplier<SmithingTemplateItem> create(String upgrade, List<ResourceLocation> baseIcons, List<ResourceLocation> additionIcons) {
         return () -> new SmithingTemplateItem(
                 text("applies_to", upgrade, ChatFormatting.BLUE),
                 text("ingredients", upgrade, ChatFormatting.BLUE),
                 Component.translatable(Util.makeDescriptionId("upgrade", Upfall.id(upgrade))).withStyle(ChatFormatting.GRAY),
                 Component.translatable(key("base_slot_description", upgrade)),
                 Component.translatable(key("additions_slot_description", upgrade)),
-                BASE_ICONS, ADDITION_ICONS);
+                baseIcons, additionIcons);
     }
 
     public static String key(String part, String upgrade) {

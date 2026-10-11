@@ -1,0 +1,123 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#stem"
+        },
+        "east": {
+          "texture": "#stem",
+          "uv": [
+            6.0,
+            0.0,
+            10.0,
+            6.0
+          ]
+        },
+        "north": {
+          "texture": "#stem",
+          "uv": [
+            6.0,
+            0.0,
+            10.0,
+            6.0
+          ]
+        },
+        "south": {
+          "texture": "#stem",
+          "uv": [
+            6.0,
+            0.0,
+            10.0,
+            6.0
+          ]
+        },
+        "up": {
+          "texture": "#stem"
+        },
+        "west": {
+          "texture": "#stem",
+          "uv": [
+            6.0,
+            0.0,
+            10.0,
+            6.0
+          ]
+        }
+      },
+      "from": [
+        6,
+        0,
+        6
+      ],
+      "to": [
+        10,
+        6,
+        10
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#wheel"
+        },
+        "east": {
+          "texture": "#wheel",
+          "uv": [
+            2.0,
+            2.0,
+            14.0,
+            4.0
+          ]
+        },
+        "north": {
+          "texture": "#wheel",
+          "uv": [
+            2.0,
+            2.0,
+            14.0,
+            4.0
+          ]
+        },
+        "south": {
+          "texture": "#wheel",
+          "uv": [
+            2.0,
+            2.0,
+            14.0,
+            4.0
+          ]
+        },
+        "up": {
+          "texture": "#wheel"
+        },
+        "west": {
+          "texture": "#wheel",
+          "uv": [
+            2.0,
+            2.0,
+            14.0,
+            4.0
+          ]
+        }
+      },
+      "from": [
+        2,
+        6,
+        2
+      ],
+      "to": [
+        14,
+        8,
+        14
+      ]
+    }
+  ],
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "upfall:block/drain_valve",
+    "stem": "upfall:block/rusty_pipe_side",
+    "wheel": "upfall:block/drain_valve"
+  }
+}

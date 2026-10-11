@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "upfall:kairite_gear"
+  },
+  "base": {
+    "item": "minecraft:clock"
+  },
+  "result": {
+    "count": 1,
+    "id": "upfall:phase_watch"
+  },
+  "template": {
+    "item": "upfall:phase_watch_blueprint"
+  }
+}
