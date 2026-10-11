@@ -35,10 +35,22 @@ public final class UpfallFog {
         event.setBlue(Mth.lerp(up, event.getBlue(), (float) sky.z));
     }
 
+    public static boolean isBlinded() {
+        return blindWeight > 0.5F;
+    }
+
     public static void onRenderFog(ViewportEvent.RenderFog event) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.level == null || mc.level.dimension() != ModDimensions.UPFALL) return;
-        if (event.getType() != FogType.NONE || event.getMode() != FogRenderer.FogMode.FOG_TERRAIN) return;
+        if (event.getType() != FogType.NONE) return;
+        if (event.getMode() == FogRenderer.FogMode.FOG_SKY) {
+            if (blindWeight <= 0.001F) return;
+            event.setFarPlaneDistance(Mth.lerp(blindWeight, event.getFarPlaneDistance(), 0.0F));
+            event.setNearPlaneDistance(0.0F);
+            event.setCanceled(true);
+            return;
+        }
+        if (event.getMode() != FogRenderer.FogMode.FOG_TERRAIN) return;
         Camera camera = event.getCamera();
         double y = camera.getPosition().y;
 

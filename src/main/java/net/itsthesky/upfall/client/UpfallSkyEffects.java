@@ -1,9 +1,13 @@
 package net.itsthesky.upfall.client;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Camera;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
 
 public class UpfallSkyEffects extends DimensionSpecialEffects {
     private static final float[] DUSK_GLOW = new float[4];
@@ -21,6 +25,18 @@ public class UpfallSkyEffects extends DimensionSpecialEffects {
     @Override
     public boolean isFoggyAt(int x, int z) {
         return false;
+    }
+
+    @Override
+    public boolean renderSky(ClientLevel level, int ticks, float partialTick, Matrix4f modelViewMatrix, Camera camera,
+                             Matrix4f projectionMatrix, boolean isFoggy, Runnable setupFog) {
+        return UpfallFog.isBlinded();
+    }
+
+    @Override
+    public boolean renderClouds(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, double camX, double camY,
+                                double camZ, Matrix4f modelViewMatrix, Matrix4f projectionMatrix) {
+        return UpfallFog.isBlinded();
     }
 
     @Override
