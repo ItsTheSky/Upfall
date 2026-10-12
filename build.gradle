@@ -118,12 +118,14 @@ configurations {
 repositories {
     maven { url = 'https://maven.blamejared.com/' }
     maven { url = 'https://maven.terraformersmc.com/' }
+    mavenCentral()
 }
 
 dependencies {
     compileOnly "mezz.jei:jei-1.21.1-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-1.21.1-neoforge-api:${jei_version}"
     compileOnly "dev.emi:emi-neoforge:${emi_version}+1.21.1:api"
+    implementation "org.appliedenergistics:guideme:${guideme_version}"
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
@@ -160,6 +162,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_name               : mod_name,
             mod_license            : mod_license,
             mod_version            : mod_version,
+            guideme_version        : guideme_version,
     ]
     inputs.properties replaceProperties
     expand replaceProperties

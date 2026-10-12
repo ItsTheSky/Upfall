@@ -405,6 +405,8 @@
   "item.upfall.rope.desc": "Escaladable. Utilisez-la sur deux ancrages pour tendre une ligne.",
   "item.upfall.rope.tied": "Attachée à l'ancrage en %s %s %s",
   "item.upfall.rusty_plate": "Plaque rouillée",
+  "item.upfall.sky_almanac": "Almanach céleste",
+  "item.upfall.sky_almanac.desc": "Un guide de terrain de l'Upfall. Utilisez-le pour le lire.",
   "item.upfall.skygrazer_spawn_egg": "Œuf d'apparition de Skygrazer",
   "item.upfall.skyray_spawn_egg": "Œuf d'apparition de Skyray",
   "item.upfall.skyward_key": "Clé céleste",

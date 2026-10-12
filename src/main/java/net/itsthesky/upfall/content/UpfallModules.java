@@ -6,6 +6,7 @@ import net.itsthesky.upfall.content.enchanting.EnchantingModule;
 import net.itsthesky.upfall.content.engine.EngineModule;
 import net.itsthesky.upfall.content.gravity.GravityModule;
 import net.itsthesky.upfall.content.grotto.GrottoModule;
+import net.itsthesky.upfall.content.guide.GuideModule;
 import net.itsthesky.upfall.content.hamlet.HamletModule;
 import net.itsthesky.upfall.content.machines.MachinesModule;
 import net.itsthesky.upfall.content.mobs.MobsModule;
@@ -32,7 +33,8 @@ public final class UpfallModules {
             new MachinesModule(),
             new EngineModule(),
             new QuantumModule(),
-            new AerieModule());
+            new AerieModule(),
+            new GuideModule());
 
     public static void forEachData(Consumer<DataContribution> action) {
         for (UpfallModule module : ALL) {

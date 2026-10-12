@@ -27,6 +27,13 @@ A twilight sky dimension where gravity is upside down in places: drifting archip
     side="BOTH"
 
 [[dependencies.${mod_id}]]
+    modId="guideme"
+    type="required"
+    versionRange="[${guideme_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
     modId="jei"
     type="optional"
     versionRange="[19,)"

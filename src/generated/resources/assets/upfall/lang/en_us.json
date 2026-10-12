@@ -405,6 +405,8 @@
   "item.upfall.rope.desc": "Climbable. Use on two anchors to tie a line.",
   "item.upfall.rope.tied": "Tied to the anchor at %s %s %s",
   "item.upfall.rusty_plate": "Rusty Plate",
+  "item.upfall.sky_almanac": "Sky Almanac",
+  "item.upfall.sky_almanac.desc": "A field guide to The Upfall. Use it to read.",
   "item.upfall.skygrazer_spawn_egg": "Skygrazer Spawn Egg",
   "item.upfall.skyray_spawn_egg": "Skyray Spawn Egg",
   "item.upfall.skyward_key": "Skyward Key",
