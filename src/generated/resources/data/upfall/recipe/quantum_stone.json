@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "upfall:pearlstone"
+    },
+    "S": {
+      "item": "upfall:flicker_shard"
+    }
+  },
+  "pattern": [
+    "SPS",
+    "P P",
+    "SPS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:quantum_stone"
+  }
+}

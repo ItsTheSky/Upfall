@@ -1,0 +1,26 @@
+{
+  "parent": "upfall:upfall/enter",
+  "criteria": {
+    "quantum_incantation": {
+      "trigger": "upfall:quantum_incantation"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.quantum_incantation.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:quantum_pedestal"
+    },
+    "title": {
+      "translate": "advancements.upfall.quantum_incantation.title"
+    }
+  },
+  "requirements": [
+    [
+      "quantum_incantation"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

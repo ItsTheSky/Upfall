@@ -2,6 +2,7 @@ package net.itsthesky.upfall.block;
 
 import com.mojang.serialization.MapCodec;
 import net.itsthesky.upfall.content.enchanting.EnchantingEffects;
+import net.itsthesky.upfall.content.quantum.upgrade.QuantumUpgradeEffects;
 import net.itsthesky.upfall.registry.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -55,6 +56,7 @@ public class MistBlock extends Block {
 
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        if (QuantumUpgradeEffects.ignoresMist(entity)) return;
         Vec3 motion = entity.getDeltaMovement();
         double drag = EnchantingEffects.mistDrag(entity);
         double y = motion.y < -0.2 && drag < 1.0 ? motion.y * 0.7 : motion.y;

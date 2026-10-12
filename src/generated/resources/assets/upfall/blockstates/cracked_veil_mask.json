@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "upfall:block/cracked_veil_mask",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "upfall:block/cracked_veil_mask"
+    },
+    "facing=south": {
+      "model": "upfall:block/cracked_veil_mask",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "upfall:block/cracked_veil_mask",
+      "y": 270
+    }
+  }
+}

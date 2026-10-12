@@ -1,0 +1,29 @@
+{
+  "parent": "upfall:upfall/enter",
+  "criteria": {
+    "gas_cave": {
+      "conditions": {
+        "block": "upfall:veil_gas"
+      },
+      "trigger": "minecraft:enter_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.gas_cave.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:bottled_veil_gas"
+    },
+    "title": {
+      "translate": "advancements.upfall.gas_cave.title"
+    }
+  },
+  "requirements": [
+    [
+      "gas_cave"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

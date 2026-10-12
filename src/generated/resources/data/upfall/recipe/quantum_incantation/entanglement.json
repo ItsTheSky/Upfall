@@ -1,0 +1,21 @@
+{
+  "type": "upfall:quantum_incantation",
+  "base": {
+    "item": "upfall:levitite_sword"
+  },
+  "ingredients": [
+    {
+      "item": "upfall:cragmaw_fang"
+    },
+    {
+      "item": "upfall:cragmaw_fang"
+    },
+    {
+      "item": "upfall:flicker_shard"
+    },
+    {
+      "item": "upfall:flicker_shard"
+    }
+  ],
+  "upgrade": "entanglement"
+}

@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.client;
 
 import net.itsthesky.upfall.content.enchanting.EnchantingEffects;
+import net.itsthesky.upfall.content.quantum.upgrade.QuantumUpgradeEffects;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.worldgen.ModBiomes;
 import net.itsthesky.upfall.worldgen.ModDimensions;
@@ -60,7 +61,7 @@ public final class UpfallFog {
         float far = event.getFarPlaneDistance();
         float altitude = (float) Mth.clamp((y - 50.0) / 80.0, 0.0, 1.0);
         float factor = Mth.lerp(altitude, 0.5F, 1.0F) * Mth.lerp(mistseaWeight, 1.0F, 0.6F);
-        boolean blind = mc.player != null && !EnchantingEffects.hasCloudsight(mc.player)
+        boolean blind = mc.player != null && !EnchantingEffects.hasCloudsight(mc.player) && !QuantumUpgradeEffects.ignoresMist(mc.player)
                 && mc.level.getBlockState(camera.getBlockPosition()).is(ModBlocks.MIST.get());
         blindWeight = Mth.lerp(0.15F, blindWeight, blind ? 1.0F : 0.0F);
         event.setFarPlaneDistance(Mth.lerp(blindWeight, far * factor, 6.0F));

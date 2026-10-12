@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "frosted=false": {
+      "model": "upfall:block/frost_glass"
+    },
+    "frosted=true": {
+      "model": "upfall:block/frost_glass_frosted"
+    }
+  }
+}

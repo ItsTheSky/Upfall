@@ -30,6 +30,7 @@ import net.minecraft.world.level.block.FlowerPotBlock;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.slf4j.Logger;
 
@@ -58,6 +59,7 @@ public class Upfall {
         ModPoiTypes.POI_TYPES.register(modEventBus);
         ModTriggers.TRIGGERS.register(modEventBus);
 
+        modContainer.registerConfig(ModConfig.Type.COMMON, UpfallConfig.SPEC);
         modEventBus.addListener(this::commonSetup);
         UpfallModules.ALL.forEach(module -> module.register(modEventBus));
         UpfallWorldEvents.register();

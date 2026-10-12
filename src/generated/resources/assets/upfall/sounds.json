@@ -140,6 +140,49 @@
     ],
     "subtitle": "subtitles.upfall.ambient.rustworks.mood"
   },
+  "ambient.shifting_vault.whisper": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.ender_chest.open",
+        "pitch": 0.7,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "entity.allay.item_taken",
+        "pitch": 0.5,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.chest.close",
+        "pitch": 0.8,
+        "volume": 0.5
+      },
+      {
+        "type": "event",
+        "name": "block.stone.step",
+        "pitch": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.shifting_vault.whisper"
+  },
+  "block.crumbling_floor.crumble": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.deepslate.break",
+        "pitch": 0.7
+      },
+      {
+        "type": "event",
+        "name": "block.pointed_dripstone.fall",
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.crumbling_floor.crumble"
+  },
   "block.drain_regulator.clank": {
     "sounds": [
       {
@@ -213,6 +256,39 @@
     ],
     "subtitle": "subtitles.upfall.block.exhaust_vent.hiss"
   },
+  "block.flicker_shard_cluster.shift": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.amethyst_cluster.break",
+        "pitch": 1.6,
+        "volume": 0.7
+      },
+      {
+        "type": "event",
+        "name": "entity.enderman.teleport",
+        "pitch": 1.8,
+        "volume": 0.3
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.flicker_shard_cluster.shift"
+  },
+  "block.frost_glass.frost": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.powder_snow.place",
+        "pitch": 1.4
+      },
+      {
+        "type": "event",
+        "name": "block.glass.hit",
+        "pitch": 1.8,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.frost_glass.frost"
+  },
   "block.halo_portal.ambient": {
     "sounds": [
       {
@@ -266,6 +342,17 @@
       }
     ],
     "subtitle": "subtitles.upfall.block.halo_portal.trigger"
+  },
+  "block.pedestal.place": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.end_portal_frame.fill",
+        "pitch": 1.4,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pedestal.place"
   },
   "block.pneumatic_pipe.bend": {
     "sounds": [
@@ -350,6 +437,68 @@
     ],
     "subtitle": "subtitles.upfall.block.pneumatic_pipe.travel"
   },
+  "block.quantum_pedestal.fail": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.deactivate",
+        "pitch": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.glass.break",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.quantum_pedestal.fail"
+  },
+  "block.quantum_pedestal.hum": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.ambient",
+        "pitch": 1.8,
+        "volume": 0.8
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.resonate",
+        "pitch": 1.2,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.quantum_pedestal.hum"
+  },
+  "block.quantum_pedestal.start": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.activate",
+        "pitch": 1.6
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.chime",
+        "pitch": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.quantum_pedestal.start"
+  },
+  "block.quantum_pedestal.success": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.enchantment_table.use",
+        "pitch": 0.8
+      },
+      {
+        "type": "event",
+        "name": "block.end_portal_frame.fill",
+        "pitch": 1.2
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.quantum_pedestal.success"
+  },
   "block.rope.tie": {
     "sounds": [
       {
@@ -365,6 +514,21 @@
     ],
     "subtitle": "subtitles.upfall.block.rope.tie"
   },
+  "block.shifting_chest.shift": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.shulker.teleport",
+        "pitch": 0.7
+      },
+      {
+        "type": "event",
+        "name": "block.ender_chest.close",
+        "pitch": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.shifting_chest.shift"
+  },
   "block.updraft_vent.whoosh": {
     "sounds": [
       {
@@ -375,6 +539,39 @@
       }
     ],
     "subtitle": "subtitles.upfall.block.updraft_vent.whoosh"
+  },
+  "block.vault_lamp.out": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.deactivate",
+        "pitch": 1.4,
+        "volume": 0.8
+      },
+      {
+        "type": "event",
+        "name": "block.lever.click",
+        "pitch": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.vault_lamp.out"
+  },
+  "block.veil_gas.hiss": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.fire.extinguish",
+        "pitch": 1.6,
+        "volume": 0.4
+      },
+      {
+        "type": "event",
+        "name": "entity.breeze.idle_ground",
+        "pitch": 0.6,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.veil_gas.hiss"
   },
   "entity.cragmaw.ambient": {
     "sounds": [
@@ -592,6 +789,21 @@
     ],
     "subtitle": "subtitles.upfall.entity.mistjelly.hurt"
   },
+  "entity.player.entangle": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.chain.place",
+        "pitch": 1.6
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.chime",
+        "pitch": 1.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.player.entangle"
+  },
   "entity.player.levitite_double_jump": {
     "sounds": [
       {
@@ -602,6 +814,33 @@
       }
     ],
     "subtitle": "subtitles.upfall.entity.player.levitite_double_jump"
+  },
+  "entity.player.rewind": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.totem.use",
+        "pitch": 1.5,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.respawn_anchor.set_spawn",
+        "pitch": 1.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.player.rewind"
+  },
+  "entity.player.uncertain_dodge": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.illusioner.mirror_move",
+        "pitch": 1.4,
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.player.uncertain_dodge"
   },
   "entity.player.void_rescue": {
     "sounds": [
@@ -736,6 +975,16 @@
       }
     ],
     "subtitle": "subtitles.upfall.item.armor.equip_nimbusite"
+  },
+  "item.bottle.fill_veil_gas": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.bottle.fill_dragonbreath",
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.item.bottle.fill_veil_gas"
   },
   "music.upfall": {
     "sounds": [

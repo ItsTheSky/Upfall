@@ -2,6 +2,7 @@ package net.itsthesky.upfall.content.engine;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.machines.MachinesItems;
+import net.itsthesky.upfall.content.quantum.QuantumItems;
 import net.itsthesky.upfall.content.rustworks.RustworksBlocks;
 import net.itsthesky.upfall.content.rustworks.RustworksItems;
 import net.itsthesky.upfall.registry.ModItems;
@@ -48,7 +49,8 @@ public final class EngineLoot implements LootTableSubProvider {
                         .add(item(Items.DIAMOND, 2, 1, 2))));
 
         output.accept(CACHE, LootTable.lootTable()
-                .withPool(blueprints(LootPool.lootPool().setRolls(ConstantValue.exactly(1))).add(EmptyLootItem.emptyItem().setWeight(60)))
+                .withPool(blueprints(LootPool.lootPool().setRolls(ConstantValue.exactly(1)))
+                        .add(item(QuantumItems.VEIL_MASK_BLUEPRINT.get(), 12, 1, 1)).add(EmptyLootItem.emptyItem().setWeight(60)))
                 .withPool(LootPool.lootPool().setRolls(UniformGenerator.between(1, 2))
                         .add(item(RustworksItems.KAIRITE_DUST.get(), 10, 2, 6))
                         .add(item(RustworksItems.KAIRITE_GEAR.get(), 3, 1, 1))

@@ -1,5 +1,7 @@
 {
-  "carvers": {},
+  "carvers": {
+    "air": "upfall:gas_caves"
+  },
   "downfall": 0.4,
   "effects": {
     "ambient_sound": "upfall:ambient.mistsea.loop",
@@ -47,7 +49,8 @@
       "upfall:mistglow_crystal",
       "upfall:glowvines",
       "upfall:raincloud_patch",
-      "upfall:needle_tip"
+      "upfall:needle_tip",
+      "upfall:gas_cave_props"
     ],
     [],
     [

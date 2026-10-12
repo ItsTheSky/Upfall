@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "upfall:block/shifting_chest_front",
+    "side": "upfall:block/shifting_chest_side",
+    "top": "upfall:block/shifting_chest_top"
+  }
+}

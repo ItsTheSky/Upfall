@@ -127,6 +127,7 @@ public final class ModBiomes {
                                ResourceKey<Biome> key, BiomeSpecialEffects.Builder effects) {
         BiomeGenerationSettings.Builder generation = new BiomeGenerationSettings.Builder(features, carvers);
         UpfallBiomeFeatures.addFeatures(generation, key);
+        UpfallModules.forEachData(data -> data.biomeCarvers(key, generation));
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(false)
                 .temperature(0.7F)

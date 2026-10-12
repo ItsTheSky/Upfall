@@ -115,7 +115,16 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
+repositories {
+    maven { url = 'https://maven.blamejared.com/' }
+    maven { url = 'https://maven.terraformersmc.com/' }
+}
+
 dependencies {
+    compileOnly "mezz.jei:jei-1.21.1-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-1.21.1-neoforge-api:${jei_version}"
+    compileOnly "dev.emi:emi-neoforge:${emi_version}+1.21.1:api"
+
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"

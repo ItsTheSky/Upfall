@@ -1,0 +1,21 @@
+{
+  "type": "upfall:quantum_incantation",
+  "base": {
+    "item": "upfall:levitite_pickaxe"
+  },
+  "ingredients": [
+    {
+      "item": "upfall:raw_nimbusite"
+    },
+    {
+      "item": "upfall:levitite_shard"
+    },
+    {
+      "item": "upfall:kairite_gear"
+    },
+    {
+      "item": "upfall:cloud_pearl"
+    }
+  ],
+  "upgrade": "superposition"
+}

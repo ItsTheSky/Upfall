@@ -77,6 +77,18 @@
           "weight": 3
         },
         {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "upfall:veil_mask_blueprint",
+          "weight": 12
+        },
+        {
           "type": "minecraft:empty",
           "weight": 60
         }

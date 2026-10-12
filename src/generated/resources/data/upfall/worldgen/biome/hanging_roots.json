@@ -1,5 +1,7 @@
 {
-  "carvers": {},
+  "carvers": {
+    "air": "upfall:gas_caves"
+  },
   "creature_spawn_probability": 0.3,
   "downfall": 0.4,
   "effects": {
@@ -52,7 +54,8 @@
       "upfall:upfall_cascade_dense",
       "upfall:glowvines_dense",
       "upfall:raincloud_patch",
-      "upfall:needle_tip"
+      "upfall:needle_tip",
+      "upfall:gas_cave_props"
     ],
     [],
     [

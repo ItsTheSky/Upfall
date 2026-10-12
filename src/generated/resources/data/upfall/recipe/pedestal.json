@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "upfall:pearlstone_bricks"
+    },
+    "S": {
+      "item": "upfall:polished_pearlstone_slab"
+    },
+    "W": {
+      "item": "upfall:pearlstone_brick_wall"
+    }
+  },
+  "pattern": [
+    "SSS",
+    " W ",
+    "BBB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:pedestal"
+  }
+}

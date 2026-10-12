@@ -1,0 +1,21 @@
+{
+  "type": "upfall:quantum_incantation",
+  "base": {
+    "item": "upfall:levitite_chestplate"
+  },
+  "ingredients": [
+    {
+      "item": "upfall:bottled_veil_gas"
+    },
+    {
+      "item": "upfall:bottled_veil_gas"
+    },
+    {
+      "item": "upfall:mist_gel"
+    },
+    {
+      "item": "upfall:mist_gel"
+    }
+  ],
+  "upgrade": "uncertainty"
+}

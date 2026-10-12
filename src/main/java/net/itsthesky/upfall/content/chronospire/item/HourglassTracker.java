@@ -1,6 +1,8 @@
 package net.itsthesky.upfall.content.chronospire.item;
 
 import net.itsthesky.upfall.content.chronospire.ChronoRegistries;
+import net.itsthesky.upfall.content.quantum.upgrade.QuantumUpgrade;
+import net.itsthesky.upfall.content.quantum.upgrade.QuantumUpgrades;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
@@ -27,7 +29,8 @@ public final class HourglassTracker {
 
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player) || player.tickCount % SAMPLE_INTERVAL != 0) return;
-        if (!player.getInventory().contains(stack -> stack.is(ChronoRegistries.REWINDING_HOURGLASS.get()))) {
+        if (!player.getInventory().contains(stack -> stack.is(ChronoRegistries.REWINDING_HOURGLASS.get()))
+                && !QuantumUpgrades.equipped(player, QuantumUpgrade.REWIND)) {
             HISTORY.remove(player.getUUID());
             return;
         }

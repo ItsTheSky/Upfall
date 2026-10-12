@@ -9,6 +9,14 @@
     "upfall:chrono_gnomon",
     "upfall:chrono_seal",
     "upfall:chrono_current",
-    "upfall:drift_plate"
+    "upfall:drift_plate",
+    "upfall:vault_bricks",
+    "upfall:vault_tiles",
+    "upfall:vault_glass",
+    "upfall:frost_glass",
+    "upfall:vault_lamp",
+    "upfall:crumbling_floor",
+    "upfall:shifting_chest",
+    "upfall:vault_core"
   ]
 }

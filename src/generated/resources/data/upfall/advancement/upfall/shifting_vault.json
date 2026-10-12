@@ -1,0 +1,26 @@
+{
+  "parent": "upfall:upfall/enter",
+  "criteria": {
+    "shifting_vault": {
+      "trigger": "upfall:shifting_vault_opened"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.shifting_vault.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:shifting_chest"
+    },
+    "title": {
+      "translate": "advancements.upfall.shifting_vault.title"
+    }
+  },
+  "requirements": [
+    [
+      "shifting_vault"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

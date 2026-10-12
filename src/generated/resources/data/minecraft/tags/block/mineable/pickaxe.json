@@ -103,6 +103,10 @@
     "upfall:gearlift",
     "upfall:drain_valve",
     "upfall:drain_regulator",
-    "upfall:engraved_rustslate"
+    "upfall:engraved_rustslate",
+    "upfall:spent_lantern",
+    "upfall:flicker_shard_cluster",
+    "upfall:pedestal",
+    "upfall:quantum_pedestal"
   ]
 }

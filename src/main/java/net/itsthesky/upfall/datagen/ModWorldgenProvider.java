@@ -22,6 +22,8 @@ public class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.DIMENSION_TYPE, ModDimensions::bootstrapType)
             .add(Registries.NOISE, ModNoises::bootstrap)
             .add(Registries.NOISE_SETTINGS, UpfallTerrain::bootstrap)
+            .add(Registries.DAMAGE_TYPE, context -> UpfallModules.forEachData(data -> data.damageTypes(context)))
+            .add(Registries.CONFIGURED_CARVER, context -> UpfallModules.forEachData(data -> data.configuredCarvers(context)))
             .add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
             .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
             .add(Registries.BIOME, ModBiomes::bootstrap)

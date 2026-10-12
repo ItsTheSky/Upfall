@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "upfall:block/abandoned_pickaxe",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "upfall:block/abandoned_pickaxe"
+    },
+    "facing=south": {
+      "model": "upfall:block/abandoned_pickaxe",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "upfall:block/abandoned_pickaxe",
+      "y": 270
+    }
+  }
+}

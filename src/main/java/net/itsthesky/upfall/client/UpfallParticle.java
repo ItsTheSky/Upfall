@@ -10,7 +10,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 
 public class UpfallParticle extends TextureSheetParticle {
-    public enum Kind { PETAL, GILDED_DUST, RISING_DROPLET, MIST_MOTE, RUST_FLAKE }
+    public enum Kind { PETAL, GILDED_DUST, RISING_DROPLET, MIST_MOTE, RUST_FLAKE, VEIL_MOTE, QUANTUM_SPARK }
 
     private final Kind kind;
     private float spinSpeed;
@@ -50,6 +50,19 @@ public class UpfallParticle extends TextureSheetParticle {
                 this.quadSize = 0.15F + random.nextFloat() * 0.1F;
                 this.friction = 0.97F;
                 this.alpha = 0.0F;
+            }
+            case VEIL_MOTE -> {
+                this.lifetime = 50 + random.nextInt(50);
+                this.gravity = 0.0F;
+                this.quadSize = 0.08F + random.nextFloat() * 0.08F;
+                this.friction = 0.96F;
+                this.alpha = 0.0F;
+            }
+            case QUANTUM_SPARK -> {
+                this.lifetime = 12 + random.nextInt(12);
+                this.gravity = 0.0F;
+                this.quadSize = 0.05F + random.nextFloat() * 0.04F;
+                this.friction = 0.85F;
             }
             case RUST_FLAKE -> {
                 this.spark = random.nextInt(9) == 0;
@@ -94,6 +107,8 @@ public class UpfallParticle extends TextureSheetParticle {
             }
             case GILDED_DUST, RISING_DROPLET -> alpha = 1.0F - life * life;
             case MIST_MOTE -> alpha = Mth.sin(life * Mth.PI) * 0.7F;
+            case VEIL_MOTE -> alpha = Mth.sin(life * Mth.PI) * 0.5F;
+            case QUANTUM_SPARK -> alpha = (1.0F - life) * (age % 4 < 2 ? 1.0F : 0.55F);
             case RUST_FLAKE -> {
                 if (spark) {
                     alpha = Math.min(1.0F, (1.0F - life) * 1.5F);
@@ -115,7 +130,7 @@ public class UpfallParticle extends TextureSheetParticle {
 
     @Override
     protected int getLightColor(float partialTick) {
-        return kind == Kind.GILDED_DUST || kind == Kind.PETAL || kind == Kind.RUST_FLAKE && spark ? 0xF000F0 : super.getLightColor(partialTick);
+        return kind == Kind.GILDED_DUST || kind == Kind.PETAL || kind == Kind.QUANTUM_SPARK || kind == Kind.RUST_FLAKE && spark ? 0xF000F0 : super.getLightColor(partialTick);
     }
 
     public record Provider(SpriteSet sprites, Kind kind) implements ParticleProvider<SimpleParticleType> {

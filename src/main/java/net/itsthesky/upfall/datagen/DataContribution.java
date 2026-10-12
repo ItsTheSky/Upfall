@@ -6,7 +6,10 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.level.biome.BiomeGenerationSettings;
+import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -30,6 +33,8 @@ public interface DataContribution {
     }
 
     default void lang(ModLanguageProvider lang) {}
+
+    default void langFr(ModFrenchLanguageProvider lang) {}
 
     default void blockStates(ModBlockStateProvider states) {}
 
@@ -62,6 +67,12 @@ public interface DataContribution {
     default void structureSets(BootstrapContext<StructureSet> context) {}
 
     default void enchantments(BootstrapContext<Enchantment> context) {}
+
+    default void damageTypes(BootstrapContext<DamageType> context) {}
+
+    default void configuredCarvers(BootstrapContext<ConfiguredWorldCarver<?>> context) {}
+
+    default void biomeCarvers(ResourceKey<Biome> biome, BiomeGenerationSettings.Builder generation) {}
 
     default void addProviders(GatherDataEvent event, DataGenerator generator, PackOutput output,
                               CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {}

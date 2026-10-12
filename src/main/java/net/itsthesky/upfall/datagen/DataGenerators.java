@@ -32,6 +32,7 @@ public final class DataGenerators {
         generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, helper));
         generator.addProvider(event.includeClient(), new ModItemModelProvider(output, helper));
         generator.addProvider(event.includeClient(), new ModLanguageProvider(output));
+        generator.addProvider(event.includeClient(), new ModFrenchLanguageProvider(output));
         generator.addProvider(event.includeClient(), new ModSoundProvider(output, helper));
         generator.addProvider(event.includeClient(), new ModParticleProvider(output, helper));
 

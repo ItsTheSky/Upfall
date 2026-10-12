@@ -1,0 +1,6 @@
+{
+  "type": "upfall:shifting_vault",
+  "biomes": "#upfall:has_structure/shifting_vault",
+  "spawn_overrides": {},
+  "step": "underground_structures"
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:veil_mask_blueprint"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_veil_mask_blueprint": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:veil_mask_blueprint"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_veil_mask_blueprint"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:veil_mask_blueprint"
+    ]
+  }
+}

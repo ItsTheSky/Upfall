@@ -1,0 +1,21 @@
+{
+  "type": "upfall:quantum_incantation",
+  "base": {
+    "tag": "upfall:levitite_armor"
+  },
+  "ingredients": [
+    {
+      "item": "upfall:rewinding_hourglass"
+    },
+    {
+      "item": "upfall:chrono_gnomon"
+    },
+    {
+      "item": "upfall:chrono_gnomon"
+    },
+    {
+      "item": "upfall:chrono_gnomon"
+    }
+  ],
+  "upgrade": "rewind"
+}

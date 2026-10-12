@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "crumbled=false": {
+      "model": "upfall:block/crumbling_floor"
+    },
+    "crumbled=true": {
+      "model": "upfall:block/crumbling_floor"
+    }
+  }
+}

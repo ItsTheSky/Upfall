@@ -1,0 +1,21 @@
+{
+  "type": "upfall:quantum_incantation",
+  "base": {
+    "item": "upfall:levitite_boots"
+  },
+  "ingredients": [
+    {
+      "item": "upfall:verdigris_moss"
+    },
+    {
+      "item": "upfall:verdigris_moss"
+    },
+    {
+      "item": "minecraft:moss_block"
+    },
+    {
+      "item": "upfall:lumen_moss"
+    }
+  ],
+  "upgrade": "mosswalker"
+}

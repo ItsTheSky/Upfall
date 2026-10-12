@@ -1,0 +1,21 @@
+{
+  "type": "upfall:quantum_incantation",
+  "base": {
+    "item": "upfall:levitite_leggings"
+  },
+  "ingredients": [
+    {
+      "item": "upfall:kairite_gear"
+    },
+    {
+      "item": "upfall:kairite_gear"
+    },
+    {
+      "item": "upfall:duskslate"
+    },
+    {
+      "item": "upfall:duskslate"
+    }
+  ],
+  "upgrade": "anchored"
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "upfall:quantum_stone"
+  },
+  "base": {
+    "item": "upfall:pedestal"
+  },
+  "result": {
+    "count": 1,
+    "id": "upfall:quantum_pedestal"
+  },
+  "template": {
+    "item": "upfall:quantum_pedestal_blueprint"
+  }
+}
