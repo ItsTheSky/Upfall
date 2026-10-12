@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mossy_pearlstone_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:mossy_pearlstone_bricks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:mossy_pearlstone_brick_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_mossy_pearlstone_bricks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:mossy_pearlstone_brick_stairs"
+    ]
+  }
+}

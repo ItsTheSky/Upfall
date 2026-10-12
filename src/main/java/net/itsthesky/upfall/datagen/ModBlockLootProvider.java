@@ -49,7 +49,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         add(ModBlocks.SKYGRASS_BLOCK.get(), b -> createSingleItemTableWithSilkTouch(b, ModBlocks.SKYSOIL.get()));
 
         for (ModBlocks.StoneVariants variants : new ModBlocks.StoneVariants[]{ModBlocks.PEARLSTONE_VARIANTS, ModBlocks.COBBLED_PEARLSTONE_VARIANTS,
-                ModBlocks.POLISHED_PEARLSTONE_VARIANTS, ModBlocks.PEARLSTONE_BRICK_VARIANTS, ModBlocks.DUSKSLATE_VARIANTS,
+                ModBlocks.POLISHED_PEARLSTONE_VARIANTS, ModBlocks.PEARLSTONE_BRICK_VARIANTS, ModBlocks.MOSSY_PEARLSTONE_BRICK_VARIANTS, ModBlocks.DUSKSLATE_VARIANTS,
                 ModBlocks.COBBLED_DUSKSLATE_VARIANTS, ModBlocks.POLISHED_DUSKSLATE_VARIANTS, ModBlocks.DUSKSLATE_BRICK_VARIANTS}) {
             add(variants.slab().get(), this::createSlabItemTable);
         }

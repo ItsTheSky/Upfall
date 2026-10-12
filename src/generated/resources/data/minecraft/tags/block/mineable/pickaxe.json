@@ -4,6 +4,9 @@
     "upfall:cobbled_pearlstone",
     "upfall:polished_pearlstone",
     "upfall:pearlstone_bricks",
+    "upfall:cracked_pearlstone_bricks",
+    "upfall:chiseled_pearlstone_bricks",
+    "upfall:mossy_pearlstone_bricks",
     "upfall:duskslate",
     "upfall:cobbled_duskslate",
     "upfall:polished_duskslate",
@@ -30,6 +33,9 @@
     "upfall:pearlstone_brick_stairs",
     "upfall:pearlstone_brick_slab",
     "upfall:pearlstone_brick_wall",
+    "upfall:mossy_pearlstone_brick_stairs",
+    "upfall:mossy_pearlstone_brick_slab",
+    "upfall:mossy_pearlstone_brick_wall",
     "upfall:duskslate_stairs",
     "upfall:duskslate_slab",
     "upfall:duskslate_wall",
@@ -107,6 +113,7 @@
     "upfall:spent_lantern",
     "upfall:flicker_shard_cluster",
     "upfall:pedestal",
-    "upfall:quantum_pedestal"
+    "upfall:quantum_pedestal",
+    "upfall:weathered_pearlstone_bricks"
   ]
 }

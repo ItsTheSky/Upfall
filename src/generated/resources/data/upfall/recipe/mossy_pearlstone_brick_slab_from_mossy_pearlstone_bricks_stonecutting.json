@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "upfall:mossy_pearlstone_bricks"
+  },
+  "result": {
+    "count": 2,
+    "id": "upfall:mossy_pearlstone_brick_slab"
+  }
+}

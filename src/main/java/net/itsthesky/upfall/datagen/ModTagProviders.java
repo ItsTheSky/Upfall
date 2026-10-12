@@ -29,7 +29,7 @@ public final class ModTagProviders {
 
     private static final List<ModBlocks.StoneVariants> ALL_VARIANTS = List.of(
             ModBlocks.PEARLSTONE_VARIANTS, ModBlocks.COBBLED_PEARLSTONE_VARIANTS, ModBlocks.POLISHED_PEARLSTONE_VARIANTS,
-            ModBlocks.PEARLSTONE_BRICK_VARIANTS, ModBlocks.DUSKSLATE_VARIANTS, ModBlocks.COBBLED_DUSKSLATE_VARIANTS,
+            ModBlocks.PEARLSTONE_BRICK_VARIANTS, ModBlocks.MOSSY_PEARLSTONE_BRICK_VARIANTS, ModBlocks.DUSKSLATE_VARIANTS, ModBlocks.COBBLED_DUSKSLATE_VARIANTS,
             ModBlocks.POLISHED_DUSKSLATE_VARIANTS, ModBlocks.DUSKSLATE_BRICK_VARIANTS);
     private static final List<ModBlocks.WoodSet> WOODS = List.of(ModBlocks.SKYREACH, ModBlocks.GILDROOT, ModBlocks.IRONBARK);
 
@@ -48,7 +48,8 @@ public final class ModTagProviders {
         protected void addTags(HolderLookup.Provider provider) {
             var pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
             for (Block block : new Block[]{ModBlocks.PEARLSTONE.get(), ModBlocks.COBBLED_PEARLSTONE.get(), ModBlocks.POLISHED_PEARLSTONE.get(),
-                    ModBlocks.PEARLSTONE_BRICKS.get(), ModBlocks.DUSKSLATE.get(), ModBlocks.COBBLED_DUSKSLATE.get(),
+                    ModBlocks.PEARLSTONE_BRICKS.get(), ModBlocks.CRACKED_PEARLSTONE_BRICKS.get(), ModBlocks.CHISELED_PEARLSTONE_BRICKS.get(),
+                    ModBlocks.MOSSY_PEARLSTONE_BRICKS.get(), ModBlocks.DUSKSLATE.get(), ModBlocks.COBBLED_DUSKSLATE.get(),
                     ModBlocks.POLISHED_DUSKSLATE.get(), ModBlocks.DUSKSLATE_BRICKS.get(), ModBlocks.GILDED_DUSKSLATE.get(),
                     ModBlocks.UPDRAFT_VENT.get(), ModBlocks.MISTGLOW_CRYSTAL.get(), ModBlocks.NIMBUSITE_ORE.get(),
                     ModBlocks.DUSKSLATE_NIMBUSITE_ORE.get(), ModBlocks.LEVITITE_ORE.get(), ModBlocks.RAW_NIMBUSITE_BLOCK.get(),

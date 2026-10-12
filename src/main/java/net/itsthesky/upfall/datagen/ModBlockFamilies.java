@@ -15,7 +15,12 @@ public final class ModBlockFamilies {
         families.add(stone(ModBlocks.PEARLSTONE.get(), ModBlocks.PEARLSTONE_VARIANTS));
         families.add(stone(ModBlocks.COBBLED_PEARLSTONE.get(), ModBlocks.COBBLED_PEARLSTONE_VARIANTS));
         families.add(stone(ModBlocks.POLISHED_PEARLSTONE.get(), ModBlocks.POLISHED_PEARLSTONE_VARIANTS));
-        families.add(stone(ModBlocks.PEARLSTONE_BRICKS.get(), ModBlocks.PEARLSTONE_BRICK_VARIANTS));
+        families.add(new BlockFamily.Builder(ModBlocks.PEARLSTONE_BRICKS.get())
+                .stairs(ModBlocks.PEARLSTONE_BRICK_VARIANTS.stairs().get()).slab(ModBlocks.PEARLSTONE_BRICK_VARIANTS.slab().get())
+                .wall(ModBlocks.PEARLSTONE_BRICK_VARIANTS.wall().get())
+                .cracked(ModBlocks.CRACKED_PEARLSTONE_BRICKS.get()).chiseled(ModBlocks.CHISELED_PEARLSTONE_BRICKS.get())
+                .getFamily());
+        families.add(stone(ModBlocks.MOSSY_PEARLSTONE_BRICKS.get(), ModBlocks.MOSSY_PEARLSTONE_BRICK_VARIANTS));
         families.add(stone(ModBlocks.DUSKSLATE.get(), ModBlocks.DUSKSLATE_VARIANTS));
         families.add(stone(ModBlocks.COBBLED_DUSKSLATE.get(), ModBlocks.COBBLED_DUSKSLATE_VARIANTS));
         families.add(stone(ModBlocks.POLISHED_DUSKSLATE.get(), ModBlocks.POLISHED_DUSKSLATE_VARIANTS));

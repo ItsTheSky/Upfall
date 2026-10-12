@@ -1,0 +1,39 @@
+{
+  "parent": "upfall:upfall/enter",
+  "criteria": {
+    "visited": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structures": "upfall:pearl_aerie"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.pearl_aerie.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:chiseled_pearlstone_bricks"
+    },
+    "title": {
+      "translate": "advancements.upfall.pearl_aerie.title"
+    }
+  },
+  "requirements": [
+    [
+      "visited"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

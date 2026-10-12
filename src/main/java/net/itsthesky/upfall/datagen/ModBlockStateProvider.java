@@ -30,12 +30,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
         stone(ModBlocks.COBBLED_PEARLSTONE, ModBlocks.COBBLED_PEARLSTONE_VARIANTS);
         stone(ModBlocks.POLISHED_PEARLSTONE, ModBlocks.POLISHED_PEARLSTONE_VARIANTS);
         stone(ModBlocks.PEARLSTONE_BRICKS, ModBlocks.PEARLSTONE_BRICK_VARIANTS);
+        stone(ModBlocks.MOSSY_PEARLSTONE_BRICKS, ModBlocks.MOSSY_PEARLSTONE_BRICK_VARIANTS);
         stone(ModBlocks.DUSKSLATE, ModBlocks.DUSKSLATE_VARIANTS);
         stone(ModBlocks.COBBLED_DUSKSLATE, ModBlocks.COBBLED_DUSKSLATE_VARIANTS);
         stone(ModBlocks.POLISHED_DUSKSLATE, ModBlocks.POLISHED_DUSKSLATE_VARIANTS);
         stone(ModBlocks.DUSKSLATE_BRICKS, ModBlocks.DUSKSLATE_BRICK_VARIANTS);
 
-        for (DeferredBlock<?> block : new DeferredBlock<?>[]{ModBlocks.GILDED_DUSKSLATE, ModBlocks.SKYSOIL, ModBlocks.DENSE_CLOUD,
+        for (DeferredBlock<?> block : new DeferredBlock<?>[]{ModBlocks.CRACKED_PEARLSTONE_BRICKS, ModBlocks.CHISELED_PEARLSTONE_BRICKS, ModBlocks.GILDED_DUSKSLATE, ModBlocks.SKYSOIL, ModBlocks.DENSE_CLOUD,
                 ModBlocks.NIMBUSITE_ORE, ModBlocks.DUSKSLATE_NIMBUSITE_ORE, ModBlocks.LEVITITE_ORE,
                 ModBlocks.RAW_NIMBUSITE_BLOCK, ModBlocks.NIMBUSITE_BLOCK, ModBlocks.LEVITITE_BLOCK, ModBlocks.HALO_FRAME}) {
             simpleBlockWithItem(block.get(), cubeAll(block.get()));

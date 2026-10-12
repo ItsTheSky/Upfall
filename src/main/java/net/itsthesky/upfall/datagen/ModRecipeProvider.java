@@ -74,8 +74,16 @@ public class ModRecipeProvider extends RecipeProvider {
                 List.of(ModBlocks.POLISHED_PEARLSTONE_VARIANTS, ModBlocks.PEARLSTONE_BRICK_VARIANTS));
         stonecutterChain(output, ModBlocks.POLISHED_PEARLSTONE.get(), ModBlocks.POLISHED_PEARLSTONE_VARIANTS,
                 List.of(ModBlocks.PEARLSTONE_BRICKS.get()), List.of(ModBlocks.PEARLSTONE_BRICK_VARIANTS));
-        stonecutterChain(output, ModBlocks.PEARLSTONE_BRICKS.get(), ModBlocks.PEARLSTONE_BRICK_VARIANTS, List.of(), List.of());
+        stonecutterChain(output, ModBlocks.PEARLSTONE_BRICKS.get(), ModBlocks.PEARLSTONE_BRICK_VARIANTS,
+                List.of(ModBlocks.CHISELED_PEARLSTONE_BRICKS.get()), List.of());
+        stonecutterChain(output, ModBlocks.MOSSY_PEARLSTONE_BRICKS.get(), ModBlocks.MOSSY_PEARLSTONE_BRICK_VARIANTS, List.of(), List.of());
         stonecutterChain(output, ModBlocks.COBBLED_PEARLSTONE.get(), ModBlocks.COBBLED_PEARLSTONE_VARIANTS, List.of(), List.of());
+        for (ItemLike moss : List.of(Items.VINE, Items.MOSS_BLOCK)) {
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.MOSSY_PEARLSTONE_BRICKS.get())
+                    .requires(ModBlocks.PEARLSTONE_BRICKS.get()).requires(moss)
+                    .unlockedBy(getHasName(moss), has(moss))
+                    .save(output, Upfall.id("mossy_pearlstone_bricks_from_" + getItemName(moss)));
+        }
 
         stonecutterChain(output, ModBlocks.DUSKSLATE.get(), ModBlocks.DUSKSLATE_VARIANTS, List.of(
                 ModBlocks.POLISHED_DUSKSLATE.get(), ModBlocks.DUSKSLATE_BRICKS.get()),

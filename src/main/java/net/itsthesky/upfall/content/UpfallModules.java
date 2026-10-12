@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content;
 
+import net.itsthesky.upfall.content.aerie.AerieModule;
 import net.itsthesky.upfall.content.chronospire.ChronospireModule;
 import net.itsthesky.upfall.content.enchanting.EnchantingModule;
 import net.itsthesky.upfall.content.engine.EngineModule;
@@ -30,7 +31,8 @@ public final class UpfallModules {
             new RustworksModule(),
             new MachinesModule(),
             new EngineModule(),
-            new QuantumModule());
+            new QuantumModule(),
+            new AerieModule());
 
     public static void forEachData(Consumer<DataContribution> action) {
         for (UpfallModule module : ALL) {

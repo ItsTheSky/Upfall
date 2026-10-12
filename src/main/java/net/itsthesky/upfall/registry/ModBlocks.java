@@ -77,6 +77,10 @@ public final class ModBlocks {
     public static final StoneVariants POLISHED_PEARLSTONE_VARIANTS = variants("polished_pearlstone", POLISHED_PEARLSTONE);
     public static final DeferredBlock<Block> PEARLSTONE_BRICKS = block("pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE));
     public static final StoneVariants PEARLSTONE_BRICK_VARIANTS = variants("pearlstone_brick", PEARLSTONE_BRICKS);
+    public static final DeferredBlock<Block> CRACKED_PEARLSTONE_BRICKS = block("cracked_pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE));
+    public static final DeferredBlock<Block> CHISELED_PEARLSTONE_BRICKS = block("chiseled_pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE));
+    public static final DeferredBlock<Block> MOSSY_PEARLSTONE_BRICKS = block("mossy_pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE));
+    public static final StoneVariants MOSSY_PEARLSTONE_BRICK_VARIANTS = variants("mossy_pearlstone_brick", MOSSY_PEARLSTONE_BRICKS);
 
     public static final DeferredBlock<Block> DUSKSLATE = block("duskslate", Block::new, stone(MapColor.COLOR_BLUE, 3.0F, SoundType.DEEPSLATE));
     public static final StoneVariants DUSKSLATE_VARIANTS = variants("duskslate", DUSKSLATE);

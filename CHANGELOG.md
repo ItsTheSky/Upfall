@@ -1,5 +1,57 @@
 # Changelog
 
+## 1.2.0
+
+### Quantum
+- Quantum objects only behave while nobody looks at them: they stay still when observed, in light or under a held light.
+- Veil Gas: an invisible gas that hurts unprotected creatures. Bottle it with a glass bottle and release it on a block.
+- Veil Mask, crafted at the smithing table from a Veil Mask Blueprint, an iron helmet and a Kairite Gear: filters the
+  Veil Gas and reveals it.
+- Gas caves: worm-like tunnels carved inside the islands and filled with Veil Gas, some dug out with Ironbark supports,
+  with dead-end scenes (abandoned pickaxes, cracked masks, scattered bones, spent lanterns) and supply caches.
+- Flicker Shard Clusters grow on the cave walls and jump elsewhere when unobserved; mine them while keeping an eye on
+  them to get Flicker Shards.
+
+### Shifting Vault
+- A glass maze buried deep inside the islands, reached through a long tunnel.
+- Its Shifting Chest moves whenever you look away. Frost Glass fogs up to block your view, the lamps go out, the floor
+  crumbles under your feet and something whispers behind you.
+- The chest holds the Quantum Pedestal Blueprint and Quantum Stones.
+
+### Quantum Pedestal
+- Built from a Pedestal, a Quantum Stone and its blueprint, then ringed with eight Pedestals holding the offerings.
+- Place a Levitite piece on it, sneak and use it with an empty hand, then keep watching it until the incantation
+  completes. Looking away makes it collapse.
+- Nine upgrades for Levitite gear, up to two per piece:
+  - Veilsight (helmet): filters and reveals the Veil Gas.
+  - Uncertainty (chestplate): chance to dodge incoming hits.
+  - Zipline (chestplate): latch onto ziplines with an empty hand.
+  - Anchored (leggings): immune to knockback.
+  - Solidifier (leggings): bounce on Mist, sneak to sink into it.
+  - Mosswalker (boots): run much faster on moss.
+  - Superposition (pickaxe): mining an ore also mines an identical neighbor.
+  - Entanglement (sword): the next two creatures you hit share their wounds.
+  - Rewind (any armor piece): once a day, cheats death by rewinding to the last solid ground.
+- Incantation recipes are data-driven and shown in JEI and EMI when installed.
+
+### Misc
+- New advancements for gas caves, Flicker Shards, the Shifting Vault and incantations.
+- Full French translation.
+- Mod config: observation rules, gas damage, cave and vault generation, incantation and upgrade tuning.
+
+### Pearl Aerie
+- New rare structure in the Drifting Archipelago: an abandoned city of the sky builders, floating between the island
+  layers. A tall keep and up to seven smaller towers are linked by pearlstone bridges, some of them collapsed.
+- Floors can be libraries or hanging gardens; the keep has an updraft shaft running through every floor. Long bridges
+  may widen into a landing with a skywater basin or an obelisk. Cloud and mistglow lanterns light the towers and
+  bridges, and glowvines and vines hang below the decks.
+- Traps: weathered bricks that crumble for good under your feet, arrow traps guarding the keep treasure, and
+  Duskwing and Cragmaw spawners.
+- Loot: tower caches, armories with smithing templates and enchanted books, and the keep treasure.
+- Gravity Sceptre: found only in the keep. Use it to become Weightless and walk on the ceiling above you; use it again
+  to let go. Repaired with Levitite Ingots.
+- New blocks: Cracked, Chiseled and Mossy Pearlstone Bricks (with mossy stairs, slab and wall).
+
 ## 1.1.0
 
 ### Rustworks
