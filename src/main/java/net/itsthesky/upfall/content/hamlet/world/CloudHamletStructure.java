@@ -3,6 +3,7 @@ package net.itsthesky.upfall.content.hamlet.world;
 import com.mojang.serialization.MapCodec;
 import net.itsthesky.upfall.content.hamlet.HamletStructures;
 import net.itsthesky.upfall.worldgen.ModBiomes;
+import net.itsthesky.upfall.worldgen.ReliquaryZones;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.QuartPos;
 import net.minecraft.world.level.ChunkPos;
@@ -29,6 +30,9 @@ public class CloudHamletStructure extends Structure {
         WorldgenRandom random = context.random();
         int x = chunk.getMiddleBlockX();
         int z = chunk.getMiddleBlockZ();
+        if (ReliquaryZones.of(context.randomState()).clearing(x, z) > 0.0) {
+            return Optional.empty();
+        }
         int cloudTop = 50;
         for (int[] sample : SAMPLES) {
             NoiseColumn column = context.chunkGenerator().getBaseColumn(x + sample[0], z + sample[1], context.heightAccessor(), context.randomState());

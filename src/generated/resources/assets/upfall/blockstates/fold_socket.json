@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "filled=false": {
+      "model": "upfall:block/fold_socket"
+    },
+    "filled=true": {
+      "model": "upfall:block/fold_socket_filled"
+    }
+  }
+}

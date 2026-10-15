@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "upfall:lattice_stone"
+  },
+  "result": {
+    "count": 1,
+    "id": "upfall:lattice_beam"
+  }
+}

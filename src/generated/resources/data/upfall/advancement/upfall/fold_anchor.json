@@ -1,0 +1,34 @@
+{
+  "parent": "upfall:upfall/tilted_reliquary",
+  "criteria": {
+    "anchor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:fold_anchor"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.fold_anchor.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "upfall:fold_anchor"
+    },
+    "title": {
+      "translate": "advancements.upfall.fold_anchor.title"
+    }
+  },
+  "requirements": [
+    [
+      "anchor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

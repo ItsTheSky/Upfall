@@ -2,6 +2,7 @@ package net.itsthesky.upfall.content.aerie.worldgen;
 
 import com.mojang.serialization.MapCodec;
 import net.itsthesky.upfall.content.aerie.AerieStructures;
+import net.itsthesky.upfall.worldgen.ReliquaryZones;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.NoiseColumn;
@@ -31,6 +32,9 @@ public class PearlAerieStructure extends Structure {
         ChunkPos chunk = context.chunkPos();
         long seed = context.random().nextLong();
         BlockPos probe = new BlockPos(chunk.getMiddleBlockX(), 0, chunk.getMiddleBlockZ());
+        if (ReliquaryZones.of(context.randomState()).clearing(probe.getX(), probe.getZ()) > 0.0) {
+            return Optional.empty();
+        }
         AerieLayout.Plan draft = AerieLayout.plan(seed, probe);
         if (draft.towers().size() < MIN_TOWERS) {
             return Optional.empty();

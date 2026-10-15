@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.grotto;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.worldgen.ReliquaryZones;
 import net.itsthesky.upfall.worldgen.UpfallTerrain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -25,6 +26,7 @@ public class GrottoStructure extends Structure {
         RandomSource random = context.random();
         int x = chunk.getBlockX(4 + random.nextInt(8));
         int z = chunk.getBlockZ(4 + random.nextInt(8));
+        if (ReliquaryZones.of(context.randomState()).clearing(x, z) > 0.0) return Optional.empty();
         int top = cloudTop(context, x, z);
         if (top < 0) return Optional.empty();
         for (int[] offset : RIM_SAMPLES) {

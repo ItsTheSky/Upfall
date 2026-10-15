@@ -108,6 +108,7 @@ public final class UpfallTerrain {
     private static final double RUST_MASK_SHIFT = 0.14;
     private static final double RUST_THICKNESS = 0.5;
     private static final double RUST_ROLLING = 0.6;
+    private static final double RELIQUARY_CLEARING = 400.0;
 
     static NoiseRouter router(Fields f) {
         DensityFunction y = DensityFunctions.yClampedGradient(MIN_Y, MIN_Y + HEIGHT, MIN_Y, MIN_Y + HEIGHT);
@@ -126,9 +127,11 @@ public final class UpfallTerrain {
         DensityFunction low = islandLayer(f, y, ModNoises.ISLAND_MASK_LOW, ModNoises.ISLAND_HEIGHT_LOW, 118.0, 16.0, lowThreshold, hills, peaks, drips);
         DensityFunction high = islandLayer(f, y, ModNoises.ISLAND_MASK_HIGH, ModNoises.ISLAND_HEIGHT_HIGH, 172.0, 18.0, highThreshold, hills, peaks, drips);
         DensityFunction islets = islets(f, y, hills);
-        DensityFunction islands = add(max(max(low, high), islets), mul(erosion, constant(4.5)));
+        DensityFunction reliquary = flatCache(mul(new ReliquaryZones(holder(f.noises, ModNoises.RELIQUARY), holder(f.noises, ModNoises.RUSTWORKS),
+                holder(f.noises, ModNoises.ARCHIPELAGO), BiomeThresholds.MISTSEA), constant(-RELIQUARY_CLEARING)));
+        DensityFunction islands = add(add(max(max(low, high), islets), mul(erosion, constant(4.5))), reliquary);
 
-        DensityFunction terrain = max(max(islands, clouds(f, y)), needles(f, y));
+        DensityFunction terrain = max(max(islands, clouds(f, y)), add(needles(f, y), reliquary));
         DensityFunction finalDensity = DensityFunctions.interpolated(terrain.clamp(-64.0, 64.0));
 
         return new NoiseRouter(

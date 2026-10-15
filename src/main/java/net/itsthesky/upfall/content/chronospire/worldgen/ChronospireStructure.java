@@ -3,6 +3,7 @@ package net.itsthesky.upfall.content.chronospire.worldgen;
 import com.mojang.serialization.MapCodec;
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.chronospire.ChronoRegistries;
+import net.itsthesky.upfall.worldgen.ReliquaryZones;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.NoiseColumn;
@@ -28,6 +29,9 @@ public class ChronospireStructure extends Structure {
         ChunkPos chunk = context.chunkPos();
         int x = chunk.getMiddleBlockX();
         int z = chunk.getMiddleBlockZ();
+        if (ReliquaryZones.of(context.randomState()).clearing(x, z) > 0.0) {
+            return Optional.empty();
+        }
         NoiseColumn[] columns = new NoiseColumn[13];
         int[][] offsets = new int[13][2];
         for (int i = 0; i < 6; i++) {

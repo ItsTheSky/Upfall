@@ -11,6 +11,8 @@ import net.itsthesky.upfall.content.hamlet.HamletModule;
 import net.itsthesky.upfall.content.machines.MachinesModule;
 import net.itsthesky.upfall.content.mobs.MobsModule;
 import net.itsthesky.upfall.content.quantum.QuantumModule;
+import net.itsthesky.upfall.content.reliquary.ReliquaryModule;
+import net.itsthesky.upfall.content.reliquary.ReliquaryWorldgenModule;
 import net.itsthesky.upfall.content.rustworks.RustworksModule;
 import net.itsthesky.upfall.content.world.WorldModule;
 import net.itsthesky.upfall.datagen.DataContribution;
@@ -34,6 +36,8 @@ public final class UpfallModules {
             new EngineModule(),
             new QuantumModule(),
             new AerieModule(),
+            new ReliquaryModule(),
+            new ReliquaryWorldgenModule(),
             new GuideModule());
 
     public static void forEachData(Consumer<DataContribution> action) {

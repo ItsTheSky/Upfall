@@ -1,0 +1,39 @@
+{
+  "parent": "upfall:upfall/enter",
+  "criteria": {
+    "visited": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structures": "upfall:tilted_reliquary"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.tilted_reliquary.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:carved_lattice_stone"
+    },
+    "title": {
+      "translate": "advancements.upfall.tilted_reliquary.title"
+    }
+  },
+  "requirements": [
+    [
+      "visited"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

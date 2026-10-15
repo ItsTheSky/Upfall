@@ -1,0 +1,6 @@
+{
+  "type": "upfall:tilted_reliquary",
+  "biomes": "#upfall:has_structure/tilted_reliquary",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

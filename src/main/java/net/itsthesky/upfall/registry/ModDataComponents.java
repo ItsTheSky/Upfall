@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.registry;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.content.reliquary.item.FoldAnchorData;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -14,4 +15,7 @@ public final class ModDataComponents {
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GlobalPos>> UPDRAFT_TARGET = DATA_COMPONENTS.registerComponentType(
             "updraft_target", builder -> builder.persistent(GlobalPos.CODEC).networkSynchronized(GlobalPos.STREAM_CODEC));
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<FoldAnchorData>> FOLD_ANCHOR = DATA_COMPONENTS.registerComponentType(
+            "fold_anchor", builder -> builder.persistent(FoldAnchorData.CODEC).networkSynchronized(FoldAnchorData.STREAM_CODEC));
 }

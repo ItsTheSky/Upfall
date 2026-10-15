@@ -114,6 +114,9 @@
     "upfall:flicker_shard_cluster",
     "upfall:pedestal",
     "upfall:quantum_pedestal",
-    "upfall:weathered_pearlstone_bricks"
+    "upfall:weathered_pearlstone_bricks",
+    "upfall:lattice_stone",
+    "upfall:carved_lattice_stone",
+    "upfall:lattice_beam"
   ]
 }

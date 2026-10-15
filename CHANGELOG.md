@@ -52,6 +52,18 @@
   to let go. Repaired with Levitite Ingots.
 - New blocks: Cracked, Chiseled and Mossy Pearlstone Bricks (with mossy stairs, slab and wall).
 
+### Tilted Reliquary
+- New very rare structure above the cloud sea in the Drifting Archipelago, Mistsea and Gilded Ridge: a cluster of hollow
+  lattice-stone cubes tilted 45 degrees and frozen mid-shatter, with no island nearby.
+- Reached by an updraft column from the cloud sea, then by updraft vents, ziplines and floating beams.
+  Satellite cubes hold an archive, a hanging garden, an echo hall with a Duskwing spawner, a collapsed room or a
+  shard vault.
+- Four Fold Shards, hidden in satellite chests, fill the four Fold Sockets outside the core's Fold Seals and dissolve them.
+- Core chest: the Fold Anchor and the Warden's note. Three lore books tell the story of the Surveyors of the Fold.
+- Fold Anchor: use to set an anchor, use again within 30 seconds to snap back to it with fall distance reset. 64 uses,
+  5 second cooldown, repaired with Cloud Pearls.
+- New blocks: Lattice Stone, Carved Lattice Stone, Lattice Beam, Fold Socket and Fold Seal.
+
 ## 1.1.0
 
 ### Rustworks

@@ -17,6 +17,8 @@
     "upfall:vault_lamp",
     "upfall:crumbling_floor",
     "upfall:shifting_chest",
-    "upfall:vault_core"
+    "upfall:vault_core",
+    "upfall:fold_socket",
+    "upfall:fold_seal"
   ]
 }

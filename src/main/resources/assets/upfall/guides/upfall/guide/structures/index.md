@@ -22,6 +22,7 @@ Distances below are the structure spacing: roughly one structure per square of t
 | [Stalled Engine](stalled_engine.md) | Rustworks | Spacing 12 chunks | Machine blueprints, Kairite |
 | [Shifting Vault](shifting_vault.md) | Drifting Archipelago, Hanging Roots, Gilded Ridge, Rustworks, underground | Spacing set in the mod config | Quantum Stone, Quantum Pedestal Blueprint |
 | [Pearl Aerie](pearl_aerie.md) | Drifting Archipelago | Rare, spacing 48 chunks | <ItemLink id="gravity_sceptre" />, Cloud Pearls |
+| [Tilted Reliquary](tilted_reliquary.md) | Drifting Archipelago, Mistsea, Gilded Ridge | Very rare: about one per 2500x2500 blocks, alone in a cleared stretch of sky above the cloud sea | <ItemLink id="fold_anchor" /> |
 
 <SubPages icons={true} />
 

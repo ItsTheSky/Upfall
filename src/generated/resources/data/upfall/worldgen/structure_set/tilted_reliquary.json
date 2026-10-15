@@ -1,0 +1,12 @@
+{
+  "placement": {
+    "type": "upfall:reliquary_zone",
+    "salt": 1510202618
+  },
+  "structures": [
+    {
+      "structure": "upfall:tilted_reliquary",
+      "weight": 1
+    }
+  ]
+}

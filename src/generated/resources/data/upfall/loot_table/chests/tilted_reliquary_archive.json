@@ -1,0 +1,260 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "components": {
+                "minecraft:written_book_content": {
+                  "author": "Surveyor Maren",
+                  "pages": [
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.surveyor_journal.1\"}"
+                    },
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.surveyor_journal.2\"}"
+                    },
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.surveyor_journal.3\"}"
+                    },
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.surveyor_journal.4\"}"
+                    }
+                  ],
+                  "resolved": true,
+                  "title": {
+                    "raw": "Field Journal"
+                  }
+                }
+              },
+              "function": "minecraft:set_components"
+            }
+          ],
+          "name": "minecraft:written_book",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "components": {
+                "minecraft:written_book_content": {
+                  "author": "The Surveyors of the Fold",
+                  "pages": [
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.horologist_letter.1\"}"
+                    },
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.horologist_letter.2\"}"
+                    },
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.horologist_letter.3\"}"
+                    },
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.horologist_letter.4\"}"
+                    }
+                  ],
+                  "resolved": true,
+                  "title": {
+                    "raw": "To the Spire"
+                  }
+                }
+              },
+              "function": "minecraft:set_components"
+            }
+          ],
+          "name": "minecraft:written_book",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "components": {
+                "minecraft:written_book_content": {
+                  "author": "The Fold Warden",
+                  "pages": [
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.warden_note.1\"}"
+                    },
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.warden_note.2\"}"
+                    },
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.warden_note.3\"}"
+                    },
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.warden_note.4\"}"
+                    },
+                    {
+                      "raw": "{\"translate\":\"book.upfall.tilted_reliquary.warden_note.5\"}"
+                    }
+                  ],
+                  "resolved": true,
+                  "title": {
+                    "raw": "The Last Note"
+                  }
+                }
+              },
+              "function": "minecraft:set_components"
+            }
+          ],
+          "name": "minecraft:written_book",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 10
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "max": 30.0,
+                "min": 20.0
+              },
+              "options": "#minecraft:on_random_loot"
+            }
+          ],
+          "name": "minecraft:book",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:enchant_randomly",
+              "options": "upfall:jumpstart"
+            }
+          ],
+          "name": "minecraft:enchanted_book",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 10.0,
+                "min": 4.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:paper",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 5.0,
+                "min": 2.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:experience_bottle",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 8.0,
+                "min": 3.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:lapis_lazuli",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:compass",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:clock",
+          "weight": 3
+        }
+      ],
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 3.0,
+        "min": 1.0
+      }
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "upfall:nimbusite_upgrade_smithing_template",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "upfall:levitite_upgrade_smithing_template"
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 16
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "upfall:chests/tilted_reliquary_archive"
+}
