@@ -31,7 +31,7 @@ A tall tower of purple chronostone growing out of a floating root of rock, with 
 ## Where to find it
 
 - Biomes: Drifting Archipelago and Mistsea.
-- Spacing of about 36 chunks, so it is a landmark worth a trip.
+- Rare: spacing of about 80 chunks, so it is a landmark worth a trip.
 - The whole structure is about 120 blocks tall, from its hanging root to the lantern on top of the spire. Four small floating islands, each with a pillar of phase stone and a lantern, circle the spire at a distance.
 
 ## The clock of the tower

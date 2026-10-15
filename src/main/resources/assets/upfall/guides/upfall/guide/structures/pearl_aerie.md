@@ -22,7 +22,7 @@ and a ring of smaller pearlstone towers joined by bridges, half of them crumblin
 ## Finding it
 
 - Only in the **Drifting Archipelago**.
-- Very rare: roughly one per region of 48 by 48 chunks.
+- Very rare: roughly one per region of 96 by 96 chunks.
 - It floats in open air between the island layers, around **Y 124 to 160**; you will need a way to cross the sky
   (see [The Upfall](../world/index.md)).
 - The whole city can spread over about 100 blocks.

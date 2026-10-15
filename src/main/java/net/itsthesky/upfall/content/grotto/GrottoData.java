@@ -199,7 +199,7 @@ public class GrottoData implements DataContribution {
     public void structureSets(BootstrapContext<StructureSet> context) {
         HolderGetter<Structure> structures = context.lookup(Registries.STRUCTURE);
         context.register(GrottoStructures.CRYSTAL_GROTTO_SET, new StructureSet(structures.getOrThrow(GrottoStructures.CRYSTAL_GROTTO),
-                new RandomSpreadStructurePlacement(24, 9, RandomSpreadType.LINEAR, 1572864021)));
+                new RandomSpreadStructurePlacement(59, 22, RandomSpreadType.LINEAR, 1572864021)));
     }
 
     @Override

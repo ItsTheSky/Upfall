@@ -83,7 +83,7 @@ public class ChronospireData implements DataContribution {
     @Override
     public void structureSets(BootstrapContext<StructureSet> context) {
         context.register(STRUCTURE_SET, new StructureSet(context.lookup(Registries.STRUCTURE).getOrThrow(STRUCTURE),
-                new RandomSpreadStructurePlacement(36, 12, RandomSpreadType.LINEAR, 20261011)));
+                new RandomSpreadStructurePlacement(80, 27, RandomSpreadType.LINEAR, 20261011)));
     }
 
     @Override

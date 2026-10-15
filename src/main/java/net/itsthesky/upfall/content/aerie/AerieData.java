@@ -101,7 +101,7 @@ final class AerieData implements DataContribution {
     @Override
     public void structureSets(BootstrapContext<StructureSet> context) {
         context.register(AerieStructures.PEARL_AERIE_SET, new StructureSet(context.lookup(Registries.STRUCTURE).getOrThrow(AerieStructures.PEARL_AERIE),
-                new RandomSpreadStructurePlacement(48, 20, RandomSpreadType.LINEAR, 1012202614)));
+                new RandomSpreadStructurePlacement(96, 40, RandomSpreadType.LINEAR, 1012202614)));
     }
 
     @Override

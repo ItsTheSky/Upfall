@@ -44,7 +44,7 @@ It is one of the safest and prettiest places in the Upfall, and the main source 
 
 - Generates in the **Drifting Archipelago, Mistsea, Hanging Roots, Gilded Ridge and Rustworks** biomes, wherever the cloud
   sea is thick and level enough.
-- Fairly common: roughly one grotto per region of 24 by 24 chunks.
+- Uncommon: roughly one grotto per region of 59 by 59 chunks.
 - The geode itself is about 50 blocks wide and sits under the cloud layer. It is wrapped in a shell of
   Dense Cloud and a thin layer of Mist, so look for the crown of crystals at the top of the clouds and dive in.
 
