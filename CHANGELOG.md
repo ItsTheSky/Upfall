@@ -38,6 +38,10 @@
 - New advancements for gas caves, Flicker Shards, the Shifting Vault and incantations.
 - Full French translation.
 - Mod config: observation rules, gas damage, cave and vault generation, incantation and upgrade tuning.
+- Sky Almanac: an in-game guide (GuideME) covering progression, world, creatures, structures, materials, machines
+  and blocks.
+- Reworked item textures.
+- The Chronospire, Pearl Aerie and Crystal Grotto are rarer (roughly twice the spacing between them).
 
 ### Pearl Aerie
 - New rare structure in the Drifting Archipelago: an abandoned city of the sky builders, floating between the island
@@ -59,10 +63,24 @@
   Satellite cubes hold an archive, a hanging garden, an echo hall with a Duskwing spawner, a collapsed room or a
   shard vault.
 - Four Fold Shards, hidden in satellite chests, fill the four Fold Sockets outside the core's Fold Seals and dissolve them.
-- Core chest: the Fold Anchor and the Warden's note. Three lore books tell the story of the Surveyors of the Fold.
+- Core chest: the Warden's note and the core treasure. Three lore books tell the story of the Surveyors of the Fold.
 - Fold Anchor: use to set an anchor, use again within 30 seconds to snap back to it with fall distance reset. 64 uses,
   5 second cooldown, repaired with Cloud Pearls.
+- No natural mob spawns inside a reliquary, and never any Hanging Roots or upside-down islands around one.
 - New blocks: Lattice Stone, Carved Lattice Stone, Lattice Beam, Fold Socket and Fold Seal.
+
+### Fold Warden
+- A two-phase boss sealed in the reliquary core. It wakes up when the fourth Fold Socket is filled, and the seal
+  chamber floor closes back into lattice stone as the seals dissolve.
+- Phase 1, the Fold: a tilted lattice cube shielded by four Fold Satellites. Destroy them to open its shutters and
+  expose its eye; they reform after 30 seconds. Attacks: Satellite Slam, Tilt (pushes everyone sideways) and Weight
+  of Falling (lift then slam, a filled Fold Socket keeps you safe).
+- Phase 2, the Plummet: at half health it unfolds into a wyrm of twelve lattice segments that can all be hit.
+  Attacks: Coil, Shed (boomerang tail segments), Updraft Dive and Lattice Breath, which locks its target in a
+  temporary Fold Lattice cage. Enraged below a quarter of its health.
+- Custom boss bar for each phase and dedicated sounds.
+- Drops the Fold Anchor, the new Fold Heart and 1 to 3 Fold Shards. New advancement: Unfolded.
+- New Sky Almanac page.
 
 ## 1.1.0
 
