@@ -9,7 +9,7 @@ navigation:
 
 ![The creatures of the Upfall](../assets/creatures.png)
 
-The Upfall is home to six creatures, from gentle sky rays drifting in open air to the armoured Cragmaw that hunts on the islands. Most of them only exist in the Upfall dimension.
+The Upfall is home to seven creatures, from gentle sky rays drifting in open air to the armoured Cragmaw that hunts on the islands. Most of them only exist in the Upfall dimension.
 
 | Creature | Hostility | Where | Drops |
 |---|---|---|---|
@@ -19,6 +19,7 @@ The Upfall is home to six creatures, from gentle sky rays drifting in open air t
 | [Skygrazer](skygrazer.md) | Peaceful livestock | Skygrass islands; Drifting Archipelago, Hanging Roots | <ItemLink id="raw_skygrazer_meat" />, <ItemLink id="down_tuft" /> |
 | [Skyray](skyray.md) | Harmless | Open sky between Y 72 and 240; every biome except Gilded Ridge | Nothing |
 | [Loftkin](loftkin.md) | Friendly trader | Cloud Hamlets | Nothing (they trade) |
+| [Fold Warden](fold_warden.md) | Boss | The sealed core of a Tilted Reliquary | <ItemLink id="fold_anchor" />, <ItemLink id="fold_heart" />, <ItemLink id="fold_shard" /> |
 
 <SubPages icons={true} />
 
@@ -33,6 +34,7 @@ Every creature has a spawn egg, available in the creative inventory.
   <ItemIcon id="skygrazer_spawn_egg" />
   <ItemIcon id="skyray_spawn_egg" />
   <ItemIcon id="loftkin_spawn_egg" />
+  <ItemIcon id="fold_warden_spawn_egg" />
 </ItemGrid>
 
 ## Related

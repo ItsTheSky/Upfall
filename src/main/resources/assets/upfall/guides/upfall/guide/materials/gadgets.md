@@ -43,4 +43,4 @@ Use the <ItemLink id="nimbus_flask" /> to condense a short-lived platform of clo
 
 <ItemImage id="fold_anchor" scale="3" />
 
-The <ItemLink id="fold_anchor" /> is found only in the core of the [Tilted Reliquary](../structures/tilted_reliquary.md). Use it to set an anchor, then use it again within 30 seconds in the same dimension to snap back to that spot with your fall distance reset. Each snap costs 1 durability (64 in all) and has a 5-second cooldown; repair it with a <ItemLink id="cloud_pearl" />.
+The <ItemLink id="fold_anchor" /> is dropped only by the [Fold Warden](../creatures/fold_warden.md), the guardian of the [Tilted Reliquary](../structures/tilted_reliquary.md) core. Use it to set an anchor, then use it again within 30 seconds in the same dimension to snap back to that spot with your fall distance reset. Each snap costs 1 durability (64 in all) and has a 5-second cooldown; repair it with a <ItemLink id="cloud_pearl" />.

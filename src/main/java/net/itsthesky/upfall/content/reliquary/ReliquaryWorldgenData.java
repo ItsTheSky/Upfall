@@ -20,15 +20,20 @@ import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.random.WeightedRandomList;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
+import net.minecraft.world.level.levelgen.structure.StructureSpawnOverride;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -39,7 +44,18 @@ final class ReliquaryWorldgenData implements DataContribution {
                 new Structure.StructureSettings.Builder(context.lookup(Registries.BIOME).getOrThrow(ReliquaryStructures.HAS_TILTED_RELIQUARY))
                         .generationStep(GenerationStep.Decoration.SURFACE_STRUCTURES)
                         .terrainAdapation(TerrainAdjustment.NONE)
+                        .spawnOverrides(noSpawns())
                         .build()));
+    }
+
+    private static Map<MobCategory, StructureSpawnOverride> noSpawns() {
+        Map<MobCategory, StructureSpawnOverride> overrides = new EnumMap<>(MobCategory.class);
+        for (MobCategory category : MobCategory.values()) {
+            if (category != MobCategory.MISC) {
+                overrides.put(category, new StructureSpawnOverride(StructureSpawnOverride.BoundingBoxType.STRUCTURE, WeightedRandomList.create()));
+            }
+        }
+        return overrides;
     }
 
     @Override
@@ -56,8 +72,7 @@ final class ReliquaryWorldgenData implements DataContribution {
         generator.addProvider(event.includeServer(), new BiomeTagsProvider(output, registries, Upfall.MODID, helper) {
             @Override
             protected void addTags(HolderLookup.Provider provider) {
-                tag(ReliquaryStructures.HAS_TILTED_RELIQUARY).add(ModBiomes.DRIFTING_ARCHIPELAGO, ModBiomes.MISTSEA, ModBiomes.GILDED_RIDGE,
-                        ModBiomes.HANGING_ROOTS);
+                tag(ReliquaryStructures.HAS_TILTED_RELIQUARY).add(ModBiomes.DRIFTING_ARCHIPELAGO, ModBiomes.MISTSEA, ModBiomes.GILDED_RIDGE);
             }
 
             @Override

@@ -3,6 +3,7 @@ package net.itsthesky.upfall.content.reliquary.block;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.itsthesky.upfall.content.reliquary.ReliquaryBlocks;
 import net.itsthesky.upfall.content.reliquary.ReliquaryItems;
+import net.itsthesky.upfall.content.reliquary.boss.FoldWarden;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -65,6 +66,7 @@ public class FoldSocketBlock extends Block {
             if (missing == 0) {
                 player.displayClientMessage(Component.translatable("message.upfall.fold_socket.complete"), true);
                 dissolveSeals(server, pos);
+                FoldWarden.summon(server, sockets);
             } else {
                 player.displayClientMessage(Component.translatable("message.upfall.fold_socket.remaining", missing), true);
             }
@@ -84,9 +86,25 @@ public class FoldSocketBlock extends Block {
         List<BlockPos> seals = scan(level, origin, s -> s.is(ReliquaryBlocks.FOLD_SEAL.get()));
         Block seal = ReliquaryBlocks.FOLD_SEAL.get();
         level.playSound(null, origin, SoundEvents.BEACON_DEACTIVATE, SoundSource.BLOCKS, 2.0F, 0.6F);
+        markFloor(level, seals);
         for (BlockPos pos : seals) {
             int delay = 4 + (int) Math.min(80, Math.sqrt(pos.distSqr(origin)) * 1.5);
             level.scheduleTick(pos, seal, delay);
+        }
+    }
+
+    private static void markFloor(ServerLevel level, List<BlockPos> seals) {
+        if (seals.isEmpty()) return;
+        int floorY = seals.stream().mapToInt(BlockPos::getY).min().orElseThrow();
+        List<BlockPos> floor = seals.stream().filter(pos -> pos.getY() == floorY).toList();
+        int minX = floor.stream().mapToInt(BlockPos::getX).min().orElseThrow();
+        int maxX = floor.stream().mapToInt(BlockPos::getX).max().orElseThrow();
+        int minZ = floor.stream().mapToInt(BlockPos::getZ).min().orElseThrow();
+        int maxZ = floor.stream().mapToInt(BlockPos::getZ).max().orElseThrow();
+        for (BlockPos pos : floor) {
+            boolean edge = pos.getX() == minX || pos.getX() == maxX || pos.getZ() == minZ || pos.getZ() == maxZ;
+            BlockState state = level.getBlockState(pos);
+            level.setBlock(pos, state.setValue(FoldSealBlock.FLOOR_KIND, edge ? FoldSealBlock.FLOOR_EDGE : FoldSealBlock.FLOOR), Block.UPDATE_CLIENTS);
         }
     }
 

@@ -8,11 +8,14 @@ import net.itsthesky.upfall.datagen.ModFrenchLanguageProvider;
 import net.itsthesky.upfall.datagen.ModItemModelProvider;
 import net.itsthesky.upfall.datagen.ModLanguageProvider;
 import net.itsthesky.upfall.datagen.ModRecipeProvider;
+import net.itsthesky.upfall.datagen.ModSoundProvider;
 import net.itsthesky.upfall.datagen.ModTagProviders;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
+import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.KilledTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
@@ -40,6 +43,9 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+import static net.itsthesky.upfall.datagen.ModSoundProvider.def;
+import static net.itsthesky.upfall.datagen.ModSoundProvider.event;
+
 final class ReliquaryData implements DataContribution {
     @Override
     public void lang(ModLanguageProvider lang) {
@@ -63,7 +69,28 @@ final class ReliquaryData implements DataContribution {
         lang.add("advancements.upfall.tilted_reliquary.title", "Tilted Reliquary");
         lang.add("advancements.upfall.tilted_reliquary.description", "Reach the Tilted Reliquary, the vaults the Surveyors of the Fold left frozen mid-shatter");
         lang.add("advancements.upfall.fold_anchor.title", "Fold Back");
-        lang.add("advancements.upfall.fold_anchor.description", "Recover the Fold Anchor from the sealed heart of a Tilted Reliquary");
+        lang.add("advancements.upfall.fold_anchor.description", "Take the Fold Anchor from the Fold Warden sealed in the heart of a Tilted Reliquary");
+        lang.add("item.upfall.fold_heart.desc", "The still-turning core of a Fold Warden. It holds the weight of a whole vault.");
+        lang.add("advancements.upfall.fold_warden.title", "Unfolded");
+        lang.add("advancements.upfall.fold_warden.description", "Defeat the Fold Warden in the sealed heart of a Tilted Reliquary");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_AWAKEN.getId().getPath()), "Fold Warden awakens");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_AMBIENT.getId().getPath()), "Fold Warden hums");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_HURT.getId().getPath()), "Fold Warden cracks");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_DEATH.getId().getPath()), "Fold Warden shatters");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_SHIELD_HIT.getId().getPath()), "Fold shield rings");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_SHIELD_BREAK.getId().getPath()), "Fold shield breaks");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_SHIELD_RESTORE.getId().getPath()), "Satellites reform");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_SLAM_CHARGE.getId().getPath()), "Satellite takes aim");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_SLAM.getId().getPath()), "Satellite slams");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_TILT.getId().getPath()), "The Fold tilts");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_WEIGHT.getId().getPath()), "Weight gathers");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_DROP.getId().getPath()), "Weight falls");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_UNFOLD.getId().getPath()), "Fold Warden unfolds");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WYRM_AMBIENT.getId().getPath()), "Fold Warden rattles");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WYRM_SHED.getId().getPath()), "Fragments break loose");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WYRM_DIVE.getId().getPath()), "Fold Warden dives");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WYRM_BREATH_CHARGE.getId().getPath()), "Lattice breath charges");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WYRM_BREATH.getId().getPath()), "Lattice breath roars");
         for (ReliquaryBooks.Book book : ReliquaryBooks.all()) {
             for (int i = 0; i < book.pages().size(); i++) {
                 lang.add(book.pageKey(i), book.pages().get(i));
@@ -93,7 +120,34 @@ final class ReliquaryData implements DataContribution {
         lang.add("advancements.upfall.tilted_reliquary.title", "Reliquaire incliné");
         lang.add("advancements.upfall.tilted_reliquary.description", "Atteignez le Reliquaire incliné, les caveaux que les Arpenteurs du Pli ont laissés figés en plein éclatement");
         lang.add("advancements.upfall.fold_anchor.title", "Retour au Pli");
-        lang.add("advancements.upfall.fold_anchor.description", "Récupérez l'Ancre du Pli dans le cœur scellé d'un Reliquaire incliné");
+        lang.add("advancements.upfall.fold_anchor.description", "Arrachez l'Ancre du Pli au Gardien du Pli, scellé au cœur d'un Reliquaire incliné");
+        lang.add("entity.upfall.fold_fragment", "Fragment du Pli");
+        lang.add("block.upfall.fold_lattice", "Treillis du Pli");
+        lang.add("item.upfall.fold_heart", "Cœur du Pli");
+        lang.add("item.upfall.fold_heart.desc", "Le noyau encore tournoyant d'un Gardien du Pli. Il contient le poids d'une chambre entière.");
+        lang.add("advancements.upfall.fold_warden.title", "Déplié");
+        lang.add("advancements.upfall.fold_warden.description", "Vainquez le Gardien du Pli dans le cœur scellé d'un Reliquaire incliné");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_AWAKEN.getId().getPath()), "Le Gardien du Pli s'éveille");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_AMBIENT.getId().getPath()), "Le Gardien du Pli bourdonne");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_HURT.getId().getPath()), "Le Gardien du Pli se fissure");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_DEATH.getId().getPath()), "Le Gardien du Pli vole en éclats");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_SHIELD_HIT.getId().getPath()), "Le bouclier du Pli résonne");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_SHIELD_BREAK.getId().getPath()), "Le bouclier du Pli se brise");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_SHIELD_RESTORE.getId().getPath()), "Les satellites se reforment");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_SLAM_CHARGE.getId().getPath()), "Un satellite vise");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_SLAM.getId().getPath()), "Un satellite s'écrase");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_TILT.getId().getPath()), "Le Pli bascule");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_WEIGHT.getId().getPath()), "Le poids s'accumule");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_DROP.getId().getPath()), "Le poids retombe");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_UNFOLD.getId().getPath()), "Le Gardien du Pli se déplie");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WYRM_AMBIENT.getId().getPath()), "Le Gardien du Pli cliquette");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WYRM_SHED.getId().getPath()), "Des fragments se détachent");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WYRM_DIVE.getId().getPath()), "Le Gardien du Pli plonge");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WYRM_BREATH_CHARGE.getId().getPath()), "Le souffle de treillis se charge");
+        lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WYRM_BREATH.getId().getPath()), "Le souffle de treillis rugit");
+        lang.add("entity.upfall.fold_warden", "Gardien du Pli");
+        lang.add("entity.upfall.fold_satellite", "Satellite du Pli");
+        lang.add("item.upfall.fold_warden_spawn_egg", "Œuf d'apparition de Gardien du Pli");
         for (ReliquaryBooks.Book book : ReliquaryBooks.all()) {
             for (int i = 0; i < book.pagesFr().size(); i++) {
                 lang.add(book.pageKey(i), book.pagesFr().get(i));
@@ -106,6 +160,7 @@ final class ReliquaryData implements DataContribution {
         states.simpleBlockWithItem(ReliquaryBlocks.LATTICE_STONE.get(), states.cubeAll(ReliquaryBlocks.LATTICE_STONE.get()));
         states.simpleBlockWithItem(ReliquaryBlocks.CARVED_LATTICE_STONE.get(), states.cubeAll(ReliquaryBlocks.CARVED_LATTICE_STONE.get()));
         states.simpleBlock(ReliquaryBlocks.FOLD_SEAL.get(), states.cubeAll(ReliquaryBlocks.FOLD_SEAL.get()));
+        states.simpleBlock(ReliquaryBlocks.FOLD_LATTICE.get(), states.cubeAll(ReliquaryBlocks.FOLD_LATTICE.get()));
         states.axisBlock(ReliquaryBlocks.LATTICE_BEAM.get(), states.blockTexture("lattice_beam"), states.blockTexture("lattice_beam_end"));
         states.blockItem(ReliquaryBlocks.LATTICE_BEAM.get());
 
@@ -119,6 +174,30 @@ final class ReliquaryData implements DataContribution {
     public void itemModels(ModItemModelProvider models) {
         models.basicItem(ReliquaryItems.FOLD_SHARD.get());
         models.basicItem(ReliquaryItems.FOLD_ANCHOR.get());
+        models.basicItem(ReliquaryItems.FOLD_HEART.get());
+        models.withExistingParent(ReliquaryItems.FOLD_WARDEN_SPAWN_EGG.getId().getPath(), models.mcLoc("item/template_spawn_egg"));
+    }
+
+    @Override
+    public void sounds(ModSoundProvider sounds) {
+        sounds.addSound(ReliquarySounds.WARDEN_AWAKEN, def(ReliquarySounds.WARDEN_AWAKEN).with(event("block.beacon.activate").pitch(0.5).volume(1.0), event("block.respawn_anchor.charge").pitch(0.6).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WARDEN_AMBIENT, def(ReliquarySounds.WARDEN_AMBIENT).with(event("block.beacon.ambient").pitch(0.6).volume(0.8), event("block.amethyst_block.resonate").pitch(0.5).volume(0.8)));
+        sounds.addSound(ReliquarySounds.WARDEN_HURT, def(ReliquarySounds.WARDEN_HURT).with(event("block.amethyst_block.hit").pitch(0.6).volume(1.0), event("entity.iron_golem.hurt").pitch(1.3).volume(0.7)));
+        sounds.addSound(ReliquarySounds.WARDEN_DEATH, def(ReliquarySounds.WARDEN_DEATH).with(event("entity.elder_guardian.death").pitch(0.8).volume(1.0), event("block.beacon.deactivate").pitch(0.5).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WARDEN_SHIELD_HIT, def(ReliquarySounds.WARDEN_SHIELD_HIT).with(event("block.amethyst_block.hit").pitch(0.5).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WARDEN_SHIELD_BREAK, def(ReliquarySounds.WARDEN_SHIELD_BREAK).with(event("block.glass.break").pitch(0.6).volume(1.0), event("block.beacon.deactivate").pitch(0.7).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WARDEN_SHIELD_RESTORE, def(ReliquarySounds.WARDEN_SHIELD_RESTORE).with(event("block.respawn_anchor.charge").pitch(0.6).volume(1.0), event("block.amethyst_block.resonate").pitch(1.2).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WARDEN_SLAM_CHARGE, def(ReliquarySounds.WARDEN_SLAM_CHARGE).with(event("block.respawn_anchor.charge").pitch(1.4).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WARDEN_SLAM, def(ReliquarySounds.WARDEN_SLAM).with(event("entity.generic.explode").pitch(1.3).volume(0.8)));
+        sounds.addSound(ReliquarySounds.WARDEN_TILT, def(ReliquarySounds.WARDEN_TILT).with(event("entity.illusioner.cast_spell").pitch(0.5).volume(1.0), event("block.beacon.power_select").pitch(0.5).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WARDEN_WEIGHT, def(ReliquarySounds.WARDEN_WEIGHT).with(event("entity.elder_guardian.curse").pitch(0.6).volume(0.8)));
+        sounds.addSound(ReliquarySounds.WARDEN_DROP, def(ReliquarySounds.WARDEN_DROP).with(event("entity.warden.sonic_boom").pitch(0.6).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WARDEN_UNFOLD, def(ReliquarySounds.WARDEN_UNFOLD).with(event("entity.warden.emerge").pitch(1.2).volume(1.0), event("block.respawn_anchor.set_spawn").pitch(0.6).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WYRM_AMBIENT, def(ReliquarySounds.WYRM_AMBIENT).with(event("entity.phantom.ambient").pitch(0.5).volume(0.8), event("block.amethyst_block.resonate").pitch(0.7).volume(0.8)));
+        sounds.addSound(ReliquarySounds.WYRM_SHED, def(ReliquarySounds.WYRM_SHED).with(event("entity.shulker.shoot").pitch(0.7).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WYRM_DIVE, def(ReliquarySounds.WYRM_DIVE).with(event("item.trident.riptide_3").pitch(0.7).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WYRM_BREATH_CHARGE, def(ReliquarySounds.WYRM_BREATH_CHARGE).with(event("entity.warden.sonic_charge").pitch(1.4).volume(1.0)));
+        sounds.addSound(ReliquarySounds.WYRM_BREATH, def(ReliquarySounds.WYRM_BREATH).with(event("entity.breeze.shoot").pitch(0.6).volume(1.0), event("entity.warden.sonic_boom").pitch(1.5).volume(0.6)));
     }
 
     @Override
@@ -155,6 +234,8 @@ final class ReliquaryData implements DataContribution {
                              CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {
         generator.addProvider(event.includeServer(), new Named("Tilted Reliquary loot tables", new LootTableProvider(output, Set.of(),
                 List.of(new LootTableProvider.SubProviderEntry(ReliquaryLoot::new, LootContextParamSets.CHEST)), registries)));
+        generator.addProvider(event.includeServer(), new Named("Tilted Reliquary entity loot tables", new LootTableProvider(output, Set.of(),
+                List.of(new LootTableProvider.SubProviderEntry(ReliquaryEntityLoot::new, LootContextParamSets.ENTITY)), registries)));
         generator.addProvider(event.includeServer(), new Named("Tilted Reliquary advancements",
                 new AdvancementProvider(output, registries, helper, List.of(ReliquaryData::advancements))));
     }
@@ -166,6 +247,11 @@ final class ReliquaryData implements DataContribution {
                         Component.translatable("advancements.upfall.fold_anchor.description"), null, AdvancementType.GOAL, true, true, false)
                 .addCriterion("anchor", InventoryChangeTrigger.TriggerInstance.hasItems(ReliquaryItems.FOLD_ANCHOR.get()))
                 .save(saver, Upfall.id("upfall/fold_anchor").toString());
+        Advancement.Builder.advancement().parent(visited)
+                .display(ReliquaryItems.FOLD_HEART.get(), Component.translatable("advancements.upfall.fold_warden.title"),
+                        Component.translatable("advancements.upfall.fold_warden.description"), null, AdvancementType.CHALLENGE, true, true, false)
+                .addCriterion("killed", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(ReliquaryEntities.FOLD_WARDEN.get())))
+                .save(saver, Upfall.id("upfall/fold_warden").toString());
     }
 
     private record Named(String name, DataProvider delegate) implements DataProvider {

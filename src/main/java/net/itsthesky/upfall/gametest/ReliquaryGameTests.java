@@ -2,9 +2,12 @@ package net.itsthesky.upfall.gametest;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.reliquary.ReliquaryBlocks;
+import net.itsthesky.upfall.content.reliquary.ReliquaryEntities;
 import net.itsthesky.upfall.content.reliquary.ReliquaryItems;
 import net.itsthesky.upfall.content.reliquary.ReliquaryStructures;
 import net.itsthesky.upfall.content.reliquary.block.FoldSocketBlock;
+import net.itsthesky.upfall.content.reliquary.boss.FoldSatellite;
+import net.itsthesky.upfall.content.reliquary.boss.FoldWarden;
 import net.itsthesky.upfall.content.reliquary.item.FoldAnchorData;
 import net.itsthesky.upfall.content.reliquary.worldgen.ReliquaryBlueprint;
 import net.itsthesky.upfall.content.reliquary.worldgen.ReliquaryLayout;
@@ -17,11 +20,13 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -168,7 +173,106 @@ public final class ReliquaryGameTests {
             for (BlockPos seal : seals) {
                 helper.assertBlockNotPresent(ReliquaryBlocks.FOLD_SEAL.get(), seal);
             }
+            helper.assertBlockPresent(ReliquaryBlocks.CARVED_LATTICE_STONE.get(), seals[0]);
+            helper.assertBlockPresent(ReliquaryBlocks.CARVED_LATTICE_STONE.get(), seals[2]);
+            helper.assertBlockPresent(Blocks.AIR, seals[1]);
+            helper.assertEntityPresent(ReliquaryEntities.FOLD_WARDEN.get());
+            cleanup(helper);
         });
+    }
+
+    private static List<FoldSatellite> satellites(GameTestHelper helper, FoldWarden warden) {
+        return helper.getLevel().getEntitiesOfClass(FoldSatellite.class, warden.getBoundingBox().inflate(32.0),
+                satellite -> satellite.isAlive() && satellite.isOwnedBy(warden));
+    }
+
+    private static void cleanup(GameTestHelper helper) {
+        for (FoldWarden warden : helper.getLevel().getEntitiesOfClass(FoldWarden.class, helper.getBounds())) {
+            satellites(helper, warden).forEach(Entity::discard);
+            warden.discard();
+        }
+    }
+
+    private static void strike(GameTestHelper helper, FoldWarden warden, Player player, float amount) {
+        warden.invulnerableTime = 0;
+        warden.hurt(helper.getLevel().damageSources().playerAttack(player), amount);
+    }
+
+    @GameTest(template = "empty_large", timeoutTicks = 400)
+    public static void foldWardenShieldHoldsUntilSatellitesFall(GameTestHelper helper) {
+        FoldWarden warden = helper.spawn(ReliquaryEntities.FOLD_WARDEN.get(), new BlockPos(12, 2, 12));
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        float[] health = new float[1];
+        helper.startSequence()
+                .thenWaitUntil(() -> helper.assertTrue(warden.phase() == FoldWarden.Phase.CUBE, "Warden is still awakening"))
+                .thenExecute(() -> {
+                    health[0] = warden.getHealth();
+                    strike(helper, warden, player, 20.0F);
+                    helper.assertTrue(warden.getHealth() == health[0], "Shielded warden took damage");
+                    List<FoldSatellite> satellites = satellites(helper, warden);
+                    helper.assertTrue(satellites.size() == 4, "Expected 4 satellites, found " + satellites.size());
+                    satellites.forEach(FoldSatellite::kill);
+                })
+                .thenWaitUntil(() -> helper.assertFalse(warden.isShielded(), "Shield is still up"))
+                .thenExecute(() -> {
+                    strike(helper, warden, player, 20.0F);
+                    helper.assertTrue(warden.getHealth() < health[0], "Exposed warden took no damage");
+                    cleanup(helper);
+                })
+                .thenSucceed();
+    }
+
+    @GameTest(template = "empty_large", timeoutTicks = 500)
+    public static void foldWardenUnfoldsAtHalfHealth(GameTestHelper helper) {
+        FoldWarden warden = helper.spawn(ReliquaryEntities.FOLD_WARDEN.get(), new BlockPos(12, 2, 12));
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        helper.startSequence()
+                .thenWaitUntil(() -> helper.assertTrue(warden.phase() == FoldWarden.Phase.CUBE, "Warden is still awakening"))
+                .thenExecute(() -> satellites(helper, warden).forEach(FoldSatellite::kill))
+                .thenWaitUntil(() -> helper.assertFalse(warden.isShielded(), "Shield is still up"))
+                .thenExecute(() -> {
+                    strike(helper, warden, player, 1000.0F);
+                    helper.assertTrue(warden.isAlive() && warden.getHealth() == FoldWarden.PHASE_TWO_HEALTH,
+                            "Phase one must stop at half health, got " + warden.getHealth());
+                })
+                .thenWaitUntil(() -> helper.assertTrue(warden.phase() == FoldWarden.Phase.WYRM, "Warden has not unfolded: " + warden.phase()))
+                .thenExecute(() -> {
+                    helper.assertTrue(warden.getBbWidth() < 2.5F, "Wyrm keeps the cube hitbox: " + warden.getBbWidth());
+                    helper.assertTrue(warden.segments()[0].isActive(), "Wyrm segments are not active");
+                    helper.assertTrue(warden.segments()[0].hurt(helper.getLevel().damageSources().playerAttack(player), 10.0F),
+                            "Segments must forward damage to the warden");
+                    helper.assertTrue(warden.getHealth() < FoldWarden.PHASE_TWO_HEALTH, "Segment hit did not hurt the warden");
+                    cleanup(helper);
+                })
+                .thenSucceed();
+    }
+
+    @GameTest(template = "empty", timeoutTicks = 240)
+    public static void foldLatticeDissolves(GameTestHelper helper) {
+        BlockPos pos = new BlockPos(1, 2, 1);
+        helper.setBlock(pos, ReliquaryBlocks.FOLD_LATTICE.get());
+        helper.assertBlockPresent(ReliquaryBlocks.FOLD_LATTICE.get(), pos);
+        helper.succeedWhen(() -> helper.assertBlockNotPresent(ReliquaryBlocks.FOLD_LATTICE.get(), pos));
+    }
+
+    @GameTest(template = "empty_large", timeoutTicks = 200)
+    public static void foldWardenDropsAnchorAndHeart(GameTestHelper helper) {
+        FoldWarden warden = helper.spawn(ReliquaryEntities.FOLD_WARDEN.get(), new BlockPos(12, 2, 12));
+        LootTable table = helper.getLevel().getServer().reloadableRegistries().getLootTable(warden.getType().getDefaultLootTable());
+        LootParams params = new LootParams.Builder(helper.getLevel())
+                .withParameter(LootContextParams.THIS_ENTITY, warden)
+                .withParameter(LootContextParams.ORIGIN, warden.position())
+                .withParameter(LootContextParams.DAMAGE_SOURCE, helper.getLevel().damageSources().generic())
+                .create(LootContextParamSets.ENTITY);
+        for (int i = 0; i < 20; i++) {
+            List<ItemStack> loot = table.getRandomItems(params);
+            helper.assertTrue(count(loot, ReliquaryItems.FOLD_ANCHOR.get()) == 1, "Warden must drop one fold anchor: " + loot);
+            helper.assertTrue(count(loot, ReliquaryItems.FOLD_HEART.get()) == 1, "Warden must drop one fold heart: " + loot);
+            int shards = count(loot, ReliquaryItems.FOLD_SHARD.get());
+            helper.assertTrue(shards >= 1 && shards <= 3, "Warden must drop 1 to 3 fold shards: " + loot);
+        }
+        warden.discard();
+        helper.succeed();
     }
 
     @GameTest(template = "empty")
@@ -199,7 +303,7 @@ public final class ReliquaryGameTests {
             List<ItemStack> satellite = roll(helper, ReliquaryStructures.SATELLITE_LOOT);
             helper.assertTrue(count(satellite, ReliquaryItems.FOLD_SHARD.get()) == 1, "Satellite loot must hold exactly one fold shard: " + satellite);
             List<ItemStack> core = roll(helper, ReliquaryStructures.CORE_LOOT);
-            helper.assertTrue(count(core, ReliquaryItems.FOLD_ANCHOR.get()) >= 1, "Core loot without fold anchor: " + core);
+            helper.assertTrue(count(core, ReliquaryItems.FOLD_ANCHOR.get()) == 0, "Fold anchor must drop from the warden, not the core: " + core);
             archiveItems += roll(helper, ReliquaryStructures.ARCHIVE_LOOT).size();
         }
         helper.assertTrue(archiveItems > 0, "Archive loot never yields anything");

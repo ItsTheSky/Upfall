@@ -9,6 +9,7 @@ import net.itsthesky.upfall.content.machines.client.ClockworkClientModule;
 import net.itsthesky.upfall.content.machines.client.MachinesClientModule;
 import net.itsthesky.upfall.content.mobs.client.MobsClientModule;
 import net.itsthesky.upfall.content.quantum.client.QuantumClientModule;
+import net.itsthesky.upfall.content.reliquary.client.ReliquaryClientModule;
 import net.itsthesky.upfall.content.world.client.WorldClientModule;
 
 import java.util.List;
@@ -26,5 +27,6 @@ public final class UpfallClientModules {
             new GrottoClientModule(),
             new MachinesClientModule(),
             new ClockworkClientModule(),
-            new QuantumClientModule());
+            new QuantumClientModule(),
+            new ReliquaryClientModule());
 }

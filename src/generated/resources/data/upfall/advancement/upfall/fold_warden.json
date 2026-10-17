@@ -1,0 +1,38 @@
+{
+  "parent": "upfall:upfall/tilted_reliquary",
+  "criteria": {
+    "killed": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "upfall:fold_warden"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.fold_warden.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "upfall:fold_heart"
+    },
+    "title": {
+      "translate": "advancements.upfall.fold_warden.title"
+    }
+  },
+  "requirements": [
+    [
+      "killed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

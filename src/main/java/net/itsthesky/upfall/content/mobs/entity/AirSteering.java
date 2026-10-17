@@ -11,14 +11,14 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
-final class AirSteering {
+public final class AirSteering {
     private AirSteering() {}
 
-    static class SteerMoveControl extends MoveControl {
+    public static class SteerMoveControl extends MoveControl {
         private final double inertia;
         private final double speedScale;
 
-        SteerMoveControl(Mob mob, double inertia, double speedScale) {
+        public SteerMoveControl(Mob mob, double inertia, double speedScale) {
             super(mob);
             this.inertia = inertia;
             this.speedScale = speedScale;
@@ -40,7 +40,7 @@ final class AirSteering {
         }
     }
 
-    static void faceMotion(Mob mob, float maxTurn) {
+    public static void faceMotion(Mob mob, float maxTurn) {
         Vec3 motion = mob.getDeltaMovement();
         if (motion.horizontalDistanceSqr() > 1.0E-4) {
             float yaw = (float) (Mth.atan2(motion.z, motion.x) * Mth.RAD_TO_DEG) - 90.0F;

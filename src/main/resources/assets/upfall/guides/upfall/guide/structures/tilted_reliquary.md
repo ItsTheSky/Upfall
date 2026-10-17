@@ -10,6 +10,7 @@ item_ids:
   - upfall:lattice_beam
   - upfall:fold_shard
   - upfall:fold_anchor
+  - upfall:fold_heart
 ---
 
 # Tilted Reliquary
@@ -57,7 +58,9 @@ The heart of the core cube is sealed by **Fold Seal** blocks, which cannot be br
 stand four **Fold Socket** blocks. Right-click each one with a Fold Shard: once all four are filled, the
 seals dissolve.
 
-The core chest always holds the <ItemLink id="fold_anchor" /> and the **Warden's note**.
+As the seals fall, the **[Fold Warden](../creatures/fold_warden.md)** wakes up in the seal chamber. This two-phase boss
+guards the core: defeating it drops the <ItemLink id="fold_anchor" /> and a <ItemLink id="fold_heart" />. The core chest
+still holds the **Warden's note** and the rest of the treasure.
 
 ## Lore
 

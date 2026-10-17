@@ -62,6 +62,7 @@ public final class UpfallTerrain {
         final HolderGetter<NormalNoise.NoiseParameters> noises;
         final DensityFunction archipelago;
         final DensityFunction inversion;
+        final DensityFunction reliquary;
         final DensityFunction gilded;
         final DensityFunction rustworks;
         final DensityFunction invertBlend;
@@ -75,7 +76,9 @@ public final class UpfallTerrain {
         Fields(HolderGetter<NormalNoise.NoiseParameters> noises) {
             this.noises = noises;
             this.archipelago = flatCache(noise2d(noises, ModNoises.ARCHIPELAGO, 1.0));
-            this.inversion = flatCache(noise2d(noises, ModNoises.INVERSION, 1.0));
+            this.reliquary = flatCache(new ReliquaryZones(holder(noises, ModNoises.RELIQUARY), holder(noises, ModNoises.RUSTWORKS),
+                    holder(noises, ModNoises.ARCHIPELAGO), BiomeThresholds.MISTSEA));
+            this.inversion = flatCache(add(noise2d(noises, ModNoises.INVERSION, 1.0), mul(reliquary, constant(-RELIQUARY_INVERSION_DAMPING))));
             this.gilded = flatCache(noise2d(noises, ModNoises.GILDED, 1.0));
             DensityFunction zones = flatCache(new RustworksZones(holder(noises, ModNoises.RUSTWORKS), holder(noises, ModNoises.ARCHIPELAGO),
                     BiomeThresholds.MISTSEA));
@@ -109,6 +112,7 @@ public final class UpfallTerrain {
     private static final double RUST_THICKNESS = 0.5;
     private static final double RUST_ROLLING = 0.6;
     private static final double RELIQUARY_CLEARING = 400.0;
+    private static final double RELIQUARY_INVERSION_DAMPING = 2.0;
 
     static NoiseRouter router(Fields f) {
         DensityFunction y = DensityFunctions.yClampedGradient(MIN_Y, MIN_Y + HEIGHT, MIN_Y, MIN_Y + HEIGHT);
@@ -127,8 +131,7 @@ public final class UpfallTerrain {
         DensityFunction low = islandLayer(f, y, ModNoises.ISLAND_MASK_LOW, ModNoises.ISLAND_HEIGHT_LOW, 118.0, 16.0, lowThreshold, hills, peaks, drips);
         DensityFunction high = islandLayer(f, y, ModNoises.ISLAND_MASK_HIGH, ModNoises.ISLAND_HEIGHT_HIGH, 172.0, 18.0, highThreshold, hills, peaks, drips);
         DensityFunction islets = islets(f, y, hills);
-        DensityFunction reliquary = flatCache(mul(new ReliquaryZones(holder(f.noises, ModNoises.RELIQUARY), holder(f.noises, ModNoises.RUSTWORKS),
-                holder(f.noises, ModNoises.ARCHIPELAGO), BiomeThresholds.MISTSEA), constant(-RELIQUARY_CLEARING)));
+        DensityFunction reliquary = flatCache(mul(f.reliquary, constant(-RELIQUARY_CLEARING)));
         DensityFunction islands = add(add(max(max(low, high), islets), mul(erosion, constant(4.5))), reliquary);
 
         DensityFunction terrain = max(max(islands, clouds(f, y)), add(needles(f, y), reliquary));

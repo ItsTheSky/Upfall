@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.reliquary;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.content.reliquary.block.FoldLatticeBlock;
 import net.itsthesky.upfall.content.reliquary.block.FoldSealBlock;
 import net.itsthesky.upfall.content.reliquary.block.FoldSocketBlock;
 import net.minecraft.world.item.Item;
@@ -38,6 +39,9 @@ public final class ReliquaryBlocks {
                     .lightLevel(state -> state.getValue(FoldSocketBlock.FILLED) ? 10 : 3));
     public static final DeferredBlock<FoldSealBlock> FOLD_SEAL = BLOCKS.registerBlock("fold_seal", FoldSealBlock::new,
             stone().strength(-1.0F, 3600000.0F).noLootTable().pushReaction(PushReaction.BLOCK).lightLevel(state -> 6));
+    public static final DeferredBlock<FoldLatticeBlock> FOLD_LATTICE = BLOCKS.registerBlock("fold_lattice", FoldLatticeBlock::new,
+            BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_CYAN).strength(1.0F, 6.0F).sound(SoundType.AMETHYST)
+                    .noLootTable().pushReaction(PushReaction.BLOCK).lightLevel(state -> 5));
 
     static {
         CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(LATTICE_STONE));

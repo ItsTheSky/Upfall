@@ -231,10 +231,27 @@
                                                           "argument2": {
                                                             "type": "minecraft:flat_cache",
                                                             "argument": {
-                                                              "type": "minecraft:noise",
-                                                              "noise": "upfall:inversion",
-                                                              "xz_scale": 1.0,
-                                                              "y_scale": 0.0
+                                                              "type": "minecraft:add",
+                                                              "argument1": {
+                                                                "type": "minecraft:noise",
+                                                                "noise": "upfall:inversion",
+                                                                "xz_scale": 1.0,
+                                                                "y_scale": 0.0
+                                                              },
+                                                              "argument2": {
+                                                                "type": "minecraft:mul",
+                                                                "argument1": -2.0,
+                                                                "argument2": {
+                                                                  "type": "minecraft:flat_cache",
+                                                                  "argument": {
+                                                                    "type": "upfall:reliquary_zones",
+                                                                    "archipelago": "upfall:archipelago",
+                                                                    "mist_threshold": -0.30000001192092896,
+                                                                    "noise": "upfall:reliquary",
+                                                                    "rustworks": "upfall:rustworks"
+                                                                  }
+                                                                }
+                                                              }
                                                             }
                                                           }
                                                         }
@@ -631,10 +648,27 @@
                                                                 "argument2": {
                                                                   "type": "minecraft:flat_cache",
                                                                   "argument": {
-                                                                    "type": "minecraft:noise",
-                                                                    "noise": "upfall:inversion",
-                                                                    "xz_scale": 1.0,
-                                                                    "y_scale": 0.0
+                                                                    "type": "minecraft:add",
+                                                                    "argument1": {
+                                                                      "type": "minecraft:noise",
+                                                                      "noise": "upfall:inversion",
+                                                                      "xz_scale": 1.0,
+                                                                      "y_scale": 0.0
+                                                                    },
+                                                                    "argument2": {
+                                                                      "type": "minecraft:mul",
+                                                                      "argument1": -2.0,
+                                                                      "argument2": {
+                                                                        "type": "minecraft:flat_cache",
+                                                                        "argument": {
+                                                                          "type": "upfall:reliquary_zones",
+                                                                          "archipelago": "upfall:archipelago",
+                                                                          "mist_threshold": -0.30000001192092896,
+                                                                          "noise": "upfall:reliquary",
+                                                                          "rustworks": "upfall:rustworks"
+                                                                        }
+                                                                      }
+                                                                    }
                                                                   }
                                                                 }
                                                               }
@@ -1102,10 +1136,27 @@
                                                               "argument2": {
                                                                 "type": "minecraft:flat_cache",
                                                                 "argument": {
-                                                                  "type": "minecraft:noise",
-                                                                  "noise": "upfall:inversion",
-                                                                  "xz_scale": 1.0,
-                                                                  "y_scale": 0.0
+                                                                  "type": "minecraft:add",
+                                                                  "argument1": {
+                                                                    "type": "minecraft:noise",
+                                                                    "noise": "upfall:inversion",
+                                                                    "xz_scale": 1.0,
+                                                                    "y_scale": 0.0
+                                                                  },
+                                                                  "argument2": {
+                                                                    "type": "minecraft:mul",
+                                                                    "argument1": -2.0,
+                                                                    "argument2": {
+                                                                      "type": "minecraft:flat_cache",
+                                                                      "argument": {
+                                                                        "type": "upfall:reliquary_zones",
+                                                                        "archipelago": "upfall:archipelago",
+                                                                        "mist_threshold": -0.30000001192092896,
+                                                                        "noise": "upfall:reliquary",
+                                                                        "rustworks": "upfall:rustworks"
+                                                                      }
+                                                                    }
+                                                                  }
                                                                 }
                                                               }
                                                             }
@@ -1295,10 +1346,27 @@
                                               "argument2": {
                                                 "type": "minecraft:flat_cache",
                                                 "argument": {
-                                                  "type": "minecraft:noise",
-                                                  "noise": "upfall:inversion",
-                                                  "xz_scale": 1.0,
-                                                  "y_scale": 0.0
+                                                  "type": "minecraft:add",
+                                                  "argument1": {
+                                                    "type": "minecraft:noise",
+                                                    "noise": "upfall:inversion",
+                                                    "xz_scale": 1.0,
+                                                    "y_scale": 0.0
+                                                  },
+                                                  "argument2": {
+                                                    "type": "minecraft:mul",
+                                                    "argument1": -2.0,
+                                                    "argument2": {
+                                                      "type": "minecraft:flat_cache",
+                                                      "argument": {
+                                                        "type": "upfall:reliquary_zones",
+                                                        "archipelago": "upfall:archipelago",
+                                                        "mist_threshold": -0.30000001192092896,
+                                                        "noise": "upfall:reliquary",
+                                                        "rustworks": "upfall:rustworks"
+                                                      }
+                                                    }
+                                                  }
                                                 }
                                               }
                                             }
@@ -1521,10 +1589,27 @@
                                                         "argument2": {
                                                           "type": "minecraft:flat_cache",
                                                           "argument": {
-                                                            "type": "minecraft:noise",
-                                                            "noise": "upfall:inversion",
-                                                            "xz_scale": 1.0,
-                                                            "y_scale": 0.0
+                                                            "type": "minecraft:add",
+                                                            "argument1": {
+                                                              "type": "minecraft:noise",
+                                                              "noise": "upfall:inversion",
+                                                              "xz_scale": 1.0,
+                                                              "y_scale": 0.0
+                                                            },
+                                                            "argument2": {
+                                                              "type": "minecraft:mul",
+                                                              "argument1": -2.0,
+                                                              "argument2": {
+                                                                "type": "minecraft:flat_cache",
+                                                                "argument": {
+                                                                  "type": "upfall:reliquary_zones",
+                                                                  "archipelago": "upfall:archipelago",
+                                                                  "mist_threshold": -0.30000001192092896,
+                                                                  "noise": "upfall:reliquary",
+                                                                  "rustworks": "upfall:rustworks"
+                                                                }
+                                                              }
+                                                            }
                                                           }
                                                         }
                                                       }
@@ -1735,10 +1820,27 @@
                                           "argument2": {
                                             "type": "minecraft:flat_cache",
                                             "argument": {
-                                              "type": "minecraft:noise",
-                                              "noise": "upfall:inversion",
-                                              "xz_scale": 1.0,
-                                              "y_scale": 0.0
+                                              "type": "minecraft:add",
+                                              "argument1": {
+                                                "type": "minecraft:noise",
+                                                "noise": "upfall:inversion",
+                                                "xz_scale": 1.0,
+                                                "y_scale": 0.0
+                                              },
+                                              "argument2": {
+                                                "type": "minecraft:mul",
+                                                "argument1": -2.0,
+                                                "argument2": {
+                                                  "type": "minecraft:flat_cache",
+                                                  "argument": {
+                                                    "type": "upfall:reliquary_zones",
+                                                    "archipelago": "upfall:archipelago",
+                                                    "mist_threshold": -0.30000001192092896,
+                                                    "noise": "upfall:reliquary",
+                                                    "rustworks": "upfall:rustworks"
+                                                  }
+                                                }
+                                              }
                                             }
                                           }
                                         }
@@ -2004,10 +2106,27 @@
                                                           "argument2": {
                                                             "type": "minecraft:flat_cache",
                                                             "argument": {
-                                                              "type": "minecraft:noise",
-                                                              "noise": "upfall:inversion",
-                                                              "xz_scale": 1.0,
-                                                              "y_scale": 0.0
+                                                              "type": "minecraft:add",
+                                                              "argument1": {
+                                                                "type": "minecraft:noise",
+                                                                "noise": "upfall:inversion",
+                                                                "xz_scale": 1.0,
+                                                                "y_scale": 0.0
+                                                              },
+                                                              "argument2": {
+                                                                "type": "minecraft:mul",
+                                                                "argument1": -2.0,
+                                                                "argument2": {
+                                                                  "type": "minecraft:flat_cache",
+                                                                  "argument": {
+                                                                    "type": "upfall:reliquary_zones",
+                                                                    "archipelago": "upfall:archipelago",
+                                                                    "mist_threshold": -0.30000001192092896,
+                                                                    "noise": "upfall:reliquary",
+                                                                    "rustworks": "upfall:rustworks"
+                                                                  }
+                                                                }
+                                                              }
                                                             }
                                                           }
                                                         }
@@ -2401,10 +2520,27 @@
                                                               "argument2": {
                                                                 "type": "minecraft:flat_cache",
                                                                 "argument": {
-                                                                  "type": "minecraft:noise",
-                                                                  "noise": "upfall:inversion",
-                                                                  "xz_scale": 1.0,
-                                                                  "y_scale": 0.0
+                                                                  "type": "minecraft:add",
+                                                                  "argument1": {
+                                                                    "type": "minecraft:noise",
+                                                                    "noise": "upfall:inversion",
+                                                                    "xz_scale": 1.0,
+                                                                    "y_scale": 0.0
+                                                                  },
+                                                                  "argument2": {
+                                                                    "type": "minecraft:mul",
+                                                                    "argument1": -2.0,
+                                                                    "argument2": {
+                                                                      "type": "minecraft:flat_cache",
+                                                                      "argument": {
+                                                                        "type": "upfall:reliquary_zones",
+                                                                        "archipelago": "upfall:archipelago",
+                                                                        "mist_threshold": -0.30000001192092896,
+                                                                        "noise": "upfall:reliquary",
+                                                                        "rustworks": "upfall:rustworks"
+                                                                      }
+                                                                    }
+                                                                  }
                                                                 }
                                                               }
                                                             }
@@ -2630,10 +2766,27 @@
                                               "argument2": {
                                                 "type": "minecraft:flat_cache",
                                                 "argument": {
-                                                  "type": "minecraft:noise",
-                                                  "noise": "upfall:inversion",
-                                                  "xz_scale": 1.0,
-                                                  "y_scale": 0.0
+                                                  "type": "minecraft:add",
+                                                  "argument1": {
+                                                    "type": "minecraft:noise",
+                                                    "noise": "upfall:inversion",
+                                                    "xz_scale": 1.0,
+                                                    "y_scale": 0.0
+                                                  },
+                                                  "argument2": {
+                                                    "type": "minecraft:mul",
+                                                    "argument1": -2.0,
+                                                    "argument2": {
+                                                      "type": "minecraft:flat_cache",
+                                                      "argument": {
+                                                        "type": "upfall:reliquary_zones",
+                                                        "archipelago": "upfall:archipelago",
+                                                        "mist_threshold": -0.30000001192092896,
+                                                        "noise": "upfall:reliquary",
+                                                        "rustworks": "upfall:rustworks"
+                                                      }
+                                                    }
+                                                  }
                                                 }
                                               }
                                             }
@@ -2860,10 +3013,27 @@
                                                             "argument2": {
                                                               "type": "minecraft:flat_cache",
                                                               "argument": {
-                                                                "type": "minecraft:noise",
-                                                                "noise": "upfall:inversion",
-                                                                "xz_scale": 1.0,
-                                                                "y_scale": 0.0
+                                                                "type": "minecraft:add",
+                                                                "argument1": {
+                                                                  "type": "minecraft:noise",
+                                                                  "noise": "upfall:inversion",
+                                                                  "xz_scale": 1.0,
+                                                                  "y_scale": 0.0
+                                                                },
+                                                                "argument2": {
+                                                                  "type": "minecraft:mul",
+                                                                  "argument1": -2.0,
+                                                                  "argument2": {
+                                                                    "type": "minecraft:flat_cache",
+                                                                    "argument": {
+                                                                      "type": "upfall:reliquary_zones",
+                                                                      "archipelago": "upfall:archipelago",
+                                                                      "mist_threshold": -0.30000001192092896,
+                                                                      "noise": "upfall:reliquary",
+                                                                      "rustworks": "upfall:rustworks"
+                                                                    }
+                                                                  }
+                                                                }
                                                               }
                                                             }
                                                           }
@@ -3264,10 +3434,27 @@
                                                                   "argument2": {
                                                                     "type": "minecraft:flat_cache",
                                                                     "argument": {
-                                                                      "type": "minecraft:noise",
-                                                                      "noise": "upfall:inversion",
-                                                                      "xz_scale": 1.0,
-                                                                      "y_scale": 0.0
+                                                                      "type": "minecraft:add",
+                                                                      "argument1": {
+                                                                        "type": "minecraft:noise",
+                                                                        "noise": "upfall:inversion",
+                                                                        "xz_scale": 1.0,
+                                                                        "y_scale": 0.0
+                                                                      },
+                                                                      "argument2": {
+                                                                        "type": "minecraft:mul",
+                                                                        "argument1": -2.0,
+                                                                        "argument2": {
+                                                                          "type": "minecraft:flat_cache",
+                                                                          "argument": {
+                                                                            "type": "upfall:reliquary_zones",
+                                                                            "archipelago": "upfall:archipelago",
+                                                                            "mist_threshold": -0.30000001192092896,
+                                                                            "noise": "upfall:reliquary",
+                                                                            "rustworks": "upfall:rustworks"
+                                                                          }
+                                                                        }
+                                                                      }
                                                                     }
                                                                   }
                                                                 }
@@ -3675,10 +3862,27 @@
                                                               "argument2": {
                                                                 "type": "minecraft:flat_cache",
                                                                 "argument": {
-                                                                  "type": "minecraft:noise",
-                                                                  "noise": "upfall:inversion",
-                                                                  "xz_scale": 1.0,
-                                                                  "y_scale": 0.0
+                                                                  "type": "minecraft:add",
+                                                                  "argument1": {
+                                                                    "type": "minecraft:noise",
+                                                                    "noise": "upfall:inversion",
+                                                                    "xz_scale": 1.0,
+                                                                    "y_scale": 0.0
+                                                                  },
+                                                                  "argument2": {
+                                                                    "type": "minecraft:mul",
+                                                                    "argument1": -2.0,
+                                                                    "argument2": {
+                                                                      "type": "minecraft:flat_cache",
+                                                                      "argument": {
+                                                                        "type": "upfall:reliquary_zones",
+                                                                        "archipelago": "upfall:archipelago",
+                                                                        "mist_threshold": -0.30000001192092896,
+                                                                        "noise": "upfall:reliquary",
+                                                                        "rustworks": "upfall:rustworks"
+                                                                      }
+                                                                    }
+                                                                  }
                                                                 }
                                                               }
                                                             }
@@ -3862,10 +4066,27 @@
                                           "argument2": {
                                             "type": "minecraft:flat_cache",
                                             "argument": {
-                                              "type": "minecraft:noise",
-                                              "noise": "upfall:inversion",
-                                              "xz_scale": 1.0,
-                                              "y_scale": 0.0
+                                              "type": "minecraft:add",
+                                              "argument1": {
+                                                "type": "minecraft:noise",
+                                                "noise": "upfall:inversion",
+                                                "xz_scale": 1.0,
+                                                "y_scale": 0.0
+                                              },
+                                              "argument2": {
+                                                "type": "minecraft:mul",
+                                                "argument1": -2.0,
+                                                "argument2": {
+                                                  "type": "minecraft:flat_cache",
+                                                  "argument": {
+                                                    "type": "upfall:reliquary_zones",
+                                                    "archipelago": "upfall:archipelago",
+                                                    "mist_threshold": -0.30000001192092896,
+                                                    "noise": "upfall:reliquary",
+                                                    "rustworks": "upfall:rustworks"
+                                                  }
+                                                }
+                                              }
                                             }
                                           }
                                         }
@@ -4134,10 +4355,27 @@
                                                           "argument2": {
                                                             "type": "minecraft:flat_cache",
                                                             "argument": {
-                                                              "type": "minecraft:noise",
-                                                              "noise": "upfall:inversion",
-                                                              "xz_scale": 1.0,
-                                                              "y_scale": 0.0
+                                                              "type": "minecraft:add",
+                                                              "argument1": {
+                                                                "type": "minecraft:noise",
+                                                                "noise": "upfall:inversion",
+                                                                "xz_scale": 1.0,
+                                                                "y_scale": 0.0
+                                                              },
+                                                              "argument2": {
+                                                                "type": "minecraft:mul",
+                                                                "argument1": -2.0,
+                                                                "argument2": {
+                                                                  "type": "minecraft:flat_cache",
+                                                                  "argument": {
+                                                                    "type": "upfall:reliquary_zones",
+                                                                    "archipelago": "upfall:archipelago",
+                                                                    "mist_threshold": -0.30000001192092896,
+                                                                    "noise": "upfall:reliquary",
+                                                                    "rustworks": "upfall:rustworks"
+                                                                  }
+                                                                }
+                                                              }
                                                             }
                                                           }
                                                         }
@@ -4538,10 +4776,27 @@
                                                                 "argument2": {
                                                                   "type": "minecraft:flat_cache",
                                                                   "argument": {
-                                                                    "type": "minecraft:noise",
-                                                                    "noise": "upfall:inversion",
-                                                                    "xz_scale": 1.0,
-                                                                    "y_scale": 0.0
+                                                                    "type": "minecraft:add",
+                                                                    "argument1": {
+                                                                      "type": "minecraft:noise",
+                                                                      "noise": "upfall:inversion",
+                                                                      "xz_scale": 1.0,
+                                                                      "y_scale": 0.0
+                                                                    },
+                                                                    "argument2": {
+                                                                      "type": "minecraft:mul",
+                                                                      "argument1": -2.0,
+                                                                      "argument2": {
+                                                                        "type": "minecraft:flat_cache",
+                                                                        "argument": {
+                                                                          "type": "upfall:reliquary_zones",
+                                                                          "archipelago": "upfall:archipelago",
+                                                                          "mist_threshold": -0.30000001192092896,
+                                                                          "noise": "upfall:reliquary",
+                                                                          "rustworks": "upfall:rustworks"
+                                                                        }
+                                                                      }
+                                                                    }
                                                                   }
                                                                 }
                                                               }
@@ -5013,10 +5268,27 @@
                                                               "argument2": {
                                                                 "type": "minecraft:flat_cache",
                                                                 "argument": {
-                                                                  "type": "minecraft:noise",
-                                                                  "noise": "upfall:inversion",
-                                                                  "xz_scale": 1.0,
-                                                                  "y_scale": 0.0
+                                                                  "type": "minecraft:add",
+                                                                  "argument1": {
+                                                                    "type": "minecraft:noise",
+                                                                    "noise": "upfall:inversion",
+                                                                    "xz_scale": 1.0,
+                                                                    "y_scale": 0.0
+                                                                  },
+                                                                  "argument2": {
+                                                                    "type": "minecraft:mul",
+                                                                    "argument1": -2.0,
+                                                                    "argument2": {
+                                                                      "type": "minecraft:flat_cache",
+                                                                      "argument": {
+                                                                        "type": "upfall:reliquary_zones",
+                                                                        "archipelago": "upfall:archipelago",
+                                                                        "mist_threshold": -0.30000001192092896,
+                                                                        "noise": "upfall:reliquary",
+                                                                        "rustworks": "upfall:rustworks"
+                                                                      }
+                                                                    }
+                                                                  }
                                                                 }
                                                               }
                                                             }
@@ -5206,10 +5478,27 @@
                                               "argument2": {
                                                 "type": "minecraft:flat_cache",
                                                 "argument": {
-                                                  "type": "minecraft:noise",
-                                                  "noise": "upfall:inversion",
-                                                  "xz_scale": 1.0,
-                                                  "y_scale": 0.0
+                                                  "type": "minecraft:add",
+                                                  "argument1": {
+                                                    "type": "minecraft:noise",
+                                                    "noise": "upfall:inversion",
+                                                    "xz_scale": 1.0,
+                                                    "y_scale": 0.0
+                                                  },
+                                                  "argument2": {
+                                                    "type": "minecraft:mul",
+                                                    "argument1": -2.0,
+                                                    "argument2": {
+                                                      "type": "minecraft:flat_cache",
+                                                      "argument": {
+                                                        "type": "upfall:reliquary_zones",
+                                                        "archipelago": "upfall:archipelago",
+                                                        "mist_threshold": -0.30000001192092896,
+                                                        "noise": "upfall:reliquary",
+                                                        "rustworks": "upfall:rustworks"
+                                                      }
+                                                    }
+                                                  }
                                                 }
                                               }
                                             }
@@ -5436,10 +5725,27 @@
                                                         "argument2": {
                                                           "type": "minecraft:flat_cache",
                                                           "argument": {
-                                                            "type": "minecraft:noise",
-                                                            "noise": "upfall:inversion",
-                                                            "xz_scale": 1.0,
-                                                            "y_scale": 0.0
+                                                            "type": "minecraft:add",
+                                                            "argument1": {
+                                                              "type": "minecraft:noise",
+                                                              "noise": "upfall:inversion",
+                                                              "xz_scale": 1.0,
+                                                              "y_scale": 0.0
+                                                            },
+                                                            "argument2": {
+                                                              "type": "minecraft:mul",
+                                                              "argument1": -2.0,
+                                                              "argument2": {
+                                                                "type": "minecraft:flat_cache",
+                                                                "argument": {
+                                                                  "type": "upfall:reliquary_zones",
+                                                                  "archipelago": "upfall:archipelago",
+                                                                  "mist_threshold": -0.30000001192092896,
+                                                                  "noise": "upfall:reliquary",
+                                                                  "rustworks": "upfall:rustworks"
+                                                                }
+                                                              }
+                                                            }
                                                           }
                                                         }
                                                       }
@@ -5650,10 +5956,27 @@
                                           "argument2": {
                                             "type": "minecraft:flat_cache",
                                             "argument": {
-                                              "type": "minecraft:noise",
-                                              "noise": "upfall:inversion",
-                                              "xz_scale": 1.0,
-                                              "y_scale": 0.0
+                                              "type": "minecraft:add",
+                                              "argument1": {
+                                                "type": "minecraft:noise",
+                                                "noise": "upfall:inversion",
+                                                "xz_scale": 1.0,
+                                                "y_scale": 0.0
+                                              },
+                                              "argument2": {
+                                                "type": "minecraft:mul",
+                                                "argument1": -2.0,
+                                                "argument2": {
+                                                  "type": "minecraft:flat_cache",
+                                                  "argument": {
+                                                    "type": "upfall:reliquary_zones",
+                                                    "archipelago": "upfall:archipelago",
+                                                    "mist_threshold": -0.30000001192092896,
+                                                    "noise": "upfall:reliquary",
+                                                    "rustworks": "upfall:rustworks"
+                                                  }
+                                                }
+                                              }
                                             }
                                           }
                                         }
@@ -5923,10 +6246,27 @@
                                                           "argument2": {
                                                             "type": "minecraft:flat_cache",
                                                             "argument": {
-                                                              "type": "minecraft:noise",
-                                                              "noise": "upfall:inversion",
-                                                              "xz_scale": 1.0,
-                                                              "y_scale": 0.0
+                                                              "type": "minecraft:add",
+                                                              "argument1": {
+                                                                "type": "minecraft:noise",
+                                                                "noise": "upfall:inversion",
+                                                                "xz_scale": 1.0,
+                                                                "y_scale": 0.0
+                                                              },
+                                                              "argument2": {
+                                                                "type": "minecraft:mul",
+                                                                "argument1": -2.0,
+                                                                "argument2": {
+                                                                  "type": "minecraft:flat_cache",
+                                                                  "argument": {
+                                                                    "type": "upfall:reliquary_zones",
+                                                                    "archipelago": "upfall:archipelago",
+                                                                    "mist_threshold": -0.30000001192092896,
+                                                                    "noise": "upfall:reliquary",
+                                                                    "rustworks": "upfall:rustworks"
+                                                                  }
+                                                                }
+                                                              }
                                                             }
                                                           }
                                                         }
@@ -6324,10 +6664,27 @@
                                                               "argument2": {
                                                                 "type": "minecraft:flat_cache",
                                                                 "argument": {
-                                                                  "type": "minecraft:noise",
-                                                                  "noise": "upfall:inversion",
-                                                                  "xz_scale": 1.0,
-                                                                  "y_scale": 0.0
+                                                                  "type": "minecraft:add",
+                                                                  "argument1": {
+                                                                    "type": "minecraft:noise",
+                                                                    "noise": "upfall:inversion",
+                                                                    "xz_scale": 1.0,
+                                                                    "y_scale": 0.0
+                                                                  },
+                                                                  "argument2": {
+                                                                    "type": "minecraft:mul",
+                                                                    "argument1": -2.0,
+                                                                    "argument2": {
+                                                                      "type": "minecraft:flat_cache",
+                                                                      "argument": {
+                                                                        "type": "upfall:reliquary_zones",
+                                                                        "archipelago": "upfall:archipelago",
+                                                                        "mist_threshold": -0.30000001192092896,
+                                                                        "noise": "upfall:reliquary",
+                                                                        "rustworks": "upfall:rustworks"
+                                                                      }
+                                                                    }
+                                                                  }
                                                                 }
                                                               }
                                                             }
@@ -6553,10 +6910,27 @@
                                               "argument2": {
                                                 "type": "minecraft:flat_cache",
                                                 "argument": {
-                                                  "type": "minecraft:noise",
-                                                  "noise": "upfall:inversion",
-                                                  "xz_scale": 1.0,
-                                                  "y_scale": 0.0
+                                                  "type": "minecraft:add",
+                                                  "argument1": {
+                                                    "type": "minecraft:noise",
+                                                    "noise": "upfall:inversion",
+                                                    "xz_scale": 1.0,
+                                                    "y_scale": 0.0
+                                                  },
+                                                  "argument2": {
+                                                    "type": "minecraft:mul",
+                                                    "argument1": -2.0,
+                                                    "argument2": {
+                                                      "type": "minecraft:flat_cache",
+                                                      "argument": {
+                                                        "type": "upfall:reliquary_zones",
+                                                        "archipelago": "upfall:archipelago",
+                                                        "mist_threshold": -0.30000001192092896,
+                                                        "noise": "upfall:reliquary",
+                                                        "rustworks": "upfall:rustworks"
+                                                      }
+                                                    }
+                                                  }
                                                 }
                                               }
                                             }
@@ -6787,10 +7161,27 @@
                                                             "argument2": {
                                                               "type": "minecraft:flat_cache",
                                                               "argument": {
-                                                                "type": "minecraft:noise",
-                                                                "noise": "upfall:inversion",
-                                                                "xz_scale": 1.0,
-                                                                "y_scale": 0.0
+                                                                "type": "minecraft:add",
+                                                                "argument1": {
+                                                                  "type": "minecraft:noise",
+                                                                  "noise": "upfall:inversion",
+                                                                  "xz_scale": 1.0,
+                                                                  "y_scale": 0.0
+                                                                },
+                                                                "argument2": {
+                                                                  "type": "minecraft:mul",
+                                                                  "argument1": -2.0,
+                                                                  "argument2": {
+                                                                    "type": "minecraft:flat_cache",
+                                                                    "argument": {
+                                                                      "type": "upfall:reliquary_zones",
+                                                                      "archipelago": "upfall:archipelago",
+                                                                      "mist_threshold": -0.30000001192092896,
+                                                                      "noise": "upfall:reliquary",
+                                                                      "rustworks": "upfall:rustworks"
+                                                                    }
+                                                                  }
+                                                                }
                                                               }
                                                             }
                                                           }
@@ -7195,10 +7586,27 @@
                                                                   "argument2": {
                                                                     "type": "minecraft:flat_cache",
                                                                     "argument": {
-                                                                      "type": "minecraft:noise",
-                                                                      "noise": "upfall:inversion",
-                                                                      "xz_scale": 1.0,
-                                                                      "y_scale": 0.0
+                                                                      "type": "minecraft:add",
+                                                                      "argument1": {
+                                                                        "type": "minecraft:noise",
+                                                                        "noise": "upfall:inversion",
+                                                                        "xz_scale": 1.0,
+                                                                        "y_scale": 0.0
+                                                                      },
+                                                                      "argument2": {
+                                                                        "type": "minecraft:mul",
+                                                                        "argument1": -2.0,
+                                                                        "argument2": {
+                                                                          "type": "minecraft:flat_cache",
+                                                                          "argument": {
+                                                                            "type": "upfall:reliquary_zones",
+                                                                            "archipelago": "upfall:archipelago",
+                                                                            "mist_threshold": -0.30000001192092896,
+                                                                            "noise": "upfall:reliquary",
+                                                                            "rustworks": "upfall:rustworks"
+                                                                          }
+                                                                        }
+                                                                      }
                                                                     }
                                                                   }
                                                                 }
@@ -7610,10 +8018,27 @@
                                                               "argument2": {
                                                                 "type": "minecraft:flat_cache",
                                                                 "argument": {
-                                                                  "type": "minecraft:noise",
-                                                                  "noise": "upfall:inversion",
-                                                                  "xz_scale": 1.0,
-                                                                  "y_scale": 0.0
+                                                                  "type": "minecraft:add",
+                                                                  "argument1": {
+                                                                    "type": "minecraft:noise",
+                                                                    "noise": "upfall:inversion",
+                                                                    "xz_scale": 1.0,
+                                                                    "y_scale": 0.0
+                                                                  },
+                                                                  "argument2": {
+                                                                    "type": "minecraft:mul",
+                                                                    "argument1": -2.0,
+                                                                    "argument2": {
+                                                                      "type": "minecraft:flat_cache",
+                                                                      "argument": {
+                                                                        "type": "upfall:reliquary_zones",
+                                                                        "archipelago": "upfall:archipelago",
+                                                                        "mist_threshold": -0.30000001192092896,
+                                                                        "noise": "upfall:reliquary",
+                                                                        "rustworks": "upfall:rustworks"
+                                                                      }
+                                                                    }
+                                                                  }
                                                                 }
                                                               }
                                                             }
@@ -7797,10 +8222,27 @@
                                           "argument2": {
                                             "type": "minecraft:flat_cache",
                                             "argument": {
-                                              "type": "minecraft:noise",
-                                              "noise": "upfall:inversion",
-                                              "xz_scale": 1.0,
-                                              "y_scale": 0.0
+                                              "type": "minecraft:add",
+                                              "argument1": {
+                                                "type": "minecraft:noise",
+                                                "noise": "upfall:inversion",
+                                                "xz_scale": 1.0,
+                                                "y_scale": 0.0
+                                              },
+                                              "argument2": {
+                                                "type": "minecraft:mul",
+                                                "argument1": -2.0,
+                                                "argument2": {
+                                                  "type": "minecraft:flat_cache",
+                                                  "argument": {
+                                                    "type": "upfall:reliquary_zones",
+                                                    "archipelago": "upfall:archipelago",
+                                                    "mist_threshold": -0.30000001192092896,
+                                                    "noise": "upfall:reliquary",
+                                                    "rustworks": "upfall:rustworks"
+                                                  }
+                                                }
+                                              }
                                             }
                                           }
                                         }
@@ -8638,11 +9080,14 @@
                   "type": "minecraft:mul",
                   "argument1": -400.0,
                   "argument2": {
-                    "type": "upfall:reliquary_zones",
-                    "archipelago": "upfall:archipelago",
-                    "mist_threshold": -0.30000001192092896,
-                    "noise": "upfall:reliquary",
-                    "rustworks": "upfall:rustworks"
+                    "type": "minecraft:flat_cache",
+                    "argument": {
+                      "type": "upfall:reliquary_zones",
+                      "archipelago": "upfall:archipelago",
+                      "mist_threshold": -0.30000001192092896,
+                      "noise": "upfall:reliquary",
+                      "rustworks": "upfall:rustworks"
+                    }
                   }
                 }
               }
@@ -8852,11 +9297,14 @@
                 "type": "minecraft:mul",
                 "argument1": -400.0,
                 "argument2": {
-                  "type": "upfall:reliquary_zones",
-                  "archipelago": "upfall:archipelago",
-                  "mist_threshold": -0.30000001192092896,
-                  "noise": "upfall:reliquary",
-                  "rustworks": "upfall:rustworks"
+                  "type": "minecraft:flat_cache",
+                  "argument": {
+                    "type": "upfall:reliquary_zones",
+                    "archipelago": "upfall:archipelago",
+                    "mist_threshold": -0.30000001192092896,
+                    "noise": "upfall:reliquary",
+                    "rustworks": "upfall:rustworks"
+                  }
                 }
               }
             }
@@ -8873,10 +9321,27 @@
     "ridges": {
       "type": "minecraft:flat_cache",
       "argument": {
-        "type": "minecraft:noise",
-        "noise": "upfall:inversion",
-        "xz_scale": 1.0,
-        "y_scale": 0.0
+        "type": "minecraft:add",
+        "argument1": {
+          "type": "minecraft:noise",
+          "noise": "upfall:inversion",
+          "xz_scale": 1.0,
+          "y_scale": 0.0
+        },
+        "argument2": {
+          "type": "minecraft:mul",
+          "argument1": -2.0,
+          "argument2": {
+            "type": "minecraft:flat_cache",
+            "argument": {
+              "type": "upfall:reliquary_zones",
+              "archipelago": "upfall:archipelago",
+              "mist_threshold": -0.30000001192092896,
+              "noise": "upfall:reliquary",
+              "rustworks": "upfall:rustworks"
+            }
+          }
+        }
       }
     },
     "temperature": {

@@ -11,6 +11,9 @@ public class ReliquaryModule implements UpfallModule {
         ReliquaryBlocks.BLOCKS.register(modEventBus);
         ReliquaryBlocks.BLOCK_ITEMS.register(modEventBus);
         ReliquaryItems.ITEMS.register(modEventBus);
+        ReliquaryEntities.ENTITY_TYPES.register(modEventBus);
+        ReliquarySounds.SOUND_EVENTS.register(modEventBus);
+        modEventBus.addListener(ReliquaryEntities::registerAttributes);
         ModCreativeTabs.EXTRA.addAll(ReliquaryItems.CREATIVE_ORDER);
         ModCreativeTabs.EXTRA.addAll(ReliquaryBlocks.CREATIVE_ORDER);
     }

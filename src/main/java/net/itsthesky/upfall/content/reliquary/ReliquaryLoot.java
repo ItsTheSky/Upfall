@@ -69,8 +69,6 @@ public final class ReliquaryLoot implements LootTableSubProvider {
 
         output.accept(ReliquaryStructures.CORE_LOOT, LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-                        .add(item(ReliquaryItems.FOLD_ANCHOR.get(), 1, 1, 1)))
-                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
                         .add(book(ReliquaryBooks.WARDEN_NOTE, 1)))
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
                         .add(item(ModItems.LEVITITE_UPGRADE_SMITHING_TEMPLATE.get(), 6, 1, 1))
