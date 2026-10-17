@@ -1,6 +1,5 @@
 package net.itsthesky.upfall.content.guide;
 
-import guideme.Guide;
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.UpfallModule;
 import net.itsthesky.upfall.datagen.DataContribution;
@@ -10,19 +9,28 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 public class GuideModule implements UpfallModule {
     public static final ResourceLocation GUIDE_ID = Upfall.id("guide");
+    static final String GUIDEME_ID = "guideme";
     private static final String RECEIVED_TAG = "upfall:received_almanac";
 
     @Override
     public void register(IEventBus modEventBus) {
         GuideItems.ITEMS.register(modEventBus);
+        if (!isGuideMeLoaded()) {
+            return;
+        }
         ModCreativeTabs.EXTRA.add(GuideItems.SKY_ALMANAC);
-        Guide.builder(GUIDE_ID).build();
+        GuideCompat.register();
         NeoForge.EVENT_BUS.addListener(GuideModule::onLogin);
+    }
+
+    static boolean isGuideMeLoaded() {
+        return ModList.get().isLoaded(GUIDEME_ID);
     }
 
     @Override

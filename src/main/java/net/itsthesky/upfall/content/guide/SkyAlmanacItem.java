@@ -1,6 +1,5 @@
 package net.itsthesky.upfall.content.guide;
 
-import guideme.GuidesCommon;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -21,7 +20,11 @@ public class SkyAlmanacItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide) {
-            GuidesCommon.openGuide(player, GuideModule.GUIDE_ID);
+            if (GuideModule.isGuideMeLoaded()) {
+                GuideCompat.open(player);
+            } else {
+                player.displayClientMessage(Component.translatable("message.upfall.sky_almanac.missing_guideme"), true);
+            }
         }
         return InteractionResultHolder.sidedSuccess(player.getItemInHand(hand), level.isClientSide);
     }

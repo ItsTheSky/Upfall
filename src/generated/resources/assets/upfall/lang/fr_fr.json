@@ -538,6 +538,7 @@
   "message.upfall.rope.same": "Choisissez un autre ancrage",
   "message.upfall.rope.started": "Corde attachée à cet ancrage ; utilisez-la sur un autre ancrage",
   "message.upfall.rope.too_far": "Les ancrages sont trop éloignés",
+  "message.upfall.sky_almanac.missing_guideme": "Installez GuideME pour lire l'Almanach céleste.",
   "message.upfall.void_rescue": "Le ciel vous lâche... vous retombez doucement vers l'Overworld.",
   "message.upfall.wheel.at_rest": "Les heures sont alignées. La voie vers la couronne est ouverte.",
   "message.upfall.wheel.hint": "Tournez les cinq roues jusqu'à ce qu'elles indiquent toutes l'heure de la Spire : %s. Chaque roue entraîne ses deux voisines. Accroupissez-vous pour réinitialiser.",

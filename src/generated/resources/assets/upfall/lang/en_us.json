@@ -538,6 +538,7 @@
   "message.upfall.rope.same": "Choose another anchor",
   "message.upfall.rope.started": "Rope tied to this anchor; use it on another anchor",
   "message.upfall.rope.too_far": "The anchors are too far apart",
+  "message.upfall.sky_almanac.missing_guideme": "Install GuideME to read the Sky Almanac.",
   "message.upfall.void_rescue": "The sky lets you go... you drift back to the Overworld.",
   "message.upfall.wheel.at_rest": "The hours are aligned. The way to the crown is open.",
   "message.upfall.wheel.hint": "Turn the five wheels until all of them show the hour of the Spire: %s. Each wheel drags its two neighbours. Sneak to reset.",

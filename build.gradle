@@ -125,7 +125,8 @@ dependencies {
     compileOnly "mezz.jei:jei-1.21.1-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-1.21.1-neoforge-api:${jei_version}"
     compileOnly "dev.emi:emi-neoforge:${emi_version}+1.21.1:api"
-    implementation "org.appliedenergistics:guideme:${guideme_version}"
+    compileOnly "org.appliedenergistics:guideme:${guideme_version}"
+    localRuntime "org.appliedenergistics:guideme:${guideme_version}"
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
