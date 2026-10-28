@@ -67,6 +67,7 @@ Chests appear in the towers; the keep always holds its treasure on the top floor
 - **One of:** Nimbusite Upgrade Smithing Template (50%), Levitite Upgrade Smithing Template (25%) or Updraft Compass (25%).
 - **4 to 7 rolls** among Nimbusite Ingot, Levitite Shard, Levitite Ingot, Cloud Pearl, Diamond, Gold Ingot, Ender Pearl and
   Enchanted Book.
+- **25%:** a Tilted Reliquary Map.
 
 ### Armories (keep floors, some medium towers)
 

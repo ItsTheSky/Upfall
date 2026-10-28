@@ -1,0 +1,62 @@
+{
+  "parent": "upfall:upfall/enter",
+  "criteria": {
+    "enchanted_book": {
+      "conditions": {
+        "item": {
+          "predicates": {
+            "minecraft:stored_enchantments": [
+              {
+                "enchantments": [
+                  "upfall:skywalker",
+                  "upfall:uplifted",
+                  "upfall:cloudsight",
+                  "upfall:jumpstart"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:enchanted_item"
+    },
+    "enchanted_item": {
+      "conditions": {
+        "item": {
+          "predicates": {
+            "minecraft:enchantments": [
+              {
+                "enchantments": [
+                  "upfall:skywalker",
+                  "upfall:uplifted",
+                  "upfall:cloudsight",
+                  "upfall:jumpstart"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "trigger": "minecraft:enchanted_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.sky_enchantment.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:enchanted_book"
+    },
+    "title": {
+      "translate": "advancements.upfall.sky_enchantment.title"
+    }
+  },
+  "requirements": [
+    [
+      "enchanted_item",
+      "enchanted_book"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

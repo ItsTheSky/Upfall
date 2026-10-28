@@ -67,12 +67,14 @@ final class ReliquaryData implements DataContribution {
         lang.add("message.upfall.fold_socket.remaining", "The Fold stirs: %s socket(s) still empty");
         lang.add("message.upfall.fold_socket.complete", "Every socket is filled; the seals unravel");
         lang.add("advancements.upfall.tilted_reliquary.title", "Tilted Reliquary");
-        lang.add("advancements.upfall.tilted_reliquary.description", "Reach the Tilted Reliquary, the vaults the Surveyors of the Fold left frozen mid-shatter");
+        lang.add("advancements.upfall.tilted_reliquary.description", "Reach the Tilted Reliquary, frozen mid-shatter; its core opens only for four Fold Shards");
+        lang.add("advancements.upfall.fold_shard.title", "Folded Space");
+        lang.add("advancements.upfall.fold_shard.description", "Find a Fold Shard in a chest of the satellite cubes around a Tilted Reliquary");
         lang.add("advancements.upfall.fold_anchor.title", "Fold Back");
         lang.add("advancements.upfall.fold_anchor.description", "Take the Fold Anchor from the Fold Warden sealed in the heart of a Tilted Reliquary");
         lang.add("item.upfall.fold_heart.desc", "The still-turning core of a Fold Warden. It holds the weight of a whole vault.");
         lang.add("advancements.upfall.fold_warden.title", "Unfolded");
-        lang.add("advancements.upfall.fold_warden.description", "Defeat the Fold Warden in the sealed heart of a Tilted Reliquary");
+        lang.add("advancements.upfall.fold_warden.description", "Fill the four Fold Sockets to wake the Fold Warden, then defeat it");
         lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_AWAKEN.getId().getPath()), "Fold Warden awakens");
         lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_AMBIENT.getId().getPath()), "Fold Warden hums");
         lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_HURT.getId().getPath()), "Fold Warden cracks");
@@ -118,7 +120,9 @@ final class ReliquaryData implements DataContribution {
         lang.add("message.upfall.fold_socket.remaining", "Le Pli s'agite : %s réceptacle(s) encore vide(s)");
         lang.add("message.upfall.fold_socket.complete", "Tous les réceptacles sont remplis ; les sceaux se défont");
         lang.add("advancements.upfall.tilted_reliquary.title", "Reliquaire incliné");
-        lang.add("advancements.upfall.tilted_reliquary.description", "Atteignez le Reliquaire incliné, les caveaux que les Arpenteurs du Pli ont laissés figés en plein éclatement");
+        lang.add("advancements.upfall.tilted_reliquary.description", "Atteignez le Reliquaire incliné, figé en plein éclatement ; son cœur ne s'ouvre qu'avec quatre Éclats du Pli");
+        lang.add("advancements.upfall.fold_shard.title", "Espace plié");
+        lang.add("advancements.upfall.fold_shard.description", "Trouvez un Éclat du Pli dans un coffre des cubes satellites d'un Reliquaire incliné");
         lang.add("advancements.upfall.fold_anchor.title", "Retour au Pli");
         lang.add("advancements.upfall.fold_anchor.description", "Arrachez l'Ancre du Pli au Gardien du Pli, scellé au cœur d'un Reliquaire incliné");
         lang.add("entity.upfall.fold_fragment", "Fragment du Pli");
@@ -126,7 +130,7 @@ final class ReliquaryData implements DataContribution {
         lang.add("item.upfall.fold_heart", "Cœur du Pli");
         lang.add("item.upfall.fold_heart.desc", "Le noyau encore tournoyant d'un Gardien du Pli. Il contient le poids d'une chambre entière.");
         lang.add("advancements.upfall.fold_warden.title", "Déplié");
-        lang.add("advancements.upfall.fold_warden.description", "Vainquez le Gardien du Pli dans le cœur scellé d'un Reliquaire incliné");
+        lang.add("advancements.upfall.fold_warden.description", "Remplissez les quatre Réceptacles du Pli pour réveiller le Gardien du Pli, puis vainquez-le");
         lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_AWAKEN.getId().getPath()), "Le Gardien du Pli s'éveille");
         lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_AMBIENT.getId().getPath()), "Le Gardien du Pli bourdonne");
         lang.add(ModLanguageProvider.subtitle(ReliquarySounds.WARDEN_HURT.getId().getPath()), "Le Gardien du Pli se fissure");
@@ -242,16 +246,21 @@ final class ReliquaryData implements DataContribution {
 
     private static void advancements(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper helper) {
         AdvancementHolder visited = AdvancementSubProvider.createPlaceholder("upfall:upfall/tilted_reliquary");
-        Advancement.Builder.advancement().parent(visited)
-                .display(ReliquaryItems.FOLD_ANCHOR.get(), Component.translatable("advancements.upfall.fold_anchor.title"),
-                        Component.translatable("advancements.upfall.fold_anchor.description"), null, AdvancementType.GOAL, true, true, false)
-                .addCriterion("anchor", InventoryChangeTrigger.TriggerInstance.hasItems(ReliquaryItems.FOLD_ANCHOR.get()))
-                .save(saver, Upfall.id("upfall/fold_anchor").toString());
-        Advancement.Builder.advancement().parent(visited)
+        AdvancementHolder shard = Advancement.Builder.advancement().parent(visited)
+                .display(ReliquaryItems.FOLD_SHARD.get(), Component.translatable("advancements.upfall.fold_shard.title"),
+                        Component.translatable("advancements.upfall.fold_shard.description"), null, AdvancementType.TASK, true, true, false)
+                .addCriterion("shard", InventoryChangeTrigger.TriggerInstance.hasItems(ReliquaryItems.FOLD_SHARD.get()))
+                .save(saver, Upfall.id("upfall/fold_shard").toString());
+        AdvancementHolder warden = Advancement.Builder.advancement().parent(shard)
                 .display(ReliquaryItems.FOLD_HEART.get(), Component.translatable("advancements.upfall.fold_warden.title"),
                         Component.translatable("advancements.upfall.fold_warden.description"), null, AdvancementType.CHALLENGE, true, true, false)
                 .addCriterion("killed", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(ReliquaryEntities.FOLD_WARDEN.get())))
                 .save(saver, Upfall.id("upfall/fold_warden").toString());
+        Advancement.Builder.advancement().parent(warden)
+                .display(ReliquaryItems.FOLD_ANCHOR.get(), Component.translatable("advancements.upfall.fold_anchor.title"),
+                        Component.translatable("advancements.upfall.fold_anchor.description"), null, AdvancementType.GOAL, true, true, false)
+                .addCriterion("anchor", InventoryChangeTrigger.TriggerInstance.hasItems(ReliquaryItems.FOLD_ANCHOR.get()))
+                .save(saver, Upfall.id("upfall/fold_anchor").toString());
     }
 
     private record Named(String name, DataProvider delegate) implements DataProvider {

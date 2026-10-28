@@ -47,7 +47,7 @@ Loftkin traders will even buy <ItemLink id="raw_nimbusite" /> from you, paying i
 
 ## Smithing template
 
-Nimbusite gear is upgraded from netherite gear. You need a <ItemLink id="nimbusite_upgrade_smithing_template" />, which is not craftable from scratch: find one in the loot of the Drifting Ruins, the Inverted Observatory or a Pearl Aerie, or buy one (once) from a high-level Loftkin trader for 10 Nimbusite Ingots and 4 Gildfruit. See [Structures](../structures/index.md).
+Nimbusite gear is upgraded from netherite gear. You need a <ItemLink id="nimbusite_upgrade_smithing_template" />, which is not craftable from scratch: find one in the loot of a Pearl Aerie (the best odds), the Inverted Observatory or the Drifting Ruins, or buy one from any [Loftkin](../creatures/loftkin.md): every Loftkin offers it once, for 10 Nimbusite Ingots and 4 Gildfruit. See [Structures](../structures/index.md).
 
 Once you own one, you can duplicate it in a crafting table with 7 diamonds and a block of pearlstone (the template goes in the top middle slot); you get two.
 

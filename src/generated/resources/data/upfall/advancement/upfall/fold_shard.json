@@ -1,0 +1,33 @@
+{
+  "parent": "upfall:upfall/tilted_reliquary",
+  "criteria": {
+    "shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:fold_shard"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.fold_shard.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:fold_shard"
+    },
+    "title": {
+      "translate": "advancements.upfall.fold_shard.title"
+    }
+  },
+  "requirements": [
+    [
+      "shard"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

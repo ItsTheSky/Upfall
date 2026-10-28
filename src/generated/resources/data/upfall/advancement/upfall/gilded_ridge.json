@@ -1,5 +1,5 @@
 {
-  "parent": "upfall:upfall/nimbusite_armor",
+  "parent": "upfall:upfall/nimbusite_template",
   "criteria": {
     "in_biome": {
       "conditions": {

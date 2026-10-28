@@ -1,0 +1,33 @@
+{
+  "parent": "upfall:upfall/shifting_vault",
+  "criteria": {
+    "quantum_pedestal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:quantum_pedestal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.quantum_pedestal.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:quantum_pedestal"
+    },
+    "title": {
+      "translate": "advancements.upfall.quantum_pedestal.title"
+    }
+  },
+  "requirements": [
+    [
+      "quantum_pedestal"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

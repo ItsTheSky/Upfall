@@ -168,6 +168,36 @@
         "max": 4.0,
         "min": 1.0
       }
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "decoration": "minecraft:red_x",
+              "destination": "upfall:on_stalled_engine_maps",
+              "function": "minecraft:exploration_map",
+              "search_radius": 64
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "translate": "filled_map.upfall.stalled_engine"
+              },
+              "target": "item_name"
+            }
+          ],
+          "name": "minecraft:map",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 90
+        }
+      ],
+      "rolls": 1.0
     }
   ],
   "random_sequence": "upfall:chests/gas_cave_supply"

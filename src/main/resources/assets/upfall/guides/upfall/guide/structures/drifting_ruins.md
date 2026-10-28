@@ -54,9 +54,9 @@ Each ruin cache holds 3 to 6 stacks picked from:
 - <ItemLink id="skyreach_sapling" />, <ItemLink id="mistglow_crystal" /> and <ItemLink id="dense_cloud" />
 - Gold nuggets and feathers
 
-There is also a small chance (15 percent) of a <ItemLink id="nimbusite_upgrade_smithing_template" />.
+There is also a 25 percent chance of a <ItemLink id="nimbusite_upgrade_smithing_template" />, and a small chance (5 percent each) of a Chronospire Map or a Pearl Aerie Map.
 
 ## Tips
 
 - The edge of the disc is ragged and has holes: watch your step.
-- Ruins are a good early source of saplings and food, but the template is much more reliable from the [Inverted Observatory](inverted_observatory.md).
+- Ruins are a good early source of saplings, food and a first template. For more templates, raid a [Pearl Aerie](pearl_aerie.md) or buy one from a [Loftkin](../creatures/loftkin.md).

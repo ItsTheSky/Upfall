@@ -52,7 +52,7 @@ final class AerieData implements DataContribution {
         lang.add(AerieItems.GRAVITY_SCEPTRE.get(), "Gravity Sceptre");
         lang.add("item.upfall.gravity_sceptre.desc", "Use to become Weightless and walk on the ceiling above you. Use again to let go.");
         lang.add("advancements.upfall.pearl_aerie.title", "City in the Clouds");
-        lang.add("advancements.upfall.pearl_aerie.description", "Find a Pearl Aerie, the abandoned city of the sky builders");
+        lang.add("advancements.upfall.pearl_aerie.description", "Find a Pearl Aerie, the abandoned city of the sky builders in the Drifting Archipelago");
         lang.add("advancements.upfall.gravity_sceptre.title", "Sceptre of the Builders");
         lang.add("advancements.upfall.gravity_sceptre.description", "Recover the Gravity Sceptre from the keep of a Pearl Aerie");
     }
@@ -63,7 +63,7 @@ final class AerieData implements DataContribution {
         lang.add("item.upfall.gravity_sceptre", "Sceptre de gravité");
         lang.add("item.upfall.gravity_sceptre.desc", "Utilisez-le pour passer en apesanteur et marcher au plafond au-dessus de vous. Réutilisez-le pour lâcher prise.");
         lang.add("advancements.upfall.pearl_aerie.title", "La cité dans les nuages");
-        lang.add("advancements.upfall.pearl_aerie.description", "Trouvez une Aire de pearlstone, la cité abandonnée des bâtisseurs du ciel");
+        lang.add("advancements.upfall.pearl_aerie.description", "Trouvez une Aire de pearlstone, la cité abandonnée des bâtisseurs du ciel, dans l'Archipel à la dérive");
         lang.add("advancements.upfall.gravity_sceptre.title", "Le sceptre des bâtisseurs");
         lang.add("advancements.upfall.gravity_sceptre.description", "Récupérez le Sceptre de gravité dans le donjon d'une Aire de pearlstone");
     }

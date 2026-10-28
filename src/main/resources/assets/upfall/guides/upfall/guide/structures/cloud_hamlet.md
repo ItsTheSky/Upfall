@@ -39,7 +39,7 @@ A hamlet is made of round wooden platforms, each held up by a **balloon** and li
 
 ### Loot
 
-- Homes: food (<ItemLink id="cloudberry" />, <ItemLink id="gildfruit" />, tarts), rope, <ItemLink id="cloud_lantern" />, woven planks, canopy blocks, string, feathers, some <ItemLink id="raw_nimbusite" />, and a 15 percent chance of a <ItemLink id="zipline_handle" />.
+- Homes: food (<ItemLink id="cloudberry" />, <ItemLink id="gildfruit" />, tarts), rope, <ItemLink id="cloud_lantern" />, woven planks, canopy blocks, string, feathers, some <ItemLink id="raw_nimbusite" />, a 15 percent chance of a <ItemLink id="zipline_handle" /> and an 8 percent chance of a Pearl Aerie Map.
 - Workshops: a guaranteed <ItemLink id="zipline_handle" />, plus ropes, <ItemLink id="rope_anchor" /> blocks, <ItemLink id="zipline_anchor" /> blocks, <ItemLink id="rope_bridge" /> pieces, <ItemLink id="woven_planks" />, nimbusite and a <ItemLink id="rope_spool" />.
 
 ### Loftkin trades
@@ -48,8 +48,9 @@ The Loftkin sell the whole rope toolkit for cloudberries and nimbusite. Every Lo
 
 - A <ItemLink id="zipline_handle" /> for 2 raw nimbusite.
 - 6 <ItemLink id="rope" /> for 4 cloudberries.
+- A <ItemLink id="nimbusite_upgrade_smithing_template" /> for 10 Nimbusite Ingots and 4 Gildfruit (once).
 
-and a random selection of other goods: zipline and rope anchors, cloud lanterns, woven planks, rope bridges, spools, canopy blocks, food, mistglow crystals and sometimes a nimbusite upgrade template.
+plus a random selection of other goods (zipline and rope anchors, cloud lanterns, woven planks, rope bridges, spools, canopy blocks, food, mistglow crystals) and 1 or 2 **explorer maps**. A map trade also costs a Compass and points to a Stalled Engine, Pearl Aerie, Chronospire, Shifting Vault, Tilted Reliquary or the Gilded Ridge. Prices are on the [Loftkin](../creatures/loftkin.md) page.
 
 ## Ropes and anchors
 

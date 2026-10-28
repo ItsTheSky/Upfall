@@ -4,6 +4,9 @@ import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.engine.block.DrainRegulatorBlock;
 import net.itsthesky.upfall.content.engine.block.DrainValveBlock;
 import net.itsthesky.upfall.content.engine.worldgen.StalledEngineStructure;
+import net.itsthesky.upfall.content.machines.MachinesBlocks;
+import net.itsthesky.upfall.content.machines.MachinesItems;
+import net.itsthesky.upfall.content.quantum.QuantumItems;
 import net.itsthesky.upfall.content.rustworks.RustworksBlocks;
 import net.itsthesky.upfall.content.rustworks.RustworksItems;
 import net.itsthesky.upfall.datagen.DataContribution;
@@ -16,6 +19,8 @@ import net.itsthesky.upfall.worldgen.ModBiomes;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.LocationPredicate;
 import net.minecraft.advancements.critereon.PlayerTrigger;
 import net.minecraft.core.Direction;
@@ -72,7 +77,13 @@ final class EngineData implements DataContribution {
         lang.add("message.upfall.drain_regulator.status", "Drain valves open: %s / %s");
         lang.add("message.upfall.drain_regulator.drained", "The vault has been drained");
         lang.add("advancements.upfall.stalled_engine.title", "Stalled, Not Dead");
-        lang.add("advancements.upfall.stalled_engine.description", "Find a Stalled Engine, the ruined pump hall of the Rustworks");
+        lang.add("advancements.upfall.stalled_engine.description", "Find a Stalled Engine, the ruined pump hall of the Rustworks, whose chests hold machine blueprints");
+        lang.add("advancements.upfall.kairite_gear.title", "Perfect Timing");
+        lang.add("advancements.upfall.kairite_gear.description", "Obtain a Kairite Gear by mining Rustworks Kairite ore as it flares, or from nine Kairite Dust");
+        lang.add("advancements.upfall.machine.title", "Clockwork");
+        lang.add("advancements.upfall.machine.description", "Smith a machine from a Stalled Engine blueprint, its base and a Kairite Gear");
+        lang.add("advancements.upfall.veil_mask.title", "Breathe Easy");
+        lang.add("advancements.upfall.veil_mask.description", "Smith a Veil Mask from its blueprint, an iron helmet and a Kairite Gear to brave the Veil Gas");
     }
 
     @Override
@@ -199,12 +210,24 @@ final class EngineData implements DataContribution {
 
     private static void advancements(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper helper) {
         AdvancementHolder enter = AdvancementSubProvider.createPlaceholder("upfall:upfall/enter");
-        Advancement.Builder.advancement().parent(enter)
+        AdvancementHolder engine = Advancement.Builder.advancement().parent(enter)
                 .display(RustworksBlocks.HEARTGEAR.get(), Component.translatable("advancements.upfall.stalled_engine.title"),
                         Component.translatable("advancements.upfall.stalled_engine.description"), null, AdvancementType.TASK, true, true, false)
                 .addCriterion("visited", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.inStructure(
                         registries.lookupOrThrow(Registries.STRUCTURE).getOrThrow(EngineStructures.STALLED_ENGINE))))
                 .save(saver, Upfall.id("upfall/stalled_engine").toString());
+        AdvancementHolder gear = obtain(saver, engine, "kairite_gear", RustworksItems.KAIRITE_GEAR.get(), RustworksItems.KAIRITE_GEAR.get());
+        obtain(saver, gear, "machine", MachinesBlocks.HASTENING_GEAR.get(), MachinesBlocks.GEARLIFT.get(), MachinesBlocks.PNEUMATIC_PIPE.get(),
+                MachinesBlocks.HASTENING_GEAR.get(), MachinesBlocks.REWINDER.get(), MachinesItems.PHASE_WATCH.get(), MachinesBlocks.VOID_TETHER.get());
+        obtain(saver, gear, "veil_mask", QuantumItems.VEIL_MASK.get(), QuantumItems.VEIL_MASK.get());
+    }
+
+    private static AdvancementHolder obtain(Consumer<AdvancementHolder> saver, AdvancementHolder parent, String name, ItemLike icon, ItemLike... items) {
+        return Advancement.Builder.advancement().parent(parent)
+                .display(icon, Component.translatable("advancements.upfall." + name + ".title"),
+                        Component.translatable("advancements.upfall." + name + ".description"), null, AdvancementType.TASK, true, true, false)
+                .addCriterion("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(items)))
+                .save(saver, Upfall.id("upfall/" + name).toString());
     }
 
     private record Named(String name, DataProvider delegate) implements DataProvider {

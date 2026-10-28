@@ -44,6 +44,7 @@ Every Sky Cache of an observatory is rolled separately, and each holds 4 to 7 st
 - **Guaranteed**: one <ItemLink id="levitite_upgrade_smithing_template" /> per cache.
 - Common: <ItemLink id="nimbusite_ingot" />, <ItemLink id="gildfruit" />, gold ingots, <ItemLink id="mistglow_crystal" />, <ItemLink id="cloudberry_tart" />, <ItemLink id="levitite_shard" />.
 - Rare: <ItemLink id="updraft_compass" />, <ItemLink id="nimbusite_upgrade_smithing_template" />, diamonds, echo shards.
+- 15 percent: a Tilted Reliquary Map.
 
 ## Tips
 

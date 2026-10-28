@@ -1,0 +1,40 @@
+{
+  "parent": "upfall:upfall/kairite_gear",
+  "criteria": {
+    "has_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "upfall:gearlift",
+              "upfall:pneumatic_pipe",
+              "upfall:hastening_gear",
+              "upfall:rewinder",
+              "upfall:phase_watch",
+              "upfall:void_tether"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.machine.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:hastening_gear"
+    },
+    "title": {
+      "translate": "advancements.upfall.machine.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

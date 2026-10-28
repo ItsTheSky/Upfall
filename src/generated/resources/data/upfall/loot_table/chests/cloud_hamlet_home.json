@@ -224,6 +224,35 @@
         }
       ],
       "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "destination": "upfall:on_pearl_aerie_maps",
+              "function": "minecraft:exploration_map",
+              "search_radius": 16
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "translate": "filled_map.upfall.pearl_aerie"
+              },
+              "target": "item_name"
+            }
+          ],
+          "name": "minecraft:map",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 92
+        }
+      ],
+      "rolls": 1.0
     }
   ],
   "random_sequence": "upfall:chests/cloud_hamlet_home"

@@ -22,7 +22,7 @@ Wear a <ItemLink id="veil_mask" /> (or a Levitite helmet with the Veilsight upgr
 
 ## The caves
 
-Gas caves are narrow, worm-like tunnels that branch inside island rock, sometimes opening on the flank of an island. Some are dug out with Ironbark supports. Look for dead-end scenes (abandoned pickaxes, cracked masks, scattered bones, spent lanterns) and supply caches.
+Gas caves are narrow, worm-like tunnels that branch inside island rock, sometimes opening on the flank of an island. Some are dug out with Ironbark supports. Look for dead-end scenes (abandoned pickaxes, cracked masks, scattered bones, spent lanterns) and supply caches. Supply caches hold <ItemLink id="flicker_shard" />, <ItemLink id="kairite_dust" /> and <ItemLink id="bottled_veil_gas" />, and sometimes (10 percent) a Stalled Engine Map, a good lead toward the Kairite and the Veil Mask Blueprint.
 
 ## Bottled Veil Gas
 

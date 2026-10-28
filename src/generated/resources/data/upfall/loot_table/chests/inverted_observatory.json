@@ -179,6 +179,36 @@
         "max": 7.0,
         "min": 4.0
       }
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "decoration": "minecraft:target_x",
+              "destination": "upfall:on_tilted_reliquary_maps",
+              "function": "minecraft:exploration_map",
+              "search_radius": 8
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "translate": "filled_map.upfall.tilted_reliquary"
+              },
+              "target": "item_name"
+            }
+          ],
+          "name": "minecraft:map",
+          "weight": 15
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 85
+        }
+      ],
+      "rolls": 1.0
     }
   ],
   "random_sequence": "upfall:chests/inverted_observatory"

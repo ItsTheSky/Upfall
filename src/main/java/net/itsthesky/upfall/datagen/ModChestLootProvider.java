@@ -2,6 +2,7 @@ package net.itsthesky.upfall.datagen;
 
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
+import net.itsthesky.upfall.worldgen.ExplorerMaps;
 import net.itsthesky.upfall.worldgen.ModLootTables;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -38,8 +39,12 @@ public class ModChestLootProvider implements LootTableSubProvider {
                         .add(item(Items.GOLD_NUGGET, 8, 3, 9))
                         .add(item(Items.FEATHER, 6, 2, 5)))
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-                        .add(item(ModItems.NIMBUSITE_UPGRADE_SMITHING_TEMPLATE.get(), 15, 1, 1))
-                        .add(EmptyLootItem.emptyItem().setWeight(85))));
+                        .add(item(ModItems.NIMBUSITE_UPGRADE_SMITHING_TEMPLATE.get(), 25, 1, 1))
+                        .add(EmptyLootItem.emptyItem().setWeight(75)))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                        .add(ExplorerMaps.loot(ExplorerMaps.CHRONOSPIRE, 5))
+                        .add(ExplorerMaps.loot(ExplorerMaps.PEARL_AERIE, 5))
+                        .add(EmptyLootItem.emptyItem().setWeight(90))));
 
         output.accept(ModLootTables.INVERTED_OBSERVATORY, LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
@@ -54,7 +59,10 @@ public class ModChestLootProvider implements LootTableSubProvider {
                         .add(item(ModItems.NIMBUSITE_UPGRADE_SMITHING_TEMPLATE.get(), 4, 1, 1))
                         .add(item(Items.GOLD_INGOT, 8, 2, 6))
                         .add(item(Items.DIAMOND, 4, 1, 3))
-                        .add(item(Items.ECHO_SHARD, 2, 1, 2))));
+                        .add(item(Items.ECHO_SHARD, 2, 1, 2)))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                        .add(ExplorerMaps.loot(ExplorerMaps.TILTED_RELIQUARY, 15))
+                        .add(EmptyLootItem.emptyItem().setWeight(85))));
     }
 
     private static LootPoolEntryContainer.Builder<?> item(ItemLike item, int weight, int min, int max) {

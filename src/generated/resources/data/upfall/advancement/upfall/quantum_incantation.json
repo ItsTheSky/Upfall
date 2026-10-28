@@ -1,5 +1,5 @@
 {
-  "parent": "upfall:upfall/enter",
+  "parent": "upfall:upfall/quantum_pedestal",
   "criteria": {
     "quantum_incantation": {
       "trigger": "upfall:quantum_incantation"
@@ -9,9 +9,10 @@
     "description": {
       "translate": "advancements.upfall.quantum_incantation.description"
     },
+    "frame": "goal",
     "icon": {
       "count": 1,
-      "id": "upfall:quantum_pedestal"
+      "id": "upfall:levitite_sword"
     },
     "title": {
       "translate": "advancements.upfall.quantum_incantation.title"

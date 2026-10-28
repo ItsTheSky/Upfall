@@ -7,6 +7,7 @@ import net.itsthesky.upfall.content.hamlet.block.ZiplineAnchorBlock;
 import net.itsthesky.upfall.datagen.DataContribution;
 import net.itsthesky.upfall.datagen.ModBlockLootProvider;
 import net.itsthesky.upfall.datagen.ModBlockStateProvider;
+import net.itsthesky.upfall.datagen.ModFrenchLanguageProvider;
 import net.itsthesky.upfall.datagen.ModItemModelProvider;
 import net.itsthesky.upfall.datagen.ModLanguageProvider;
 import net.itsthesky.upfall.datagen.ModRecipeProvider;
@@ -14,6 +15,7 @@ import net.itsthesky.upfall.datagen.ModSoundProvider;
 import net.itsthesky.upfall.datagen.ModTagProviders;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
+import net.itsthesky.upfall.worldgen.ExplorerMaps;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
@@ -77,7 +79,23 @@ final class HamletData implements DataContribution {
         lang.add("advancements.upfall.zipline.title", "Hold On Tight");
         lang.add("advancements.upfall.zipline.description", "Slide along a zipline with a Zipline Handle");
         lang.add("advancements.upfall.loftkin_trade.title", "Rope-craft");
-        lang.add("advancements.upfall.loftkin_trade.description", "Barter with a Loftkin");
+        lang.add("advancements.upfall.loftkin_trade.description", "Barter with a Loftkin in a Cloud Hamlet");
+        lang.add(ExplorerMaps.PEARL_AERIE.translationKey(), "Pearl Aerie Map");
+        lang.add(ExplorerMaps.CHRONOSPIRE.translationKey(), "Chronospire Map");
+        lang.add(ExplorerMaps.SHIFTING_VAULT.translationKey(), "Shifting Vault Map");
+        lang.add(ExplorerMaps.STALLED_ENGINE.translationKey(), "Stalled Engine Map");
+        lang.add(ExplorerMaps.TILTED_RELIQUARY.translationKey(), "Tilted Reliquary Map");
+        lang.add(ExplorerMaps.GILDED_RIDGE, "Gilded Ridge Map");
+    }
+
+    @Override
+    public void langFr(ModFrenchLanguageProvider lang) {
+        lang.add(ExplorerMaps.PEARL_AERIE.translationKey(), "Carte de l'Aire de pearlstone");
+        lang.add(ExplorerMaps.CHRONOSPIRE.translationKey(), "Carte de la Chronospire");
+        lang.add(ExplorerMaps.SHIFTING_VAULT.translationKey(), "Carte de la Chambre forte changeante");
+        lang.add(ExplorerMaps.STALLED_ENGINE.translationKey(), "Carte du Moteur calé");
+        lang.add(ExplorerMaps.TILTED_RELIQUARY.translationKey(), "Carte du Reliquaire incliné");
+        lang.add(ExplorerMaps.GILDED_RIDGE, "Carte de la Crête dorée");
     }
 
     @Override

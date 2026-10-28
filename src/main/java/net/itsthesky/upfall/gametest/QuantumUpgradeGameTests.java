@@ -2,6 +2,8 @@ package net.itsthesky.upfall.gametest;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.UpfallConfig;
+import net.itsthesky.upfall.content.chronospire.ChronoBlocks;
+import net.itsthesky.upfall.content.chronospire.ChronoRegistries;
 import net.itsthesky.upfall.content.mobs.MobItems;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.QuantumItems;
@@ -88,6 +90,16 @@ public final class QuantumUpgradeGameTests {
         missing.set(0, ItemStack.EMPTY);
         helper.assertTrue(level.getRecipeManager().getRecipeFor(QuantumRecipeTypes.INCANTATION.get(),
                 new IncantationInput(chestplate, missing, stones()), level).isEmpty(), "Every side ingredient is required");
+        helper.succeed();
+    }
+
+    @GameTest(template = "empty")
+    public static void rewindIsCraftableInSurvival(GameTestHelper helper) {
+        var recipe = helper.getLevel().getRecipeManager().getAllRecipesFor(QuantumRecipeTypes.INCANTATION.get()).stream()
+                .map(RecipeHolder::value).filter(r -> r.upgrade() == QuantumUpgrade.REWIND).findFirst().orElseThrow();
+        helper.assertTrue(recipe.ingredients().get(0).test(stack(ChronoRegistries.REWINDING_HOURGLASS.get())), "Rewind starts with the hourglass");
+        helper.assertTrue(recipe.ingredients().stream().skip(1).allMatch(i -> i.test(stack(ChronoBlocks.HOUR_DIAL.get()))),
+                "Rewind takes three Hour Dials: " + recipe.ingredients());
         helper.succeed();
     }
 

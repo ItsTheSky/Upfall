@@ -1,5 +1,5 @@
 {
-  "parent": "upfall:upfall/enter",
+  "parent": "upfall:upfall/gas_cave",
   "criteria": {
     "flicker_shard": {
       "conditions": {

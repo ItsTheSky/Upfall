@@ -2,6 +2,11 @@ package net.itsthesky.upfall.datagen;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.UpfallModules;
+import net.itsthesky.upfall.content.aerie.AerieStructures;
+import net.itsthesky.upfall.content.chronospire.data.ChronospireData;
+import net.itsthesky.upfall.content.engine.EngineStructures;
+import net.itsthesky.upfall.content.quantum.QuantumStructures;
+import net.itsthesky.upfall.content.reliquary.ReliquaryStructures;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
 import net.itsthesky.upfall.registry.ModTags;
@@ -17,6 +22,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -204,6 +210,21 @@ public final class ModTagProviders {
         @Override
         public void copy(TagKey<Block> blockTag, TagKey<Item> itemTag) {
             super.copy(blockTag, itemTag);
+        }
+    }
+
+    public static class Structures extends TagsProvider<Structure> {
+        public Structures(PackOutput output, CompletableFuture<HolderLookup.Provider> lookup, ExistingFileHelper helper) {
+            super(output, Registries.STRUCTURE, lookup, Upfall.MODID, helper);
+        }
+
+        @Override
+        protected void addTags(HolderLookup.Provider provider) {
+            tag(ModTags.Structures.ON_PEARL_AERIE_MAPS).add(AerieStructures.PEARL_AERIE);
+            tag(ModTags.Structures.ON_CHRONOSPIRE_MAPS).add(ChronospireData.STRUCTURE);
+            tag(ModTags.Structures.ON_SHIFTING_VAULT_MAPS).add(QuantumStructures.SHIFTING_VAULT);
+            tag(ModTags.Structures.ON_STALLED_ENGINE_MAPS).add(EngineStructures.STALLED_ENGINE);
+            tag(ModTags.Structures.ON_TILTED_RELIQUARY_MAPS).add(ReliquaryStructures.TILTED_RELIQUARY);
         }
     }
 }

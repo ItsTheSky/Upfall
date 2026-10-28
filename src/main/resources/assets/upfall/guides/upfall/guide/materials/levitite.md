@@ -48,7 +48,7 @@ Nine ingots make a block, which can be turned back into ingots:
 
 ## Smithing template
 
-The <ItemLink id="levitite_upgrade_smithing_template" /> is found as loot in the Chronospire vault, the Inverted Observatory and the Pearl Aerie. See [Structures](../structures/index.md). Like its Nimbusite counterpart, a template can be duplicated: surround it with 7 Nimbusite Ingots and a block of duskslate for two copies.
+The <ItemLink id="levitite_upgrade_smithing_template" /> is found as loot in the Inverted Observatory (guaranteed), the Chronospire vault, the Pearl Aerie and the core of the Tilted Reliquary. See [Structures](../structures/index.md). Like its Nimbusite counterpart, a template can be duplicated: surround it with 7 Nimbusite Ingots and a block of duskslate for two copies.
 
 <RecipeFor id="levitite_upgrade_smithing_template" />
 

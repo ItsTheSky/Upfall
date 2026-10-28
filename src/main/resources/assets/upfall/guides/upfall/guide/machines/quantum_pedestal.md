@@ -120,7 +120,7 @@ Offerings: 2 <ItemLink id="verdigris_moss" />, <ItemLink id="minecraft:moss_bloc
 
 Applies to: any piece of Levitite armor. When you would die, you are instead brought back to the last solid ground you stood on a few seconds earlier, with **30% of your maximum health** and a moment of invulnerability. It works **once per day** (one full Minecraft day of 20 minutes) and requires that you had stood on solid ground recently, like the <ItemLink id="rewinding_hourglass" />.
 
-Offerings: <ItemLink id="rewinding_hourglass" />, 3 <ItemLink id="chrono_gnomon" />.
+Offerings: <ItemLink id="rewinding_hourglass" />, 3 <ItemLink id="hour_dial" />.
 
 ### Pickaxe
 

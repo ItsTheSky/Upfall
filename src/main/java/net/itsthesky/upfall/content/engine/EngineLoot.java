@@ -6,6 +6,7 @@ import net.itsthesky.upfall.content.quantum.QuantumItems;
 import net.itsthesky.upfall.content.rustworks.RustworksBlocks;
 import net.itsthesky.upfall.content.rustworks.RustworksItems;
 import net.itsthesky.upfall.registry.ModItems;
+import net.itsthesky.upfall.worldgen.ExplorerMaps;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -64,7 +65,10 @@ public final class EngineLoot implements LootTableSubProvider {
                         .add(item(RustworksBlocks.COBBLED_RUSTSLATE.get(), 6, 4, 12))
                         .add(item(RustworksBlocks.RUSTY_COG.get(), 4, 1, 2))
                         .add(item(RustworksBlocks.RUSTY_PIPE.get(), 4, 2, 6))
-                        .add(item(Items.LANTERN, 3, 1, 2))));
+                        .add(item(Items.LANTERN, 3, 1, 2)))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                        .add(ExplorerMaps.loot(ExplorerMaps.SHIFTING_VAULT, 12))
+                        .add(EmptyLootItem.emptyItem().setWeight(88))));
     }
 
     private static LootPool.Builder blueprints(LootPool.Builder pool) {

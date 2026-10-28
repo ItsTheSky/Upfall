@@ -22,7 +22,7 @@ You step out of the portal onto an island of the **Drifting Archipelago**. Here 
 - **The cloud sea and the abyss.** Under the islands lies a sea of condensed cloud. Dense Cloud can be walked on; Mist blinds and slows you. Below the sea is the abyss.
 - **Fall damage.** Islands are high. Nimbusite and Levitite armor blunt or cancel it.
 - **Predators.** Several creatures hunt on the islands and in the sky; see [Creatures](../creatures/index.md).
-- **Gas caves.** Some caves are filled with Veil Gas; see [The Upfall](../world/index.md).
+- **Gas caves.** Some caves are filled with invisible Veil Gas that hurts while your head is in it. A <ItemLink id="veil_mask" />, smithed from a Stalled Engine blueprint in the Rustworks, lets you breathe there; see [Gas Caves](../world/gas_caves.md).
 
 ## The sky lets you go
 
@@ -39,6 +39,7 @@ The Upfall is locked in its golden hour. Beds work there at **any time of day**,
 - Learn where gravity bends: some islands hang upside down and flip your gravity beneath them. See [The Upfall](../world/index.md).
 - Ride **updraft mist** columns up to higher islands. The <ItemLink id="updraft_compass" /> points to the nearest updraft vent, and the <ItemLink id="updraft_vent" /> lets you make your own.
 - Cloud Hamlets are linked by rope bridges and ziplines; hang on with a <ItemLink id="zipline_handle" />.
+- To find structures, buy **explorer maps** from the [Loftkin](../creatures/loftkin.md) of a Cloud Hamlet. Each map trade also costs a Compass, so bring a few.
 - Bridge gaps with whatever you like; see [Blocks & Building](../blocks/index.md).
 
 ![Hanging Roots](../assets/hanging_roots.png)

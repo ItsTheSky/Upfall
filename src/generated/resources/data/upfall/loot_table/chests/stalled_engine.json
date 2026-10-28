@@ -290,6 +290,36 @@
         "max": 5.0,
         "min": 2.0
       }
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "decoration": "minecraft:monument",
+              "destination": "upfall:on_shifting_vault_maps",
+              "function": "minecraft:exploration_map",
+              "search_radius": 24
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "translate": "filled_map.upfall.shifting_vault"
+              },
+              "target": "item_name"
+            }
+          ],
+          "name": "minecraft:map",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 88
+        }
+      ],
+      "rolls": 1.0
     }
   ],
   "random_sequence": "upfall:chests/stalled_engine"

@@ -5,6 +5,7 @@ import net.itsthesky.upfall.content.grotto.GrottoBlocks;
 import net.itsthesky.upfall.content.world.WorldItems;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
+import net.itsthesky.upfall.worldgen.ExplorerMaps;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -87,7 +88,10 @@ public final class AerieLoot implements LootTableSubProvider {
                         .add(item(Items.GOLD_INGOT, 8, 2, 6))
                         .add(item(Items.ENDER_PEARL, 4, 1, 3))
                         .add(LootItem.lootTableItem(Items.BOOK).setWeight(5)
-                                .apply(EnchantWithLevelsFunction.enchantWithLevels(registries, UniformGenerator.between(25, 35))))));
+                                .apply(EnchantWithLevelsFunction.enchantWithLevels(registries, UniformGenerator.between(25, 35)))))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                        .add(ExplorerMaps.loot(ExplorerMaps.TILTED_RELIQUARY, 25))
+                        .add(EmptyLootItem.emptyItem().setWeight(75))));
     }
 
     private static LootPoolEntryContainer.Builder<?> item(ItemLike item, int weight, int min, int max) {

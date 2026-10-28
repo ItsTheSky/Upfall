@@ -2,6 +2,7 @@ package net.itsthesky.upfall.content.hamlet;
 
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
+import net.itsthesky.upfall.worldgen.ExplorerMaps;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceKey;
@@ -40,7 +41,10 @@ final class HamletLootProvider implements LootTableSubProvider {
                         .add(item(Items.FEATHER, 4, 2, 5)))
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
                         .add(item(HamletItems.ZIPLINE_HANDLE.get(), 15, 1, 1))
-                        .add(EmptyLootItem.emptyItem().setWeight(85))));
+                        .add(EmptyLootItem.emptyItem().setWeight(85)))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                        .add(ExplorerMaps.loot(ExplorerMaps.PEARL_AERIE, 8))
+                        .add(EmptyLootItem.emptyItem().setWeight(92))));
 
         output.accept(HamletLoot.WORKSHOP, LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))

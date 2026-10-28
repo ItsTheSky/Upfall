@@ -1,5 +1,5 @@
 {
-  "parent": "upfall:upfall/tilted_reliquary",
+  "parent": "upfall:upfall/fold_warden",
   "criteria": {
     "anchor": {
       "conditions": {

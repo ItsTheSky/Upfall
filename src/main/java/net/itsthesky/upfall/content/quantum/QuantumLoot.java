@@ -2,6 +2,7 @@ package net.itsthesky.upfall.content.quantum;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.rustworks.RustworksItems;
+import net.itsthesky.upfall.worldgen.ExplorerMaps;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.LootTableSubProvider;
@@ -40,7 +41,10 @@ public final class QuantumLoot implements LootTableSubProvider {
                         .add(item(Items.RAIL, 5, 2, 6))
                         .add(item(Items.BREAD, 5, 1, 2))
                         .add(item(Items.STICK, 6, 2, 5))
-                        .add(item(Items.GLASS_BOTTLE, 4, 1, 3))));
+                        .add(item(Items.GLASS_BOTTLE, 4, 1, 3)))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                        .add(ExplorerMaps.loot(ExplorerMaps.STALLED_ENGINE, 10))
+                        .add(EmptyLootItem.emptyItem().setWeight(90))));
 
         output.accept(SHIFTING_VAULT, LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))

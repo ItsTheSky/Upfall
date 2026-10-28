@@ -8,13 +8,13 @@
       "item": "upfall:rewinding_hourglass"
     },
     {
-      "item": "upfall:chrono_gnomon"
+      "item": "upfall:hour_dial"
     },
     {
-      "item": "upfall:chrono_gnomon"
+      "item": "upfall:hour_dial"
     },
     {
-      "item": "upfall:chrono_gnomon"
+      "item": "upfall:hour_dial"
     }
   ],
   "upgrade": "rewind"

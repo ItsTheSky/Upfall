@@ -2,6 +2,9 @@ package net.itsthesky.upfall.datagen;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.advancement.PortalLitTrigger;
+import net.itsthesky.upfall.content.enchanting.EnchantingModule;
+import net.itsthesky.upfall.content.grotto.GrottoBlocks;
+import net.itsthesky.upfall.content.grotto.GrottoStructures;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModEffects;
 import net.itsthesky.upfall.registry.ModItems;
@@ -11,25 +14,36 @@ import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.critereon.ChangeDimensionTrigger;
 import net.minecraft.advancements.critereon.EffectsChangedTrigger;
+import net.minecraft.advancements.critereon.EnchantedItemTrigger;
+import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.EnterBlockTrigger;
 import net.minecraft.advancements.critereon.EntityEquipmentPredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemEnchantmentsPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.ItemSubPredicates;
 import net.minecraft.advancements.critereon.LocationPredicate;
+import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.advancements.critereon.MobEffectsPredicate;
 import net.minecraft.advancements.critereon.PlayerTrigger;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class ModAdvancementGenerator implements AdvancementProvider.AdvancementGenerator {
@@ -69,20 +83,43 @@ public class ModAdvancementGenerator implements AdvancementProvider.AdvancementG
                 .addCriterion("weightless", EffectsChangedTrigger.TriggerInstance.hasEffects(MobEffectsPredicate.Builder.effects().and(ModEffects.WEIGHTLESS)))
                 .save(saver, Upfall.id("upfall/weightless"), helper);
 
+        Advancement.Builder.advancement().parent(enter)
+                .display(GrottoBlocks.AZURE.cluster().get(), title("crystal_grotto"), description("crystal_grotto"), null, AdvancementType.TASK, true, true, false)
+                .addCriterion("visited", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.inStructure(
+                        registries.lookupOrThrow(Registries.STRUCTURE).getOrThrow(GrottoStructures.CRYSTAL_GROTTO))))
+                .save(saver, Upfall.id("upfall/crystal_grotto"), helper);
+
+        var enchantments = registries.lookupOrThrow(Registries.ENCHANTMENT);
+        List<EnchantmentPredicate> sky = List.of(new EnchantmentPredicate(HolderSet.direct(
+                enchantments.getOrThrow(EnchantingModule.SKYWALKER), enchantments.getOrThrow(EnchantingModule.UPLIFTED),
+                enchantments.getOrThrow(EnchantingModule.CLOUDSIGHT), enchantments.getOrThrow(EnchantingModule.JUMPSTART)), MinMaxBounds.Ints.ANY));
+        Advancement.Builder.advancement().parent(enter)
+                .display(Items.ENCHANTED_BOOK, title("sky_enchantment"), description("sky_enchantment"), null, AdvancementType.TASK, true, true, false)
+                .addCriterion("enchanted_item", enchanted(ItemPredicate.Builder.item()
+                        .withSubPredicate(ItemSubPredicates.ENCHANTMENTS, ItemEnchantmentsPredicate.enchantments(sky))))
+                .addCriterion("enchanted_book", enchanted(ItemPredicate.Builder.item()
+                        .withSubPredicate(ItemSubPredicates.STORED_ENCHANTMENTS, ItemEnchantmentsPredicate.storedEnchantments(sky))))
+                .requirements(AdvancementRequirements.Strategy.OR)
+                .save(saver, Upfall.id("upfall/sky_enchantment"), helper);
+
         AdvancementHolder nimbusite = simple(saver, helper, enter, "mine_nimbusite", ModItems.RAW_NIMBUSITE.get(), AdvancementType.TASK,
                 "has_raw_nimbusite", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.RAW_NIMBUSITE.get()));
         AdvancementHolder template = simple(saver, helper, nimbusite, "nimbusite_template", ModItems.NIMBUSITE_UPGRADE_SMITHING_TEMPLATE.get(),
                 AdvancementType.TASK, "has_template", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.NIMBUSITE_UPGRADE_SMITHING_TEMPLATE.get()));
-        AdvancementHolder nimbusiteSet = fullSet(saver, helper, template, "nimbusite_armor", ModItems.NIMBUSITE_CHESTPLATE.get(), AdvancementType.GOAL,
+        fullSet(saver, helper, template, "nimbusite_armor", ModItems.NIMBUSITE_CHESTPLATE.get(), AdvancementType.GOAL,
                 ModItems.NIMBUSITE_HELMET.get(), ModItems.NIMBUSITE_CHESTPLATE.get(), ModItems.NIMBUSITE_LEGGINGS.get(), ModItems.NIMBUSITE_BOOTS.get());
 
-        AdvancementHolder gilded = biome(saver, helper, nimbusiteSet, "gilded_ridge", ModBlocks.GILDED_DUSKSLATE.get(), biomes.getOrThrow(ModBiomes.GILDED_RIDGE));
+        AdvancementHolder gilded = biome(saver, helper, template, "gilded_ridge", ModBlocks.GILDED_DUSKSLATE.get(), biomes.getOrThrow(ModBiomes.GILDED_RIDGE));
         AdvancementHolder levitite = simple(saver, helper, gilded, "mine_levitite", ModItems.LEVITITE_SHARD.get(), AdvancementType.TASK,
                 "has_shard", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.LEVITITE_SHARD.get()));
         AdvancementHolder observatory = simple(saver, helper, levitite, "levitite_template", ModItems.LEVITITE_UPGRADE_SMITHING_TEMPLATE.get(),
                 AdvancementType.GOAL, "has_template", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.LEVITITE_UPGRADE_SMITHING_TEMPLATE.get()));
         fullSet(saver, helper, observatory, "levitite_armor", ModItems.LEVITITE_CHESTPLATE.get(), AdvancementType.CHALLENGE,
                 ModItems.LEVITITE_HELMET.get(), ModItems.LEVITITE_CHESTPLATE.get(), ModItems.LEVITITE_LEGGINGS.get(), ModItems.LEVITITE_BOOTS.get());
+    }
+
+    private static net.minecraft.advancements.Criterion<EnchantedItemTrigger.TriggerInstance> enchanted(ItemPredicate.Builder item) {
+        return CriteriaTriggers.ENCHANTED_ITEM.createCriterion(new EnchantedItemTrigger.TriggerInstance(Optional.empty(), Optional.of(item.build()), MinMaxBounds.Ints.ANY));
     }
 
     private static Component title(String name) {

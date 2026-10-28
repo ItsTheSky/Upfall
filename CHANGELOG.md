@@ -1,5 +1,30 @@
 # Changelog
 
+## Unreleased
+
+### Advancements
+- The Upfall advancement tab is now split into branches that follow the real dependencies: exploration, Cloud Hamlet,
+  Nimbusite and Levitite gear, Rustworks machines, Chronospire, Pearl Aerie, Quantum and Tilted Reliquary.
+- Seven new advancements: Glittering Depths (Crystal Grotto), Sky-Touched (Upfall enchantments), Perfect Timing (Kairite
+  Gear), Clockwork (first machine), Breathe Easy (Veil Mask), Superposition (Quantum Pedestal) and Folded Space (Fold
+  Shard).
+
+### Explorer maps
+- Loftkin now sell 1 or 2 random explorer maps each, paid with a Compass plus Gildfruit, Nimbusite or Levitite Shards:
+  Stalled Engine, Pearl Aerie, Chronospire, Shifting Vault, Tilted Reliquary and Gilded Ridge maps.
+- Maps can also be found in chests: Drifting Ruins (Chronospire, Pearl Aerie), Cloud Hamlet homes (Pearl Aerie), gas cave
+  supply caches (Stalled Engine), Stalled Engine hall caches (Shifting Vault), and the Inverted Observatory, Chronospire
+  vault and Pearl Aerie keep (Tilted Reliquary).
+
+### Balance
+- Every Loftkin now offers the Nimbusite Upgrade Smithing Template trade (once) instead of it being a random trade.
+- Drifting Ruins hold a Nimbusite Upgrade Smithing Template 25% of the time (was 15%).
+- The Rewind incantation now takes the Rewinding Hourglass and 3 Hour Dials (Chrono Gnomons could not be obtained).
+
+### Guide
+- The Progression page is rewritten as the spine of the mod: tiers in order, where to find each bottleneck, explorer
+  maps and the matching advancements.
+
 ## 1.2.0
 
 ### Quantum

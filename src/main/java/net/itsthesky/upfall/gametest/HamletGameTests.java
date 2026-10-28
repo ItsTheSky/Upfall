@@ -14,6 +14,7 @@ import net.itsthesky.upfall.content.hamlet.rope.RopeLines;
 import net.itsthesky.upfall.content.hamlet.world.HamletLayout;
 import net.itsthesky.upfall.content.hamlet.world.HamletPieces;
 import net.itsthesky.upfall.registry.ModBlocks;
+import net.itsthesky.upfall.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -211,6 +212,7 @@ public final class HamletGameTests {
         List<MerchantOffer> offers = loftkin.getOffers();
         helper.assertTrue(offers.size() >= 6, "Too few offers: " + offers.size());
         helper.assertTrue(offers.stream().anyMatch(o -> o.getResult().is(HamletItems.ZIPLINE_HANDLE.get())), "No Zipline Handle offer");
+        helper.assertTrue(offers.stream().anyMatch(o -> o.getResult().is(ModItems.NIMBUSITE_UPGRADE_SMITHING_TEMPLATE.get())), "No Nimbusite template offer");
         for (MerchantOffer offer : offers) {
             String costNamespace = BuiltInRegistries.ITEM.getKey(offer.getBaseCostA().getItem()).getNamespace();
             helper.assertTrue(costNamespace.equals(Upfall.MODID), "Offer asks for a non-Upfall good: " + offer.getBaseCostA());

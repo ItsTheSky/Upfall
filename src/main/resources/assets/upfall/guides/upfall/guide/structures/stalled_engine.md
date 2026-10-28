@@ -98,6 +98,7 @@ the ruined tank.
 - **About 46% for a blueprint** (the vault list, plus the Veil Mask Blueprint, which is the most common).
 - Kairite Dust (2 to 6) and, rarely, a Kairite Gear.
 - 2 to 5 rolls of Iron Nuggets, Iron, Copper, Chain, Redstone, Cobbled Rustslate, Rusty Cog, Rusty Pipe or Lantern.
+- 12% chance of a Shifting Vault Map.
 
 ### The Heartgear
 

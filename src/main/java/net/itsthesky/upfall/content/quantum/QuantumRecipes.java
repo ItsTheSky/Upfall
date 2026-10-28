@@ -58,7 +58,7 @@ final class QuantumRecipes {
         incantation(output, QuantumUpgrade.ENTANGLEMENT, Ingredient.of(ModItems.LEVITITE_SWORD.get()),
                 MobItems.CRAGMAW_FANG.get(), MobItems.CRAGMAW_FANG.get(), QuantumItems.FLICKER_SHARD.get(), QuantumItems.FLICKER_SHARD.get());
         incantation(output, QuantumUpgrade.REWIND, Ingredient.of(ModTags.Items.LEVITITE_ARMOR),
-                ChronoRegistries.REWINDING_HOURGLASS.get(), ChronoBlocks.CHRONO_GNOMON.get(), ChronoBlocks.CHRONO_GNOMON.get(), ChronoBlocks.CHRONO_GNOMON.get());
+                ChronoRegistries.REWINDING_HOURGLASS.get(), ChronoBlocks.HOUR_DIAL.get(), ChronoBlocks.HOUR_DIAL.get(), ChronoBlocks.HOUR_DIAL.get());
     }
 
     private static void incantation(RecipeOutput output, QuantumUpgrade upgrade, Ingredient base, ItemLike... ingredients) {

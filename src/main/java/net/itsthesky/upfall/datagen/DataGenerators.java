@@ -46,5 +46,6 @@ public final class DataGenerators {
         UpfallModules.forEachData(data -> data.addProviders(event, generator, output, lookup, helper));
         ModTagProviders.Blocks blockTags = generator.addProvider(event.includeServer(), new ModTagProviders.Blocks(output, lookup, helper));
         generator.addProvider(event.includeServer(), new ModTagProviders.Items(output, lookup, blockTags.contentsGetter(), helper));
+        generator.addProvider(event.includeServer(), new ModTagProviders.Structures(output, lookup, helper));
     }
 }

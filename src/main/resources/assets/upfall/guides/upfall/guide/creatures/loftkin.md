@@ -34,7 +34,7 @@ Loftkin are the small, friendly folk of the Upfall, living in Cloud Hamlets and 
 
 ## Trading
 
-Right-click a Loftkin to trade. Each one always has the two staple trades, plus 5 trades picked at random from the pool below. Your first trade completes the "Rope-craft" advancement.
+Right-click a Loftkin to trade. Each one always has the three staple trades, plus 5 trades picked at random from the pool below and 1 or 2 explorer maps. Your first trade completes the "Rope-craft" advancement.
 
 ### Always offered
 
@@ -42,6 +42,7 @@ Right-click a Loftkin to trade. Each one always has the two staple trades, plus 
 |---|---|---|
 | 2 <ItemLink id="raw_nimbusite" /> | 1 <ItemLink id="zipline_handle" /> | 4 |
 | 4 <ItemLink id="cloudberry" /> | 6 <ItemLink id="rope" /> | 16 |
+| 10 <ItemLink id="nimbusite_ingot" /> + 4 <ItemLink id="gildfruit" /> | 1 <ItemLink id="nimbusite_upgrade_smithing_template" /> | 1 |
 
 ### Random pool (5 chosen per Loftkin)
 
@@ -57,19 +58,33 @@ Right-click a Loftkin to trade. Each one always has the two staple trades, plus 
 | 1 <ItemLink id="levitite_shard" /> | 3 <ItemLink id="nimbusite_ingot" /> | 6 |
 | 8 <ItemLink id="cloudberry" /> | 1 <ItemLink id="gildfruit" /> | 12 |
 | 2 <ItemLink id="nimbusite_ingot" /> + 2 <ItemLink id="mistglow_crystal" /> | 1 <ItemLink id="updraft_compass" /> | 3 |
-| 10 <ItemLink id="nimbusite_ingot" /> + 4 <ItemLink id="gildfruit" /> | 1 <ItemLink id="nimbusite_upgrade_smithing_template" /> | 1 |
 | 5 <ItemLink id="cloudberry" /> | 2 <ItemLink id="rope_spool" /> | 12 |
 | 4 <ItemLink id="cloudberry" /> | 6 <ItemLink id="dusk_canopy" /> | 12 |
 | 4 <ItemLink id="cloudberry" /> | 6 <ItemLink id="pearl_canopy" /> | 12 |
 | 4 <ItemLink id="cloudberry" /> | 6 <ItemLink id="sky_canopy" /> | 12 |
 
+### Explorer maps (1 or 2 per Loftkin)
+
+Each map trade also costs a vanilla Compass. The map points to the structure (or biome) nearest to the Loftkin; if none is in range, that map is not offered.
+
+| You give | You get | Max uses |
+|---|---|---|
+| 3 <ItemLink id="gildfruit" /> + Compass | Stalled Engine Map | 2 |
+| 3 <ItemLink id="nimbusite_ingot" /> + Compass | Pearl Aerie Map | 1 |
+| 3 <ItemLink id="nimbusite_ingot" /> + Compass | Chronospire Map | 1 |
+| 6 <ItemLink id="raw_nimbusite" /> + Compass | Shifting Vault Map | 1 |
+| 6 <ItemLink id="gildfruit" /> + Compass | Gilded Ridge Map | 1 |
+| 3 <ItemLink id="levitite_shard" /> + Compass | Tilted Reliquary Map | 1 |
+
 ### Highlights
 
-- The Nimbusite Upgrade Smithing Template trade is one of the best reasons to find a hamlet.
+- Every Loftkin sells a Nimbusite Upgrade Smithing Template, once: one of the best reasons to find a hamlet.
+- Explorer maps are the easiest way to find the rare structures and the Gilded Ridge; see [Progression](../getting_started/progression.md).
 - Levitite Shards convert at a profit into Nimbusite Ingots.
 - The Updraft Compass points to the nearest Updraft Vent.
 
 ## Tips
 
-- Check every Loftkin in a hamlet: trades are rolled per individual, so another one may hold the trade you need.
+- Check every Loftkin in a hamlet: the random trades and maps are rolled per individual, so another one may hold the trade you need.
+- Bring Compasses if you want maps.
 - Cloudberries are the universal currency; bring a stack.

@@ -6,6 +6,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.structure.Structure;
 
 public final class ModTags {
     private ModTags() {}
@@ -50,6 +51,18 @@ public final class ModTags {
 
         private static TagKey<Biome> tag(String name) {
             return TagKey.create(Registries.BIOME, Upfall.id(name));
+        }
+    }
+
+    public static final class Structures {
+        public static final TagKey<Structure> ON_PEARL_AERIE_MAPS = tag("on_pearl_aerie_maps");
+        public static final TagKey<Structure> ON_CHRONOSPIRE_MAPS = tag("on_chronospire_maps");
+        public static final TagKey<Structure> ON_SHIFTING_VAULT_MAPS = tag("on_shifting_vault_maps");
+        public static final TagKey<Structure> ON_STALLED_ENGINE_MAPS = tag("on_stalled_engine_maps");
+        public static final TagKey<Structure> ON_TILTED_RELIQUARY_MAPS = tag("on_tilted_reliquary_maps");
+
+        private static TagKey<Structure> tag(String name) {
+            return TagKey.create(Registries.STRUCTURE, Upfall.id(name));
         }
     }
 }

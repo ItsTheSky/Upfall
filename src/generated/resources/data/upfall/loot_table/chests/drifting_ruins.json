@@ -180,11 +180,60 @@
             }
           ],
           "name": "upfall:nimbusite_upgrade_smithing_template",
-          "weight": 15
+          "weight": 25
         },
         {
           "type": "minecraft:empty",
-          "weight": 85
+          "weight": 75
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "decoration": "minecraft:trial_chambers",
+              "destination": "upfall:on_chronospire_maps",
+              "function": "minecraft:exploration_map",
+              "search_radius": 16
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "translate": "filled_map.upfall.chronospire"
+              },
+              "target": "item_name"
+            }
+          ],
+          "name": "minecraft:map",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "destination": "upfall:on_pearl_aerie_maps",
+              "function": "minecraft:exploration_map",
+              "search_radius": 16
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "translate": "filled_map.upfall.pearl_aerie"
+              },
+              "target": "item_name"
+            }
+          ],
+          "name": "minecraft:map",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 90
         }
       ],
       "rolls": 1.0

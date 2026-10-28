@@ -144,6 +144,7 @@ The crown is a ring around a sealed vault, with a spire above it. Because the gn
 - A good chance of a <ItemLink id="levitite_upgrade_smithing_template" />.
 - 1 to 2 enchanted books, enchanted as at levels 30 to 39.
 - 4 to 6 stacks picked from: <ItemLink id="levitite_shard" />, <ItemLink id="levitite_ingot" />, <ItemLink id="nimbusite_ingot" />, diamonds, <ItemLink id="gildfruit" />, <ItemLink id="cloudberry_tart" />, <ItemLink id="mistglow_crystal" />, echo shards, <ItemLink id="phase_lantern" /> and, rarely, a <ItemLink id="hour_dial" />.
+- 25 percent: a Tilted Reliquary Map.
 
 ## Rewinding Hourglass
 

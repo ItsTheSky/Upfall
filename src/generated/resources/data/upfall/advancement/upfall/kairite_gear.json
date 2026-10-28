@@ -1,0 +1,33 @@
+{
+  "parent": "upfall:upfall/stalled_engine",
+  "criteria": {
+    "has_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:kairite_gear"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.kairite_gear.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "upfall:kairite_gear"
+    },
+    "title": {
+      "translate": "advancements.upfall.kairite_gear.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

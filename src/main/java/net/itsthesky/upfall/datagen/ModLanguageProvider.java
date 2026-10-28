@@ -68,12 +68,16 @@ public class ModLanguageProvider extends LanguageProvider {
         advancement("updraft_compass", "Following the Currents", "Obtain an Updraft Compass");
         advancement("hanging_roots", "Where Forests Hang", "Discover the Hanging Roots");
         advancement("weightless", "Unbearable Lightness", "Become Weightless");
+        advancement("crystal_grotto", "Glittering Depths", "Find a Crystal Grotto, a geode hidden under the cloud sea");
+        advancement("sky_enchantment", "Sky-Touched", "Enchant an item with Skywalker, Uplifted, Cloudsight or Jumpstart");
         advancement("mine_nimbusite", "Cloud Metal", "Mine Nimbusite with a netherite pickaxe");
-        advancement("nimbusite_template", "Blueprint of the Skies", "Find a Nimbusite Upgrade Smithing Template in the Drifting Ruins");
-        advancement("nimbusite_armor", "Lighter than Netherite", "Wear a full set of Nimbusite armor");
-        advancement("gilded_ridge", "Gilded Heights", "Reach the rare Gilded Ridge");
-        advancement("mine_levitite", "Pieces of Lightness", "Mine Levitite ore with a Nimbusite pickaxe");
-        advancement("levitite_template", "The Inverted Observatory", "Recover a Levitite Upgrade Smithing Template");
+        advancement("nimbusite_template", "Blueprint of the Skies",
+                "Find a Nimbusite Upgrade Smithing Template in Drifting Ruins, an Inverted Observatory or a Pearl Aerie, or buy one from a Loftkin");
+        advancement("nimbusite_armor", "Lighter than Netherite", "Wear a full set of Nimbusite armor; 7 diamonds and a Pearlstone block copy the template");
+        advancement("gilded_ridge", "Gilded Heights", "Reach the rare Gilded Ridge, the only place where Levitite ore grows");
+        advancement("mine_levitite", "Pieces of Lightness", "Mine Levitite ore in the Gilded Ridge; it needs a Nimbusite pickaxe");
+        advancement("levitite_template", "The Inverted Observatory",
+                "Recover a Levitite Upgrade Smithing Template; every Inverted Observatory, hanging under the Hanging Roots, holds one");
         advancement("levitite_armor", "Above It All", "Wear a full set of Levitite armor");
         add("message.upfall.void_rescue", "The sky lets you go... you drift back to the Overworld.");
         for (var biome : ModBiomes.ALL) {

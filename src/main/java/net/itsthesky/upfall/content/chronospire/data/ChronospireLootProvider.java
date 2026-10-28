@@ -5,6 +5,7 @@ import net.itsthesky.upfall.content.chronospire.ChronoRegistries;
 import net.itsthesky.upfall.content.chronospire.worldgen.ChronospireLoot;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
+import net.itsthesky.upfall.worldgen.ExplorerMaps;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceKey;
@@ -50,7 +51,10 @@ public class ChronospireLootProvider implements LootTableSubProvider {
                         .add(item(ModBlocks.MISTGLOW_CRYSTAL.get(), 4, 2, 4))
                         .add(item(Items.ECHO_SHARD, 3, 1, 2))
                         .add(item(ChronoBlocks.PHASE_LANTERN.get(), 4, 2, 4))
-                        .add(item(ChronoBlocks.HOUR_DIAL.get(), 2, 1, 1))));
+                        .add(item(ChronoBlocks.HOUR_DIAL.get(), 2, 1, 1)))
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
+                        .add(ExplorerMaps.loot(ExplorerMaps.TILTED_RELIQUARY, 25))
+                        .add(EmptyLootItem.emptyItem().setWeight(75))));
     }
 
     private static LootPoolEntryContainer.Builder<?> item(ItemLike item, int weight, int min, int max) {
