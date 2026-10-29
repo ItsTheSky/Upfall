@@ -234,7 +234,11 @@ public class StalledAutomatonFeature extends RustFeature {
     }
 
     private static BlockState chain(Direction.Axis axis) {
+        //? if >=26.1 {
+        /*return Blocks.IRON_CHAIN.defaultBlockState().setValue(ChainBlock.AXIS, axis);
+        *///?} else {
         return Blocks.CHAIN.defaultBlockState().setValue(ChainBlock.AXIS, axis);
+        //?}
     }
 
     private static BlockState bars(Frame b, L along) {

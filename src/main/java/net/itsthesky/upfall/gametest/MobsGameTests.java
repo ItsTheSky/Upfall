@@ -1,12 +1,15 @@
 package net.itsthesky.upfall.gametest;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McEntities;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.content.mobs.MobEntities;
 import net.itsthesky.upfall.content.mobs.MobItems;
 import net.itsthesky.upfall.content.mobs.entity.Skygrazer;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,29 +18,38 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.List;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class MobsGameTests {
     private MobsGameTests() {}
 
     private static List<ItemStack> roll(GameTestHelper helper, Mob mob) {
+        //? if >=26.1 {
+        /*var table = helper.getLevel().getServer().reloadableRegistries().getLootTable(mob.getType().getDefaultLootTable().orElseThrow());
+        *///?} else {
         var table = helper.getLevel().getServer().reloadableRegistries().getLootTable(mob.getType().getDefaultLootTable());
+        //?}
         LootParams params = new LootParams.Builder(helper.getLevel())
                 .withParameter(LootContextParams.THIS_ENTITY, mob)
                 .withParameter(LootContextParams.ORIGIN, mob.position())
                 .withParameter(LootContextParams.DAMAGE_SOURCE, helper.getLevel().damageSources().generic())
                 .create(LootContextParamSets.ENTITY);
         return table.getRandomItems(params);
+    }
+
+    private static boolean hasRecipe(RecipeManager recipes, ResourceLocation id) {
+        //? if >=26.1 {
+        /*return recipes.byKey(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, id)).isPresent();
+        *///?} else {
+        return recipes.byKey(id).isPresent();
+        //?}
     }
 
     private static void floor(GameTestHelper helper) {
@@ -59,7 +71,7 @@ public final class MobsGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void allMobsSpawn(GameTestHelper helper) {
         floor(helper);
         for (EntityType<? extends Mob> type : List.of(MobEntities.DUSKWING.get(), MobEntities.CRAGMAW.get(),
@@ -71,22 +83,22 @@ public final class MobsGameTests {
         helper.runAfterDelay(20, helper::succeed);
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void duskwingDrops(GameTestHelper helper) {
         assertDrops(helper, MobEntities.DUSKWING.get(), MobItems.DUSKWING_PLUME.get());
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void cragmawDrops(GameTestHelper helper) {
         assertDrops(helper, MobEntities.CRAGMAW.get(), MobItems.CRAGMAW_FANG.get());
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void mistjellyDrops(GameTestHelper helper) {
         assertDrops(helper, MobEntities.MISTJELLY.get(), MobItems.MIST_GEL.get());
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void skygrazerDrops(GameTestHelper helper) {
         Mob mob = helper.spawnWithNoFreeWill(MobEntities.SKYGRAZER.get(), 2, 2, 2);
         List<ItemStack> loot = roll(helper, mob);
@@ -95,12 +107,12 @@ public final class MobsGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void dropRecipesExist(GameTestHelper helper) {
-        var recipes = helper.getLevel().getRecipeManager();
+        var recipes = McLevel.serverRecipes(helper.getLevel());
         for (String id : List.of("arrow_from_duskwing_plume", "white_wool_from_down_tuft", "cloudberry_jelly",
                 "cooked_skygrazer_meat_smelting", "cooked_skygrazer_meat_smoking", "cooked_skygrazer_meat_campfire_cooking")) {
-            helper.assertTrue(recipes.byKey(Upfall.id(id)).isPresent(), "Missing recipe " + id);
+            helper.assertTrue(hasRecipe(recipes, Upfall.id(id)), "Missing recipe " + id);
         }
         var brewing = helper.getLevel().potionBrewing();
         ItemStack awkward = PotionContents.createItemStack(Items.POTION, Potions.AWKWARD);
@@ -110,18 +122,18 @@ public final class MobsGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 400)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 400)
     public static void duskwingDivesAndHurts(GameTestHelper helper) {
         floor(helper);
         var player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.moveTo(helper.absoluteVec(new net.minecraft.world.phys.Vec3(12.5, 1.0, 12.5)));
+        McEntities.snapTo(player, helper.absoluteVec(new net.minecraft.world.phys.Vec3(12.5, 1.0, 12.5)));
         Mob mob = helper.spawn(MobEntities.DUSKWING.get(), 8, 8, 8);
         mob.setTarget(player);
         float start = player.getHealth();
         helper.succeedWhen(() -> helper.assertTrue(player.getHealth() < start, "Duskwing did not hurt the player"));
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 300)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 300)
     public static void cragmawBitesPlayer(GameTestHelper helper) {
         for (int x = 0; x < 24; x++) {
             for (int z = 0; z < 24; z++) {
@@ -129,21 +141,21 @@ public final class MobsGameTests {
             }
         }
         var player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.moveTo(helper.absoluteVec(new net.minecraft.world.phys.Vec3(12.5, 1.0, 12.5)));
+        McEntities.snapTo(player, helper.absoluteVec(new net.minecraft.world.phys.Vec3(12.5, 1.0, 12.5)));
         Mob mob = helper.spawn(MobEntities.CRAGMAW.get(), 6, 1, 6);
         mob.setTarget(player);
         float start = player.getHealth();
         helper.succeedWhen(() -> helper.assertTrue(player.getHealth() < start, "Cragmaw did not hurt the player"));
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 300)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 300)
     public static void mistjellyRetaliatesWhenHurt(GameTestHelper helper) {
         var player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.moveTo(helper.absoluteVec(new net.minecraft.world.phys.Vec3(12.5, 3.0, 12.5)));
+        McEntities.snapTo(player, helper.absoluteVec(new net.minecraft.world.phys.Vec3(12.5, 3.0, 12.5)));
         Mob mob = helper.spawn(MobEntities.MISTJELLY.get(), 11, 3, 12);
         helper.runAfterDelay(20, () -> helper.assertTrue(mob.getTarget() == null, "Mistjelly must be peaceful by default"));
         boolean[] hurt = new boolean[1];
-        helper.runAfterDelay(25, () -> hurt[0] = mob.hurt(helper.getLevel().damageSources().playerAttack(player), 1.0F));
+        helper.runAfterDelay(25, () -> hurt[0] = McEntities.hurt(mob, helper.getLevel().damageSources().playerAttack(player), 1.0F));
         float start = player.getHealth();
         helper.succeedWhen(() -> {
             helper.assertTrue(mob.getTarget() == player, "Mistjelly did not retaliate: hurt=" + hurt[0] + " target=" + mob.getTarget());
@@ -151,7 +163,7 @@ public final class MobsGameTests {
         });
     }
 
-    @GameTest(template = "empty", batch = "mobs_peaceful")
+    @UpfallGameTest(template = "empty", batch = "mobs_peaceful")
     public static void hostileMobsVanishInPeaceful(GameTestHelper helper) {
         var server = helper.getLevel().getServer();
         Difficulty previous = helper.getLevel().getDifficulty();
@@ -166,7 +178,7 @@ public final class MobsGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void skygrazerBreedsAndIsNeutral(GameTestHelper helper) {
         floor(helper);
         Skygrazer grazer = helper.spawn(MobEntities.SKYGRAZER.get(), 2, 1, 2);

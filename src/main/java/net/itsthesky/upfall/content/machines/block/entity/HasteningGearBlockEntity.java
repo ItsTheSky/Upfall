@@ -1,16 +1,20 @@
 package net.itsthesky.upfall.content.machines.block.entity;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.ItemSink;
+import net.itsthesky.upfall.compat.mc.UpfallBlockEntity;
 import net.itsthesky.upfall.content.machines.KairiteFuel;
 import net.itsthesky.upfall.content.machines.MachineBlockEntities;
 import net.itsthesky.upfall.content.machines.block.HasteningGearBlock;
+import net.itsthesky.upfall.content.rustworks.RustworksItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -24,11 +28,11 @@ import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.IItemHandler;
 
-public class HasteningGearBlockEntity extends BlockEntity {
+import java.util.List;
+
+public class HasteningGearBlockEntity extends UpfallBlockEntity {
     public static final int FUEL_CAPACITY = 24000;
     public static final int UNIT_TICKS = 267;
     public static final int FURNACE_PERIOD = 2;
@@ -37,13 +41,13 @@ public class HasteningGearBlockEntity extends BlockEntity {
     private int fuel;
     private int age;
     private boolean cropsGrowing;
-    private final IItemHandler handler = new FuelHandler();
+    private final ItemSink handler = new FuelSink();
 
     public HasteningGearBlockEntity(BlockPos pos, BlockState state) {
         super(MachineBlockEntities.HASTENING_GEAR.get(), pos, state);
     }
 
-    public IItemHandler handler() {
+    public ItemSink handler() {
         return handler;
     }
 
@@ -96,7 +100,7 @@ public class HasteningGearBlockEntity extends BlockEntity {
                 BlockState furnaceState = level.getBlockState(target);
                 active = isCooking(furnaceState, furnace);
                 if (active && gear.age % FURNACE_PERIOD == 0) {
-                    AbstractFurnaceBlockEntity.serverTick(level, target, furnaceState, furnace);
+                    AbstractFurnaceBlockEntity.serverTick(server, target, furnaceState, furnace);
                 }
             } else {
                 if (gear.age % CROP_PERIOD == 0) {
@@ -125,7 +129,11 @@ public class HasteningGearBlockEntity extends BlockEntity {
     }
 
     private static boolean boostCrops(ServerLevel level, BlockPos pos, Direction facing) {
+        //? if >=26.1 {
+        /*return boostCrops(level, pos, facing, Math.min(1.0F, level.getGameRules().get(GameRules.RANDOM_TICK_SPEED) * CROP_PERIOD / 4096.0F));
+        *///?} else {
         return boostCrops(level, pos, facing, Math.min(1.0F, level.getGameRules().getInt(GameRules.RULE_RANDOMTICKING) * CROP_PERIOD / 4096.0F));
+        //?}
     }
 
     public static boolean boostCrops(ServerLevel level, BlockPos pos, Direction facing, float chance) {
@@ -134,60 +142,58 @@ public class HasteningGearBlockEntity extends BlockEntity {
             BlockState crop = level.getBlockState(target);
             if (!isGrowing(level, target, crop)) continue;
             any = true;
-            if (level.random.nextFloat() < chance) {
-                crop.randomTick(level, target.immutable(), level.random);
+            if (level.getRandom().nextFloat() < chance) {
+                crop.randomTick(level, target.immutable(), level.getRandom());
                 level.sendParticles(ParticleTypes.HAPPY_VILLAGER, target.getX() + 0.5, target.getY() + 0.3, target.getZ() + 0.5, 2, 0.25, 0.2, 0.25, 0.0);
             }
         }
         return any;
     }
 
+    public void dropContents() {
+        if (level == null) return;
+        int dust = fuel / (KairiteFuel.DUST_UNITS * UNIT_TICKS);
+        if (dust > 0) {
+            Containers.dropItemStack(level, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, new ItemStack(RustworksItems.KAIRITE_DUST.get(), dust));
+        }
+    }
+
+    //? if >=26.1 {
+    /*@Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        dropContents();
+    }
+    *///?}
+
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putInt("Fuel", fuel);
+    protected void saveData(DataOut out) {
+        out.putInt("Fuel", fuel);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        fuel = tag.getInt("Fuel");
+    protected void loadData(DataIn in) {
+        fuel = in.getIntOr("Fuel", 0);
     }
 
-    private final class FuelHandler implements IItemHandler {
+    private final class FuelSink implements ItemSink {
         @Override
-        public int getSlots() {
-            return 1;
-        }
-
-        @Override
-        public ItemStack getStackInSlot(int slot) {
-            return ItemStack.EMPTY;
-        }
-
-        @Override
-        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-            int count = KairiteFuel.fit(stack, fuel, FUEL_CAPACITY, UNIT_TICKS);
-            if (count <= 0) return stack;
-            if (!simulate) {
-                accept(stack.copyWithCount(count));
-            }
-            return stack.copyWithCount(stack.getCount() - count);
-        }
-
-        @Override
-        public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return ItemStack.EMPTY;
-        }
-
-        @Override
-        public int getSlotLimit(int slot) {
-            return 64;
-        }
-
-        @Override
-        public boolean isItemValid(int slot, ItemStack stack) {
+        public boolean valid(ItemStack stack) {
             return KairiteFuel.units(stack) > 0;
+        }
+
+        @Override
+        public int acceptable(ItemStack stack, List<ItemStack> pending) {
+            int stored = fuel;
+            for (ItemStack queued : pending) {
+                stored += queued.getCount() * KairiteFuel.units(queued) * UNIT_TICKS;
+            }
+            return KairiteFuel.fit(stack, stored, FUEL_CAPACITY, UNIT_TICKS);
+        }
+
+        @Override
+        public void accept(ItemStack stack) {
+            HasteningGearBlockEntity.this.accept(stack);
         }
     }
 }

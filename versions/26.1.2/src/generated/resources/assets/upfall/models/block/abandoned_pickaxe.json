@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#deco",
+          "uv": [
+            0.0,
+            16.0,
+            16.0,
+            0.0
+          ]
+        },
+        "up": {
+          "texture": "#deco"
+        }
+      },
+      "from": [
+        0,
+        0.25,
+        0
+      ],
+      "to": [
+        16,
+        0.25,
+        16
+      ]
+    }
+  ],
+  "textures": {
+    "deco": "upfall:block/abandoned_pickaxe",
+    "particle": "upfall:block/abandoned_pickaxe"
+  }
+}

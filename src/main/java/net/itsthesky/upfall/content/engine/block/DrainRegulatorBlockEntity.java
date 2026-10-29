@@ -1,27 +1,24 @@
 package net.itsthesky.upfall.content.engine.block;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.UpfallBlockEntity;
 import net.itsthesky.upfall.content.engine.EngineBlocks;
 import net.itsthesky.upfall.content.engine.EngineSounds;
 import net.itsthesky.upfall.registry.ModParticles;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.IntArrayTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrainRegulatorBlockEntity extends BlockEntity {
+public class DrainRegulatorBlockEntity extends UpfallBlockEntity {
     public static final int CHECK_INTERVAL = 10;
     public static final int DRAIN_INTERVAL = 6;
 
@@ -99,7 +96,7 @@ public class DrainRegulatorBlockEntity extends BlockEntity {
                     pos.setWithOffset(worldPosition, x, layer, z);
                     if (level.isLoaded(pos) && level.getBlockState(pos).is(EngineBlocks.STAGNANT_MIST.get())) {
                         level.setBlock(pos, air, Block.UPDATE_ALL);
-                        if (level.random.nextInt(3) == 0) {
+                        if (level.getRandom().nextInt(3) == 0) {
                             level.sendParticles(ModParticles.MIST_MOTE.get(), pos.getX() + 0.5, pos.getY() + 0.3, pos.getZ() + 0.5,
                                     2, 0.3, 0.2, 0.3, 0.01);
                         }
@@ -119,42 +116,31 @@ public class DrainRegulatorBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveData(DataOut out) {
         int[] packed = new int[valves.size() * 3];
         for (int i = 0; i < valves.size(); i++) {
             packed[i * 3] = valves.get(i).getX();
             packed[i * 3 + 1] = valves.get(i).getY();
             packed[i * 3 + 2] = valves.get(i).getZ();
         }
-        tag.putIntArray("Valves", packed);
-        ListTag boxes = new ListTag();
-        for (BoundingBox box : flood) {
-            boxes.add(new IntArrayTag(new int[]{box.minX(), box.minY(), box.minZ(), box.maxX(), box.maxY(), box.maxZ()}));
-        }
-        tag.put("Flood", boxes);
-        tag.putInt("LastOpen", lastOpen);
-        tag.putBoolean("Draining", draining);
-        tag.putInt("Layer", layer);
+        out.putIntArray("Valves", packed);
+        out.store("Flood", BoundingBox.CODEC.listOf(), flood);
+        out.putInt("LastOpen", lastOpen);
+        out.putBoolean("Draining", draining);
+        out.putInt("Layer", layer);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadData(DataIn in) {
         valves.clear();
-        int[] packed = tag.getIntArray("Valves");
+        int[] packed = in.getIntArrayOrEmpty("Valves");
         for (int i = 0; i + 2 < packed.length; i += 3) {
             valves.add(new BlockPos(packed[i], packed[i + 1], packed[i + 2]));
         }
         flood.clear();
-        for (Tag entry : tag.getList("Flood", Tag.TAG_INT_ARRAY)) {
-            int[] v = ((IntArrayTag) entry).getAsIntArray();
-            if (v.length == 6) {
-                flood.add(new BoundingBox(v[0], v[1], v[2], v[3], v[4], v[5]));
-            }
-        }
-        lastOpen = tag.contains("LastOpen") ? tag.getInt("LastOpen") : -1;
-        draining = tag.getBoolean("Draining");
-        layer = tag.getInt("Layer");
+        in.read("Flood", BoundingBox.CODEC.listOf()).ifPresent(flood::addAll);
+        lastOpen = in.getInt("LastOpen").orElse(-1);
+        draining = in.getBooleanOr("Draining", false);
+        layer = in.getIntOr("Layer", 0);
     }
 }

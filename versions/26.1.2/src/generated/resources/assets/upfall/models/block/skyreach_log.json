@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "upfall:block/skyreach_log_top",
+    "side": "upfall:block/skyreach_log"
+  }
+}

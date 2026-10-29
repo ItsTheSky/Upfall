@@ -1,13 +1,15 @@
 package net.itsthesky.upfall.content.quantum.vault;
 
 import net.itsthesky.upfall.UpfallConfig;
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.UpfallBlockEntity;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.itsthesky.upfall.content.quantum.QuantumSounds;
 import net.itsthesky.upfall.content.quantum.observe.QuantumObservation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
@@ -17,7 +19,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.Vec3;
@@ -25,7 +26,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VaultCoreBlockEntity extends BlockEntity {
+public class VaultCoreBlockEntity extends UpfallBlockEntity {
     private static final int JUMP_COOLDOWN = 30;
     private static final int DARK_REARM = 100;
     private static final double FROST_RANGE = 2.2;
@@ -102,7 +103,7 @@ public class VaultCoreBlockEntity extends BlockEntity {
             if (i != chestState && level.getBlockState(spot).canBeReplaced() && !QuantumObservation.isObserved(level, spot)) targets.add(i);
         }
         if (targets.isEmpty()) return;
-        moveChest(level, targets.get(level.random.nextInt(targets.size())));
+        moveChest(level, targets.get(level.getRandom().nextInt(targets.size())));
         lastJump = now;
     }
 
@@ -175,48 +176,46 @@ public class VaultCoreBlockEntity extends BlockEntity {
     private void tickLures(ServerLevel level, List<ServerPlayer> players) {
         double chance = UpfallConfig.getInt(UpfallConfig.OBSERVATION_INTERVAL) / (double) UpfallConfig.getInt(UpfallConfig.VAULT_WHISPER_INTERVAL);
         for (ServerPlayer player : players) {
-            if (level.random.nextDouble() >= chance) continue;
+            if (level.getRandom().nextDouble() >= chance) continue;
             Vec3 look = player.getViewVector(1.0F);
-            Vec3 behind = player.getEyePosition().subtract(new Vec3(look.x, 0.0, look.z).normalize().scale(2.5 + level.random.nextDouble() * 2.0));
+            Vec3 behind = player.getEyePosition().subtract(new Vec3(look.x, 0.0, look.z).normalize().scale(2.5 + level.getRandom().nextDouble() * 2.0));
             player.connection.send(new ClientboundSoundPacket(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(QuantumSounds.WHISPER.get()),
-                    SoundSource.AMBIENT, behind.x, behind.y, behind.z, 0.9F, 0.8F + level.random.nextFloat() * 0.4F, level.random.nextLong()));
+                    SoundSource.AMBIENT, behind.x, behind.y, behind.z, 0.9F, 0.8F + level.getRandom().nextFloat() * 0.4F, level.getRandom().nextLong()));
         }
     }
 
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putLongArray("Chests", chestSpots.stream().mapToLong(BlockPos::asLong).toArray());
-        tag.putIntArray("Facings", chestFacings.stream().mapToInt(Direction::get3DDataValue).toArray());
-        tag.putInt("State", chestState);
-        tag.putLongArray("Frost", frostPanes.stream().mapToLong(BlockPos::asLong).toArray());
-        tag.putLongArray("Lamps", lamps.stream().mapToLong(BlockPos::asLong).toArray());
+    protected void saveData(DataOut out) {
+        out.putLongArray("Chests", chestSpots.stream().mapToLong(BlockPos::asLong).toArray());
+        out.putIntArray("Facings", chestFacings.stream().mapToInt(Direction::get3DDataValue).toArray());
+        out.putInt("State", chestState);
+        out.putLongArray("Frost", frostPanes.stream().mapToLong(BlockPos::asLong).toArray());
+        out.putLongArray("Lamps", lamps.stream().mapToLong(BlockPos::asLong).toArray());
         int[] zones = new int[darkZones.size() * 6];
         for (int i = 0; i < darkZones.size(); i++) System.arraycopy(box(darkZones.get(i)), 0, zones, i * 6, 6);
-        tag.putIntArray("Zones", zones);
-        tag.putIntArray("Interior", box(interior));
-        tag.putLong("LightsOut", lightsOutUntil);
+        out.putIntArray("Zones", zones);
+        out.putIntArray("Interior", box(interior));
+        out.putLong("LightsOut", lightsOutUntil);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadData(DataIn in) {
         chestSpots.clear();
-        for (long l : tag.getLongArray("Chests")) chestSpots.add(BlockPos.of(l));
+        for (long l : in.getLongArrayOrEmpty("Chests")) chestSpots.add(BlockPos.of(l));
         chestFacings.clear();
-        for (int f : tag.getIntArray("Facings")) chestFacings.add(Direction.from3DDataValue(f));
-        chestState = tag.getInt("State");
+        for (int f : in.getIntArrayOrEmpty("Facings")) chestFacings.add(Direction.from3DDataValue(f));
+        chestState = in.getIntOr("State", 0);
         frostPanes.clear();
-        for (long l : tag.getLongArray("Frost")) frostPanes.add(BlockPos.of(l));
+        for (long l : in.getLongArrayOrEmpty("Frost")) frostPanes.add(BlockPos.of(l));
         lamps.clear();
-        for (long l : tag.getLongArray("Lamps")) lamps.add(BlockPos.of(l));
+        for (long l : in.getLongArrayOrEmpty("Lamps")) lamps.add(BlockPos.of(l));
         darkZones.clear();
-        int[] zones = tag.getIntArray("Zones");
+        int[] zones = in.getIntArrayOrEmpty("Zones");
         for (int i = 0; i + 5 < zones.length; i += 6) darkZones.add(unbox(zones, i));
-        int[] in = tag.getIntArray("Interior");
-        if (in.length == 6) interior = unbox(in, 0);
-        lightsOutUntil = tag.contains("LightsOut") ? tag.getLong("LightsOut") : -1;
+        int[] bounds = in.getIntArrayOrEmpty("Interior");
+        if (bounds.length == 6) interior = unbox(bounds, 0);
+        lightsOutUntil = in.getLongOr("LightsOut", -1L);
     }
 
     private static int[] box(BoundingBox box) {

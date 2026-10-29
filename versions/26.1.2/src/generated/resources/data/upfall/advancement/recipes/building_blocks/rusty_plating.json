@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_rusty_plate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:rusty_plate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:rusty_plating"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rusty_plate"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:rusty_plating"
+    ]
+  }
+}

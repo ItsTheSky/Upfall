@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "upfall:block/skyreed_bottom"
+    },
+    "half=upper": {
+      "model": "upfall:block/skyreed_top"
+    }
+  }
+}

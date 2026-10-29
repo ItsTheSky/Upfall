@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.grotto;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.worldgen.ReliquaryZones;
 import net.itsthesky.upfall.worldgen.UpfallTerrain;
 import net.minecraft.core.BlockPos;
@@ -40,7 +41,7 @@ public class GrottoStructure extends Structure {
 
     private static int cloudTop(GenerationContext context, int x, int z) {
         NoiseColumn column = context.chunkGenerator().getBaseColumn(x, z, context.heightAccessor(), context.randomState());
-        for (int y = context.heightAccessor().getMaxBuildHeight() - 1; y >= UpfallTerrain.CLOUD_BAND_MIN; y--) {
+        for (int y = McLevel.maxYExclusive(context.heightAccessor()) - 1; y >= UpfallTerrain.CLOUD_BAND_MIN; y--) {
             if (!column.getBlock(y).isAir()) {
                 return y >= 50 && y <= UpfallTerrain.CLOUD_BAND_MAX + 2 ? y : -1;
             }

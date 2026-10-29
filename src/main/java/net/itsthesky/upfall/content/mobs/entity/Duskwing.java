@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.mobs.entity;
 
+import net.itsthesky.upfall.compat.mc.UpfallFlyingMob;
 import net.itsthesky.upfall.content.mobs.MobSounds;
 import net.itsthesky.upfall.worldgen.ModDimensions;
 import net.minecraft.core.BlockPos;
@@ -12,8 +13,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -27,7 +28,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
-public class Duskwing extends FlyingMob implements Enemy {
+public class Duskwing extends UpfallFlyingMob implements Enemy {
     private static final EntityDataAccessor<Boolean> DIVING = SynchedEntityData.defineId(Duskwing.class, EntityDataSerializers.BOOLEAN);
     private static final int MIN_Y = 70;
     private static final int MAX_Y = 240;
@@ -39,7 +40,7 @@ public class Duskwing extends FlyingMob implements Enemy {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return FlyingMob.createMobAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 26.0)
                 .add(Attributes.ARMOR, 4.0)
                 .add(Attributes.ATTACK_DAMAGE, 6.75)
@@ -74,17 +75,19 @@ public class Duskwing extends FlyingMob implements Enemy {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide && level().getDifficulty() == Difficulty.PEACEFUL) {
+        if (!level().isClientSide() && level().getDifficulty() == Difficulty.PEACEFUL) {
             discard();
             return;
         }
         AirSteering.faceMotion(this, isDiving() ? 25.0F : 8.0F);
     }
 
+    //? if <26.1 {
     @Override
     protected boolean shouldDespawnInPeaceful() {
         return true;
     }
+    //?}
 
     @Override
     public SoundSource getSoundSource() {
@@ -184,7 +187,11 @@ public class Duskwing extends FlyingMob implements Enemy {
                     getMoveControl().setWantedPosition(target.getX(), target.getY(0.5), target.getZ(), 1.7);
                     getLookControl().setLookAt(target, 30.0F, 30.0F);
                     if (getBoundingBox().inflate(0.35).intersects(target.getBoundingBox())) {
+                        //? if >=26.1 {
+                        /*doHurtTarget(getServerLevel(level()), target);
+                        *///?} else {
                         doHurtTarget(target);
+                        //?}
                         Vec3 away = position().subtract(target.position()).multiply(1, 0, 1);
                         retreat = (away.lengthSqr() < 1.0E-4 ? new Vec3(1, 0, 0) : away.normalize()).scale(10);
                         enter(Phase.CLIMB);

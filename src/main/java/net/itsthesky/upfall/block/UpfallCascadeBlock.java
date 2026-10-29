@@ -34,10 +34,17 @@ public class UpfallCascadeBlock extends Block {
         return Shapes.empty();
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
+    }
+    *///?} else {
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
+    //?}
 
     @Override
     protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
@@ -49,8 +56,19 @@ public class UpfallCascadeBlock extends Block {
         return adjacent.is(this) || super.skipRendering(state, adjacent, direction);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, net.minecraft.world.entity.InsideBlockEffectApplier effectApplier, boolean isPrecise) {
+        descend(entity);
+    }
+    *///?} else {
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        descend(entity);
+    }
+    //?}
+
+    private static void descend(Entity entity) {
         Vec3 motion = entity.getDeltaMovement();
         if (motion.y < -0.12) {
             entity.setDeltaMovement(motion.x, -0.12, motion.z);
@@ -70,8 +88,15 @@ public class UpfallCascadeBlock extends Block {
         }
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+        return ItemStack.EMPTY;
+    }
+    *///?} else {
     @Override
     public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
         return ItemStack.EMPTY;
     }
+    //?}
 }

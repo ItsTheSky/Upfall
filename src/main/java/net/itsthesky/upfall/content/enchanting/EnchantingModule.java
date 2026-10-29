@@ -1,17 +1,15 @@
 package net.itsthesky.upfall.content.enchanting;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McIds;
 import net.itsthesky.upfall.content.UpfallModule;
 import net.itsthesky.upfall.datagen.DataContribution;
+import net.itsthesky.upfall.datagen.DataGenContext;
 import net.itsthesky.upfall.datagen.ModLanguageProvider;
 import net.itsthesky.upfall.datagen.ModTagProviders;
 import net.itsthesky.upfall.registry.ModItems;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.EnchantmentTagsProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
@@ -26,11 +24,8 @@ import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.item.enchantment.effects.EnchantmentAttributeEffect;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class EnchantingModule implements UpfallModule {
     public static final ResourceKey<Enchantment> SKYWALKER = key("skywalker");
@@ -73,15 +68,15 @@ public class EnchantingModule implements UpfallModule {
 
                 context.register(SKYWALKER, Enchantment.enchantment(Enchantment.definition(
                         boots, 5, 3, Enchantment.dynamicCost(8, 9), Enchantment.dynamicCost(28, 9), 4,
-                        EquipmentSlotGroup.FEET)).build(SKYWALKER.location()));
+                        EquipmentSlotGroup.FEET)).build(McIds.id(SKYWALKER)));
 
                 context.register(UPLIFTED, Enchantment.enchantment(Enchantment.definition(
                         items.getOrThrow(ItemTags.CHEST_ARMOR_ENCHANTABLE), 5, 3, Enchantment.dynamicCost(8, 9),
-                        Enchantment.dynamicCost(28, 9), 4, EquipmentSlotGroup.CHEST)).build(UPLIFTED.location()));
+                        Enchantment.dynamicCost(28, 9), 4, EquipmentSlotGroup.CHEST)).build(McIds.id(UPLIFTED)));
 
                 context.register(CLOUDSIGHT, Enchantment.enchantment(Enchantment.definition(
                         items.getOrThrow(ItemTags.HEAD_ARMOR_ENCHANTABLE), 3, 1, Enchantment.constantCost(15),
-                        Enchantment.constantCost(45), 4, EquipmentSlotGroup.HEAD)).build(CLOUDSIGHT.location()));
+                        Enchantment.constantCost(45), 4, EquipmentSlotGroup.HEAD)).build(McIds.id(CLOUDSIGHT)));
 
                 context.register(JUMPSTART, Enchantment.enchantment(Enchantment.definition(
                                 items.getOrThrow(JUMPSTART_ENCHANTABLE), 2, 3, Enchantment.dynamicCost(12, 12),
@@ -89,34 +84,19 @@ public class EnchantingModule implements UpfallModule {
                         .withEffect(EnchantmentEffectComponents.ATTRIBUTES, new EnchantmentAttributeEffect(
                                 Upfall.id("enchantment.jumpstart"), Attributes.JUMP_STRENGTH,
                                 LevelBasedValue.perLevel(0.06F), AttributeModifier.Operation.ADD_VALUE))
-                        .build(JUMPSTART.location()));
+                        .build(McIds.id(JUMPSTART)));
             }
 
             @Override
-            public void addProviders(GatherDataEvent event, DataGenerator generator, PackOutput output,
-                                     CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {
-                generator.addProvider(event.includeServer(), new UpfallEnchantmentTags(output, registries, helper));
+            public void addProviders(DataGenContext ctx) {
+                ctx.<Enchantment>tags(Registries.ENCHANTMENT, "Upfall Enchantment Tags", tags -> {
+                    for (TagKey<Enchantment> tag : List.of(net.minecraft.tags.EnchantmentTags.IN_ENCHANTING_TABLE,
+                            net.minecraft.tags.EnchantmentTags.NON_TREASURE, net.minecraft.tags.EnchantmentTags.TRADEABLE,
+                            net.minecraft.tags.EnchantmentTags.ON_RANDOM_LOOT)) {
+                        tags.tag(tag).add(SKYWALKER, UPLIFTED, CLOUDSIGHT, JUMPSTART);
+                    }
+                });
             }
         };
-    }
-
-    private static final class UpfallEnchantmentTags extends EnchantmentTagsProvider {
-        UpfallEnchantmentTags(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {
-            super(output, registries, Upfall.MODID, helper);
-        }
-
-        @Override
-        protected void addTags(HolderLookup.Provider provider) {
-            for (TagKey<Enchantment> tag : List.of(net.minecraft.tags.EnchantmentTags.IN_ENCHANTING_TABLE,
-                    net.minecraft.tags.EnchantmentTags.NON_TREASURE, net.minecraft.tags.EnchantmentTags.TRADEABLE,
-                    net.minecraft.tags.EnchantmentTags.ON_RANDOM_LOOT)) {
-                tag(tag).add(SKYWALKER, UPLIFTED, CLOUDSIGHT, JUMPSTART);
-            }
-        }
-
-        @Override
-        public String getName() {
-            return "Upfall Enchantment Tags";
-        }
     }
 }

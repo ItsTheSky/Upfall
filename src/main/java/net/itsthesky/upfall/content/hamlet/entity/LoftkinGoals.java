@@ -3,6 +3,7 @@ package net.itsthesky.upfall.content.hamlet.entity;
 import net.itsthesky.upfall.content.hamlet.HamletSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
@@ -81,7 +82,7 @@ final class LoftkinGoals {
             if (mob.getGreetCooldown() > 0 || mob.isTrading() || mob.getRandom().nextInt(10) != 0) {
                 return false;
             }
-            visitor = mob.level().getNearestPlayer(VISITOR, mob);
+            visitor = ((ServerLevel) mob.level()).getNearestPlayer(VISITOR, mob);
             return visitor != null && !visitor.isSpectator() && mob.hasLineOfSight(visitor);
         }
 

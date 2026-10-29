@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.reliquary.worldgen;
 
+import net.itsthesky.upfall.compat.mc.McChunks;
 import net.itsthesky.upfall.content.hamlet.HamletBlocks;
 import net.itsthesky.upfall.content.hamlet.block.RopeAnchorBlockEntity;
 import net.itsthesky.upfall.content.hamlet.block.RopeBlock;
@@ -30,7 +31,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -751,7 +751,11 @@ public final class ReliquaryBlueprint {
     private void post(BlockPos anchor, BlockPos other) {
         set(anchor.below(), carved());
         set(anchor.below(2), beamState(Direction.Axis.Y));
+        //? if >=26.1 {
+        /*Direction along = Direction.getApproximateNearest(other.getX() - anchor.getX(), 0, other.getZ() - anchor.getZ());
+        *///?} else {
         Direction along = Direction.getNearest(other.getX() - anchor.getX(), 0, other.getZ() - anchor.getZ());
+        //?}
         set(anchor, HamletBlocks.ZIPLINE_ANCHOR.get().defaultBlockState().setValue(ZiplineAnchorBlock.FACING, along));
         tethers.add(new Tether(anchor, other));
     }
@@ -783,7 +787,7 @@ public final class ReliquaryBlueprint {
         if (byChunk == null) {
             Map<Long, List<BlockPos>> map = new HashMap<>();
             for (BlockPos pos : blocks.keySet()) {
-                map.computeIfAbsent(ChunkPos.asLong(pos.getX() >> 4, pos.getZ() >> 4), k -> new ArrayList<>()).add(pos);
+                map.computeIfAbsent(McChunks.key(pos.getX() >> 4, pos.getZ() >> 4), k -> new ArrayList<>()).add(pos);
             }
             byChunk = map;
         }
@@ -794,7 +798,7 @@ public final class ReliquaryBlueprint {
         Map<Long, List<BlockPos>> index = index();
         for (int cx = box.minX() >> 4; cx <= box.maxX() >> 4; cx++) {
             for (int cz = box.minZ() >> 4; cz <= box.maxZ() >> 4; cz++) {
-                List<BlockPos> positions = index.get(ChunkPos.asLong(cx, cz));
+                List<BlockPos> positions = index.get(McChunks.key(cx, cz));
                 if (positions == null) continue;
                 for (BlockPos pos : positions) {
                     if (box.isInside(pos)) {

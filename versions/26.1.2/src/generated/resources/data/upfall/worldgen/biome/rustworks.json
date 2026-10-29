@@ -1,0 +1,126 @@
+{
+  "attributes": {
+    "minecraft:audio/ambient_sounds": {
+      "additions": {
+        "sound": "upfall:ambient.rustworks.additions",
+        "tick_chance": 0.006
+      },
+      "mood": {
+        "block_search_extent": 8,
+        "offset": 2.0,
+        "sound": "upfall:ambient.rustworks.mood",
+        "tick_delay": 6000
+      }
+    },
+    "minecraft:audio/background_music": {
+      "creative": {
+        "max_delay": 24000,
+        "min_delay": 12000,
+        "sound": "minecraft:music.creative"
+      },
+      "default": {
+        "max_delay": 18000,
+        "min_delay": 6000,
+        "sound": "upfall:music.upfall"
+      }
+    },
+    "minecraft:visual/ambient_particles": [
+      {
+        "particle": {
+          "type": "upfall:rust_flake"
+        },
+        "probability": 0.006
+      }
+    ],
+    "minecraft:visual/fog_color": "#c9876a",
+    "minecraft:visual/sky_color": "#b4a2b4",
+    "minecraft:visual/water_fog_color": "#3e6e66"
+  },
+  "carvers": "upfall:gas_caves",
+  "downfall": 0.4,
+  "effects": {
+    "foliage_color": "#5fa898",
+    "grass_color": "#b0705a",
+    "water_color": "#5fb8a0"
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [
+      "upfall:plunging_pipe",
+      "upfall:giant_valve",
+      "upfall:leaking_pipe",
+      "upfall:cog_cluster",
+      "upfall:stalled_automaton",
+      "upfall:exhaust_vent"
+    ],
+    [],
+    [
+      "upfall:ore_nimbusite",
+      "upfall:ore_pearled_cloud",
+      "upfall:ore_kairite"
+    ],
+    [
+      "upfall:mistglow_crystal",
+      "upfall:raincloud_patch",
+      "upfall:needle_tip",
+      "upfall:gas_cave_props"
+    ],
+    [],
+    [
+      "upfall:patch_cloud_fern",
+      "upfall:ironbark_large",
+      "upfall:ironbark_grove",
+      "upfall:ironbark_solitary",
+      "upfall:verdigris_moss_patch",
+      "upfall:rivetgrass_patch",
+      "upfall:verdigris_bloom_patch",
+      "upfall:wirevine_hanging"
+    ],
+    [
+      "upfall:updraft_from_clouds"
+    ]
+  ],
+  "has_precipitation": false,
+  "spawn_costs": {},
+  "spawners": {
+    "ambient": [
+      {
+        "type": "upfall:skyray",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 8
+      }
+    ],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [
+      {
+        "type": "upfall:duskwing",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 3
+      },
+      {
+        "type": "upfall:cragmaw",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 6
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [
+      {
+        "type": "upfall:mistjelly",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 3
+      }
+    ],
+    "water_creature": []
+  },
+  "temperature": 0.7
+}

@@ -1,0 +1,39 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#glass"
+        },
+        "up": {
+          "texture": "#glass"
+        }
+      },
+      "from": [
+        2,
+        14,
+        2
+      ],
+      "to": [
+        14,
+        14,
+        14
+      ]
+    }
+  ],
+  "textures": {
+    "band": {
+      "force_translucent": true,
+      "sprite": "upfall:block/pneumatic_pipe_band"
+    },
+    "glass": {
+      "force_translucent": true,
+      "sprite": "upfall:block/pneumatic_pipe_glass"
+    },
+    "particle": {
+      "force_translucent": true,
+      "sprite": "upfall:block/pneumatic_pipe_band"
+    }
+  }
+}

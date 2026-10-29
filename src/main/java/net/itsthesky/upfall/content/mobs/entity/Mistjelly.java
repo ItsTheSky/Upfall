@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.mobs.entity;
 
+import net.itsthesky.upfall.compat.mc.UpfallFlyingMob;
 import net.itsthesky.upfall.content.mobs.MobSounds;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.worldgen.ModDimensions;
@@ -10,8 +11,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -22,7 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.EnumSet;
 
-public class Mistjelly extends FlyingMob {
+public class Mistjelly extends UpfallFlyingMob {
     public static final int MIN_Y = 36;
     public static final int MAX_Y = 72;
 
@@ -35,7 +36,7 @@ public class Mistjelly extends FlyingMob {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return FlyingMob.createMobAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 16.0)
                 .add(Attributes.ATTACK_DAMAGE, 5.0)
                 .add(Attributes.FOLLOW_RANGE, 20.0)
@@ -59,10 +60,20 @@ public class Mistjelly extends FlyingMob {
         this.goalSelector.addGoal(2, new AirSteering.DriftGoal(this, MIN_Y, MAX_Y, 14, 5, 0.6, 120));
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public boolean hurtServer(net.minecraft.server.level.ServerLevel level, DamageSource source, float amount) {
+        return rallyNearby(super.hurtServer(level, source, amount), source);
+    }
+    *///?} else {
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        boolean hurt = super.hurt(source, amount);
-        if (hurt && !level().isClientSide && source.getEntity() instanceof LivingEntity attacker && attacker.isAlive()) {
+        return rallyNearby(super.hurt(source, amount), source);
+    }
+    //?}
+
+    private boolean rallyNearby(boolean hurt, DamageSource source) {
+        if (hurt && !level().isClientSide() && source.getEntity() instanceof LivingEntity attacker && attacker.isAlive()) {
             setTarget(attacker);
             for (Mistjelly other : level().getEntitiesOfClass(Mistjelly.class, getBoundingBox().inflate(12.0))) {
                 if (other.getTarget() == null) other.setTarget(attacker);
@@ -75,12 +86,12 @@ public class Mistjelly extends FlyingMob {
     public void tick() {
         super.tick();
         LivingEntity target = getTarget();
-        if (!level().isClientSide && target != null && (!target.isAlive() || distanceToSqr(target) > 30 * 30
+        if (!level().isClientSide() && target != null && (!target.isAlive() || distanceToSqr(target) > 30 * 30
                 || tickCount - getLastHurtByMobTimestamp() > 600)) {
             setTarget(null);
         }
         if (stingCooldown > 0) stingCooldown--;
-        if (!level().isClientSide) setAggressive(getTarget() != null);
+        if (!level().isClientSide()) setAggressive(getTarget() != null);
         AirSteering.faceMotion(this, 3.0F);
     }
 
@@ -132,7 +143,11 @@ public class Mistjelly extends FlyingMob {
             getMoveControl().setWantedPosition(target.getX(), target.getY(0.6), target.getZ(), 1.3);
             if (stingCooldown == 0 && getBoundingBox().inflate(0.5).intersects(target.getBoundingBox())) {
                 stingCooldown = 24;
+                //? if >=26.1 {
+                /*if (doHurtTarget(getServerLevel(level()), target)) {
+                *///?} else {
                 if (doHurtTarget(target)) {
+                //?}
                     target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1), Mistjelly.this);
                 }
             }

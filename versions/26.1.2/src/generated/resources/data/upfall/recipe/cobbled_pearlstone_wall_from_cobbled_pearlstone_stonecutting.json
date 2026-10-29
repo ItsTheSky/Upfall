@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "upfall:cobbled_pearlstone",
+  "result": {
+    "id": "upfall:cobbled_pearlstone_wall"
+  }
+}

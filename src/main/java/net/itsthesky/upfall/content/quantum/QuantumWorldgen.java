@@ -3,12 +3,10 @@ package net.itsthesky.upfall.content.quantum;
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.quantum.cave.GasCaveCarver;
 import net.itsthesky.upfall.content.quantum.cave.GasCaveFeature;
+import net.itsthesky.upfall.datagen.DataGenContext;
 import net.itsthesky.upfall.registry.ModTags;
 import net.itsthesky.upfall.worldgen.ModBiomes;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.ConstantFloat;
@@ -28,14 +26,11 @@ import net.minecraft.world.level.levelgen.heightproviders.ConstantHeight;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.data.loot.LootTableProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 
 public final class QuantumWorldgen {
     private QuantumWorldgen() {}
@@ -81,39 +76,28 @@ public final class QuantumWorldgen {
     }
 
     static void biomeCarvers(ResourceKey<Biome> biome, BiomeGenerationSettings.Builder generation) {
+        //? if >=26.1 {
+        /*generation.addCarver(GAS_CAVES);
+        *///?} else {
         generation.addCarver(GenerationStep.Carving.AIR, GAS_CAVES);
+        //?}
     }
 
     static final Set<ResourceKey<Biome>> CAVE_BIOMES = Set.copyOf(ModBiomes.ALL);
     static final GenerationStep.Decoration PROPS_STEP = GenerationStep.Decoration.UNDERGROUND_DECORATION;
 
-    static void addProviders(GatherDataEvent event, DataGenerator generator, PackOutput output,
-                             CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {
-        generator.addProvider(event.includeServer(), new Named("Quantum loot tables", new LootTableProvider(output, Set.of(),
-                List.of(new LootTableProvider.SubProviderEntry(QuantumLoot::new, LootContextParamSets.CHEST)), registries)));
-        generator.addProvider(event.includeServer(), new net.minecraft.data.tags.BiomeTagsProvider(output, registries, Upfall.MODID, helper) {
-            @Override
-            protected void addTags(HolderLookup.Provider provider) {
-                tag(QuantumStructures.HAS_SHIFTING_VAULT).add(ModBiomes.DRIFTING_ARCHIPELAGO, ModBiomes.HANGING_ROOTS, ModBiomes.GILDED_RIDGE,
-                        ModBiomes.RUSTWORKS);
-            }
-
-            @Override
-            public String getName() {
-                return "Shifting Vault Biome Tags";
-            }
-        });
+    //? if <26.1 {
+    static void addProviders(net.neoforged.neoforge.data.event.GatherDataEvent event, net.minecraft.data.DataGenerator generator,
+                             net.minecraft.data.PackOutput output, java.util.concurrent.CompletableFuture<net.minecraft.core.HolderLookup.Provider> registries,
+                             net.neoforged.neoforge.common.data.ExistingFileHelper helper) {
+        addProviders(new DataGenContext(event, registries));
     }
+    //?}
 
-    record Named(String name, net.minecraft.data.DataProvider delegate) implements net.minecraft.data.DataProvider {
-        @Override
-        public CompletableFuture<?> run(net.minecraft.data.CachedOutput output) {
-            return delegate.run(output);
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
+    static void addProviders(DataGenContext ctx) {
+        ctx.add(ctx.lootTables("Quantum loot tables",
+                List.of(new LootTableProvider.SubProviderEntry(QuantumLoot::new, LootContextParamSets.CHEST))));
+        ctx.<Biome>tags(Registries.BIOME, "Shifting Vault Biome Tags", tags -> tags.tag(QuantumStructures.HAS_SHIFTING_VAULT)
+                .add(ModBiomes.DRIFTING_ARCHIPELAGO, ModBiomes.HANGING_ROOTS, ModBiomes.GILDED_RIDGE, ModBiomes.RUSTWORKS));
     }
 }

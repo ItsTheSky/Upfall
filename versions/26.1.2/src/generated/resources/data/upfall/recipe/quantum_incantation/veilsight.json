@@ -1,0 +1,11 @@
+{
+  "type": "upfall:quantum_incantation",
+  "base": "upfall:levitite_helmet",
+  "ingredients": [
+    "upfall:veil_mask",
+    "upfall:mistglow_dust",
+    "upfall:mistglow_dust",
+    "upfall:mistglow_dust"
+  ],
+  "upgrade": "veilsight"
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:simple_block",
+  "config": {
+    "to_place": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "upfall:rivetgrass"
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "Name": "upfall:tall_rivetgrass",
+            "Properties": {
+              "half": "lower"
+            }
+          },
+          "weight": 2
+        }
+      ]
+    }
+  }
+}

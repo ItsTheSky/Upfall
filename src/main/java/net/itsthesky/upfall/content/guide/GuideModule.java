@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.guide;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McNbt;
 import net.itsthesky.upfall.content.UpfallModule;
 import net.itsthesky.upfall.datagen.DataContribution;
 import net.itsthesky.upfall.registry.ModCreativeTabs;
@@ -41,8 +42,8 @@ public class GuideModule implements UpfallModule {
     private static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = event.getEntity();
         CompoundTag data = player.getPersistentData();
-        CompoundTag persisted = data.getCompound(Player.PERSISTED_NBT_TAG);
-        if (persisted.getBoolean(RECEIVED_TAG)) {
+        CompoundTag persisted = McNbt.getCompound(data, Player.PERSISTED_NBT_TAG);
+        if (McNbt.getBoolean(persisted, RECEIVED_TAG)) {
             return;
         }
         persisted.putBoolean(RECEIVED_TAG, true);

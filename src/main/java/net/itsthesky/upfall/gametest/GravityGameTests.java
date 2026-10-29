@@ -1,11 +1,11 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McEntities;
 import net.itsthesky.upfall.content.gravity.InvertedGravity;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModEffects;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -18,15 +18,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class GravityGameTests {
     private GravityGameTests() {}
 
-    @GameTest(template = "empty", timeoutTicks = 100)
+    @UpfallGameTest(template = "empty", timeoutTicks = 100)
     public static void ventFillsAndColumnCollapses(GameTestHelper helper) {
         BlockPos vent = new BlockPos(3, 1, 3);
         helper.setBlock(vent, ModBlocks.UPDRAFT_VENT.get());
@@ -41,7 +37,7 @@ public final class GravityGameTests {
         });
     }
 
-    @GameTest(template = "empty", timeoutTicks = 100)
+    @UpfallGameTest(template = "empty", timeoutTicks = 100)
     public static void updraftLiftsEntities(GameTestHelper helper) {
         BlockPos vent = new BlockPos(3, 1, 3);
         helper.setBlock(vent, ModBlocks.UPDRAFT_VENT.get());
@@ -55,7 +51,7 @@ public final class GravityGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void weightlessLowersGravity(GameTestHelper helper) {
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         double normal = player.getAttributeValue(Attributes.GRAVITY);
@@ -66,7 +62,7 @@ public final class GravityGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty", timeoutTicks = 100)
+    @UpfallGameTest(template = "empty", timeoutTicks = 100)
     public static void denseCloudSoftensFalls(GameTestHelper helper) {
         helper.setBlock(new BlockPos(3, 1, 3), ModBlocks.DENSE_CLOUD.get());
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
@@ -93,7 +89,7 @@ public final class GravityGameTests {
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
         Vec3 pos = helper.absoluteVec(relative);
-        player.moveTo(pos.x, pos.y, pos.z, 0.0F, 0.0F);
+        McEntities.snapTo(player, pos.x, pos.y, pos.z, 0.0F, 0.0F);
         if (weightless) {
             player.addEffect(new MobEffectInstance(ModEffects.WEIGHTLESS, 2000));
         }
@@ -114,7 +110,7 @@ public final class GravityGameTests {
         helper.assertTrue(player.onGround(), "Resting against the ceiling must count as ground");
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 120, skyAccess = true)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 120, skyAccess = true)
     public static void weightlessFallsOntoCeiling(GameTestHelper helper) {
         double ceiling = placeCeiling(helper);
         helper.setBlock(new BlockPos(17, 1, 17), ModBlocks.PEARLSTONE.get());
@@ -138,7 +134,7 @@ public final class GravityGameTests {
                 .thenSucceed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 200)
     public static void invertedJumpPushesAwayFromCeiling(GameTestHelper helper) {
         double ceiling = placeCeiling(helper);
         ServerPlayer player = tickedPlayer(helper, new Vec3(5.5, 3.0, 5.5), true);
@@ -157,7 +153,7 @@ public final class GravityGameTests {
                 .thenSucceed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 300)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 300)
     public static void leavingTheCeilingIsSafe(GameTestHelper helper) {
         double ceiling = placeCeiling(helper);
         ServerPlayer player = tickedPlayer(helper, new Vec3(5.5, 3.0, 5.5), true);
@@ -184,7 +180,7 @@ public final class GravityGameTests {
                 .thenSucceed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 60)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 60)
     public static void weightlessMobsAreNotInverted(GameTestHelper helper) {
         placeCeiling(helper);
         Zombie zombie = helper.spawn(EntityType.ZOMBIE, new BlockPos(5, 3, 5));

@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.reliquary.worldgen;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.compat.mc.McChunks;
 import net.itsthesky.upfall.content.reliquary.ReliquaryStructures;
 import net.itsthesky.upfall.worldgen.ReliquaryZones;
 import net.minecraft.core.BlockPos;
@@ -24,7 +25,7 @@ public class TiltedReliquaryStructure extends Structure {
     @Override
     protected Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
         ChunkPos chunk = context.chunkPos();
-        ChunkPos center = ReliquaryZones.of(context.randomState()).center(ReliquaryZones.cellOfChunk(chunk.x), ReliquaryZones.cellOfChunk(chunk.z));
+        ChunkPos center = ReliquaryZones.of(context.randomState()).center(ReliquaryZones.cellOfChunk(McChunks.x(chunk)), ReliquaryZones.cellOfChunk(McChunks.z(chunk)));
         if (center == null || !center.equals(chunk)) {
             return Optional.empty();
         }

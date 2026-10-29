@@ -125,6 +125,14 @@ public final class AerieBlueprint {
                 .setValue(StairBlock.FACING, facing).setValue(StairBlock.HALF, half);
     }
 
+    private static Direction nearest(double x, double y, double z) {
+        //? if >=26.1 {
+        /*return Direction.getApproximateNearest(x, y, z);
+        *///?} else {
+        return Direction.getNearest(x, y, z);
+        //?}
+    }
+
     private static final BlockState AIR = Blocks.AIR.defaultBlockState();
 
     public static AerieBlueprint tower(Plan plan, int index, long seed) {
@@ -367,7 +375,7 @@ public final class AerieBlueprint {
                     int x = cx + dx;
                     int z = cz + dz;
                     if (noise(x, y, z) < 0.07) continue;
-                    set(x, y, z, stairs(Direction.getNearest(-dx, 0, -dz), Half.BOTTOM));
+                    set(x, y, z, stairs(nearest(-dx, 0, -dz), Half.BOTTOM));
                 }
             }
         }
@@ -524,7 +532,7 @@ public final class AerieBlueprint {
             caches.add(new Cache(new BlockPos(x, level + 1, z), AerieLoot.KEEP));
             chest = new BlockPos(x, level + 1, z);
         }
-        Direction facing = Direction.getNearest(tower.base().getX() - chest.getX(), 0, tower.base().getZ() - chest.getZ());
+        Direction facing = nearest(tower.base().getX() - chest.getX(), 0, tower.base().getZ() - chest.getZ());
         BlockPos front = chest.relative(facing);
         for (BlockPos plate : List.of(front, front.relative(facing.getClockWise()), front.relative(facing.getCounterClockWise()))) {
             BlockState here = get(plate.getX(), plate.getY(), plate.getZ());
@@ -783,7 +791,7 @@ public final class AerieBlueprint {
                         set(x, y + 1, z, wall());
                     }
                     if (noise(x, y - 7, z) > 0.8) {
-                        drapeVine(a, b, x, y, z, Direction.getNearest(-span.uz() * Math.signum(span.across(x, z)), 0,
+                        drapeVine(a, b, x, y, z, nearest(-span.uz() * Math.signum(span.across(x, z)), 0,
                                 span.ux() * Math.signum(span.across(x, z))));
                     }
                     int post = (int) Math.floor(along);

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "upfall:block/rope_spool_end",
+    "side": "upfall:block/rope_spool_side"
+  }
+}

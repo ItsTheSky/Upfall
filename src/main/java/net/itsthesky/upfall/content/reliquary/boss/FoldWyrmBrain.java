@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.reliquary.boss;
 
+import net.itsthesky.upfall.compat.mc.McEntities;
 import net.itsthesky.upfall.content.mobs.entity.AirSteering;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.itsthesky.upfall.content.reliquary.ReliquaryBlocks;
@@ -165,7 +166,7 @@ final class FoldWyrmBrain {
             List<ServerPlayer> players = warden.arenaPlayers();
             for (int i = 0; i < count && !players.isEmpty(); i++) {
                 FoldWardenSegment segment = warden.segments()[active - 1 - i];
-                FoldFragment fragment = ReliquaryEntities.FOLD_FRAGMENT.get().create(server);
+                FoldFragment fragment = ReliquaryEntities.create(ReliquaryEntities.FOLD_FRAGMENT.get(), server);
                 if (fragment == null) continue;
                 ServerPlayer aim = players.get(warden.getRandom().nextInt(players.size()));
                 Vec3 spread = new Vec3(warden.getRandom().nextGaussian(), 0.0, warden.getRandom().nextGaussian()).scale(0.8);
@@ -195,7 +196,7 @@ final class FoldWyrmBrain {
             warden.playSound(ReliquarySounds.WARDEN_SLAM.get(), 3.0F, 0.8F);
             DamageSource source = warden.damageSources().mobAttack(warden);
             for (Player player : server.getEntitiesOfClass(Player.class, new AABB(diveTarget, diveTarget).inflate(4.0, 2.5, 4.0), warden::fightable)) {
-                if (player.hurt(source, DIVE_DAMAGE)) {
+                if (McEntities.hurt(player, source, DIVE_DAMAGE)) {
                     player.setDeltaMovement(player.getDeltaMovement().add(0.0, 0.8, 0.0));
                     player.hurtMarked = true;
                 }
@@ -298,7 +299,7 @@ final class FoldWyrmBrain {
         for (ServerPlayer player : warden.arenaPlayers()) {
             for (AABB box : boxes) {
                 if (box.intersects(player.getBoundingBox())) {
-                    if (player.hurt(source, damage)) {
+                    if (McEntities.hurt(player, source, damage)) {
                         player.knockback(0.8, warden.getX() - player.getX(), warden.getZ() - player.getZ());
                     }
                     break;

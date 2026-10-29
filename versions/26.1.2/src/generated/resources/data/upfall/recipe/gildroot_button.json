@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "wooden_button",
+  "ingredients": [
+    "upfall:gildroot_planks"
+  ],
+  "result": {
+    "id": "upfall:gildroot_button"
+  }
+}

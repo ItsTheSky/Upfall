@@ -14,6 +14,7 @@ public class ChronospireModule implements UpfallModule {
         ChronoBlocks.BLOCKS.register(modEventBus);
         ChronoBlocks.ITEMS.register(modEventBus);
         ChronoRegistries.BLOCK_ENTITIES.register(modEventBus);
+        ChronoRegistries.ENTITY_DATA_SERIALIZERS.register(modEventBus);
         ChronoRegistries.ENTITY_TYPES.register(modEventBus);
         ChronoRegistries.ITEMS.register(modEventBus);
         ChronoRegistries.STRUCTURE_TYPES.register(modEventBus);

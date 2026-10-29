@@ -23,6 +23,10 @@ public class RustworksModule implements UpfallModule {
         ModCreativeTabs.EXTRA.add(RustworksItems.KAIRITE_DUST);
         ModCreativeTabs.EXTRA.add(RustworksItems.KAIRITE_GEAR);
         ModCreativeTabs.EXTRA.add(RustworksItems.RUSTY_PLATE);
+        //? if >=26.1 {
+        /*modEventBus.addListener((net.neoforged.neoforge.event.RegisterCauldronInteractionEvent.Dispatcher event) ->
+                event.register(net.itsthesky.upfall.Upfall.id("stillflow"), net.itsthesky.upfall.content.rustworks.block.StillflowCauldronBlock.INTERACTIONS));
+        *///?}
     }
 
     @Override

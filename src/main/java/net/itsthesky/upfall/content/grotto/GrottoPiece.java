@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.grotto;
 
+import net.itsthesky.upfall.compat.mc.McNbt;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
@@ -34,10 +35,10 @@ public class GrottoPiece extends StructurePiece {
 
     public GrottoPiece(CompoundTag tag) {
         super(GrottoStructures.PIECE.get(), tag);
-        this.seed = tag.getLong("Seed");
-        this.x = tag.getInt("X");
-        this.z = tag.getInt("Z");
-        this.layout = new GrottoLayout(seed, x, z, tag.getInt("TopY"));
+        this.seed = McNbt.getLong(tag, "Seed");
+        this.x = McNbt.getInt(tag, "X");
+        this.z = McNbt.getInt(tag, "Z");
+        this.layout = new GrottoLayout(seed, x, z, McNbt.getInt(tag, "TopY"));
     }
 
     public GrottoLayout layout() {

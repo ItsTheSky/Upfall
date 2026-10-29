@@ -1,0 +1,70 @@
+{
+  "values": {
+    "upfall:cloud_fern": {
+      "chance": 0.65
+    },
+    "upfall:cloudberry": {
+      "chance": 0.3
+    },
+    "upfall:cloudberry_tart": {
+      "chance": 1.0
+    },
+    "upfall:cloudbloom": {
+      "chance": 0.65
+    },
+    "upfall:cloudstalk": {
+      "chance": 0.3
+    },
+    "upfall:duskbloom": {
+      "chance": 0.65
+    },
+    "upfall:gilded_tuft": {
+      "chance": 0.65
+    },
+    "upfall:gildfruit": {
+      "chance": 0.65
+    },
+    "upfall:gildroot_leaves": {
+      "chance": 0.3
+    },
+    "upfall:gildroot_sapling": {
+      "chance": 0.3
+    },
+    "upfall:glowvine": {
+      "chance": 0.5
+    },
+    "upfall:ironbark_leaves": {
+      "chance": 0.3
+    },
+    "upfall:ironbark_sapling": {
+      "chance": 0.3
+    },
+    "upfall:rivetgrass": {
+      "chance": 0.3
+    },
+    "upfall:skylily": {
+      "chance": 0.65
+    },
+    "upfall:skyreach_leaves": {
+      "chance": 0.3
+    },
+    "upfall:skyreach_sapling": {
+      "chance": 0.3
+    },
+    "upfall:skyreed": {
+      "chance": 0.5
+    },
+    "upfall:verdigris_bloom": {
+      "chance": 0.65
+    },
+    "upfall:verdigris_moss": {
+      "chance": 0.3
+    },
+    "upfall:verdigris_moss_block": {
+      "chance": 0.65
+    },
+    "upfall:wirevine": {
+      "chance": 0.5
+    }
+  }
+}

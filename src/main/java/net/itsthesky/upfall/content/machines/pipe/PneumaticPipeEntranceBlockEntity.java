@@ -1,12 +1,13 @@
 package net.itsthesky.upfall.content.machines.pipe;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.ItemSink;
+import net.itsthesky.upfall.compat.mc.McItemHandlers;
+import net.itsthesky.upfall.compat.mc.UpfallBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -14,26 +15,22 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-public class PneumaticPipeEntranceBlockEntity extends BlockEntity {
+public class PneumaticPipeEntranceBlockEntity extends UpfallBlockEntity {
     public static final int MAX_IN_TRANSIT = 256;
     private static final int ROUTE_CACHE_TICKS = 10;
 
     private final List<Transit> transit = new ArrayList<>();
-    private final IItemHandler inlet = new Inlet();
+    private final ItemSink inlet = new Inlet();
     private Optional<PipeRoute> cachedRoute = Optional.empty();
     private long routeComputedAt = -ROUTE_CACHE_TICKS;
 
@@ -51,7 +48,7 @@ public class PneumaticPipeEntranceBlockEntity extends BlockEntity {
         super(PneumaticPipes.ENTRANCE.get(), pos, state);
     }
 
-    public IItemHandler inlet() {
+    public ItemSink inlet() {
         return inlet;
     }
 
@@ -78,7 +75,11 @@ public class PneumaticPipeEntranceBlockEntity extends BlockEntity {
     }
 
     private boolean accept(ItemStack stack, boolean simulate) {
-        if (stack.isEmpty() || transit.size() >= MAX_IN_TRANSIT) return false;
+        return accept(stack, simulate, 0);
+    }
+
+    private boolean accept(ItemStack stack, boolean simulate, int pending) {
+        if (stack.isEmpty() || transit.size() + pending >= MAX_IN_TRANSIT) return false;
         Optional<PipeRoute> route = route();
         if (route.isEmpty()) return false;
         if (!simulate) {
@@ -120,8 +121,8 @@ public class PneumaticPipeEntranceBlockEntity extends BlockEntity {
                 swallowed = true;
             }
             if (swallowed) {
-                Vec3 at = Vec3.atCenterOf(pos).add(Vec3.atLowerCornerOf(facing.getNormal()).scale(0.6));
-                level.playSound(null, pos, PneumaticPipes.ITEM.get(), SoundSource.BLOCKS, 0.5F, 0.9F + level.random.nextFloat() * 0.2F);
+                Vec3 at = Vec3.atCenterOf(pos).add(PipeTravel.directionVec(facing).scale(0.6));
+                level.playSound(null, pos, PneumaticPipes.ITEM.get(), SoundSource.BLOCKS, 0.5F, 0.9F + level.getRandom().nextFloat() * 0.2F);
                 level.sendParticles(ParticleTypes.POOF, at.x, at.y, at.z, 3, 0.2, 0.2, 0.2, 0.01);
             }
         }
@@ -135,16 +136,13 @@ public class PneumaticPipeEntranceBlockEntity extends BlockEntity {
             origin = route.get().exit();
             facing = route.get().exitFacing();
             BlockPos target = origin.relative(facing);
-            IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, target, facing.getOpposite());
-            if (handler != null) {
-                stack = ItemHandlerHelper.insertItemStacked(handler, stack, false);
-            }
+            stack = McItemHandlers.insert(level, target, facing.getOpposite(), stack, false, true);
         } else {
             origin = worldPosition;
             facing = facing();
         }
         if (!stack.isEmpty()) {
-            Vec3 normal = Vec3.atLowerCornerOf(facing.getNormal());
+            Vec3 normal = PipeTravel.directionVec(facing);
             Vec3 at = Vec3.atCenterOf(origin).add(normal.scale(0.75));
             Vec3 motion = normal.scale(0.25).add(0, facing.getAxis().isHorizontal() ? 0.1 : 0, 0);
             ItemEntity entity = new ItemEntity(level, at.x, at.y - (facing == Direction.DOWN ? 0.25 : 0.125), at.z, stack, motion.x, motion.y, motion.z);
@@ -152,7 +150,7 @@ public class PneumaticPipeEntranceBlockEntity extends BlockEntity {
             level.addFreshEntity(entity);
             level.sendParticles(ParticleTypes.POOF, at.x, at.y, at.z, 2, 0.15, 0.15, 0.15, 0.01);
         }
-        level.playSound(null, origin, PneumaticPipes.POP.get(), SoundSource.BLOCKS, 0.4F, 1.1F + level.random.nextFloat() * 0.2F);
+        level.playSound(null, origin, PneumaticPipes.POP.get(), SoundSource.BLOCKS, 0.4F, 1.1F + level.getRandom().nextFloat() * 0.2F);
     }
 
     public void dropContents() {
@@ -163,59 +161,49 @@ public class PneumaticPipeEntranceBlockEntity extends BlockEntity {
         transit.clear();
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        dropContents();
+    }
+    *///?}
+
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        ListTag list = new ListTag();
+    protected void saveData(DataOut out) {
+        DataOut.ChildList list = out.childList("Transit");
         for (Transit item : transit) {
-            CompoundTag entry = new CompoundTag();
-            entry.put("Item", item.stack.save(registries));
+            DataOut entry = list.add();
+            entry.putItem("Item", item.stack);
             entry.putInt("Ticks", item.ticks);
-            list.add(entry);
         }
-        tag.put("Transit", list);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadData(DataIn in) {
         transit.clear();
-        ListTag list = tag.getList("Transit", Tag.TAG_COMPOUND);
-        for (int i = 0; i < list.size(); i++) {
-            CompoundTag entry = list.getCompound(i);
-            ItemStack.parse(registries, entry.getCompound("Item")).ifPresent(stack -> transit.add(new Transit(stack, entry.getInt("Ticks"))));
+        for (DataIn entry : in.childList("Transit")) {
+            ItemStack stack = entry.getItem("Item");
+            if (!stack.isEmpty()) {
+                transit.add(new Transit(stack, entry.getIntOr("Ticks", 0)));
+            }
         }
     }
 
-    private final class Inlet implements IItemHandler {
+    private final class Inlet implements ItemSink {
         @Override
-        public int getSlots() {
-            return 1;
-        }
-
-        @Override
-        public ItemStack getStackInSlot(int slot) {
-            return ItemStack.EMPTY;
-        }
-
-        @Override
-        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-            return accept(stack, simulate) ? ItemStack.EMPTY : stack;
-        }
-
-        @Override
-        public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return ItemStack.EMPTY;
-        }
-
-        @Override
-        public int getSlotLimit(int slot) {
-            return 64;
-        }
-
-        @Override
-        public boolean isItemValid(int slot, ItemStack stack) {
+        public boolean valid(ItemStack stack) {
             return true;
+        }
+
+        @Override
+        public int acceptable(ItemStack stack, List<ItemStack> pending) {
+            return PneumaticPipeEntranceBlockEntity.this.accept(stack, true, pending.size()) ? stack.getCount() : 0;
+        }
+
+        @Override
+        public void accept(ItemStack stack) {
+            PneumaticPipeEntranceBlockEntity.this.accept(stack, false);
         }
     }
 }

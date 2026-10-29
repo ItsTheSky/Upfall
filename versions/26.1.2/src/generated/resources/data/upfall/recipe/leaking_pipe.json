@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "D": "upfall:kairite_dust",
+    "P": "upfall:rusty_pipe"
+  },
+  "pattern": [
+    "P",
+    "D"
+  ],
+  "result": {
+    "id": "upfall:leaking_pipe"
+  }
+}

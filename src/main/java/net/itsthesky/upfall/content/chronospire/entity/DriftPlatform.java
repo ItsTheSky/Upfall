@@ -1,8 +1,10 @@
 package net.itsthesky.upfall.content.chronospire.entity;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.content.chronospire.ChronoRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -16,7 +18,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class DriftPlatform extends Entity {
-    private static final EntityDataAccessor<CompoundTag> DATA_PATH = SynchedEntityData.defineId(DriftPlatform.class, EntityDataSerializers.COMPOUND_TAG);
+    private static final EntityDataAccessor<CompoundTag> DATA_PATH = SynchedEntityData.defineId(DriftPlatform.class, ChronoRegistries.COMPOUND_TAG.get());
     private static final double MAX_CARRY = 1.0;
 
     private PlatformPath path;
@@ -71,17 +73,28 @@ public class DriftPlatform extends Entity {
         for (Entity entity : level().getEntities(this, zone, EntitySelector.NO_SPECTATORS)) {
             if (entity.noPhysics || entity.isPassenger() || entity instanceof DriftPlatform) continue;
             if (entity.getBoundingBox().minY < before.maxY - 0.05) continue;
-            boolean controlledHere = level().isClientSide ? entity.isControlledByLocalInstance() : !(entity instanceof Player);
+            //? if >=26.1 {
+            /*boolean controlledHere = level().isClientSide() ? entity.isLocalInstanceAuthoritative() : !(entity instanceof Player);
+            *///?} else {
+            boolean controlledHere = level().isClientSide() ? entity.isControlledByLocalInstance() : !(entity instanceof Player);
+            //?}
             if (controlledHere) {
                 entity.move(MoverType.SHULKER, delta);
             }
         }
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public boolean canBeCollidedWith(Entity other) {
+        return true;
+    }
+    *///?} else {
     @Override
     public boolean canBeCollidedWith() {
         return true;
     }
+    //?}
 
     @Override
     public boolean isPickable() {
@@ -93,10 +106,17 @@ public class DriftPlatform extends Entity {
         return false;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public boolean hurtServer(net.minecraft.server.level.ServerLevel level, DamageSource source, float amount) {
+        return false;
+    }
+    *///?} else {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         return false;
     }
+    //?}
 
     @Override
     public boolean isAttackable() {
@@ -108,24 +128,51 @@ public class DriftPlatform extends Entity {
         return PushReaction.IGNORE;
     }
 
+    //? if >=26.1 {
+    /*// Replaces the empty lerpTo: the client trusts its own deterministic path position and ignores server position packets.
+    // TODO: check in game that the platform does not jitter on teleport/position-sync packets.
+    @Override
+    protected boolean isLocalClientAuthoritative() {
+        return true;
+    }
+    *///?} else {
     @Override
     public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
     }
+    //?}
 
     @Override
     public boolean shouldRenderAtSqrDistance(double distance) {
         return distance < 256 * 256;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+        loadPath(DataIn.of(input));
+    }
+
+    @Override
+    protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+        savePath(DataOut.of(output));
+    }
+    *///?} else {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.contains("Path")) {
-            setPath(PlatformPath.load(tag.getCompound("Path")));
-        }
+        loadPath(DataIn.of(tag, registryAccess()));
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.put("Path", path().save());
+        savePath(DataOut.of(tag, registryAccess()));
+    }
+    //?}
+
+    private void loadPath(DataIn in) {
+        in.getCompound("Path").ifPresent(saved -> setPath(PlatformPath.load(saved)));
+    }
+
+    private void savePath(DataOut out) {
+        out.putCompound("Path", path().save());
     }
 }

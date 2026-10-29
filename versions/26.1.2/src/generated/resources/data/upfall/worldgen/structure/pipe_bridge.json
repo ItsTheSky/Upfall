@@ -1,0 +1,6 @@
+{
+  "type": "upfall:pipe_bridge",
+  "biomes": "#upfall:has_structure/pipe_bridge",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

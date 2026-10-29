@@ -1,16 +1,16 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.enchanting.EnchantingEffects;
 import net.itsthesky.upfall.content.enchanting.EnchantingModule;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -21,12 +21,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class EnchantingGameTests {
     private EnchantingGameTests() {}
 
@@ -40,7 +37,16 @@ public final class EnchantingGameTests {
         return stack;
     }
 
-    @GameTest(template = "empty")
+    private static void inside(GameTestHelper helper, BlockState state, BlockPos abs, Entity entity) {
+        //? if >=26.1 {
+        /*entity.setPos(Vec3.atBottomCenterOf(abs));
+        state.entityInside(helper.getLevel(), abs, entity, net.minecraft.world.entity.InsideBlockEffectApplier.NOOP, true);
+        *///?} else {
+        state.entityInside(helper.getLevel(), abs, entity);
+        //?}
+    }
+
+    @UpfallGameTest(template = "empty")
     public static void enchantmentsSupportTheRightItems(GameTestHelper helper) {
         Enchantment skywalker = holder(helper, EnchantingModule.SKYWALKER).value();
         Enchantment uplifted = holder(helper, EnchantingModule.UPLIFTED).value();
@@ -59,7 +65,7 @@ public final class EnchantingGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void mistSlowsAndCloudsightCancels(GameTestHelper helper) {
         BlockPos pos = new BlockPos(3, 1, 3);
         helper.setBlock(pos, ModBlocks.MIST.get());
@@ -68,19 +74,19 @@ public final class EnchantingGameTests {
 
         Player bare = helper.makeMockPlayer(GameType.SURVIVAL);
         bare.setDeltaMovement(new Vec3(1.0, 0.0, 0.0));
-        state.entityInside(helper.getLevel(), abs, bare);
+        inside(helper, state, abs, bare);
         helper.assertTrue(bare.getDeltaMovement().x < 0.9, "Mist must slow a bare player: " + bare.getDeltaMovement().x);
 
         Player seeing = helper.makeMockPlayer(GameType.SURVIVAL);
         seeing.setItemSlot(EquipmentSlot.HEAD, enchanted(helper, ModItems.NIMBUSITE_HELMET.get(), EnchantingModule.CLOUDSIGHT, 1));
         seeing.setDeltaMovement(new Vec3(1.0, 0.0, 0.0));
-        state.entityInside(helper.getLevel(), abs, seeing);
+        inside(helper, state, abs, seeing);
         helper.assertTrue(seeing.getDeltaMovement().x == 1.0, "Cloudsight must cancel the slowdown: " + seeing.getDeltaMovement().x);
         helper.assertTrue(EnchantingEffects.hasCloudsight(seeing) && !EnchantingEffects.hasCloudsight(bare), "Cloudsight detection");
         helper.succeed();
     }
 
-    @GameTest(template = "empty", timeoutTicks = 100)
+    @UpfallGameTest(template = "empty", timeoutTicks = 100)
     public static void upliftedIncreasesUpdraftLift(GameTestHelper helper) {
         BlockPos plain = new BlockPos(2, 1, 2);
         BlockPos boosted = new BlockPos(5, 1, 5);
@@ -101,7 +107,7 @@ public final class EnchantingGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void skywalkerSpeedsWalkingInMist(GameTestHelper helper) {
         BlockPos pos = new BlockPos(3, 1, 3);
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
@@ -119,7 +125,7 @@ public final class EnchantingGameTests {
 
         var state = ModBlocks.MIST.get().defaultBlockState();
         player.setDeltaMovement(new Vec3(1.0, 0.0, 0.0));
-        state.entityInside(helper.getLevel(), helper.absolutePos(pos), player);
+        inside(helper, state, helper.absolutePos(pos), player);
         helper.assertTrue(player.getDeltaMovement().x == 1.0, "Skywalker III must cancel the mist slowdown");
 
         helper.setBlock(pos, net.minecraft.world.level.block.Blocks.AIR);
@@ -128,7 +134,7 @@ public final class EnchantingGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void jumpstartRaisesJumpStrength(GameTestHelper helper) {
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         double base = player.getAttributeValue(Attributes.JUMP_STRENGTH);

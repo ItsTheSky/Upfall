@@ -1,15 +1,15 @@
 package net.itsthesky.upfall.content.reliquary;
 
 import net.itsthesky.upfall.Upfall;
-import net.itsthesky.upfall.content.reliquary.block.FoldSocketBlock;
 import net.itsthesky.upfall.datagen.DataContribution;
+import net.itsthesky.upfall.datagen.DataGenContext;
 import net.itsthesky.upfall.datagen.ModBlockStateProvider;
 import net.itsthesky.upfall.datagen.ModFrenchLanguageProvider;
 import net.itsthesky.upfall.datagen.ModItemModelProvider;
 import net.itsthesky.upfall.datagen.ModLanguageProvider;
-import net.itsthesky.upfall.datagen.ModRecipeProvider;
 import net.itsthesky.upfall.datagen.ModSoundProvider;
 import net.itsthesky.upfall.datagen.ModTagProviders;
+import net.itsthesky.upfall.datagen.RecipeContext;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
@@ -17,30 +17,17 @@ import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.KilledTrigger;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import static net.itsthesky.upfall.datagen.ModSoundProvider.def;
@@ -165,13 +152,7 @@ final class ReliquaryData implements DataContribution {
         states.simpleBlockWithItem(ReliquaryBlocks.CARVED_LATTICE_STONE.get(), states.cubeAll(ReliquaryBlocks.CARVED_LATTICE_STONE.get()));
         states.simpleBlock(ReliquaryBlocks.FOLD_SEAL.get(), states.cubeAll(ReliquaryBlocks.FOLD_SEAL.get()));
         states.simpleBlock(ReliquaryBlocks.FOLD_LATTICE.get(), states.cubeAll(ReliquaryBlocks.FOLD_LATTICE.get()));
-        states.axisBlock(ReliquaryBlocks.LATTICE_BEAM.get(), states.blockTexture("lattice_beam"), states.blockTexture("lattice_beam_end"));
-        states.blockItem(ReliquaryBlocks.LATTICE_BEAM.get());
-
-        ModelFile empty = states.cubeAll(ReliquaryBlocks.FOLD_SOCKET.get());
-        ModelFile filled = states.glowingCube("fold_socket_filled", "solid");
-        states.getVariantBuilder(ReliquaryBlocks.FOLD_SOCKET.get()).forAllStates(state -> ConfiguredModel.builder()
-                .modelFile(state.getValue(FoldSocketBlock.FILLED) ? filled : empty).build());
+        ReliquaryModels.blockStates(states);
     }
 
     @Override
@@ -179,7 +160,7 @@ final class ReliquaryData implements DataContribution {
         models.basicItem(ReliquaryItems.FOLD_SHARD.get());
         models.basicItem(ReliquaryItems.FOLD_ANCHOR.get());
         models.basicItem(ReliquaryItems.FOLD_HEART.get());
-        models.withExistingParent(ReliquaryItems.FOLD_WARDEN_SPAWN_EGG.getId().getPath(), models.mcLoc("item/template_spawn_egg"));
+        ReliquaryModels.itemModels(models);
     }
 
     @Override
@@ -213,38 +194,36 @@ final class ReliquaryData implements DataContribution {
     }
 
     @Override
-    public void recipes(RecipeOutput output) {
+    public void recipes(RecipeContext recipes) {
         Block stone = ReliquaryBlocks.LATTICE_STONE.get();
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ReliquaryBlocks.CARVED_LATTICE_STONE.get(), 4)
+        recipes.shaped(RecipeCategory.BUILDING_BLOCKS, ReliquaryBlocks.CARVED_LATTICE_STONE.get(), 4)
                 .pattern("##").pattern("##").define('#', stone)
-                .unlockedBy(ModRecipeProvider.hasName(stone), ModRecipeProvider.hasItem(stone))
-                .save(output);
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ReliquaryBlocks.LATTICE_BEAM.get(), 2)
+                .unlockedBy(RecipeContext.hasName(stone), recipes.has(stone))
+                .save(recipes.output());
+        recipes.shaped(RecipeCategory.BUILDING_BLOCKS, ReliquaryBlocks.LATTICE_BEAM.get(), 2)
                 .pattern("#").pattern("#").define('#', stone)
-                .unlockedBy(ModRecipeProvider.hasName(stone), ModRecipeProvider.hasItem(stone))
-                .save(output);
-        stonecutting(output, stone, ReliquaryBlocks.CARVED_LATTICE_STONE.get());
-        stonecutting(output, stone, ReliquaryBlocks.LATTICE_BEAM.get());
+                .unlockedBy(RecipeContext.hasName(stone), recipes.has(stone))
+                .save(recipes.output());
+        stonecutting(recipes, stone, ReliquaryBlocks.CARVED_LATTICE_STONE.get());
+        stonecutting(recipes, stone, ReliquaryBlocks.LATTICE_BEAM.get());
     }
 
-    private static void stonecutting(RecipeOutput output, Block input, Block result) {
-        SingleItemRecipeBuilder.stonecutting(Ingredient.of(input), RecipeCategory.BUILDING_BLOCKS, result)
-                .unlockedBy(ModRecipeProvider.hasName(input), ModRecipeProvider.hasItem(input))
-                .save(output, Upfall.id(ModRecipeProvider.itemName(result) + "_from_" + ModRecipeProvider.itemName(input) + "_stonecutting"));
+    private static void stonecutting(RecipeContext recipes, Block input, Block result) {
+        recipes.save(recipes.stonecutting(Ingredient.of(input), RecipeCategory.BUILDING_BLOCKS, result)
+                .unlockedBy(RecipeContext.hasName(input), recipes.has(input)),
+                Upfall.id(RecipeContext.itemName(result) + "_from_" + RecipeContext.itemName(input) + "_stonecutting"));
     }
 
     @Override
-    public void addProviders(GatherDataEvent event, DataGenerator generator, PackOutput output,
-                             CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {
-        generator.addProvider(event.includeServer(), new Named("Tilted Reliquary loot tables", new LootTableProvider(output, Set.of(),
-                List.of(new LootTableProvider.SubProviderEntry(ReliquaryLoot::new, LootContextParamSets.CHEST)), registries)));
-        generator.addProvider(event.includeServer(), new Named("Tilted Reliquary entity loot tables", new LootTableProvider(output, Set.of(),
-                List.of(new LootTableProvider.SubProviderEntry(ReliquaryEntityLoot::new, LootContextParamSets.ENTITY)), registries)));
-        generator.addProvider(event.includeServer(), new Named("Tilted Reliquary advancements",
-                new AdvancementProvider(output, registries, helper, List.of(ReliquaryData::advancements))));
+    public void addProviders(DataGenContext ctx) {
+        ctx.add(ctx.lootTables("Tilted Reliquary loot tables",
+                List.of(new LootTableProvider.SubProviderEntry(ReliquaryLoot::new, LootContextParamSets.CHEST))));
+        ctx.add(ctx.lootTables("Tilted Reliquary entity loot tables",
+                List.of(new LootTableProvider.SubProviderEntry(ReliquaryEntityLoot::new, LootContextParamSets.ENTITY))));
+        ctx.add(ctx.advancements("Tilted Reliquary advancements", List.of(ReliquaryData::advancements)));
     }
 
-    private static void advancements(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper helper) {
+    private static void advancements(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver) {
         AdvancementHolder visited = AdvancementSubProvider.createPlaceholder("upfall:upfall/tilted_reliquary");
         AdvancementHolder shard = Advancement.Builder.advancement().parent(visited)
                 .display(ReliquaryItems.FOLD_SHARD.get(), Component.translatable("advancements.upfall.fold_shard.title"),
@@ -254,7 +233,7 @@ final class ReliquaryData implements DataContribution {
         AdvancementHolder warden = Advancement.Builder.advancement().parent(shard)
                 .display(ReliquaryItems.FOLD_HEART.get(), Component.translatable("advancements.upfall.fold_warden.title"),
                         Component.translatable("advancements.upfall.fold_warden.description"), null, AdvancementType.CHALLENGE, true, true, false)
-                .addCriterion("killed", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(ReliquaryEntities.FOLD_WARDEN.get())))
+                .addCriterion("killed", KilledTrigger.TriggerInstance.playerKilledEntity(entityOf(registries, ReliquaryEntities.FOLD_WARDEN.get())))
                 .save(saver, Upfall.id("upfall/fold_warden").toString());
         Advancement.Builder.advancement().parent(warden)
                 .display(ReliquaryItems.FOLD_ANCHOR.get(), Component.translatable("advancements.upfall.fold_anchor.title"),
@@ -263,15 +242,11 @@ final class ReliquaryData implements DataContribution {
                 .save(saver, Upfall.id("upfall/fold_anchor").toString());
     }
 
-    private record Named(String name, DataProvider delegate) implements DataProvider {
-        @Override
-        public CompletableFuture<?> run(CachedOutput output) {
-            return delegate.run(output);
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
+    private static EntityPredicate.Builder entityOf(HolderLookup.Provider registries, EntityType<?> type) {
+        //? if >=26.1 {
+        /*return EntityPredicate.Builder.entity().of(registries.lookupOrThrow(net.minecraft.core.registries.Registries.ENTITY_TYPE), type);
+        *///?} else {
+        return EntityPredicate.Builder.entity().of(type);
+        //?}
     }
 }

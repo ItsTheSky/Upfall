@@ -1,0 +1,12 @@
+{
+  "placement": {
+    "type": "upfall:configured_spread",
+    "salt": 1210202614
+  },
+  "structures": [
+    {
+      "structure": "upfall:shifting_vault",
+      "weight": 1
+    }
+  ]
+}

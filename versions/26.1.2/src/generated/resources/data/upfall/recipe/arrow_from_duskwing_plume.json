@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "F": "minecraft:flint",
+    "P": "upfall:duskwing_plume",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "F",
+    "S",
+    "P"
+  ],
+  "result": {
+    "count": 6,
+    "id": "minecraft:arrow"
+  }
+}

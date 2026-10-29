@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.machines;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.machines.block.GearliftBlock;
 import net.itsthesky.upfall.content.machines.block.HasteningGearBlock;
 import net.itsthesky.upfall.content.machines.block.PneumaticPipeBlock;
@@ -53,7 +54,7 @@ public final class MachinesBlocks {
     }
 
     private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, BlockBehaviour.Properties props) {
-        DeferredBlock<B> block = BLOCKS.registerBlock(name, factory, props);
+        DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
         CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(block));
         return block;
     }

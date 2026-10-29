@@ -1,5 +1,8 @@
 package net.itsthesky.upfall.content.hamlet.block;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.UpfallBlockEntity;
 import net.itsthesky.upfall.content.hamlet.HamletBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -8,14 +11,13 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class RopeAnchorBlockEntity extends BlockEntity {
+public class RopeAnchorBlockEntity extends UpfallBlockEntity {
     private final List<BlockPos> links = new ArrayList<>();
 
     public RopeAnchorBlockEntity(BlockPos pos, BlockState state) {
@@ -56,25 +58,33 @@ public class RopeAnchorBlockEntity extends BlockEntity {
 
     private void sync() {
         setChanged();
-        if (level != null && !level.isClientSide) {
+        if (level != null && !level.isClientSide()) {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
         }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putLongArray("Links", links.stream().mapToLong(BlockPos::asLong).toArray());
+    protected void saveData(DataOut out) {
+        out.putLongArray("Links", links.stream().mapToLong(BlockPos::asLong).toArray());
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadData(DataIn in) {
         links.clear();
-        for (long packed : tag.getLongArray("Links")) {
+        for (long packed : in.getLongArrayOrEmpty("Links")) {
             links.add(BlockPos.of(packed));
         }
     }
+
+    //? if >=26.1 {
+    /*@Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        if (level != null) {
+            net.itsthesky.upfall.content.hamlet.rope.RopeLines.unlinkAll(level, pos);
+        }
+    }
+    *///?}
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {

@@ -49,9 +49,17 @@ public class FloorDecorationBlock extends HorizontalDirectionalBlock {
         return Block.canSupportCenter(level, pos.below(), Direction.UP);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected BlockState updateShape(BlockState state, LevelReader level, net.minecraft.world.level.ScheduledTickAccess ticks, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighbor, net.minecraft.util.RandomSource random) {
+        return direction == Direction.DOWN && !canSurvive(state, level, pos) ? Blocks.AIR.defaultBlockState()
+                : super.updateShape(state, level, ticks, pos, direction, neighborPos, neighbor, random);
+    }
+    *///?} else {
     @Override
     protected BlockState updateShape(BlockState state, Direction direction, BlockState neighbor, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         return direction == Direction.DOWN && !canSurvive(state, level, pos) ? Blocks.AIR.defaultBlockState()
                 : super.updateShape(state, direction, neighbor, level, pos, neighborPos);
     }
+    //?}
 }

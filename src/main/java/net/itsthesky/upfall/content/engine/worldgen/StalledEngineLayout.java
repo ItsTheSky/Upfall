@@ -363,7 +363,11 @@ public final class StalledEngineLayout {
             }
             if (Math.floorMod(lx, 4) == 0 && Math.abs(lx) <= 8 && present(lx, ROOF_Y, -6)) {
                 for (int ly = 7; ly < ROOF_Y; ly++) {
+                    //? if >=26.1 {
+                    /*set(lx, ly, -6, Blocks.IRON_CHAIN.defaultBlockState().setValue(ChainBlock.AXIS, Direction.Axis.Y));
+                    *///?} else {
                     set(lx, ly, -6, Blocks.CHAIN.defaultBlockState().setValue(ChainBlock.AXIS, Direction.Axis.Y));
+                    //?}
                 }
             }
         }

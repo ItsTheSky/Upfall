@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.gameplay;
 
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.registry.ModSounds;
 import net.itsthesky.upfall.registry.ModTags;
 import net.minecraft.core.particles.ParticleTypes;
@@ -75,7 +76,7 @@ public final class ArmorSetBonuses {
         if (last != null && now - last < 8) return;
         LAST_DOUBLE_JUMP.put(player.getUUID(), now);
         player.resetFallDistance();
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = McLevel.serverLevel(player);
         level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.DOUBLE_JUMP.get(), SoundSource.PLAYERS, 0.7F, 1.0F);
         level.sendParticles(ParticleTypes.CLOUD, player.getX(), player.getY(), player.getZ(), 8, 0.3, 0.05, 0.3, 0.02);
     }

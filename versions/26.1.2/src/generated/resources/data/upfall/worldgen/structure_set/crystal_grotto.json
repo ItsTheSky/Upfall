@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 1572864021,
+    "separation": 22,
+    "spacing": 59
+  },
+  "structures": [
+    {
+      "structure": "upfall:crystal_grotto",
+      "weight": 1
+    }
+  ]
+}

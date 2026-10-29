@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "cyan_dye",
+  "ingredients": [
+    "upfall:verdigris_bloom"
+  ],
+  "result": {
+    "id": "minecraft:cyan_dye"
+  }
+}

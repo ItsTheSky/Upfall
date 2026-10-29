@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.rustworks.worldgen;
 
+import net.itsthesky.upfall.compat.mc.McNbt;
 import net.itsthesky.upfall.content.rustworks.RustworksBlocks;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -225,8 +226,8 @@ public record PipeBridge(int x, int z, Direction dir, int a, int b, int ha, int 
     }
 
     public static PipeBridge load(CompoundTag tag) {
-        return new PipeBridge(tag.getInt("X"), tag.getInt("Z"), Direction.from2DDataValue(tag.getInt("Dir")), tag.getInt("A"), tag.getInt("B"),
-                tag.getInt("HA"), tag.getInt("HB"), tag.getInt("Radius"), tag.getInt("Sag"), tag.getBoolean("Hollow"),
-                tag.getInt("BreakStart"), tag.getInt("BreakEnd"), tag.getInt("ValveAt"), tag.getInt("ValveSide"));
+        return new PipeBridge(McNbt.getInt(tag, "X"), McNbt.getInt(tag, "Z"), Direction.from2DDataValue(McNbt.getInt(tag, "Dir")), McNbt.getInt(tag, "A"), McNbt.getInt(tag, "B"),
+                McNbt.getInt(tag, "HA"), McNbt.getInt(tag, "HB"), McNbt.getInt(tag, "Radius"), McNbt.getInt(tag, "Sag"), McNbt.getBoolean(tag, "Hollow"),
+                McNbt.getInt(tag, "BreakStart"), McNbt.getInt(tag, "BreakEnd"), McNbt.getInt(tag, "ValveAt"), McNbt.getInt(tag, "ValveSide"));
     }
 }

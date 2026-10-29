@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "upfall:block/polished_duskslate",
+    "side": "upfall:block/polished_duskslate",
+    "top": "upfall:block/polished_duskslate"
+  }
+}

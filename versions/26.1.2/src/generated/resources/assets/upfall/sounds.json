@@ -1,0 +1,1240 @@
+{
+  "ambient.drifting_archipelago.additions": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.allay.ambient_without_item",
+        "pitch": 0.6,
+        "volume": 0.25
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.chime",
+        "pitch": 0.5,
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.drifting_archipelago.additions"
+  },
+  "ambient.drifting_archipelago.mood": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "ambient.soul_sand_valley.mood",
+        "pitch": 1.6,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.drifting_archipelago.mood"
+  },
+  "ambient.gilded_ridge.additions": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.amethyst_block.resonate",
+        "pitch": 0.6,
+        "volume": 0.5
+      },
+      {
+        "type": "event",
+        "name": "block.beacon.ambient",
+        "pitch": 1.8,
+        "volume": 0.3
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.gilded_ridge.additions"
+  },
+  "ambient.hanging_roots.additions": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "ambient.warped_forest.mood",
+        "pitch": 1.4,
+        "volume": 0.35
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.hanging_roots.additions"
+  },
+  "ambient.mistsea.loop": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.elytra.flying",
+        "pitch": 0.5,
+        "volume": 0.25
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.mistsea.loop"
+  },
+  "ambient.mistsea.mood": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "ambient.basalt_deltas.mood",
+        "pitch": 1.5,
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.mistsea.mood"
+  },
+  "ambient.rustworks.additions": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.chain.step",
+        "pitch": 0.5,
+        "volume": 0.4,
+        "weight": 3
+      },
+      {
+        "type": "event",
+        "name": "block.anvil.land",
+        "pitch": 0.5,
+        "volume": 0.08
+      },
+      {
+        "type": "event",
+        "name": "block.iron_door.close",
+        "pitch": 0.5,
+        "volume": 0.2,
+        "weight": 2
+      },
+      {
+        "type": "event",
+        "name": "block.pointed_dripstone.drip_water",
+        "pitch": 0.8,
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "type": "event",
+        "name": "block.pointed_dripstone.drip_water_into_cauldron",
+        "pitch": 0.7,
+        "volume": 0.4,
+        "weight": 2
+      },
+      {
+        "type": "event",
+        "name": "entity.breeze.inhale",
+        "pitch": 0.5,
+        "volume": 0.25,
+        "weight": 2
+      },
+      {
+        "type": "event",
+        "name": "block.lava.extinguish",
+        "pitch": 0.6,
+        "volume": 0.1
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.rustworks.additions"
+  },
+  "ambient.rustworks.mood": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "ambient.basalt_deltas.mood",
+        "pitch": 0.7,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.rustworks.mood"
+  },
+  "ambient.shifting_vault.whisper": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.ender_chest.open",
+        "pitch": 0.7,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "entity.allay.item_taken",
+        "pitch": 0.5,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.chest.close",
+        "pitch": 0.8,
+        "volume": 0.5
+      },
+      {
+        "type": "event",
+        "name": "block.stone.step",
+        "pitch": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.ambient.shifting_vault.whisper"
+  },
+  "block.crumbling_floor.crumble": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.deepslate.break",
+        "pitch": 0.7
+      },
+      {
+        "type": "event",
+        "name": "block.pointed_dripstone.fall",
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.crumbling_floor.crumble"
+  },
+  "block.drain_regulator.clank": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.anvil.land",
+        "pitch": 0.6,
+        "volume": 0.25
+      },
+      {
+        "type": "event",
+        "name": "block.iron_door.close",
+        "pitch": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.drain_regulator.clank"
+  },
+  "block.drain_regulator.drain": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.bubble_column.whirlpool_inside",
+        "pitch": 0.6,
+        "volume": 0.7
+      },
+      {
+        "type": "event",
+        "name": "block.fire.extinguish",
+        "pitch": 0.5,
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.drain_regulator.drain"
+  },
+  "block.drain_valve.turn": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.iron_trapdoor.open",
+        "pitch": 0.6,
+        "volume": 0.8
+      },
+      {
+        "type": "event",
+        "name": "block.chain.place",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.drain_valve.turn"
+  },
+  "block.exhaust_vent.hiss": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.fire.extinguish",
+        "pitch": 0.6,
+        "volume": 0.9,
+        "weight": 2
+      },
+      {
+        "type": "event",
+        "name": "entity.breeze.wind_burst",
+        "pitch": 0.7,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.lava.extinguish",
+        "pitch": 0.5,
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.exhaust_vent.hiss"
+  },
+  "block.flicker_shard_cluster.shift": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.amethyst_cluster.break",
+        "pitch": 1.6,
+        "volume": 0.7
+      },
+      {
+        "type": "event",
+        "name": "entity.enderman.teleport",
+        "pitch": 1.8,
+        "volume": 0.3
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.flicker_shard_cluster.shift"
+  },
+  "block.frost_glass.frost": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.powder_snow.place",
+        "pitch": 1.4
+      },
+      {
+        "type": "event",
+        "name": "block.glass.hit",
+        "pitch": 1.8,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.frost_glass.frost"
+  },
+  "block.halo_portal.ambient": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.portal.ambient",
+        "pitch": 1.4,
+        "volume": 0.4
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.resonate",
+        "pitch": 0.8,
+        "volume": 0.3
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.halo_portal.ambient"
+  },
+  "block.halo_portal.ignite": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.activate",
+        "pitch": 1.3
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.chime",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.halo_portal.ignite"
+  },
+  "block.halo_portal.travel": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.portal.travel",
+        "pitch": 1.6,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.halo_portal.travel"
+  },
+  "block.halo_portal.trigger": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.portal.trigger",
+        "pitch": 1.5,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.halo_portal.trigger"
+  },
+  "block.pedestal.place": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.end_portal_frame.fill",
+        "pitch": 1.4,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pedestal.place"
+  },
+  "block.pneumatic_pipe.bend": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.copper_bulb.turn_on",
+        "pitch": 0.7,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.copper_grate.step",
+        "pitch": 0.8,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.bend"
+  },
+  "block.pneumatic_pipe.enter": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.breeze.inhale",
+        "pitch": 1.4,
+        "volume": 0.9
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.enter"
+  },
+  "block.pneumatic_pipe.exit": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.wind_charge.wind_burst",
+        "pitch": 1.3,
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.exit"
+  },
+  "block.pneumatic_pipe.item": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.breeze.inhale",
+        "pitch": 2.0,
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.item"
+  },
+  "block.pneumatic_pipe.jammed": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.iron_trapdoor.close",
+        "pitch": 0.6,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.jammed"
+  },
+  "block.pneumatic_pipe.pop": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.note_block.bit",
+        "pitch": 1.6,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.pop"
+  },
+  "block.pneumatic_pipe.travel": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.elytra.flying",
+        "pitch": 1.5,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.pneumatic_pipe.travel"
+  },
+  "block.quantum_pedestal.fail": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.deactivate",
+        "pitch": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.glass.break",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.quantum_pedestal.fail"
+  },
+  "block.quantum_pedestal.hum": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.ambient",
+        "pitch": 1.8,
+        "volume": 0.8
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.resonate",
+        "pitch": 1.2,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.quantum_pedestal.hum"
+  },
+  "block.quantum_pedestal.start": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.activate",
+        "pitch": 1.6
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.chime",
+        "pitch": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.quantum_pedestal.start"
+  },
+  "block.quantum_pedestal.success": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.enchantment_table.use",
+        "pitch": 0.8
+      },
+      {
+        "type": "event",
+        "name": "block.end_portal_frame.fill",
+        "pitch": 1.2
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.quantum_pedestal.success"
+  },
+  "block.rope.tie": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.lead.tied",
+        "pitch": 0.9
+      },
+      {
+        "type": "event",
+        "name": "block.wool.place",
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.rope.tie"
+  },
+  "block.shifting_chest.shift": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.shulker.teleport",
+        "pitch": 0.7
+      },
+      {
+        "type": "event",
+        "name": "block.ender_chest.close",
+        "pitch": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.shifting_chest.shift"
+  },
+  "block.updraft_vent.whoosh": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.breeze.wind_burst",
+        "pitch": 1.3,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.updraft_vent.whoosh"
+  },
+  "block.vault_lamp.out": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.deactivate",
+        "pitch": 1.4,
+        "volume": 0.8
+      },
+      {
+        "type": "event",
+        "name": "block.lever.click",
+        "pitch": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.vault_lamp.out"
+  },
+  "block.veil_gas.hiss": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.fire.extinguish",
+        "pitch": 1.6,
+        "volume": 0.4
+      },
+      {
+        "type": "event",
+        "name": "entity.breeze.idle_ground",
+        "pitch": 0.6,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.block.veil_gas.hiss"
+  },
+  "entity.cragmaw.ambient": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.ravager.ambient",
+        "pitch": 1.25,
+        "volume": 0.8
+      },
+      {
+        "type": "event",
+        "name": "entity.hoglin.ambient",
+        "pitch": 0.7,
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.cragmaw.ambient"
+  },
+  "entity.cragmaw.death": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.ravager.death",
+        "pitch": 1.3
+      },
+      {
+        "type": "event",
+        "name": "entity.hoglin.death",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.cragmaw.death"
+  },
+  "entity.cragmaw.hurt": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.ravager.hurt",
+        "pitch": 1.45
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.cragmaw.hurt"
+  },
+  "entity.duskwing.ambient": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.phantom.ambient",
+        "pitch": 1.9,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "entity.bat.ambient",
+        "pitch": 0.8,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.duskwing.ambient"
+  },
+  "entity.duskwing.death": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.phantom.death",
+        "pitch": 1.7
+      },
+      {
+        "type": "event",
+        "name": "entity.bat.death",
+        "pitch": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.duskwing.death"
+  },
+  "entity.duskwing.hurt": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.bat.hurt",
+        "pitch": 0.7
+      },
+      {
+        "type": "event",
+        "name": "entity.phantom.hurt",
+        "pitch": 1.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.duskwing.hurt"
+  },
+  "entity.fold_warden.ambient": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.ambient",
+        "pitch": 0.6,
+        "volume": 0.8
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.resonate",
+        "pitch": 0.5,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.ambient"
+  },
+  "entity.fold_warden.awaken": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.beacon.activate",
+        "pitch": 0.5
+      },
+      {
+        "type": "event",
+        "name": "block.respawn_anchor.charge",
+        "pitch": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.awaken"
+  },
+  "entity.fold_warden.breath": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.breeze.shoot",
+        "pitch": 0.6
+      },
+      {
+        "type": "event",
+        "name": "entity.warden.sonic_boom",
+        "pitch": 1.5,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.breath"
+  },
+  "entity.fold_warden.breath_charge": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.warden.sonic_charge",
+        "pitch": 1.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.breath_charge"
+  },
+  "entity.fold_warden.death": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.elder_guardian.death",
+        "pitch": 0.8
+      },
+      {
+        "type": "event",
+        "name": "block.beacon.deactivate",
+        "pitch": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.death"
+  },
+  "entity.fold_warden.dive": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.trident.riptide_3",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.dive"
+  },
+  "entity.fold_warden.drop": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.warden.sonic_boom",
+        "pitch": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.drop"
+  },
+  "entity.fold_warden.hurt": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.amethyst_block.hit",
+        "pitch": 0.6
+      },
+      {
+        "type": "event",
+        "name": "entity.iron_golem.hurt",
+        "pitch": 1.3,
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.hurt"
+  },
+  "entity.fold_warden.shed": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.shulker.shoot",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.shed"
+  },
+  "entity.fold_warden.shield_break": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.glass.break",
+        "pitch": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.beacon.deactivate",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.shield_break"
+  },
+  "entity.fold_warden.shield_hit": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.amethyst_block.hit",
+        "pitch": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.shield_hit"
+  },
+  "entity.fold_warden.shield_restore": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.respawn_anchor.charge",
+        "pitch": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.resonate",
+        "pitch": 1.2
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.shield_restore"
+  },
+  "entity.fold_warden.slam": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.generic.explode",
+        "pitch": 1.3,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.slam"
+  },
+  "entity.fold_warden.slam_charge": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.respawn_anchor.charge",
+        "pitch": 1.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.slam_charge"
+  },
+  "entity.fold_warden.tilt": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.illusioner.cast_spell",
+        "pitch": 0.5
+      },
+      {
+        "type": "event",
+        "name": "block.beacon.power_select",
+        "pitch": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.tilt"
+  },
+  "entity.fold_warden.unfold": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.warden.emerge",
+        "pitch": 1.2
+      },
+      {
+        "type": "event",
+        "name": "block.respawn_anchor.set_spawn",
+        "pitch": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.unfold"
+  },
+  "entity.fold_warden.weight": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.elder_guardian.curse",
+        "pitch": 0.6,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.weight"
+  },
+  "entity.fold_warden.wyrm_ambient": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.phantom.ambient",
+        "pitch": 0.5,
+        "volume": 0.8
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.resonate",
+        "pitch": 0.7,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.fold_warden.wyrm_ambient"
+  },
+  "entity.loftkin.ambient": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.allay.ambient_without_item",
+        "pitch": 0.7,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "entity.wandering_trader.ambient",
+        "pitch": 1.5,
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.loftkin.ambient"
+  },
+  "entity.loftkin.death": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.allay.death",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.loftkin.death"
+  },
+  "entity.loftkin.greet": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.allay.ambient_with_item",
+        "pitch": 0.9,
+        "volume": 0.7
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.chime",
+        "pitch": 1.2,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.loftkin.greet"
+  },
+  "entity.loftkin.hurt": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.allay.hurt",
+        "pitch": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.loftkin.hurt"
+  },
+  "entity.loftkin.no": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.allay.item_taken",
+        "pitch": 0.55
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.loftkin.no"
+  },
+  "entity.loftkin.parasol": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.armor.equip_elytra",
+        "pitch": 1.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.loftkin.parasol"
+  },
+  "entity.loftkin.yes": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.allay.item_given",
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.loftkin.yes"
+  },
+  "entity.mistjelly.ambient": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.glow_squid.ambient",
+        "pitch": 1.5,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.chime",
+        "pitch": 0.6,
+        "volume": 0.25
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.mistjelly.ambient"
+  },
+  "entity.mistjelly.death": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.squid.death",
+        "pitch": 1.5
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.break",
+        "pitch": 1.2,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.mistjelly.death"
+  },
+  "entity.mistjelly.hurt": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.squid.hurt",
+        "pitch": 1.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.mistjelly.hurt"
+  },
+  "entity.player.entangle": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.chain.place",
+        "pitch": 1.6
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.chime",
+        "pitch": 1.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.player.entangle"
+  },
+  "entity.player.levitite_double_jump": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.breeze.jump",
+        "pitch": 1.5,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.player.levitite_double_jump"
+  },
+  "entity.player.rewind": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.totem.use",
+        "pitch": 1.5,
+        "volume": 0.6
+      },
+      {
+        "type": "event",
+        "name": "block.respawn_anchor.set_spawn",
+        "pitch": 1.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.player.rewind"
+  },
+  "entity.player.uncertain_dodge": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.illusioner.mirror_move",
+        "pitch": 1.4,
+        "volume": 0.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.player.uncertain_dodge"
+  },
+  "entity.player.void_rescue": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.respawn_anchor.charge",
+        "pitch": 1.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.player.void_rescue"
+  },
+  "entity.skygrazer.ambient": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.llama.ambient",
+        "pitch": 1.45,
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.skygrazer.ambient"
+  },
+  "entity.skygrazer.death": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.llama.death",
+        "pitch": 1.35
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.skygrazer.death"
+  },
+  "entity.skygrazer.hurt": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.llama.hurt",
+        "pitch": 1.45
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.skygrazer.hurt"
+  },
+  "entity.skyray.ambient": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.allay.ambient_without_item",
+        "pitch": 0.55,
+        "volume": 0.5
+      },
+      {
+        "type": "event",
+        "name": "entity.phantom.flap",
+        "pitch": 1.3,
+        "volume": 0.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.skyray.ambient"
+  },
+  "entity.skyray.death": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.phantom.death",
+        "pitch": 1.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.skyray.death"
+  },
+  "entity.skyray.hurt": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.phantom.hurt",
+        "pitch": 1.5
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.skyray.hurt"
+  },
+  "entity.zipline_pulley.attach": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.chain.place",
+        "pitch": 1.4
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.zipline_pulley.attach"
+  },
+  "entity.zipline_pulley.detach": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "block.chain.hit",
+        "pitch": 1.2
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.zipline_pulley.detach"
+  },
+  "entity.zipline_pulley.ride": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "entity.minecart.riding",
+        "pitch": 1.7
+      }
+    ],
+    "subtitle": "subtitles.upfall.entity.zipline_pulley.ride"
+  },
+  "item.armor.equip_levitite": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.armor.equip_netherite",
+        "pitch": 1.4
+      },
+      {
+        "type": "event",
+        "name": "block.amethyst_block.chime",
+        "pitch": 1.2,
+        "volume": 0.6
+      }
+    ],
+    "subtitle": "subtitles.upfall.item.armor.equip_levitite"
+  },
+  "item.armor.equip_nimbusite": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.armor.equip_diamond",
+        "pitch": 1.3
+      }
+    ],
+    "subtitle": "subtitles.upfall.item.armor.equip_nimbusite"
+  },
+  "item.bottle.fill_veil_gas": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "item.bottle.fill_dragonbreath",
+        "pitch": 0.8
+      }
+    ],
+    "subtitle": "subtitles.upfall.item.bottle.fill_veil_gas"
+  },
+  "music.upfall": {
+    "sounds": [
+      {
+        "type": "event",
+        "name": "music.overworld.cherry_grove"
+      },
+      {
+        "type": "event",
+        "name": "music.overworld.meadow"
+      }
+    ],
+    "subtitle": "subtitles.upfall.music.upfall"
+  }
+}

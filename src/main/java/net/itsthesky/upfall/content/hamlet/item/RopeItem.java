@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.hamlet.item;
 
+import net.itsthesky.upfall.compat.mc.McPlayers;
 import net.itsthesky.upfall.content.hamlet.HamletItems;
 import net.itsthesky.upfall.content.hamlet.HamletSounds;
 import net.itsthesky.upfall.content.hamlet.block.AbstractRopeAnchorBlock;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class RopeItem extends BlockItem {
     private static final double BLOCKS_PER_ROPE = 6.0;
@@ -33,7 +35,7 @@ public class RopeItem extends BlockItem {
         if (!(level.getBlockState(pos).getBlock() instanceof AbstractRopeAnchorBlock)) {
             return super.useOn(context);
         }
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
         Player player = context.getPlayer();
@@ -68,7 +70,7 @@ public class RopeItem extends BlockItem {
 
     private static void message(Player player, Component text) {
         if (player != null) {
-            player.displayClientMessage(text, true);
+            McPlayers.overlay(player, text);
         }
     }
 
@@ -77,12 +79,23 @@ public class RopeItem extends BlockItem {
         return stack.has(HamletItems.ROPE_LINK_START.get()) || super.isFoil(stack);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, net.minecraft.world.item.component.TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        hoverText(stack, tooltip);
+    }
+    *///?} else {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("item.upfall.rope.desc").withStyle(ChatFormatting.GRAY));
+        hoverText(stack, tooltip::add);
+    }
+    //?}
+
+    private static void hoverText(ItemStack stack, Consumer<Component> tooltip) {
+        tooltip.accept(Component.translatable("item.upfall.rope.desc").withStyle(ChatFormatting.GRAY));
         BlockPos start = stack.get(HamletItems.ROPE_LINK_START.get());
         if (start != null) {
-            tooltip.add(Component.translatable("item.upfall.rope.tied", start.getX(), start.getY(), start.getZ()).withStyle(ChatFormatting.GOLD));
+            tooltip.accept(Component.translatable("item.upfall.rope.tied", start.getX(), start.getY(), start.getZ()).withStyle(ChatFormatting.GOLD));
         }
     }
 }

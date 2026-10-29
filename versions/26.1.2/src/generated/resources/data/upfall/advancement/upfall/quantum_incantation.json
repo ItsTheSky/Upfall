@@ -1,0 +1,26 @@
+{
+  "parent": "upfall:upfall/quantum_pedestal",
+  "criteria": {
+    "quantum_incantation": {
+      "trigger": "upfall:quantum_incantation"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.quantum_incantation.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "upfall:levitite_sword"
+    },
+    "title": {
+      "translate": "advancements.upfall.quantum_incantation.title"
+    }
+  },
+  "requirements": [
+    [
+      "quantum_incantation"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "glow=0": {
+      "model": "upfall:block/kairite_ore"
+    },
+    "glow=1": {
+      "model": "upfall:block/kairite_ore_warm"
+    },
+    "glow=2": {
+      "model": "upfall:block/kairite_ore_peak"
+    }
+  }
+}

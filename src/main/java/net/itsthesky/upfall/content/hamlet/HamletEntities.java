@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.hamlet;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.hamlet.entity.Loftkin;
 import net.itsthesky.upfall.content.hamlet.entity.ZiplinePulley;
 import net.minecraft.core.registries.Registries;
@@ -16,12 +17,12 @@ public final class HamletEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, Upfall.MODID);
 
     public static final DeferredHolder<EntityType<?>, EntityType<Loftkin>> LOFTKIN = ENTITY_TYPES.register("loftkin",
-            () -> EntityType.Builder.of(Loftkin::new, MobCategory.MISC).sized(0.6F, 1.95F).eyeHeight(1.62F)
-                    .clientTrackingRange(10).build("upfall:loftkin"));
+            () -> McRegistration.entityType(EntityType.Builder.of(Loftkin::new, MobCategory.MISC).sized(0.6F, 1.95F).eyeHeight(1.62F)
+                    .clientTrackingRange(10), "loftkin"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<ZiplinePulley>> ZIPLINE_PULLEY = ENTITY_TYPES.register("zipline_pulley",
-            () -> EntityType.Builder.<ZiplinePulley>of(ZiplinePulley::new, MobCategory.MISC).sized(0.375F, 0.375F)
-                    .clientTrackingRange(10).updateInterval(2).build("upfall:zipline_pulley"));
+            () -> McRegistration.entityType(EntityType.Builder.<ZiplinePulley>of(ZiplinePulley::new, MobCategory.MISC).sized(0.375F, 0.375F)
+                    .clientTrackingRange(10).updateInterval(2), "zipline_pulley"));
 
     static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(LOFTKIN.get(), Loftkin.createAttributes().build());

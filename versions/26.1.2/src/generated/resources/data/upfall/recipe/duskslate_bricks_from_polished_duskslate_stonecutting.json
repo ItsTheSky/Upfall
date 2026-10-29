@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "upfall:polished_duskslate",
+  "result": {
+    "id": "upfall:duskslate_bricks"
+  }
+}

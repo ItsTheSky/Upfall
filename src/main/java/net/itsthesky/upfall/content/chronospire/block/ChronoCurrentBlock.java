@@ -27,10 +27,17 @@ public class ChronoCurrentBlock extends Block {
         return RenderShape.INVISIBLE;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
+    }
+    *///?} else {
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
+    //?}
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "upfall:block/drain_regulator_front_drained",
+    "side": "upfall:block/rusty_plating",
+    "top": "upfall:block/rusty_plating"
+  }
+}

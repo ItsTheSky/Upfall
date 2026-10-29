@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "upfall:kairite_dust",
+    "C": "upfall:rustslate",
+    "S": "upfall:quantum_pedestal_blueprint"
+  },
+  "pattern": [
+    "#S#",
+    "#C#",
+    "###"
+  ],
+  "result": {
+    "count": 2,
+    "id": "upfall:quantum_pedestal_blueprint"
+  }
+}

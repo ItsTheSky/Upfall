@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "upfall:chronostone_bricks",
+    "G": "minecraft:gold_ingot"
+  },
+  "pattern": [
+    "#G",
+    "G#"
+  ],
+  "result": {
+    "count": 4,
+    "id": "upfall:gilded_chronostone"
+  }
+}

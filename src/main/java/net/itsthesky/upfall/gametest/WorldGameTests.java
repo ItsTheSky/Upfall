@@ -1,15 +1,14 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.world.WorldBlocks;
 import net.itsthesky.upfall.content.world.WorldFeatures;
 import net.itsthesky.upfall.content.world.feature.SkyLakeFeature;
 import net.itsthesky.upfall.content.world.item.NimbusFlaskItem;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModFluids;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -17,17 +16,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.Optional;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class WorldGameTests {
     private WorldGameTests() {}
 
-    @GameTest(template = "empty_large", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 200)
     public static void lakesNeverSpill(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         SkyLakeFeature.Config config = new SkyLakeFeature.Config(4, 7, 3);
@@ -75,7 +70,7 @@ public final class WorldGameTests {
         }
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void nimbusFlaskCondensesFadingCloud(GameTestHelper helper) {
         BlockPos center = new BlockPos(4, 3, 4);
         int placed = NimbusFlaskItem.condense(helper.getLevel(), helper.absolutePos(center));
@@ -87,7 +82,7 @@ public final class WorldGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void cloudstalkNeedsCloud(GameTestHelper helper) {
         BlockPos soil = new BlockPos(3, 1, 3);
         helper.setBlock(soil, ModBlocks.DENSE_CLOUD.get());
@@ -102,7 +97,7 @@ public final class WorldGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void skylilyFloatsOnSkywaterOnly(GameTestHelper helper) {
         BlockPos skywater = new BlockPos(2, 1, 2);
         BlockPos water = new BlockPos(5, 1, 5);

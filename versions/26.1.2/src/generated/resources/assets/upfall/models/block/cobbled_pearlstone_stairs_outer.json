@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "upfall:block/cobbled_pearlstone",
+    "side": "upfall:block/cobbled_pearlstone",
+    "top": "upfall:block/cobbled_pearlstone"
+  }
+}

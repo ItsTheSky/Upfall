@@ -61,7 +61,7 @@ public final class EnchantingEffects {
     }
 
     public static void onEntityTick(EntityTickEvent.Post event) {
-        if (event.getEntity() instanceof LivingEntity living && !living.level().isClientSide) {
+        if (event.getEntity() instanceof LivingEntity living && !living.level().isClientSide()) {
             updateSkywalker(living);
         }
     }

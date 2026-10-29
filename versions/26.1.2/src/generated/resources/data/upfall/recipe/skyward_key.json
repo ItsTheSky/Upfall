@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "E": "minecraft:elytra",
+    "F": "minecraft:feather",
+    "S": "minecraft:nether_star"
+  },
+  "pattern": [
+    "FSF",
+    "FEF",
+    " F "
+  ],
+  "result": {
+    "id": "upfall:skyward_key"
+  }
+}

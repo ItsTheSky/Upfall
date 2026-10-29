@@ -1,12 +1,11 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.portal.HaloPortalShape;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -16,11 +15,7 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class HaloPortalGameTests {
     private HaloPortalGameTests() {}
 
@@ -35,7 +30,7 @@ public final class HaloPortalGameTests {
         }
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void frameLightsAndCollapses(GameTestHelper helper) {
         BlockPos origin = new BlockPos(4, 2, 4);
         buildFrame(helper, origin, false);
@@ -52,7 +47,7 @@ public final class HaloPortalGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void incompleteFrameIsNotDetected(GameTestHelper helper) {
         BlockPos origin = new BlockPos(4, 2, 4);
         buildFrame(helper, origin, true);
@@ -61,7 +56,7 @@ public final class HaloPortalGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void keyRefusesLowAltitude(GameTestHelper helper) {
         BlockPos origin = new BlockPos(4, 2, 4);
         buildFrame(helper, origin, false);

@@ -1,0 +1,32 @@
+{
+  "parent": "upfall:upfall/mine_nimbusite",
+  "criteria": {
+    "has_template": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:nimbusite_upgrade_smithing_template"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.nimbusite_template.description"
+    },
+    "icon": {
+      "id": "upfall:nimbusite_upgrade_smithing_template"
+    },
+    "title": {
+      "translate": "advancements.upfall.nimbusite_template.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_template"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

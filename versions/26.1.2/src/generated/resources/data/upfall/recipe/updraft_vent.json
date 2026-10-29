@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": "upfall:dense_cloud",
+    "N": "upfall:nimbusite_ingot",
+    "P": "upfall:polished_pearlstone"
+  },
+  "pattern": [
+    "P P",
+    "PCP",
+    "PNP"
+  ],
+  "result": {
+    "id": "upfall:updraft_vent"
+  }
+}

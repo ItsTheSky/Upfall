@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.quantum;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.quantum.cluster.FlickerShardClusterBlock;
 import net.itsthesky.upfall.content.quantum.cluster.FlickerShardClusterBlockEntity;
 import net.itsthesky.upfall.content.quantum.deco.FloorDecorationBlock;
@@ -44,7 +45,7 @@ public final class QuantumBlocks {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Upfall.MODID);
     static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
 
-    public static final DeferredBlock<VeilGasBlock> VEIL_GAS = BLOCKS.registerBlock("veil_gas", VeilGasBlock::new,
+    public static final DeferredBlock<VeilGasBlock> VEIL_GAS = McRegistration.block(BLOCKS, "veil_gas", VeilGasBlock::new,
             BlockBehaviour.Properties.of().mapColor(MapColor.NONE).replaceable().noCollission().noLootTable().noOcclusion()
                     .strength(-1.0F, 0.0F).isValidSpawn(Blocks::never).isSuffocating((s, l, p) -> false).isViewBlocking((s, l, p) -> false)
                     .isRedstoneConductor((s, l, p) -> false).pushReaction(PushReaction.DESTROY).sound(SoundType.WOOL));
@@ -60,8 +61,8 @@ public final class QuantumBlocks {
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).forceSolidOn().noOcclusion().sound(SoundType.AMETHYST_CLUSTER)
                     .strength(1.5F).lightLevel(state -> 6).pushReaction(PushReaction.DESTROY));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FlickerShardClusterBlockEntity>> FLICKER_SHARD_CLUSTER_ENTITY =
-            BLOCK_ENTITIES.register("flicker_shard_cluster", () -> BlockEntityType.Builder.of(FlickerShardClusterBlockEntity::new,
-                    FLICKER_SHARD_CLUSTER.get()).build(null));
+            BLOCK_ENTITIES.register("flicker_shard_cluster", () -> McRegistration.blockEntityType(FlickerShardClusterBlockEntity::new,
+                    FLICKER_SHARD_CLUSTER.get()));
 
     public static final DeferredBlock<Block> VAULT_BRICKS = block("vault_bricks", Block::new, vault(MapColor.COLOR_PURPLE));
     public static final DeferredBlock<Block> VAULT_TILES = block("vault_tiles", Block::new, vault(MapColor.COLOR_PURPLE));
@@ -74,20 +75,20 @@ public final class QuantumBlocks {
                     .isSuffocating((s, l, p) -> !s.getValue(CrumblingFloorBlock.CRUMBLED)));
     public static final DeferredBlock<ShiftingChestBlock> SHIFTING_CHEST = block("shifting_chest", ShiftingChestBlock::new,
             vault(MapColor.COLOR_PURPLE).sound(SoundType.NETHERITE_BLOCK).noOcclusion());
-    public static final DeferredBlock<VaultCoreBlock> VAULT_CORE = BLOCKS.registerBlock("vault_core", VaultCoreBlock::new, vault(MapColor.COLOR_PURPLE));
+    public static final DeferredBlock<VaultCoreBlock> VAULT_CORE = McRegistration.block(BLOCKS, "vault_core", VaultCoreBlock::new, vault(MapColor.COLOR_PURPLE));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ShiftingChestBlockEntity>> SHIFTING_CHEST_ENTITY =
-            BLOCK_ENTITIES.register("shifting_chest", () -> BlockEntityType.Builder.of(ShiftingChestBlockEntity::new, SHIFTING_CHEST.get()).build(null));
+            BLOCK_ENTITIES.register("shifting_chest", () -> McRegistration.blockEntityType(ShiftingChestBlockEntity::new, SHIFTING_CHEST.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<VaultCoreBlockEntity>> VAULT_CORE_ENTITY =
-            BLOCK_ENTITIES.register("vault_core", () -> BlockEntityType.Builder.of(VaultCoreBlockEntity::new, VAULT_CORE.get()).build(null));
+            BLOCK_ENTITIES.register("vault_core", () -> McRegistration.blockEntityType(VaultCoreBlockEntity::new, VAULT_CORE.get()));
 
     public static final DeferredBlock<PedestalBlock> PEDESTAL = block("pedestal", PedestalBlock::new, pedestal());
     public static final DeferredBlock<QuantumPedestalBlock> QUANTUM_PEDESTAL = block("quantum_pedestal", QuantumPedestalBlock::new,
             pedestal().mapColor(MapColor.COLOR_PURPLE).lightLevel(state -> 5));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PedestalBlockEntity>> PEDESTAL_ENTITY =
-            BLOCK_ENTITIES.register("pedestal", () -> BlockEntityType.Builder.of(PedestalBlockEntity::new, PEDESTAL.get()).build(null));
+            BLOCK_ENTITIES.register("pedestal", () -> McRegistration.blockEntityType(PedestalBlockEntity::new, PEDESTAL.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<QuantumPedestalBlockEntity>> QUANTUM_PEDESTAL_ENTITY =
-            BLOCK_ENTITIES.register("quantum_pedestal", () -> BlockEntityType.Builder.of(QuantumPedestalBlockEntity::new, QUANTUM_PEDESTAL.get()).build(null));
+            BLOCK_ENTITIES.register("quantum_pedestal", () -> McRegistration.blockEntityType(QuantumPedestalBlockEntity::new, QUANTUM_PEDESTAL.get()));
 
     private static BlockBehaviour.Properties pedestal() {
         return BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).strength(2.0F, 6.0F).requiresCorrectToolForDrops()
@@ -110,7 +111,7 @@ public final class QuantumBlocks {
     }
 
     static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, BlockBehaviour.Properties props) {
-        DeferredBlock<B> block = BLOCKS.registerBlock(name, factory, props);
+        DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
         CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(block));
         return block;
     }

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "upfall:block/dusk_canopy_slab"
+    },
+    "type=double": {
+      "model": "upfall:block/dusk_canopy"
+    },
+    "type=top": {
+      "model": "upfall:block/dusk_canopy_slab_top"
+    }
+  }
+}

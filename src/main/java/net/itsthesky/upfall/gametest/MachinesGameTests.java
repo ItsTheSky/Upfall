@@ -1,33 +1,44 @@
 package net.itsthesky.upfall.gametest;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.content.machines.MachinesBlocks;
 import net.itsthesky.upfall.content.machines.MachinesItems;
 import net.itsthesky.upfall.content.machines.block.GearliftBlock;
 import net.itsthesky.upfall.content.rustworks.RustworksItems;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class MachinesGameTests {
     private MachinesGameTests() {}
 
     private static ItemStack smith(GameTestHelper helper, Item template, Item base) {
         var level = helper.getLevel();
         var input = new SmithingRecipeInput(new ItemStack(template), new ItemStack(base), new ItemStack(RustworksItems.KAIRITE_GEAR.get()));
-        return level.getRecipeManager().getRecipeFor(RecipeType.SMITHING, input, level)
+        return McLevel.serverRecipes(level).getRecipeFor(RecipeType.SMITHING, input, level)
+                //? if >=26.1 {
+                /*.map(holder -> holder.value().assemble(input))
+                *///?} else {
                 .map(holder -> holder.value().assemble(input, level.registryAccess()))
+                //?}
                 .orElse(ItemStack.EMPTY);
+    }
+
+    private static boolean hasRecipe(RecipeManager recipes, ResourceLocation id) {
+        //? if >=26.1 {
+        /*return recipes.byKey(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, id)).isPresent();
+        *///?} else {
+        return recipes.byKey(id).isPresent();
+        //?}
     }
 
     private static void expect(GameTestHelper helper, Item template, Item base, Item result, int count) {
@@ -35,7 +46,7 @@ public final class MachinesGameTests {
         helper.assertTrue(stack.is(result) && stack.getCount() == count, "Smithing " + template + " + " + base + " gave " + stack);
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void machineSmithingRecipes(GameTestHelper helper) {
         expect(helper, MachinesItems.PNEUMATIC_PIPE_BLUEPRINT.get(), Items.COPPER_BLOCK, MachinesBlocks.PNEUMATIC_PIPE.get().asItem(), 8);
         expect(helper, MachinesItems.VOID_TETHER_BLUEPRINT.get(), Items.ENDER_PEARL, MachinesBlocks.VOID_TETHER.get().asItem(), 1);
@@ -47,19 +58,19 @@ public final class MachinesGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void machineCraftingRecipes(GameTestHelper helper) {
-        var recipes = helper.getLevel().getRecipeManager();
+        var recipes = McLevel.serverRecipes(helper.getLevel());
         for (String id : new String[]{"pneumatic_pipe_entrance", "pneumatic_pipe_exit"}) {
-            helper.assertTrue(recipes.byKey(Upfall.id(id)).isPresent(), "Missing recipe " + id);
+            helper.assertTrue(hasRecipe(recipes, Upfall.id(id)), "Missing recipe " + id);
         }
         for (var blueprint : MachinesItems.blueprints()) {
-            helper.assertTrue(recipes.byKey(blueprint.getId()).isPresent(), "Missing duplication recipe " + blueprint.getId());
+            helper.assertTrue(hasRecipe(recipes, blueprint.getId()), "Missing duplication recipe " + blueprint.getId());
         }
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void gearliftTargets(GameTestHelper helper) {
         var level = helper.getLevel();
         BlockPos base = helper.absolutePos(new BlockPos(1, 1, 1));

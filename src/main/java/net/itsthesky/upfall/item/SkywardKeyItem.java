@@ -1,5 +1,7 @@
 package net.itsthesky.upfall.item;
 
+import net.itsthesky.upfall.compat.mc.McPlayers;
+import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.portal.HaloPortalShape;
 import net.itsthesky.upfall.registry.ModSounds;
 import net.itsthesky.upfall.registry.ModTriggers;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class SkywardKeyItem extends Item {
     public static final int MIN_PORTAL_Y = 200;
@@ -36,12 +39,12 @@ public class SkywardKeyItem extends Item {
             return InteractionResult.PASS;
         }
         if (level.dimension() != Level.OVERWORLD || shape.get().bottomLeft().getY() <= MIN_PORTAL_Y) {
-            if (player != null && !level.isClientSide) {
-                player.displayClientMessage(Component.translatable("message.upfall.key_too_low", MIN_PORTAL_Y).withStyle(ChatFormatting.LIGHT_PURPLE), true);
+            if (player != null && !level.isClientSide()) {
+                McPlayers.overlay(player, Component.translatable("message.upfall.key_too_low", MIN_PORTAL_Y).withStyle(ChatFormatting.LIGHT_PURPLE));
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return UseResults.sided(level);
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             shape.get().createPortalBlocks();
             level.playSound(null, pos, ModSounds.HALO_PORTAL_IGNITE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             if (player instanceof ServerPlayer serverPlayer) {
@@ -51,11 +54,22 @@ public class SkywardKeyItem extends Item {
                 context.getItemInHand().shrink(1);
             }
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return UseResults.sided(level);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, net.minecraft.world.item.component.TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        hoverText(stack, context, tooltip, flag);
+    }
+    *///?} else {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("item.upfall.skyward_key.desc", MIN_PORTAL_Y).withStyle(ChatFormatting.GRAY));
+        hoverText(stack, context, tooltip::add, flag);
+    }
+    //?}
+
+    private void hoverText(ItemStack stack, TooltipContext context, Consumer<Component> tooltip, TooltipFlag flag) {
+        tooltip.accept(Component.translatable("item.upfall.skyward_key.desc", MIN_PORTAL_Y).withStyle(ChatFormatting.GRAY));
     }
 }

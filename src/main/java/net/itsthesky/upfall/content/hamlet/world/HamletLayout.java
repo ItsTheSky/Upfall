@@ -84,7 +84,11 @@ public final class HamletLayout {
             int dx = (int) Math.round(DIAGONALS[slot][0] * distance / Math.sqrt(2.0));
             int dz = (int) Math.round(DIAGONALS[slot][1] * distance / Math.sqrt(2.0));
             int dy = lookout ? 9 + random.nextInt(5) : -5 - random.nextInt(3);
+            //? if >=26.1 {
+            /*Direction front = Direction.getApproximateNearest(-dx, 0, -dz);
+            *///?} else {
             Direction front = Direction.getNearest(-dx, 0, -dz);
+            //?}
             Platform platform = new Platform(lookout ? Kind.LOOKOUT : Kind.GARDEN, center.offset(dx, dy, dz), radius, front);
             if (fits(platforms, platform)) {
                 platforms.add(platform);

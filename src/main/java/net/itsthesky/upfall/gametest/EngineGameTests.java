@@ -1,6 +1,6 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.content.engine.EngineBlocks;
 import net.itsthesky.upfall.content.engine.EngineLoot;
 import net.itsthesky.upfall.content.engine.block.DrainRegulatorBlock;
@@ -10,11 +10,12 @@ import net.itsthesky.upfall.content.engine.worldgen.StalledEngineLayout;
 import net.itsthesky.upfall.content.engine.worldgen.StalledEnginePiece;
 import net.itsthesky.upfall.content.machines.MachinesItems;
 import net.itsthesky.upfall.content.rustworks.RustworksBlocks;
+import net.itsthesky.upfall.gametest.framework.GameTestCompat;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.RandomizableContainer;
@@ -30,17 +31,13 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.List;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class EngineGameTests {
     private EngineGameTests() {}
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void stalledEngineLayoutHasAllParts(GameTestHelper helper) {
         for (int rotation = 0; rotation < 4; rotation++) {
             StalledEngineLayout layout = new StalledEngineLayout(new BlockPos(0, 140, 0), rotation, 42L + rotation, rotation - 1, 24, 0.6F);
@@ -79,7 +76,7 @@ public final class EngineGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty", timeoutTicks = 1200)
+    @UpfallGameTest(template = "empty", timeoutTicks = 1200)
     public static void stalledEnginePieceGeneratesChunkByChunk(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         StalledEnginePiece piece = new StalledEnginePiece(new StalledEngineLayout(new BlockPos(16000, 140, 16000), 1, 7L, 2, 20, 2.0F));
@@ -87,8 +84,8 @@ public final class EngineGameTests {
         for (int cx = bounds.minX() >> 4; cx <= bounds.maxX() >> 4; cx++) {
             for (int cz = bounds.minZ() >> 4; cz <= bounds.maxZ() >> 4; cz++) {
                 ChunkPos chunk = new ChunkPos(cx, cz);
-                BoundingBox chunkBox = new BoundingBox(chunk.getMinBlockX(), level.getMinBuildHeight(), chunk.getMinBlockZ(),
-                        chunk.getMaxBlockX(), level.getMaxBuildHeight(), chunk.getMaxBlockZ());
+                BoundingBox chunkBox = new BoundingBox(chunk.getMinBlockX(), McLevel.minY(level), chunk.getMinBlockZ(),
+                        chunk.getMaxBlockX(), McLevel.maxYExclusive(level), chunk.getMaxBlockZ());
                 piece.postProcess(level, level.structureManager(), level.getChunkSource().getGenerator(), level.getRandom(), chunkBox, chunk, BlockPos.ZERO);
             }
         }
@@ -113,7 +110,7 @@ public final class EngineGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 400)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 400)
     public static void drainValvesEmptyTheVault(GameTestHelper helper) {
         BlockPos regulatorPos = new BlockPos(2, 1, 2);
         helper.setBlock(regulatorPos, EngineBlocks.DRAIN_REGULATOR.get().defaultBlockState());
@@ -128,7 +125,7 @@ public final class EngineGameTests {
         BlockPos regulatorAbs = helper.absolutePos(regulatorPos);
         BlockPos roomMin = helper.absolutePos(new BlockPos(room.minX(), room.minY(), room.minZ()));
         BlockPos roomMax = helper.absolutePos(new BlockPos(room.maxX(), room.maxY(), room.maxZ()));
-        DrainRegulatorBlockEntity regulator = (DrainRegulatorBlockEntity) helper.getBlockEntity(regulatorPos);
+        DrainRegulatorBlockEntity regulator = GameTestCompat.blockEntity(helper, regulatorPos, DrainRegulatorBlockEntity.class);
         regulator.configure(valves.stream().map(v -> helper.absolutePos(v).subtract(regulatorAbs)).toList(),
                 List.of(BoundingBox.fromCorners(roomMin.subtract(regulatorAbs), roomMax.subtract(regulatorAbs))));
 
@@ -167,7 +164,7 @@ public final class EngineGameTests {
         helper.assertTrue(DrainValveBlock.isOpen(helper.getBlockState(valve)), "Valve should be open after a turn");
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void vaultLootAlwaysHoldsBlueprints(GameTestHelper helper) {
         var vault = helper.getLevel().getServer().reloadableRegistries().getLootTable(EngineLoot.VAULT);
         var cache = helper.getLevel().getServer().reloadableRegistries().getLootTable(EngineLoot.CACHE);

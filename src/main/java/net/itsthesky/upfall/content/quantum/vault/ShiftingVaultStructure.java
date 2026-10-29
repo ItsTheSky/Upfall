@@ -2,6 +2,7 @@ package net.itsthesky.upfall.content.quantum.vault;
 
 import com.mojang.serialization.MapCodec;
 import net.itsthesky.upfall.UpfallConfig;
+import net.itsthesky.upfall.compat.mc.McChunks;
 import net.itsthesky.upfall.content.quantum.QuantumStructures;
 import net.itsthesky.upfall.content.quantum.cave.GasCaveNetworks;
 import net.itsthesky.upfall.worldgen.SurfaceSampler;
@@ -46,14 +47,14 @@ public class ShiftingVaultStructure extends Structure {
 
     @Override
     protected Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
-        Key key = new Key(context.seed(), context.chunkPos().toLong());
+        Key key = new Key(context.seed(), McChunks.key(context.chunkPos()));
         Optional<Site> cached;
         synchronized (SITES) {
             cached = SITES.get(key);
         }
         if (cached == null) {
             Terrain terrain = Terrain.of(context.chunkGenerator(), context.heightAccessor(), context.randomState());
-            cached = Optional.ofNullable(find(terrain, context.chunkPos(), RandomSource.create(context.seed() ^ context.chunkPos().toLong()),
+            cached = Optional.ofNullable(find(terrain, context.chunkPos(), RandomSource.create(context.seed() ^ McChunks.key(context.chunkPos())),
                     UpfallConfig.getInt(UpfallConfig.VAULT_MARGIN)));
             synchronized (SITES) {
                 SITES.put(key, cached);

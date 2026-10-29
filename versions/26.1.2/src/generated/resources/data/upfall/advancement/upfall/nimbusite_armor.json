@@ -1,0 +1,50 @@
+{
+  "parent": "upfall:upfall/nimbusite_template",
+  "criteria": {
+    "full_set": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "equipment": {
+                "chest": {
+                  "items": "upfall:nimbusite_chestplate"
+                },
+                "feet": {
+                  "items": "upfall:nimbusite_boots"
+                },
+                "head": {
+                  "items": "upfall:nimbusite_helmet"
+                },
+                "legs": {
+                  "items": "upfall:nimbusite_leggings"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.nimbusite_armor.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "upfall:nimbusite_chestplate"
+    },
+    "title": {
+      "translate": "advancements.upfall.nimbusite_armor.title"
+    }
+  },
+  "requirements": [
+    [
+      "full_set"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

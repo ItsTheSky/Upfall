@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/carpet",
+  "textures": {
+    "wool": "upfall:block/verdigris_moss_block"
+  }
+}

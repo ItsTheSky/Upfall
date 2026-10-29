@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_left",
+  "textures": {
+    "bottom": "upfall:block/skyreach_door_bottom",
+    "top": "upfall:block/skyreach_door_top"
+  }
+}

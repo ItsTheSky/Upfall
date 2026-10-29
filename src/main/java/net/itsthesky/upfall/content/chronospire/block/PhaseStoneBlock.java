@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.chronospire.block;
 
+import net.itsthesky.upfall.compat.mc.TooltipSource;
 import net.itsthesky.upfall.content.chronospire.ChronoClock;
 import net.itsthesky.upfall.content.chronospire.ChronoPhase;
 import net.itsthesky.upfall.registry.ModParticles;
@@ -27,8 +28,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
+import java.util.function.Consumer;
 
-public class PhaseStoneBlock extends PhaseTrackingBlock {
+public class PhaseStoneBlock extends PhaseTrackingBlock implements TooltipSource {
     public static final EnumProperty<Mode> MODE = EnumProperty.create("mode", Mode.class);
     public static final BooleanProperty SLAB = BooleanProperty.create("slab");
     private static final VoxelShape SLAB_SHAPE = Block.box(0, 0, 0, 16, 8, 16);
@@ -58,8 +60,8 @@ public class PhaseStoneBlock extends PhaseTrackingBlock {
 
     @Override
     protected void onPhaseChange(BlockState state, ServerLevel level, BlockPos pos) {
-        if (state.getValue(MODE) == Mode.SOLID && level.random.nextInt(6) == 0) {
-            level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 0.6F, 0.6F + level.random.nextFloat() * 0.4F);
+        if (state.getValue(MODE) == Mode.SOLID && level.getRandom().nextInt(6) == 0) {
+            level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 0.6F, 0.6F + level.getRandom().nextFloat() * 0.4F);
         }
     }
 
@@ -94,10 +96,17 @@ public class PhaseStoneBlock extends PhaseTrackingBlock {
         return ghost || !state.getValue(SLAB) && !adjacent.getValue(SLAB);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
+    }
+    *///?} else {
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
+    //?}
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
@@ -108,9 +117,16 @@ public class PhaseStoneBlock extends PhaseTrackingBlock {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("block.upfall.phase_stone.desc").withStyle(ChatFormatting.GRAY));
+    public void hoverText(ItemStack stack, Item.TooltipContext context, Consumer<Component> out, TooltipFlag flag) {
+        out.accept(Component.translatable("block.upfall.phase_stone.desc").withStyle(ChatFormatting.GRAY));
     }
+
+    //? if <26.1 {
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        hoverText(stack, context, tooltip::add, flag);
+    }
+    //?}
 
     public enum Mode implements StringRepresentable {
         SOLID("solid"),

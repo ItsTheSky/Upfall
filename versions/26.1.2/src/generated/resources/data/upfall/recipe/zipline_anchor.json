@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "L": "upfall:skyreach_log",
+    "N": "upfall:nimbusite_ingot",
+    "R": "upfall:rope"
+  },
+  "pattern": [
+    " N ",
+    "RLR"
+  ],
+  "result": {
+    "count": 2,
+    "id": "upfall:zipline_anchor"
+  }
+}

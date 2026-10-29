@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.hamlet.world;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.content.hamlet.HamletStructures;
 import net.itsthesky.upfall.worldgen.ModBiomes;
 import net.itsthesky.upfall.worldgen.ReliquaryZones;
@@ -36,7 +37,7 @@ public class CloudHamletStructure extends Structure {
         int cloudTop = 50;
         for (int[] sample : SAMPLES) {
             NoiseColumn column = context.chunkGenerator().getBaseColumn(x + sample[0], z + sample[1], context.heightAccessor(), context.randomState());
-            for (int y = SCAN_TOP; y > context.heightAccessor().getMinBuildHeight(); y--) {
+            for (int y = SCAN_TOP; y > McLevel.minY(context.heightAccessor()); y--) {
                 if (!column.getBlock(y).isAir()) {
                     if (y > CLOUD_LIMIT) {
                         return Optional.empty();

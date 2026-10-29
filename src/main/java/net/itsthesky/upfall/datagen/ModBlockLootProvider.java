@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.datagen;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McIds;
 import net.itsthesky.upfall.content.UpfallModules;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
@@ -39,7 +40,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
         for (Block block : getKnownBlocks()) {
-            if (block.getLootTable() != BuiltInLootTables.EMPTY && block.asItem() != Items.AIR) {
+            if (hasLootTable(block) && block.asItem() != Items.AIR) {
                 dropSelf(block);
             }
         }
@@ -166,13 +167,25 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
     }
 
     private LootItemCondition.Builder shearsOrSilkTouch() {
+        //? if >=26.1 {
+        /*return hasShears().or(hasSilkTouch());
+        *///?} else {
         return MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.SHEARS)).or(hasSilkTouch());
+        //?}
+    }
+
+    private static boolean hasLootTable(Block block) {
+        //? if >=26.1 {
+        /*return block.getLootTable().isPresent();
+        *///?} else {
+        return block.getLootTable() != BuiltInLootTables.EMPTY;
+        //?}
     }
 
     @Override
     protected Iterable<Block> getKnownBlocks() {
         return BuiltInRegistries.BLOCK.entrySet().stream()
-                .filter(entry -> entry.getKey().location().getNamespace().equals(Upfall.MODID))
+                .filter(entry -> McIds.id(entry.getKey()).getNamespace().equals(Upfall.MODID))
                 .map(java.util.Map.Entry::getValue)
                 .toList();
     }

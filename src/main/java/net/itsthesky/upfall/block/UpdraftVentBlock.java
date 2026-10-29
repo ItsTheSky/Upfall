@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.block;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -30,7 +31,7 @@ public class UpdraftVentBlock extends Block {
         int placed = 0;
         for (int i = 1; i <= maxHeight; i++) {
             cursor.setY(ventPos.getY() + i);
-            if (cursor.getY() >= level.getMaxBuildHeight()) break;
+            if (cursor.getY() >= McLevel.maxYExclusive(level)) break;
             BlockState current = level.getBlockState(cursor);
             if (current.is(ModBlocks.UPDRAFT_MIST.get())) continue;
             if (!current.isAir()) break;

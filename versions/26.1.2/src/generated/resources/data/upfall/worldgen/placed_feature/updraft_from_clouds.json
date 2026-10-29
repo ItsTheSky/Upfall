@@ -1,0 +1,28 @@
+{
+  "feature": "upfall:updraft_column",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 3
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "upfall:surface_scan",
+      "max_y": 64,
+      "min_y": 30,
+      "support": {
+        "type": "minecraft:matching_blocks",
+        "blocks": [
+          "upfall:mist",
+          "upfall:dense_cloud"
+        ]
+      },
+      "surface": "floor"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

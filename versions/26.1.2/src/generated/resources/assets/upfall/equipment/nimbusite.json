@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "upfall:nimbusite"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "upfall:nimbusite"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "upfall:nimbusite"
+      }
+    ]
+  }
+}

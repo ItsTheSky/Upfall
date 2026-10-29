@@ -1,6 +1,5 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.chronospire.ChronoBlocks;
 import net.itsthesky.upfall.content.chronospire.ChronoClock;
 import net.itsthesky.upfall.content.chronospire.ChronoPhase;
@@ -18,9 +17,10 @@ import net.itsthesky.upfall.content.chronospire.item.HourglassTracker;
 import net.itsthesky.upfall.content.chronospire.puzzle.WheelRing;
 import net.itsthesky.upfall.content.chronospire.worldgen.ChronospireBlueprint;
 import net.itsthesky.upfall.content.chronospire.worldgen.ChronospireLoot;
+import net.itsthesky.upfall.gametest.framework.GameTestCompat;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -28,7 +28,6 @@ import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -39,8 +38,6 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -49,12 +46,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class ChronospireGameTests {
     private ChronospireGameTests() {}
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void chronoClockPhases(GameTestHelper helper) {
         helper.assertTrue(ChronoClock.phaseAt(0) == ChronoPhase.DAWN, "0 is dawn");
         helper.assertTrue(ChronoClock.phaseAt(5999) == ChronoPhase.DAWN, "5999 is dawn");
@@ -71,12 +66,12 @@ public final class ChronospireGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty", batch = "chronospire_clock", timeoutTicks = 300)
+    @UpfallGameTest(template = "empty", batch = "chronospire_clock", timeoutTicks = 300)
     public static void phaseStonesFollowTheOverworldTime(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        level.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(true, level.getServer());
-        long day = level.getDayTime() - Math.floorMod(level.getDayTime(), ChronoClock.DAY) + ChronoClock.DAY;
-        level.setDayTime(day + 1000);
+        GameTestCompat.setDaylightCycle(helper, true);
+        long day = GameTestCompat.dayTime(helper) - Math.floorMod(GameTestCompat.dayTime(helper), ChronoClock.DAY) + ChronoClock.DAY;
+        GameTestCompat.setDayTime(helper, day + 1000);
         ChronoPhase[] phases = ChronoPhase.values();
         for (int i = 0; i < phases.length; i++) {
             helper.setBlock(new BlockPos(1 + i, 1, 2), ChronoBlocks.PHASE_STONE.get().defaultBlockState()
@@ -91,10 +86,10 @@ public final class ChronospireGameTests {
             helper.assertTrue(!level.getBlockState(dawn).getCollisionShape(level, dawn).isEmpty(), "a solid phase stone must have collision");
             helper.assertTrue(level.getBlockState(noon).getCollisionShape(level, noon).isEmpty(), "a ghost phase stone must not have collision");
             helper.assertTrue(helper.getBlockState(new BlockPos(1, 1, 4)).getValue(PhaseTrackingBlock.PHASE) == ChronoPhase.DAWN, "lantern shows dawn");
-            level.setDayTime(day + ChronoClock.PHASE_LENGTH - 300);
+            GameTestCompat.setDayTime(helper, day + ChronoClock.PHASE_LENGTH - 300);
             helper.runAfterDelay(PhaseTrackingBlock.MAX_CHECK_INTERVAL + 5, () -> {
                 assertMode(helper, 0, PhaseStoneBlock.Mode.FADING);
-                level.setDayTime(day + 3 * ChronoClock.PHASE_LENGTH + 100);
+                GameTestCompat.setDayTime(helper, day + 3 * ChronoClock.PHASE_LENGTH + 100);
                 helper.runAfterDelay(PhaseTrackingBlock.MAX_CHECK_INTERVAL + 5, () -> {
                     assertMode(helper, 0, PhaseStoneBlock.Mode.GHOST);
                     assertMode(helper, 3, PhaseStoneBlock.Mode.SOLID);
@@ -113,7 +108,7 @@ public final class ChronospireGameTests {
                         + " at " + Math.floorMod(ChronoClock.time(helper.getLevel()), ChronoClock.DAY));
     }
 
-    @GameTest(template = "empty", timeoutTicks = 400)
+    @UpfallGameTest(template = "empty", timeoutTicks = 400)
     public static void glyphPuzzleOpensSeals(GameTestHelper helper) {
         BlockPos pedestalPos = new BlockPos(4, 1, 4);
         helper.setBlock(pedestalPos, ChronoBlocks.GLYPH_PEDESTAL.get());
@@ -127,7 +122,7 @@ public final class ChronospireGameTests {
         helper.setBlock(sealA, ChronoBlocks.CHRONO_SEAL.get());
         helper.setBlock(sealB, ChronoBlocks.CHRONO_SEAL.get());
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        GlyphPedestalBlockEntity pedestal = (GlyphPedestalBlockEntity) helper.getBlockEntity(pedestalPos);
+        GlyphPedestalBlockEntity pedestal = GameTestCompat.blockEntity(helper, pedestalPos, GlyphPedestalBlockEntity.class);
         int show = GlyphPedestalBlockEntity.SHOW_INTERVAL * (GlyphPedestalBlockEntity.LENGTH + 1) + 15;
 
         pedestal.use(player);
@@ -157,7 +152,7 @@ public final class ChronospireGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void wheelRingIsAlwaysSolvable(GameTestHelper helper) {
         Set<String> outcomes = new HashSet<>();
         for (int code = 0; code < 1024; code++) {
@@ -182,7 +177,7 @@ public final class ChronospireGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty", batch = "chronospire_wheels", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty", batch = "chronospire_wheels", timeoutTicks = 200)
     public static void wheelPuzzleOpensSeals(GameTestHelper helper) {
         BlockPos gnomonPos = new BlockPos(4, 5, 4);
         helper.setBlock(gnomonPos, ChronoBlocks.CHRONO_GNOMON.get());
@@ -194,7 +189,7 @@ public final class ChronospireGameTests {
         BlockPos seal = new BlockPos(1, 4, 7);
         helper.setBlock(seal, ChronoBlocks.CHRONO_SEAL.get());
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        ChronoGnomonBlockEntity gnomon = (ChronoGnomonBlockEntity) helper.getBlockEntity(gnomonPos);
+        ChronoGnomonBlockEntity gnomon = GameTestCompat.blockEntity(helper, gnomonPos, ChronoGnomonBlockEntity.class);
         gnomon.scramble();
         List<BlockPos> wheels = gnomon.wheels();
         helper.assertTrue(wheels.size() == 5, "the gnomon finds its five wheels, found " + wheels.size());
@@ -214,7 +209,7 @@ public final class ChronospireGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 200)
     public static void driftPlatformCarriesEntities(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         int pause = 10;
@@ -222,7 +217,11 @@ public final class ChronospireGameTests {
         Vec3 end = helper.absoluteVec(new Vec3(12.0, 10.0, 12.0));
         int offset = (int) Math.floorMod(pause - level.getGameTime(), 100000L);
         PlatformPath path = new PlatformPath(List.of(start, end), 0.2, pause, offset);
+        //? if >=26.1 {
+        /*DriftPlatform platform = ChronoRegistries.DRIFT_PLATFORM.get().create(level, net.minecraft.world.entity.MobSpawnType.COMMAND);
+        *///?} else {
         DriftPlatform platform = ChronoRegistries.DRIFT_PLATFORM.get().create(level);
+        //?}
         platform.setPath(path);
         level.addFreshEntity(platform);
         ArmorStand stand = helper.spawn(EntityType.ARMOR_STAND, new Vec3(12.0, 2.55, 12.0));
@@ -236,7 +235,7 @@ public final class ChronospireGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void blueprintIsComplete(GameTestHelper helper) {
         for (int rotation = 0; rotation < 4; rotation++) {
             BlockPos origin = new BlockPos(1000, 120, -2000);
@@ -278,7 +277,7 @@ public final class ChronospireGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void platformRoutesAreNeverAirborne(GameTestHelper helper) {
         ChronospireBlueprint plan = ChronospireBlueprint.build(new BlockPos(0, 120, 0), 1, 7L);
         for (PlatformPath path : plan.platforms()) {
@@ -299,7 +298,7 @@ public final class ChronospireGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void vaultLootHoldsTheHourglass(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         LootTable table = level.getServer().reloadableRegistries().getLootTable(ChronospireLoot.VAULT);
@@ -311,7 +310,7 @@ public final class ChronospireGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void hourglassRemembersFooting(GameTestHelper helper) {
         UUID id = UUID.randomUUID();
         for (long t = 0; t <= 100; t += 5) {

@@ -18,7 +18,11 @@ public class FlickerShardClusterBlock extends AmethystClusterBlock implements En
     public static final MapCodec<FlickerShardClusterBlock> CODEC_FLICKER = simpleCodec(FlickerShardClusterBlock::new);
 
     public FlickerShardClusterBlock(Properties properties) {
+        //? if >=26.1 {
+        /*super(7.0F, 10.0F, properties);
+        *///?} else {
         super(7.0F, 3.0F, properties);
+        //?}
     }
 
     @Override
@@ -35,7 +39,7 @@ public class FlickerShardClusterBlock extends AmethystClusterBlock implements En
     @Override
     @SuppressWarnings("unchecked")
     public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide || type != QuantumBlocks.FLICKER_SHARD_CLUSTER_ENTITY.get()) return null;
+        if (level.isClientSide() || type != QuantumBlocks.FLICKER_SHARD_CLUSTER_ENTITY.get()) return null;
         return (BlockEntityTicker<T>) (BlockEntityTicker<FlickerShardClusterBlockEntity>) FlickerShardClusterBlockEntity::serverTick;
     }
 

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:copper_ingot",
+    "upfall:kairite_dust"
+  ],
+  "result": {
+    "count": 4,
+    "id": "upfall:rusty_plate"
+  }
+}

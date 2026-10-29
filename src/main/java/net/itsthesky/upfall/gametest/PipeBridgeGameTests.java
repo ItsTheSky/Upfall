@@ -1,31 +1,26 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.rustworks.RustworksBlocks;
 import net.itsthesky.upfall.content.rustworks.worldgen.PipeBridge;
 import net.itsthesky.upfall.content.rustworks.worldgen.PipeBridgePiece;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class PipeBridgeGameTests {
     private PipeBridgeGameTests() {}
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void pipeBridgeSegmentsCoverTheBridge(GameTestHelper helper) {
         RandomSource random = RandomSource.create(7L);
         for (int i = 0; i < 40; i++) {
@@ -74,7 +69,7 @@ public final class PipeBridgeGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void pipeBridgeSearchFindsGaps(GameTestHelper helper) {
         for (int gap : new int[]{PipeBridge.MIN_GAP, 30, PipeBridge.MAX_GAP}) {
             Optional<PipeBridge> bridge = search(gap, 4, true);

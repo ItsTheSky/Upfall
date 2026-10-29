@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.aerie.worldgen;
 
+import net.itsthesky.upfall.compat.mc.McNbt;
 import net.itsthesky.upfall.content.aerie.AerieStructures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -31,10 +32,10 @@ public class AeriePiece extends StructurePiece {
 
     public AeriePiece(CompoundTag tag) {
         super(AerieStructures.PEARL_AERIE_PIECE.get(), tag);
-        this.origin = BlockPos.of(tag.getLong("Origin"));
-        this.seed = tag.getLong("Seed");
-        this.bridge = tag.getBoolean("Bridge");
-        this.index = tag.getInt("Index");
+        this.origin = BlockPos.of(McNbt.getLong(tag, "Origin"));
+        this.seed = McNbt.getLong(tag, "Seed");
+        this.bridge = McNbt.getBoolean(tag, "Bridge");
+        this.index = McNbt.getInt(tag, "Index");
     }
 
     @Override

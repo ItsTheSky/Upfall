@@ -1,20 +1,18 @@
 package net.itsthesky.upfall.content.machines.pipe;
 
 import net.itsthesky.upfall.content.machines.MachinesBlocks;
-import net.itsthesky.upfall.datagen.ModBlockStateProvider;
+import net.itsthesky.upfall.content.machines.ModelBox;
 import net.itsthesky.upfall.datagen.ModLanguageProvider;
 import net.itsthesky.upfall.datagen.ModSoundProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.PipeBlock;
-import net.neoforged.neoforge.client.model.generators.ModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public final class PipeData {
@@ -49,70 +47,41 @@ public final class PipeData {
                 .with(ModSoundProvider.event("block.iron_trapdoor.close").pitch(0.6).volume(0.8)));
     }
 
-    public static void blockStates(ModBlockStateProvider states) {
-        ResourceLocation glass = states.blockTexture("pneumatic_pipe_glass");
-        ResourceLocation band = states.blockTexture("pneumatic_pipe_band");
-        Block pipe = MachinesBlocks.PNEUMATIC_PIPE.get();
-        MultiPartBlockStateBuilder multipart = states.getMultipartBuilder(pipe);
-        for (Direction dir : Direction.values()) {
-            ModelBuilder<?> arm = pipeModel(states, "pneumatic_pipe_arm_" + dir.getName(), glass, band);
-            arm(arm, dir);
-            ModelBuilder<?> cap = pipeModel(states, "pneumatic_pipe_cap_" + dir.getName(), glass, band);
-            cap(cap, dir);
-            multipart.part().modelFile(arm).addModel().condition(PipeBlock.PROPERTY_BY_DIRECTION.get(dir), true).end();
-            multipart.part().modelFile(cap).addModel().condition(PipeBlock.PROPERTY_BY_DIRECTION.get(dir), false).end();
-        }
-        ModelBuilder<?> item = states.itemModels().withExistingParent(ModBlockStateProvider.name(pipe), states.mcLoc("block/block"))
-                .texture("glass", glass).texture("band", band).texture("particle", band).renderType("translucent");
-        arm(item, Direction.NORTH);
-        arm(item, Direction.SOUTH);
+    static List<ModelBox> armBoxes(Direction dir) {
+        return List.of(
+                box(dir, 2, 2, 1, 2, 14, 2, "glass", EnumSet.of(Direction.WEST, Direction.EAST)),
+                box(dir, 14, 2, 1, 14, 14, 2, "glass", EnumSet.of(Direction.EAST, Direction.WEST)),
+                box(dir, 2, 2, 1, 14, 2, 2, "glass", EnumSet.of(Direction.DOWN, Direction.UP)),
+                box(dir, 2, 14, 1, 14, 14, 2, "glass", EnumSet.of(Direction.UP, Direction.DOWN)),
+                box(dir, 1, 14, 0, 15, 15, 1, "band", ALL_FACES),
+                box(dir, 1, 1, 0, 15, 2, 1, "band", ALL_FACES),
+                box(dir, 1, 2, 0, 2, 14, 1, "band", ALL_FACES),
+                box(dir, 14, 2, 0, 15, 14, 1, "band", ALL_FACES));
+    }
+
+    static List<ModelBox> capBoxes(Direction dir) {
+        return List.of(box(dir, 2, 2, 2, 14, 14, 2, "glass", EnumSet.of(Direction.NORTH, Direction.SOUTH)));
+    }
+
+    static List<ModelBox> itemBoxes() {
+        List<ModelBox> boxes = new ArrayList<>(armBoxes(Direction.NORTH));
+        boxes.addAll(armBoxes(Direction.SOUTH));
         for (Direction dir : new Direction[]{Direction.EAST, Direction.WEST, Direction.UP, Direction.DOWN}) {
-            cap(item, dir);
+            boxes.addAll(capBoxes(dir));
         }
-
-        ResourceLocation casing = states.blockTexture("pneumatic_pipe_casing");
-        terminal(states, MachinesBlocks.PNEUMATIC_PIPE_ENTRANCE.get(), casing, states.blockTexture("pneumatic_pipe_entrance_front"));
-        terminal(states, MachinesBlocks.PNEUMATIC_PIPE_EXIT.get(), casing, states.blockTexture("pneumatic_pipe_exit_front"));
+        return boxes;
     }
 
-    private static void terminal(ModBlockStateProvider states, Block block, ResourceLocation casing, ResourceLocation front) {
-        ModelFile model = states.models().cube(ModBlockStateProvider.name(block), casing, front, casing, casing, casing, casing)
-                .texture("particle", casing);
-        states.directionalBlock(block, model);
-        states.blockItem(block);
-    }
-
-    private static ModelBuilder<?> pipeModel(ModBlockStateProvider states, String name, ResourceLocation glass, ResourceLocation band) {
-        return states.models().withExistingParent(name, states.mcLoc("block/block"))
-                .texture("glass", glass).texture("band", band).texture("particle", band).renderType("translucent");
-    }
-
-    private static void arm(ModelBuilder<?> model, Direction dir) {
-        box(model, dir, 2, 2, 1, 2, 14, 2, "#glass", EnumSet.of(Direction.WEST, Direction.EAST));
-        box(model, dir, 14, 2, 1, 14, 14, 2, "#glass", EnumSet.of(Direction.EAST, Direction.WEST));
-        box(model, dir, 2, 2, 1, 14, 2, 2, "#glass", EnumSet.of(Direction.DOWN, Direction.UP));
-        box(model, dir, 2, 14, 1, 14, 14, 2, "#glass", EnumSet.of(Direction.UP, Direction.DOWN));
-        box(model, dir, 1, 14, 0, 15, 15, 1, "#band", ALL_FACES);
-        box(model, dir, 1, 1, 0, 15, 2, 1, "#band", ALL_FACES);
-        box(model, dir, 1, 2, 0, 2, 14, 1, "#band", ALL_FACES);
-        box(model, dir, 14, 2, 0, 15, 14, 1, "#band", ALL_FACES);
-    }
-
-    private static void cap(ModelBuilder<?> model, Direction dir) {
-        box(model, dir, 2, 2, 2, 14, 14, 2, "#glass", EnumSet.of(Direction.NORTH, Direction.SOUTH));
-    }
-
-    private static void box(ModelBuilder<?> model, Direction dir, float x1, float y1, float z1, float x2, float y2, float z2,
-                            String texture, Set<Direction> localFaces) {
+    private static ModelBox box(Direction dir, float x1, float y1, float z1, float x2, float y2, float z2,
+                                String texture, Set<Direction> localFaces) {
         Vector3f a = map(dir, x1, y1, z1);
         Vector3f b = map(dir, x2, y2, z2);
-        var element = model.element()
-                .from(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.min(a.z, b.z))
-                .to(Math.max(a.x, b.x), Math.max(a.y, b.y), Math.max(a.z, b.z));
+        Map<Direction, ModelBox.Face> faces = new LinkedHashMap<>();
         for (Direction local : localFaces) {
-            element.face(mapDirection(dir, local)).texture(texture).end();
+            faces.put(mapDirection(dir, local), ModelBox.Face.of(texture));
         }
-        element.end();
+        return new ModelBox(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.min(a.z, b.z),
+                Math.max(a.x, b.x), Math.max(a.y, b.y), Math.max(a.z, b.z), faces);
     }
 
     private static Vector3f map(Direction dir, float x, float y, float z) {
@@ -127,9 +96,16 @@ public final class PipeData {
     }
 
     private static Direction mapDirection(Direction dir, Direction local) {
-        Vec3i normal = local.getNormal();
         Vector3f origin = map(dir, 0, 0, 0);
-        Vector3f moved = map(dir, normal.getX(), normal.getY(), normal.getZ());
-        return Direction.getNearest(moved.x - origin.x, moved.y - origin.y, moved.z - origin.z);
+        Vector3f moved = map(dir, local.getStepX(), local.getStepY(), local.getStepZ());
+        int dx = Math.round(moved.x - origin.x);
+        int dy = Math.round(moved.y - origin.y);
+        int dz = Math.round(moved.z - origin.z);
+        for (Direction candidate : Direction.values()) {
+            if (candidate.getStepX() == dx && candidate.getStepY() == dy && candidate.getStepZ() == dz) {
+                return candidate;
+            }
+        }
+        throw new IllegalStateException("No direction for " + dx + "," + dy + "," + dz);
     }
 }

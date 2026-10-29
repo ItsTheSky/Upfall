@@ -39,11 +39,19 @@ public class HangingSaplingBlock extends SaplingBlock {
         return mayPlaceOn(anchor, level, above) && anchor.isFaceSturdy(level, above, Direction.DOWN);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected BlockState updateShape(BlockState state, LevelReader level, net.minecraft.world.level.ScheduledTickAccess ticks, BlockPos pos,
+                                     Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        return canSurvive(state, level, pos) ? state : net.minecraft.world.level.block.Blocks.AIR.defaultBlockState();
+    }
+    *///?} else {
     @Override
     protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                      net.minecraft.world.level.LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         return canSurvive(state, level, pos) ? state : net.minecraft.world.level.block.Blocks.AIR.defaultBlockState();
     }
+    //?}
 
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {

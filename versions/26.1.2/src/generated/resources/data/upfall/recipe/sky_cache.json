@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": "minecraft:gold_ingot",
+    "P": "upfall:skyreach_planks"
+  },
+  "pattern": [
+    "PGP",
+    "P P",
+    "PPP"
+  ],
+  "result": {
+    "id": "upfall:sky_cache"
+  }
+}

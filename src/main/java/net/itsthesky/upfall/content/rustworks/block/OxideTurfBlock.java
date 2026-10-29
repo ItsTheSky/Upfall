@@ -29,8 +29,13 @@ public class OxideTurfBlock extends Block {
         if (aboveState.getFluidState().getAmount() == 8) {
             return false;
         }
+        //? if >=26.1 {
+        /*int opacity = LightEngine.getLightBlockInto(state, aboveState, Direction.UP, aboveState.getLightDampening());
+        return opacity < LightEngine.MAX_LEVEL;
+        *///?} else {
         int opacity = LightEngine.getLightBlockInto(level, state, pos, aboveState, above, Direction.UP, aboveState.getLightBlock(level, above));
         return opacity < level.getMaxLightLevel();
+        //?}
     }
 
     @Override

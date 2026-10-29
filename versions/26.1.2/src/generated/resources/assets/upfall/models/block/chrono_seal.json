@@ -1,0 +1,58 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#all"
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#all"
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#all"
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#all"
+        },
+        "up": {
+          "cullface": "up",
+          "texture": "#all"
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#all"
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "light_emission": 12,
+      "neoforge_data": {
+        "ambient_occlusion": false
+      },
+      "shade": false,
+      "to": [
+        16,
+        16,
+        16
+      ]
+    }
+  ],
+  "textures": {
+    "all": {
+      "force_translucent": true,
+      "sprite": "upfall:block/chrono_seal"
+    },
+    "particle": {
+      "force_translucent": true,
+      "sprite": "upfall:block/chrono_seal"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "values": [
+    "upfall:warded_chronostone",
+    "upfall:chronoglass",
+    "upfall:phase_stone",
+    "upfall:chronoglyph",
+    "upfall:glyph_pedestal",
+    "upfall:phase_wheel",
+    "upfall:chrono_gnomon",
+    "upfall:chrono_seal",
+    "upfall:chrono_current",
+    "upfall:drift_plate",
+    "upfall:vault_bricks",
+    "upfall:vault_tiles",
+    "upfall:vault_glass",
+    "upfall:frost_glass",
+    "upfall:vault_lamp",
+    "upfall:crumbling_floor",
+    "upfall:shifting_chest",
+    "upfall:vault_core",
+    "upfall:fold_socket",
+    "upfall:fold_seal"
+  ]
+}

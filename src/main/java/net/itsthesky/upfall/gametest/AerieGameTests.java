@@ -1,14 +1,14 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McPlayers;
 import net.itsthesky.upfall.content.aerie.AerieBlocks;
 import net.itsthesky.upfall.content.aerie.AerieItems;
 import net.itsthesky.upfall.content.aerie.AerieLoot;
 import net.itsthesky.upfall.content.aerie.worldgen.AerieBlueprint;
 import net.itsthesky.upfall.content.aerie.worldgen.AerieLayout;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModEffects;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -16,19 +16,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.Map;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class AerieGameTests {
     private AerieGameTests() {}
 
     private static final BlockPos ORIGIN = new BlockPos(1000, 140, -2000);
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void aerieLayoutIsDeterministicAndBounded(GameTestHelper helper) {
         int multiTower = 0;
         for (long seed = 0; seed < 200; seed++) {
@@ -46,7 +42,7 @@ public final class AerieGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void aerieKeepHoldsTreasure(GameTestHelper helper) {
         for (long seed = 0; seed < 40; seed++) {
             AerieLayout.Plan plan = AerieLayout.plan(seed, ORIGIN);
@@ -58,7 +54,7 @@ public final class AerieGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void aerieBridgesAvoidOtherTowers(GameTestHelper helper) {
         for (long seed = 0; seed < 60; seed++) {
             AerieLayout.Plan plan = AerieLayout.plan(seed, ORIGIN);
@@ -81,7 +77,7 @@ public final class AerieGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty", timeoutTicks = 120)
+    @UpfallGameTest(template = "empty", timeoutTicks = 120)
     public static void weatheredBricksCrumbleForGood(GameTestHelper helper) {
         for (int x = 2; x <= 4; x++) {
             helper.setBlock(new BlockPos(x, 2, 3), AerieBlocks.WEATHERED_PEARLSTONE_BRICKS.get());
@@ -95,7 +91,7 @@ public final class AerieGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void gravitySceptreTogglesWeightless(GameTestHelper helper) {
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         ItemStack sceptre = new ItemStack(AerieItems.GRAVITY_SCEPTRE.get());
@@ -103,8 +99,8 @@ public final class AerieGameTests {
         sceptre.use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
         helper.assertTrue(player.hasEffect(ModEffects.WEIGHTLESS), "The sceptre did not grant Weightless");
         helper.assertTrue(sceptre.getDamageValue() == 1, "The sceptre should lose one durability per activation");
-        helper.assertTrue(player.getCooldowns().isOnCooldown(AerieItems.GRAVITY_SCEPTRE.get()), "The sceptre has no cooldown");
-        player.getCooldowns().removeCooldown(AerieItems.GRAVITY_SCEPTRE.get());
+        helper.assertTrue(McPlayers.isOnCooldown(player, AerieItems.GRAVITY_SCEPTRE.get()), "The sceptre has no cooldown");
+        McPlayers.removeCooldown(player, AerieItems.GRAVITY_SCEPTRE.get());
         sceptre.use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
         helper.assertTrue(!player.hasEffect(ModEffects.WEIGHTLESS), "Using the sceptre again must release Weightless");
         helper.assertTrue(sceptre.getDamageValue() == 1, "Releasing must not cost durability");

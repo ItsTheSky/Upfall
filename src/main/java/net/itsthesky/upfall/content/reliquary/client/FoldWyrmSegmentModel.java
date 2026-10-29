@@ -18,6 +18,9 @@ public final class FoldWyrmSegmentModel {
     private final ModelPart root;
     private final ModelPart pitch;
     private final ModelPart spine;
+    //? if >=26.1 {
+    /*private final PoseStack scratch = new PoseStack();
+    *///?}
 
     public FoldWyrmSegmentModel(ModelPart root) {
         this.root = root;
@@ -48,4 +51,12 @@ public final class FoldWyrmSegmentModel {
     public void render(PoseStack poseStack, VertexConsumer consumer, int light, int overlay) {
         root.render(poseStack, consumer, light, overlay);
     }
+
+    //? if >=26.1 {
+    /*public void draw(PoseStack.Pose at, VertexConsumer consumer, float pitchRadians, float spineLength, int light, int overlay, int color) {
+        scratch.last().set(at);
+        pose(pitchRadians, spineLength);
+        root.render(scratch, consumer, light, overlay, color);
+    }
+    *///?}
 }

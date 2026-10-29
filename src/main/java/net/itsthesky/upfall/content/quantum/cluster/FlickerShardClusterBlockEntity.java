@@ -1,6 +1,9 @@
 package net.itsthesky.upfall.content.quantum.cluster;
 
 import net.itsthesky.upfall.UpfallConfig;
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.UpfallBlockEntity;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.itsthesky.upfall.content.quantum.QuantumSounds;
@@ -8,24 +11,19 @@ import net.itsthesky.upfall.content.quantum.observe.QuantumObservation;
 import net.itsthesky.upfall.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class FlickerShardClusterBlockEntity extends BlockEntity {
+public class FlickerShardClusterBlockEntity extends UpfallBlockEntity {
     private static final int TRIES = 24;
 
     private BlockState replaced = Blocks.AIR.defaultBlockState();
@@ -52,13 +50,13 @@ public class FlickerShardClusterBlockEntity extends BlockEntity {
         }
         if (QuantumObservation.isObserved(server, pos)) return;
         boolean mined = entity.miner != null;
-        if (mined || level.random.nextDouble() < UpfallConfig.getDouble(UpfallConfig.CLUSTER_JUMP_CHANCE)) {
+        if (mined || level.getRandom().nextDouble() < UpfallConfig.getDouble(UpfallConfig.CLUSTER_JUMP_CHANCE)) {
             jump(server, pos, state, entity);
         }
     }
 
     public static @Nullable BlockPos jump(ServerLevel level, BlockPos pos, BlockState state, FlickerShardClusterBlockEntity entity) {
-        RandomSource random = level.random;
+        RandomSource random = level.getRandom();
         int radius = UpfallConfig.getInt(UpfallConfig.CLUSTER_JUMP_RADIUS);
         for (int i = 0; i < TRIES; i++) {
             BlockPos target = pos.offset(random.nextInt(radius * 2 + 1) - radius, random.nextInt(radius * 2 + 1) - radius,
@@ -95,7 +93,7 @@ public class FlickerShardClusterBlockEntity extends BlockEntity {
     }
 
     public static void onLeftClick(PlayerInteractEvent.LeftClickBlock event) {
-        if (event.getLevel().isClientSide || !(event.getLevel().getBlockEntity(event.getPos()) instanceof FlickerShardClusterBlockEntity entity)) return;
+        if (event.getLevel().isClientSide() || !(event.getLevel().getBlockEntity(event.getPos()) instanceof FlickerShardClusterBlockEntity entity)) return;
         switch (event.getAction()) {
             case START -> entity.miner = event.getEntity().getUUID();
             case ABORT, STOP -> entity.miner = null;
@@ -104,16 +102,12 @@ public class FlickerShardClusterBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put("Replaced", NbtUtils.writeBlockState(replaced));
+    protected void saveData(DataOut out) {
+        out.store("Replaced", BlockState.CODEC, replaced);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        if (tag.contains("Replaced")) {
-            replaced = NbtUtils.readBlockState(registries.lookupOrThrow(Registries.BLOCK), tag.getCompound("Replaced"));
-        }
+    protected void loadData(DataIn in) {
+        in.read("Replaced", BlockState.CODEC).ifPresent(state -> replaced = state);
     }
 }

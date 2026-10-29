@@ -20,13 +20,16 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+//? if <26.1 {
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+//?}
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.minecraft.world.level.levelgen.placement.RandomOffsetPlacement;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 
@@ -52,8 +55,12 @@ public final class RustworksWorldgen {
                 OreConfiguration.target(new BlockMatchTest(RustworksBlocks.RUSTSLATE.get()), RustworksBlocks.KAIRITE_ORE.get().defaultBlockState())), 5));
         FeatureUtils.register(context, RustworksFeatures.Configured.IRONBARK_TREE, RustworksFeatures.IRONBARK_TREE.get(), NoneFeatureConfiguration.INSTANCE);
         FeatureUtils.register(context, RustworksFeatures.Configured.IRONBARK_TREE_LARGE, RustworksFeatures.IRONBARK_TREE_LARGE.get(), NoneFeatureConfiguration.INSTANCE);
+        //? if >=26.1 {
+        /*FeatureUtils.register(context, RustworksFeatures.Configured.IRONBARK_GROVE, RustworksFeatures.IRONBARK_TREE.get(), NoneFeatureConfiguration.INSTANCE);
+        *///?} else {
         FeatureUtils.register(context, RustworksFeatures.Configured.IRONBARK_GROVE, Feature.RANDOM_PATCH, new RandomPatchConfiguration(6, 5, 2,
                 Holder.direct(new PlacedFeature(Holder.direct(new ConfiguredFeature<>(RustworksFeatures.IRONBARK_TREE.get(), NoneFeatureConfiguration.INSTANCE)), List.of()))));
+        //?}
         RustworksFloraWorldgen.configuredFeatures(context);
     }
 
@@ -75,8 +82,14 @@ public final class RustworksWorldgen {
         register(context, configured, RustworksFeatures.Placed.ORE_KAIRITE, RustworksFeatures.Configured.ORE_KAIRITE,
                 CountPlacement.of(8), InSquarePlacement.spread(),
                 HeightRangePlacement.uniform(VerticalAnchor.absolute(MIN_Y + 10), VerticalAnchor.absolute(240)), BiomeFilter.biome());
+        //? if >=26.1 {
+        /*register(context, configured, RustworksFeatures.Placed.IRONBARK_GROVE, RustworksFeatures.Configured.IRONBARK_GROVE,
+                RarityFilter.onAverageOnceEvery(8), InSquarePlacement.spread(), SurfaceScanPlacement.floor(onTurf, MIN_Y, MAX_Y), BiomeFilter.biome(),
+                CountPlacement.of(6), RandomOffsetPlacement.ofTriangle(5, 2));
+        *///?} else {
         register(context, configured, RustworksFeatures.Placed.IRONBARK_GROVE, RustworksFeatures.Configured.IRONBARK_GROVE,
                 RarityFilter.onAverageOnceEvery(8), InSquarePlacement.spread(), SurfaceScanPlacement.floor(onTurf, MIN_Y, MAX_Y), BiomeFilter.biome());
+        //?}
         register(context, configured, RustworksFeatures.Placed.IRONBARK_SOLITARY, RustworksFeatures.Configured.IRONBARK_TREE,
                 RarityFilter.onAverageOnceEvery(3), InSquarePlacement.spread(), SurfaceScanPlacement.floor(onTurf, MIN_Y, MAX_Y), BiomeFilter.biome());
         register(context, configured, RustworksFeatures.Placed.IRONBARK_LARGE, RustworksFeatures.Configured.IRONBARK_TREE_LARGE,

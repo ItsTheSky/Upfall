@@ -111,6 +111,10 @@ public final class QuantumObservation {
 
     public static boolean blocksSight(BlockGetter level, BlockPos pos, BlockState state) {
         if (state.getBlock() instanceof ObservationBlocker blocker) return blocker.blocksObservation(state);
+        //? if >=26.1 {
+        /*return state.isSolidRender();
+        *///?} else {
         return state.isSolidRender(level, pos);
+        //?}
     }
 }

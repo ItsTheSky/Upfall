@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "upfall:polished_rustslate",
+  "result": {
+    "id": "upfall:engraved_rustslate"
+  }
+}

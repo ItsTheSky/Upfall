@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "upfall:nimbusite_block"
+  ],
+  "result": {
+    "count": 9,
+    "id": "upfall:nimbusite_ingot"
+  }
+}

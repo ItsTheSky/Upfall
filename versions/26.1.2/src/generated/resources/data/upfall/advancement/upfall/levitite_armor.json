@@ -1,0 +1,50 @@
+{
+  "parent": "upfall:upfall/levitite_template",
+  "criteria": {
+    "full_set": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "equipment": {
+                "chest": {
+                  "items": "upfall:levitite_chestplate"
+                },
+                "feet": {
+                  "items": "upfall:levitite_boots"
+                },
+                "head": {
+                  "items": "upfall:levitite_helmet"
+                },
+                "legs": {
+                  "items": "upfall:levitite_leggings"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.levitite_armor.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "id": "upfall:levitite_chestplate"
+    },
+    "title": {
+      "translate": "advancements.upfall.levitite_armor.title"
+    }
+  },
+  "requirements": [
+    [
+      "full_set"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

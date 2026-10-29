@@ -2,6 +2,7 @@ package net.itsthesky.upfall.content.reliquary.worldgen;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.itsthesky.upfall.compat.mc.McChunks;
 import net.itsthesky.upfall.content.reliquary.ReliquaryStructures;
 import net.itsthesky.upfall.worldgen.ReliquaryZones;
 import net.minecraft.core.Vec3i;
@@ -50,7 +51,7 @@ public class ReliquaryPlacement extends RandomSpreadStructurePlacement {
     @Override
     protected boolean isPlacementChunk(ChunkGeneratorStructureState structureState, int x, int z) {
         ChunkPos center = ReliquaryZones.nominalCenter(key(structureState.getLevelSeed()), ReliquaryZones.cellOfChunk(x), ReliquaryZones.cellOfChunk(z));
-        return center != null && center.x == x && center.z == z;
+        return center != null && McChunks.x(center) == x && McChunks.z(center) == z;
     }
 
     @Override

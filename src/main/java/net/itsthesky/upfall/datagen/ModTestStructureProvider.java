@@ -24,7 +24,12 @@ public class ModTestStructureProvider implements DataProvider {
 
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
+        // 1.21.1 test coordinates start at the structure block, one layer below the template; 26.1 starts at the template corner.
+        //? if >=26.1 {
+        /*return CompletableFuture.allOf(empty(cache, "empty", 8, 9, 8), empty(cache, "empty_large", 24, 17, 24));
+        *///?} else {
         return CompletableFuture.allOf(empty(cache, "empty", 8, 8, 8), empty(cache, "empty_large", 24, 16, 24));
+        //?}
     }
 
     private CompletableFuture<?> empty(CachedOutput cache, String name, int x, int y, int z) {
@@ -37,7 +42,7 @@ public class ModTestStructureProvider implements DataProvider {
         tag.put("blocks", new ListTag());
         tag.put("entities", new ListTag());
         tag.put("palette", new ListTag());
-        tag.putInt("DataVersion", SharedConstants.getCurrentVersion().getDataVersion().getVersion());
+        tag.putInt("DataVersion", dataVersion());
         Path path = output.getOutputFolder(PackOutput.Target.DATA_PACK).resolve(Upfall.MODID).resolve("structure").resolve(name + ".nbt");
         return CompletableFuture.runAsync(() -> {
             try {
@@ -48,6 +53,14 @@ public class ModTestStructureProvider implements DataProvider {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    private static int dataVersion() {
+        //? if >=26.1 {
+        /*return SharedConstants.getCurrentVersion().dataVersion().version();
+        *///?} else {
+        return SharedConstants.getCurrentVersion().getDataVersion().getVersion();
+        //?}
     }
 
     @Override

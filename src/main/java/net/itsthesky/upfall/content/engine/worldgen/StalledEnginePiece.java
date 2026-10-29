@@ -1,6 +1,8 @@
 package net.itsthesky.upfall.content.engine.worldgen;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import net.itsthesky.upfall.compat.mc.McLevel;
+import net.itsthesky.upfall.compat.mc.McNbt;
 import net.itsthesky.upfall.content.engine.EngineBooks;
 import net.itsthesky.upfall.content.engine.EngineLoot;
 import net.itsthesky.upfall.content.engine.EngineStructures;
@@ -49,12 +51,12 @@ public class StalledEnginePiece extends StructurePiece {
 
     public StalledEnginePiece(CompoundTag tag) {
         super(EngineStructures.PIECE.get(), tag);
-        this.origin = new BlockPos(tag.getInt("OX"), tag.getInt("OY"), tag.getInt("OZ"));
-        this.rotation = tag.getInt("Rot");
-        this.seed = tag.getLong("Seed");
-        this.outflowDir = tag.getInt("OutflowDir");
-        this.outflowLength = tag.getInt("OutflowLength");
-        this.spireAngle = tag.getBoolean("HasSpire") ? tag.getFloat("Spire") : Float.NaN;
+        this.origin = new BlockPos(McNbt.getInt(tag, "OX"), McNbt.getInt(tag, "OY"), McNbt.getInt(tag, "OZ"));
+        this.rotation = McNbt.getInt(tag, "Rot");
+        this.seed = McNbt.getLong(tag, "Seed");
+        this.outflowDir = McNbt.getInt(tag, "OutflowDir");
+        this.outflowLength = McNbt.getInt(tag, "OutflowLength");
+        this.spireAngle = McNbt.getBoolean(tag, "HasSpire") ? McNbt.getFloat(tag, "Spire") : Float.NaN;
     }
 
     public synchronized StalledEngineLayout layout() {
@@ -126,7 +128,7 @@ public class StalledEnginePiece extends StructurePiece {
 
     private static void placeColumn(WorldGenLevel level, StalledEngineLayout.Column column, BlockPos.MutableBlockPos pos) {
         BlockState state = StalledEngineLayout.columnState(column);
-        int bottom = Math.max(StalledEngineLayout.bottomOf(column), level.getMinBuildHeight());
+        int bottom = Math.max(StalledEngineLayout.bottomOf(column), McLevel.minY(level));
         int sink = -1;
         for (int y = column.topY(); y >= bottom; y--) {
             pos.set(column.x(), y, column.z());

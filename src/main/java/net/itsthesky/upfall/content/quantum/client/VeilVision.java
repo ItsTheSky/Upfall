@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.quantum.client;
 
+import net.itsthesky.upfall.compat.mc.client.McCamera;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.itsthesky.upfall.content.quantum.gas.VeilProtection;
@@ -53,17 +54,38 @@ public final class VeilVision {
 
     private static boolean cameraInGas(ViewportEvent event) {
         Minecraft mc = Minecraft.getInstance();
-        return mc.level != null && mc.level.getBlockState(event.getCamera().getBlockPosition()).is(QuantumBlocks.VEIL_GAS.get());
+        return mc.level != null && mc.level.getBlockState(McCamera.blockPosition(event.getCamera())).is(QuantumBlocks.VEIL_GAS.get());
     }
 
     public static void onRenderFog(ViewportEvent.RenderFog event) {
+        //? if >=26.1 {
+        /*if (event.getType() != FogType.ATMOSPHERIC) return;
+        float target = cameraInGas(event) ? 1.0F : 0.0F;
+        // 1.21.1 posts RenderFog three times per frame (sky, sky callback, terrain), 26.1 once: same fade speed per frame
+        for (int i = 0; i < 3; i++) {
+            haze = Mth.lerp(0.08F, haze, target);
+        }
+        *///?} else {
         if (event.getType() != FogType.NONE) return;
         haze = Mth.lerp(0.08F, haze, cameraInGas(event) ? 1.0F : 0.0F);
+        //?}
         if (haze < 0.01F) return;
         float far = active ? 36.0F : 14.0F;
+        //? if >=26.1 {
+        /*if (event.getEnvironment() instanceof net.minecraft.client.renderer.fog.environment.AtmosphericFogEnvironment) {
+            event.getFogData().renderDistanceEnd = Mth.lerp(haze, event.getFogData().renderDistanceEnd, far);
+            event.getFogData().renderDistanceStart = Mth.lerp(haze, event.getFogData().renderDistanceStart, 0.0F);
+        } else {
+            event.setFarPlaneDistance(Mth.lerp(haze, event.getFarPlaneDistance(), far));
+            event.setNearPlaneDistance(Mth.lerp(haze, event.getNearPlaneDistance(), 0.0F));
+        }
+        event.getFogData().skyEnd = Mth.lerp(haze, event.getFogData().skyEnd, far);
+        event.getFogData().cloudEnd = Mth.lerp(haze, event.getFogData().cloudEnd, far);
+        *///?} else {
         event.setFarPlaneDistance(Mth.lerp(haze, event.getFarPlaneDistance(), far));
         event.setNearPlaneDistance(Mth.lerp(haze, event.getNearPlaneDistance(), 0.0F));
         event.setCanceled(true);
+        //?}
     }
 
     public static void onComputeFogColor(ViewportEvent.ComputeFogColor event) {

@@ -36,6 +36,6 @@ public class VaultCoreBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, QuantumBlocks.VAULT_CORE_ENTITY.get(), VaultCoreBlockEntity::serverTick);
+        return level.isClientSide() ? null : createTickerHelper(type, QuantumBlocks.VAULT_CORE_ENTITY.get(), VaultCoreBlockEntity::serverTick);
     }
 }

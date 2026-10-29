@@ -2,24 +2,17 @@ package net.itsthesky.upfall.content.mobs;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.datagen.DataContribution;
+import net.itsthesky.upfall.datagen.DataGenContext;
 import net.itsthesky.upfall.datagen.ModItemModelProvider;
 import net.itsthesky.upfall.datagen.ModLanguageProvider;
-import net.itsthesky.upfall.datagen.ModRecipeProvider;
 import net.itsthesky.upfall.datagen.ModSoundProvider;
+import net.itsthesky.upfall.datagen.RecipeContext;
 import net.itsthesky.upfall.registry.ModItems;
 import net.itsthesky.upfall.worldgen.ModBiomes;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -28,13 +21,9 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 
 import static net.itsthesky.upfall.datagen.ModSoundProvider.def;
 import static net.itsthesky.upfall.datagen.ModSoundProvider.event;
@@ -43,7 +32,7 @@ public class MobsData implements DataContribution {
     private static final List<DeferredHolder<Item, ? extends Item>> BASIC_ITEMS = List.of(
             MobItems.DUSKWING_PLUME, MobItems.CRAGMAW_FANG, MobItems.MIST_GEL, MobItems.DOWN_TUFT,
             MobItems.RAW_SKYGRAZER_MEAT, MobItems.COOKED_SKYGRAZER_MEAT, MobItems.CLOUDBERRY_JELLY);
-    private static final List<DeferredHolder<Item, ? extends Item>> SPAWN_EGGS = List.of(
+    static final List<DeferredHolder<Item, ? extends Item>> SPAWN_EGGS = List.of(
             MobItems.DUSKWING_SPAWN_EGG, MobItems.CRAGMAW_SPAWN_EGG, MobItems.MISTJELLY_SPAWN_EGG, MobItems.SKYGRAZER_SPAWN_EGG);
 
     @Override
@@ -65,9 +54,7 @@ public class MobsData implements DataContribution {
         for (DeferredHolder<Item, ? extends Item> item : BASIC_ITEMS) {
             models.basicItem(item.get());
         }
-        for (DeferredHolder<Item, ? extends Item> egg : SPAWN_EGGS) {
-            models.withExistingParent(egg.getId().getPath(), models.mcLoc("item/template_spawn_egg"));
-        }
+        MobsModels.spawnEggs(models);
     }
 
     @Override
@@ -97,35 +84,34 @@ public class MobsData implements DataContribution {
     }
 
     @Override
-    public void recipes(RecipeOutput output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, Items.ARROW, 6)
+    public void recipes(RecipeContext recipes) {
+        recipes.shaped(RecipeCategory.COMBAT, Items.ARROW, 6)
                 .define('F', Items.FLINT).define('S', Items.STICK).define('P', MobItems.DUSKWING_PLUME.get())
                 .pattern("F").pattern("S").pattern("P")
-                .unlockedBy(ModRecipeProvider.hasName(MobItems.DUSKWING_PLUME.get()), ModRecipeProvider.hasItem(MobItems.DUSKWING_PLUME.get()))
-                .save(output, Upfall.id("arrow_from_duskwing_plume"));
+                .unlockedBy(RecipeContext.hasName(MobItems.DUSKWING_PLUME.get()), recipes.has(MobItems.DUSKWING_PLUME.get()))
+                .save(recipes.output(), Upfall.id("arrow_from_duskwing_plume").toString());
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, Items.WHITE_WOOL)
+        recipes.shaped(RecipeCategory.BUILDING_BLOCKS, Items.WHITE_WOOL)
                 .define('T', MobItems.DOWN_TUFT.get()).pattern("TT").pattern("TT")
-                .unlockedBy(ModRecipeProvider.hasName(MobItems.DOWN_TUFT.get()), ModRecipeProvider.hasItem(MobItems.DOWN_TUFT.get()))
-                .save(output, Upfall.id("white_wool_from_down_tuft"));
+                .unlockedBy(RecipeContext.hasName(MobItems.DOWN_TUFT.get()), recipes.has(MobItems.DOWN_TUFT.get()))
+                .save(recipes.output(), Upfall.id("white_wool_from_down_tuft").toString());
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, MobItems.CLOUDBERRY_JELLY.get())
+        recipes.save(recipes.shapeless(RecipeCategory.FOOD, MobItems.CLOUDBERRY_JELLY.get())
                 .requires(MobItems.MIST_GEL.get(), 2).requires(ModItems.CLOUDBERRY.get(), 2).requires(Items.BOWL)
-                .unlockedBy(ModRecipeProvider.hasName(MobItems.MIST_GEL.get()), ModRecipeProvider.hasItem(MobItems.MIST_GEL.get()))
-                .save(output, Upfall.id("cloudberry_jelly"));
+                .unlockedBy(RecipeContext.hasName(MobItems.MIST_GEL.get()), recipes.has(MobItems.MIST_GEL.get())), Upfall.id("cloudberry_jelly"));
 
-        cook(output, MobItems.RAW_SKYGRAZER_MEAT.get(), MobItems.COOKED_SKYGRAZER_MEAT.get());
+        cook(recipes, MobItems.RAW_SKYGRAZER_MEAT.get(), MobItems.COOKED_SKYGRAZER_MEAT.get());
     }
 
-    private static void cook(RecipeOutput output, ItemLike raw, ItemLike cooked) {
-        String base = ModRecipeProvider.itemName(cooked);
+    private static void cook(RecipeContext recipes, ItemLike raw, ItemLike cooked) {
+        String base = RecipeContext.itemName(cooked);
         Ingredient input = Ingredient.of(raw);
-        SimpleCookingRecipeBuilder.smelting(input, RecipeCategory.FOOD, cooked, 0.35F, 200)
-                .unlockedBy(ModRecipeProvider.hasName(raw), ModRecipeProvider.hasItem(raw)).save(output, Upfall.id(base + "_smelting"));
-        SimpleCookingRecipeBuilder.smoking(input, RecipeCategory.FOOD, cooked, 0.35F, 100)
-                .unlockedBy(ModRecipeProvider.hasName(raw), ModRecipeProvider.hasItem(raw)).save(output, Upfall.id(base + "_smoking"));
-        SimpleCookingRecipeBuilder.campfireCooking(input, RecipeCategory.FOOD, cooked, 0.35F, 600)
-                .unlockedBy(ModRecipeProvider.hasName(raw), ModRecipeProvider.hasItem(raw)).save(output, Upfall.id(base + "_campfire_cooking"));
+        recipes.smelting(input, RecipeCategory.FOOD, cooked, 0.35F, 200)
+                .unlockedBy(RecipeContext.hasName(raw), recipes.has(raw)).save(recipes.output(), Upfall.id(base + "_smelting").toString());
+        recipes.smoking(input, RecipeCategory.FOOD, cooked, 0.35F, 100)
+                .unlockedBy(RecipeContext.hasName(raw), recipes.has(raw)).save(recipes.output(), Upfall.id(base + "_smoking").toString());
+        recipes.campfireCooking(input, RecipeCategory.FOOD, cooked, 0.35F, 600)
+                .unlockedBy(RecipeContext.hasName(raw), recipes.has(raw)).save(recipes.output(), Upfall.id(base + "_campfire_cooking").toString());
     }
 
     @Override
@@ -135,34 +121,30 @@ public class MobsData implements DataContribution {
         boolean roots = biome == ModBiomes.HANGING_ROOTS;
         boolean ridge = biome == ModBiomes.GILDED_RIDGE;
 
-        spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(MobEntities.DUSKWING.get(), mistsea ? 2 : ridge ? 4 : 3, 1, 1));
+        addSpawn(spawns, MobCategory.MONSTER, MobEntities.DUSKWING.get(), mistsea ? 2 : ridge ? 4 : 3, 1, 1);
         if (!mistsea) {
-            spawns.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(MobEntities.CRAGMAW.get(), ridge ? 10 : roots ? 5 : 6, 1, 2));
+            addSpawn(spawns, MobCategory.MONSTER, MobEntities.CRAGMAW.get(), ridge ? 10 : roots ? 5 : 6, 1, 2);
         }
         if (archipelago || roots) {
-            spawns.addSpawn(MobCategory.CREATURE, new MobSpawnSettings.SpawnerData(MobEntities.SKYGRAZER.get(), archipelago ? 10 : 6, 2, 4));
+            addSpawn(spawns, MobCategory.CREATURE, MobEntities.SKYGRAZER.get(), archipelago ? 10 : 6, 2, 4);
             spawns.creatureGenerationProbability(0.3F);
         }
         if (!ridge) {
-            spawns.addSpawn(MobCategory.WATER_AMBIENT, new MobSpawnSettings.SpawnerData(MobEntities.MISTJELLY.get(), mistsea ? 14 : 3, 1, 3));
+            addSpawn(spawns, MobCategory.WATER_AMBIENT, MobEntities.MISTJELLY.get(), mistsea ? 14 : 3, 1, 3);
         }
     }
 
-    @Override
-    public void addProviders(GatherDataEvent event, DataGenerator generator, PackOutput output,
-                             CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {
-        LootTableProvider loot = new LootTableProvider(output, Set.of(),
-                List.of(new LootTableProvider.SubProviderEntry(MobLootProvider::new, LootContextParamSets.ENTITY)), registries);
-        generator.addProvider(event.includeServer(), new DataProvider() {
-            @Override
-            public CompletableFuture<?> run(CachedOutput cache) {
-                return loot.run(cache);
-            }
+    private static void addSpawn(MobSpawnSettings.Builder spawns, MobCategory category, EntityType<?> type, int weight, int min, int max) {
+        //? if >=26.1 {
+        /*spawns.addSpawn(category, weight, new MobSpawnSettings.SpawnerData(type, min, max));
+        *///?} else {
+        spawns.addSpawn(category, new MobSpawnSettings.SpawnerData(type, weight, min, max));
+        //?}
+    }
 
-            @Override
-            public String getName() {
-                return "Upfall Mob Loot Tables";
-            }
-        });
+    @Override
+    public void addProviders(DataGenContext ctx) {
+        ctx.add(ctx.lootTables("Upfall Mob Loot Tables",
+                List.of(new LootTableProvider.SubProviderEntry(MobLootProvider::new, LootContextParamSets.ENTITY))));
     }
 }

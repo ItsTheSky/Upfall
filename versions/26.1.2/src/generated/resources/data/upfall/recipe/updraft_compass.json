@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": "upfall:dense_cloud",
+    "N": "upfall:nimbusite_ingot",
+    "X": "minecraft:compass"
+  },
+  "pattern": [
+    " C ",
+    "CXC",
+    " N "
+  ],
+  "result": {
+    "id": "upfall:updraft_compass"
+  }
+}

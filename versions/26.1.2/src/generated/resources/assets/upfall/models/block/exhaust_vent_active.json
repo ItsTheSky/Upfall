@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "upfall:block/rusty_plating",
+    "side": "upfall:block/exhaust_vent_side_active",
+    "top": "upfall:block/exhaust_vent_top_active"
+  }
+}

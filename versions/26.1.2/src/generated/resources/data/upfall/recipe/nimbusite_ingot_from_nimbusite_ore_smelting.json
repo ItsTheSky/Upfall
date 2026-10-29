@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "group": "nimbusite_ingot",
+  "ingredient": "upfall:nimbusite_ore",
+  "result": {
+    "id": "upfall:nimbusite_ingot"
+  }
+}

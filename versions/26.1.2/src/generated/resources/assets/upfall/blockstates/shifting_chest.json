@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "upfall:block/shifting_chest",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "upfall:block/shifting_chest"
+    },
+    "facing=south": {
+      "model": "upfall:block/shifting_chest",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "upfall:block/shifting_chest",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "upfall:block/oxide_turf"
+      },
+      {
+        "model": "upfall:block/oxide_turf",
+        "y": 90
+      },
+      {
+        "model": "upfall:block/oxide_turf",
+        "y": 180
+      },
+      {
+        "model": "upfall:block/oxide_turf",
+        "y": 270
+      }
+    ]
+  }
+}

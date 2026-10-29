@@ -99,7 +99,11 @@ public final class RopeLines {
         if (anchorA.isZipline()) {
             unlinkAll(level, a);
             unlinkAll(level, b);
+            //? if >=26.1 {
+            /*Direction along = Direction.getApproximateNearest(b.getX() - a.getX(), 0, b.getZ() - a.getZ());
+            *///?} else {
             Direction along = Direction.getNearest(b.getX() - a.getX(), 0, b.getZ() - a.getZ());
+            //?}
             level.setBlock(a, stateA.setValue(ZiplineAnchorBlock.FACING, along), Block.UPDATE_ALL);
             level.setBlock(b, stateB.setValue(ZiplineAnchorBlock.FACING, along.getOpposite()), Block.UPDATE_ALL);
         } else if (beA.links().size() >= anchorA.maxLinks() || beB.links().size() >= anchorB.maxLinks()) {

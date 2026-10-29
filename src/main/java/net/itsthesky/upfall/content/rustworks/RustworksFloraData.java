@@ -5,21 +5,14 @@ import net.itsthesky.upfall.datagen.ModBlockLootProvider;
 import net.itsthesky.upfall.datagen.ModBlockStateProvider;
 import net.itsthesky.upfall.datagen.ModDataMapProvider;
 import net.itsthesky.upfall.datagen.ModParticleProvider;
-import net.itsthesky.upfall.datagen.ModRecipeProvider;
 import net.itsthesky.upfall.datagen.ModTagProviders;
+import net.itsthesky.upfall.datagen.RecipeContext;
 import net.itsthesky.upfall.registry.ModParticles;
 import net.itsthesky.upfall.registry.ModTags;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.registries.datamaps.builtin.Compostable;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 
@@ -29,22 +22,14 @@ final class RustworksFloraData {
     static void blockStates(ModBlockStateProvider states) {
         Block mossBlock = RustworksBlocks.VERDIGRIS_MOSS_BLOCK.get();
         states.simpleBlockWithItem(mossBlock, states.cubeAll(mossBlock));
-        Block carpet = RustworksBlocks.VERDIGRIS_MOSS.get();
-        states.simpleBlock(carpet, states.models().carpet("verdigris_moss", states.blockTexture("verdigris_moss_block")));
-        states.blockItem(carpet);
 
         states.crossPlant(RustworksBlocks.RIVETGRASS.get(), "rivetgrass");
-        ModelFile bottom = states.models().cross("tall_rivetgrass_bottom", states.blockTexture("tall_rivetgrass_bottom")).renderType("cutout");
-        ModelFile top = states.models().cross("tall_rivetgrass_top", states.blockTexture("tall_rivetgrass_top")).renderType("cutout");
-        states.getVariantBuilder(RustworksBlocks.TALL_RIVETGRASS.get()).forAllStates(state -> ConfiguredModel.builder()
-                .modelFile(state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.LOWER ? bottom : top).build());
 
         states.crossPlant(RustworksBlocks.VERDIGRIS_BLOOM.get(), "verdigris_bloom");
         states.pottedPlant(RustworksBlocks.POTTED_VERDIGRIS_BLOOM.get(), "verdigris_bloom");
 
         states.crossPlant(RustworksBlocks.WIREVINE.get(), "wirevine");
-        states.simpleBlock(RustworksBlocks.WIREVINE_PLANT.get(),
-                states.models().cross("wirevine_plant", states.blockTexture("wirevine_plant")).renderType("cutout"));
+        RustworksModels.flora(states);
     }
 
     static void blockLoot(ModBlockLootProvider loot) {
@@ -55,20 +40,23 @@ final class RustworksFloraData {
         loot.add(RustworksBlocks.WIREVINE_PLANT.get(), loot.shearsOnlyDrop(RustworksBlocks.WIREVINE.get()));
     }
 
-    static void recipes(RecipeOutput output) {
+    static void recipes(RecipeContext recipes) {
         Block bloom = RustworksBlocks.VERDIGRIS_BLOOM.get();
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.CYAN_DYE).requires(bloom).group("cyan_dye")
-                .unlockedBy(ModRecipeProvider.hasName(bloom), ModRecipeProvider.hasItem(bloom))
-                .save(output, Upfall.id("cyan_dye_from_verdigris_bloom"));
+        recipes.save(recipes.shapeless(RecipeCategory.MISC, Items.CYAN_DYE).requires(bloom).group("cyan_dye")
+                .unlockedBy(RecipeContext.hasName(bloom), recipes.has(bloom)),
+                Upfall.id("cyan_dye_from_verdigris_bloom"));
         Block mossBlock = RustworksBlocks.VERDIGRIS_MOSS_BLOCK.get();
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, RustworksBlocks.VERDIGRIS_MOSS.get(), 3).define('#', mossBlock).pattern("##")
-                .unlockedBy(ModRecipeProvider.hasName(mossBlock), ModRecipeProvider.hasItem(mossBlock))
-                .save(output, Upfall.id("verdigris_moss_carpet"));
+        recipes.save(recipes.shaped(RecipeCategory.DECORATIONS, RustworksBlocks.VERDIGRIS_MOSS.get(), 3).define('#', mossBlock).pattern("##")
+                .unlockedBy(RecipeContext.hasName(mossBlock), recipes.has(mossBlock)),
+                Upfall.id("verdigris_moss_carpet"));
     }
 
     static void blockTags(ModTagProviders.Blocks tags) {
         tags.tag(BlockTags.MINEABLE_WITH_HOE).add(RustworksBlocks.VERDIGRIS_MOSS_BLOCK.get(), RustworksBlocks.VERDIGRIS_MOSS.get());
         tags.tag(BlockTags.SMALL_FLOWERS).add(RustworksBlocks.VERDIGRIS_BLOOM.get());
+        //? if >=26.1 {
+        /*tags.tag(BlockTags.BEE_ATTRACTIVE).add(RustworksBlocks.VERDIGRIS_BLOOM.get());
+        *///?}
         tags.tag(BlockTags.FLOWER_POTS).add(RustworksBlocks.POTTED_VERDIGRIS_BLOOM.get());
         tags.tag(BlockTags.CLIMBABLE).add(RustworksBlocks.WIREVINE.get(), RustworksBlocks.WIREVINE_PLANT.get());
         tags.tag(BlockTags.SWORD_EFFICIENT).add(RustworksBlocks.RIVETGRASS.get(), RustworksBlocks.TALL_RIVETGRASS.get(),

@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class RopeAnchorBlock extends AbstractRopeAnchorBlock {
     public static final MapCodec<RopeAnchorBlock> CODEC = simpleCodec(RopeAnchorBlock::new);
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
     private static final Map<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
 
     static {
@@ -91,8 +91,20 @@ public class RopeAnchorBlock extends AbstractRopeAnchorBlock {
         return Block.canSupportCenter(level, support, facing) || level.getBlockState(support).isFaceSturdy(level, support, facing);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected BlockState updateShape(BlockState state, LevelReader level, net.minecraft.world.level.ScheduledTickAccess ticks, BlockPos pos,
+                                     Direction direction, BlockPos neighborPos, BlockState neighborState, net.minecraft.util.RandomSource random) {
+        return shapeAfterUpdate(state, direction, level, pos);
+    }
+    *///?} else {
     @Override
     protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        return shapeAfterUpdate(state, direction, level, pos);
+    }
+    //?}
+
+    private static BlockState shapeAfterUpdate(BlockState state, Direction direction, LevelReader level, BlockPos pos) {
         return direction == state.getValue(FACING).getOpposite() && !state.canSurvive(level, pos)
                 ? Blocks.AIR.defaultBlockState() : state;
     }

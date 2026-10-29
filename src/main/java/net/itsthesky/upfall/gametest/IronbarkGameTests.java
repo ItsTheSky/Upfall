@@ -1,12 +1,11 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.rustworks.RustworksBlocks;
 import net.itsthesky.upfall.content.rustworks.worldgen.RustworksFeatures;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -14,11 +13,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class IronbarkGameTests {
     private IronbarkGameTests() {}
 
@@ -33,7 +28,7 @@ public final class IronbarkGameTests {
             }
         }
         BlockPos origin = helper.absolutePos(new BlockPos(3, 2, 3));
-        ConfiguredFeature<?, ?> feature = level.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getOrThrow(key);
+        ConfiguredFeature<?, ?> feature = level.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE).getOrThrow(key).value();
         helper.assertTrue(feature.place(level, level.getChunkSource().getGenerator(), RandomSource.create(7), origin), "Feature did not place");
         int logs = 0;
         int leaves = 0;
@@ -46,12 +41,12 @@ public final class IronbarkGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void ironbarkTreeGrows(GameTestHelper helper) {
         grow(helper, RustworksFeatures.Configured.IRONBARK_TREE, 12);
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void ironbarkLargeTreeGrows(GameTestHelper helper) {
         grow(helper, RustworksFeatures.Configured.IRONBARK_TREE_LARGE, 18);
     }

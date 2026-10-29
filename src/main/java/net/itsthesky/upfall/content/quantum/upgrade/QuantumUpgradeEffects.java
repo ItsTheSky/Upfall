@@ -2,6 +2,11 @@ package net.itsthesky.upfall.content.quantum.upgrade;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.UpfallConfig;
+import net.itsthesky.upfall.compat.mc.McEntities;
+import net.itsthesky.upfall.compat.mc.McLevel;
+import net.itsthesky.upfall.compat.mc.McNbt;
+import net.itsthesky.upfall.compat.mc.McPlayers;
+import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.content.chronospire.item.HourglassTracker;
 import net.itsthesky.upfall.content.chronospire.item.RewindingHourglassItem;
 import net.itsthesky.upfall.content.hamlet.block.AbstractRopeAnchorBlock;
@@ -23,7 +28,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
@@ -44,7 +48,6 @@ import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingKnockBackEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,6 +55,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+//? if >=26.1 {
+/*import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
+*///?} else {
+import net.neoforged.neoforge.event.level.BlockEvent;
+//?}
 
 public final class QuantumUpgradeEffects {
     private QuantumUpgradeEffects() {}
@@ -112,13 +120,18 @@ public final class QuantumUpgradeEffects {
         if (sharing || source.is(QuantumDamageTypes.ENTANGLEMENT) || !(target.level() instanceof ServerLevel level)) return;
         long now = level.getGameTime();
         LivingEntity partner = partner(level, target, now);
-        if (partner != null && event.getNewDamage() > 0.0F) {
-            float shared = (float) (event.getNewDamage() * UpfallConfig.getDouble(UpfallConfig.ENTANGLEMENT_SHARE));
+        //? if >=26.1 {
+        /*float dealt = event.getHealthDamage();
+        *///?} else {
+        float dealt = event.getNewDamage();
+        //?}
+        if (partner != null && dealt > 0.0F) {
+            float shared = (float) (dealt * UpfallConfig.getDouble(UpfallConfig.ENTANGLEMENT_SHARE));
             int invulnerable = partner.invulnerableTime;
             sharing = true;
             try {
                 partner.invulnerableTime = 0;
-                partner.hurt(level.damageSources().source(QuantumDamageTypes.ENTANGLEMENT, source.getEntity()), shared);
+                McEntities.hurt(partner, level.damageSources().source(QuantumDamageTypes.ENTANGLEMENT, source.getEntity()), shared);
             } finally {
                 partner.invulnerableTime = Math.max(partner.invulnerableTime, invulnerable);
                 sharing = false;
@@ -164,9 +177,9 @@ public final class QuantumUpgradeEffects {
     private static void onDeath(LivingDeathEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player) || event.getSource().is(DamageTypes.GENERIC_KILL)) return;
         if (!QuantumUpgrades.equipped(player, QuantumUpgrade.REWIND)) return;
-        long clock = player.server.overworld().getGameTime();
-        if (player.getPersistentData().getLong(REWIND_READY_KEY) > clock) return;
-        ServerLevel level = player.serverLevel();
+        long clock = McLevel.server(player).overworld().getGameTime();
+        if (McNbt.getLong(player.getPersistentData(), REWIND_READY_KEY) > clock) return;
+        ServerLevel level = McLevel.serverLevel(player);
         HourglassTracker.Footing footing = HourglassTracker.rewind(player.getUUID(), level.dimension(), level.getGameTime(), RewindingHourglassItem.MIN_AGE);
         if (footing == null) return;
         event.setCanceled(true);
@@ -182,11 +195,15 @@ public final class QuantumUpgradeEffects {
         player.invulnerableTime = 40;
         level.sendParticles(QuantumParticles.QUANTUM_SPARK.get(), footing.pos().x, footing.pos().y + 1.0, footing.pos().z, 30, 0.3, 0.6, 0.3, 0.05);
         level.playSound(null, footing.pos().x, footing.pos().y, footing.pos().z, QuantumSounds.REWIND.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-        player.displayClientMessage(Component.translatable("message.upfall.rewind.triggered"), true);
+        McPlayers.overlay(player, Component.translatable("message.upfall.rewind.triggered"));
         HourglassTracker.clear(player.getUUID());
     }
 
+    //? if >=26.1 {
+    /*private static void onBreak(BreakBlockEvent event) {
+    *///?} else {
     private static void onBreak(BlockEvent.BreakEvent event) {
+    //?}
         Player player = event.getPlayer();
         BlockState state = event.getState();
         if (superposing || !(player instanceof ServerPlayer serverPlayer) || !(event.getLevel() instanceof ServerLevel level)) return;
@@ -220,7 +237,7 @@ public final class QuantumUpgradeEffects {
         Level level = player.level();
         if (!isMist(level, player.blockPosition()) && !isMist(level, BlockPos.containing(player.getX(), player.getY() - 0.2, player.getZ()))) return;
         player.resetFallDistance();
-        if (!level.isClientSide || !player.isLocalPlayer()) return;
+        if (!level.isClientSide() || !player.isLocalPlayer()) return;
         Vec3 motion = player.getDeltaMovement();
         if (motion.y >= 0.0) return;
         double bounce = Math.max(UpfallConfig.getDouble(UpfallConfig.SOLIDIFIER_MIN_VELOCITY), -motion.y * UpfallConfig.getDouble(UpfallConfig.SOLIDIFIER_FACTOR));
@@ -228,7 +245,7 @@ public final class QuantumUpgradeEffects {
     }
 
     private static void onPlayerTickPost(PlayerTickEvent.Post event) {
-        if (!event.getEntity().level().isClientSide) updateMosswalker(event.getEntity());
+        if (!event.getEntity().level().isClientSide()) updateMosswalker(event.getEntity());
     }
 
     public static void updateMosswalker(Player player) {
@@ -256,17 +273,17 @@ public final class QuantumUpgradeEffects {
         if (!anchor && !(block instanceof RopeBlock) && !(block instanceof AbstractRopeAnchorBlock)) return;
         if (!QuantumUpgrades.equipped(player, QuantumUpgrade.ZIPLINE)) return;
         event.setCanceled(true);
-        event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide));
-        if (event.getLevel().isClientSide) return;
+        event.setCancellationResult(UseResults.sided(event.getLevel()));
+        if (event.getLevel().isClientSide()) return;
         ZiplinePulley.Result result = anchor ? ZiplinePulley.rideFromAnchor(player, event.getPos()) : ZiplinePulley.latchNearest(player);
-        if (result != ZiplinePulley.Result.STARTED) player.displayClientMessage(Component.translatable(result.message()), true);
+        if (result != ZiplinePulley.Result.STARTED) McPlayers.overlay(player, Component.translatable(result.message()));
     }
 
     public static void latchFromAir(ServerPlayer player) {
         if (player.isPassenger() || !player.getMainHandItem().isEmpty() || !QuantumUpgrades.equipped(player, QuantumUpgrade.ZIPLINE)) return;
         ZiplinePulley.Result result = ZiplinePulley.latchNearest(player);
         if (result != ZiplinePulley.Result.STARTED && result != ZiplinePulley.Result.NO_LINE) {
-            player.displayClientMessage(Component.translatable(result.message()), true);
+            McPlayers.overlay(player, Component.translatable(result.message()));
         }
     }
 }

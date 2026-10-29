@@ -42,7 +42,11 @@ public final class EngineLoot implements LootTableSubProvider {
                         .add(item(Items.IRON_INGOT, 10, 2, 5))
                         .add(item(Items.COPPER_INGOT, 8, 3, 8))
                         .add(item(Items.REDSTONE, 8, 3, 9))
+                        //? if >=26.1 {
+                        /*.add(item(Items.IRON_CHAIN, 6, 2, 6))
+                        *///?} else {
                         .add(item(Items.CHAIN, 6, 2, 6))
+                        //?}
                         .add(item(Items.GOLD_INGOT, 4, 1, 3))
                         .add(item(ModItems.NIMBUSITE_INGOT.get(), 4, 1, 2))
                         .add(item(Items.CLOCK, 3, 1, 1))
@@ -60,7 +64,11 @@ public final class EngineLoot implements LootTableSubProvider {
                         .add(item(Items.IRON_NUGGET, 12, 4, 12))
                         .add(item(Items.IRON_INGOT, 8, 1, 3))
                         .add(item(Items.COPPER_INGOT, 8, 2, 6))
+                        //? if >=26.1 {
+                        /*.add(item(Items.IRON_CHAIN, 6, 1, 4))
+                        *///?} else {
                         .add(item(Items.CHAIN, 6, 1, 4))
+                        //?}
                         .add(item(Items.REDSTONE, 6, 2, 6))
                         .add(item(RustworksBlocks.COBBLED_RUSTSLATE.get(), 6, 4, 12))
                         .add(item(RustworksBlocks.RUSTY_COG.get(), 4, 1, 2))

@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "upfall:veil_mask"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "upfall:veil_mask"
+      }
+    ]
+  }
+}

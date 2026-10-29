@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "upfall:block/pneumatic_pipe_casing",
+    "east": "upfall:block/pneumatic_pipe_casing",
+    "north": "upfall:block/pneumatic_pipe_casing",
+    "particle": "upfall:block/pneumatic_pipe_casing",
+    "south": "upfall:block/pneumatic_pipe_casing",
+    "up": "upfall:block/pneumatic_pipe_entrance_front",
+    "west": "upfall:block/pneumatic_pipe_casing"
+  }
+}

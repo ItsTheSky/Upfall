@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_hastening_gear_blueprint": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:hastening_gear_blueprint"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:hastening_gear_blueprint"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_hastening_gear_blueprint"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:hastening_gear_blueprint"
+    ]
+  }
+}

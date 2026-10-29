@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.quantum.gas;
 
+import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.QuantumItems;
 import net.itsthesky.upfall.content.quantum.QuantumSounds;
@@ -22,6 +23,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class BottledVeilGasItem extends Item {
     public BottledVeilGasItem(Properties properties) {
@@ -36,7 +38,7 @@ public class BottledVeilGasItem extends Item {
             pos = pos.relative(context.getClickedFace());
         }
         if (!level.getBlockState(pos).isAir()) return InteractionResult.FAIL;
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             level.setBlock(pos, QuantumBlocks.VEIL_GAS.get().defaultBlockState(), Block.UPDATE_ALL);
             level.playSound(null, pos, QuantumSounds.GAS_HISS.get(), SoundSource.BLOCKS, 0.8F, 1.0F);
             level.gameEvent(context.getPlayer(), GameEvent.FLUID_PLACE, pos);
@@ -45,12 +47,23 @@ public class BottledVeilGasItem extends Item {
                 player.setItemInHand(context.getHand(), ItemUtils.createFilledResult(context.getItemInHand(), player, new ItemStack(Items.GLASS_BOTTLE)));
             }
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return UseResults.sided(level);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, net.minecraft.world.item.component.TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        hoverText(tooltip);
+    }
+    *///?} else {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("item.upfall.bottled_veil_gas.desc").withStyle(ChatFormatting.GRAY));
+        hoverText(tooltip::add);
+    }
+    //?}
+
+    private static void hoverText(Consumer<Component> tooltip) {
+        tooltip.accept(Component.translatable("item.upfall.bottled_veil_gas.desc").withStyle(ChatFormatting.GRAY));
     }
 
     public static void onUseItem(PlayerInteractEvent.RightClickItem event) {
@@ -60,13 +73,13 @@ public class BottledVeilGasItem extends Item {
         Level level = player.level();
         BlockPos gas = findGas(player);
         if (gas == null) return;
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), QuantumSounds.BOTTLE_FILL.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             player.setItemInHand(event.getHand(), ItemUtils.createFilledResult(stack, player, new ItemStack(QuantumItems.BOTTLED_VEIL_GAS.get())));
             level.gameEvent(player, GameEvent.FLUID_PICKUP, gas);
         }
         event.setCanceled(true);
-        event.setCancellationResult(InteractionResult.sidedSuccess(level.isClientSide));
+        event.setCancellationResult(UseResults.sided(level));
     }
 
     private static BlockPos findGas(Player player) {

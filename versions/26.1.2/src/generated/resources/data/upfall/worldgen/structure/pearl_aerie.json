@@ -1,0 +1,6 @@
+{
+  "type": "upfall:pearl_aerie",
+  "biomes": "#upfall:has_structure/pearl_aerie",
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

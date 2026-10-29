@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "upfall:block/mossy_pearlstone_bricks",
+    "side": "upfall:block/mossy_pearlstone_bricks",
+    "top": "upfall:block/mossy_pearlstone_bricks"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mistglow_crystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:mistglow_crystal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:cloud_lantern"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_mistglow_crystal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:cloud_lantern"
+    ]
+  }
+}

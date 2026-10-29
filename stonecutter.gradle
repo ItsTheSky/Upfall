@@ -1,0 +1,28 @@
+plugins {
+    id 'dev.kikugie.stonecutter'
+    id 'net.neoforged.moddev' version '2.0.148' apply false
+}
+
+stonecutter.active '1.21.1'
+
+stonecutter.parameters {
+    def modern = current.parsed.matches('>=26.1')
+    replacements.string(modern) { replace 'ResourceLocation', 'Identifier' }
+    replacements.string(modern) { replace 'net.minecraft.advancements.critereon', 'net.minecraft.advancements.criterion' }
+    replacements.string(modern) { replace 'import net.minecraft.Util;', 'import net.minecraft.util.Util;' }
+    replacements.string(modern) { replace 'import net.minecraft.BlockUtil;', 'import net.minecraft.util.BlockUtil;' }
+    replacements.string(modern) { replace 'net.neoforged.neoforge.client.model.data.', 'net.neoforged.neoforge.model.data.' }
+    replacements.string(modern) { replace 'import net.neoforged.neoforge.common.util.TriState;', 'import net.minecraft.util.TriState;' }
+    replacements.string(modern) { replace 'import net.minecraft.world.entity.animal.Pig;', 'import net.minecraft.world.entity.animal.pig.Pig;' }
+    replacements.string(modern) { replace 'import net.minecraft.world.entity.monster.Zombie;', 'import net.minecraft.world.entity.monster.zombie.Zombie;' }
+    replacements.string(modern) { replace 'import net.minecraft.world.entity.npc.AbstractVillager;', 'import net.minecraft.world.entity.npc.villager.AbstractVillager;' }
+    replacements.string(modern) { replace 'MobSpawnType', 'EntitySpawnReason' }
+    replacements.string(modern) { replace 'DimensionTransition', 'TeleportTransition' }
+    replacements.string(modern) { replace 'MobEffects.MOVEMENT_SLOWDOWN', 'MobEffects.SLOWNESS' }
+    replacements.string(modern) { replace '.noCollission()', '.noCollision()' }
+    replacements.string(modern) { replace 'import net.minecraft.world.level.GameRules;', 'import net.minecraft.world.level.gamerules.GameRules;' }
+}
+
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}

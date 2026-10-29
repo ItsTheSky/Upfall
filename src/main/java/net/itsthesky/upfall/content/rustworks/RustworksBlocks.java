@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.rustworks;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.rustworks.block.ExhaustVentBlock;
 import net.itsthesky.upfall.content.rustworks.block.KairiteOreBlock;
 import net.itsthesky.upfall.content.rustworks.block.LeakingPipeBlock;
@@ -77,7 +78,7 @@ public final class RustworksBlocks {
     public static final DeferredBlock<Block> HEARTGEAR = block("heartgear", Block::new,
             metal(MapColor.WARPED_NYLIUM, 25.0F).explosionResistance(1200.0F).lightLevel(s -> 4));
 
-    public static final DeferredBlock<StillflowCauldronBlock> STILLFLOW_CAULDRON = BLOCKS.registerBlock("stillflow_cauldron",
+    public static final DeferredBlock<StillflowCauldronBlock> STILLFLOW_CAULDRON = McRegistration.block(BLOCKS, "stillflow_cauldron",
             StillflowCauldronBlock::new, BlockBehaviour.Properties.ofLegacyCopy(Blocks.CAULDRON).lightLevel(s -> 3));
 
     public static final DeferredBlock<Block> VERDIGRIS_MOSS_BLOCK = block("verdigris_moss_block", Block::new, BlockBehaviour.Properties.of()
@@ -85,16 +86,16 @@ public final class RustworksBlocks {
     public static final DeferredBlock<CarpetBlock> VERDIGRIS_MOSS = block("verdigris_moss", CarpetBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.WARPED_NYLIUM).strength(0.1F).sound(SoundType.MOSS_CARPET).pushReaction(PushReaction.DESTROY));
     public static final DeferredBlock<RivetgrassBlock> RIVETGRASS = block("rivetgrass", RivetgrassBlock::new, groundCover().replaceable());
-    public static final DeferredBlock<TallRivetgrassBlock> TALL_RIVETGRASS = BLOCKS.registerBlock("tall_rivetgrass", TallRivetgrassBlock::new, groundCover().replaceable());
+    public static final DeferredBlock<TallRivetgrassBlock> TALL_RIVETGRASS = McRegistration.block(BLOCKS, "tall_rivetgrass", TallRivetgrassBlock::new, groundCover().replaceable());
     public static final DeferredBlock<FlowerBlock> VERDIGRIS_BLOOM = block("verdigris_bloom", props -> new FlowerBlock(MobEffects.NIGHT_VISION, 5.0F, props),
             groundCover().lightLevel(s -> 4));
-    public static final DeferredBlock<FlowerPotBlock> POTTED_VERDIGRIS_BLOOM = BLOCKS.registerBlock("potted_verdigris_bloom",
+    public static final DeferredBlock<FlowerPotBlock> POTTED_VERDIGRIS_BLOOM = McRegistration.block(BLOCKS, "potted_verdigris_bloom",
             props -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, VERDIGRIS_BLOOM, props),
             BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY).lightLevel(s -> 4));
     public static final DeferredBlock<WirevineBlock> WIREVINE = block("wirevine", WirevineBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_ORANGE).randomTicks().noCollission().instabreak().sound(SoundType.CAVE_VINES)
             .lightLevel(s -> 6).pushReaction(PushReaction.DESTROY));
-    public static final DeferredBlock<WirevinePlantBlock> WIREVINE_PLANT = BLOCKS.registerBlock("wirevine_plant", WirevinePlantBlock::new,
+    public static final DeferredBlock<WirevinePlantBlock> WIREVINE_PLANT = McRegistration.block(BLOCKS, "wirevine_plant", WirevinePlantBlock::new,
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noCollission().instabreak().sound(SoundType.CAVE_VINES)
                     .lightLevel(s -> 2).pushReaction(PushReaction.DESTROY));
 
@@ -119,14 +120,20 @@ public final class RustworksBlocks {
 
     private static ModBlocks.StoneVariants variants(String prefix, DeferredBlock<Block> base) {
         Supplier<BlockBehaviour.Properties> props = () -> BlockBehaviour.Properties.ofFullCopy(base.get());
-        DeferredBlock<StairBlock> stairs = block(prefix + "_stairs", p -> new StairBlock(base.get().defaultBlockState(), props.get()), BlockBehaviour.Properties.of());
-        DeferredBlock<SlabBlock> slab = block(prefix + "_slab", p -> new SlabBlock(props.get()), BlockBehaviour.Properties.of());
-        DeferredBlock<WallBlock> wall = block(prefix + "_wall", p -> new WallBlock(props.get().forceSolidOn()), BlockBehaviour.Properties.of());
+        DeferredBlock<StairBlock> stairs = block(prefix + "_stairs", p -> new StairBlock(base.get().defaultBlockState(), p), props);
+        DeferredBlock<SlabBlock> slab = block(prefix + "_slab", SlabBlock::new, props);
+        DeferredBlock<WallBlock> wall = block(prefix + "_wall", WallBlock::new, () -> props.get().forceSolidOn());
         return new ModBlocks.StoneVariants(stairs, slab, wall);
     }
 
     private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, BlockBehaviour.Properties props) {
-        DeferredBlock<B> block = BLOCKS.registerBlock(name, factory, props);
+        DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
+        CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(block));
+        return block;
+    }
+
+    private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, Supplier<BlockBehaviour.Properties> props) {
+        DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
         CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(block));
         return block;
     }

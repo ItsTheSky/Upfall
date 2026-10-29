@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.machines.block;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.compat.mc.TooltipSource;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,8 +19,9 @@ import net.minecraft.world.level.block.Block;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.function.Consumer;
 
-public class GearliftBlock extends Block {
+public class GearliftBlock extends Block implements TooltipSource {
     public static final MapCodec<GearliftBlock> CODEC = simpleCodec(GearliftBlock::new);
     public static final int RANGE = 64;
     private static final int COOLDOWN_TICKS = 8;
@@ -83,7 +85,14 @@ public class GearliftBlock extends Block {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("block.upfall.gearlift.desc").withStyle(ChatFormatting.GRAY));
+    public void hoverText(ItemStack stack, Item.TooltipContext context, Consumer<Component> out, TooltipFlag flag) {
+        out.accept(Component.translatable("block.upfall.gearlift.desc").withStyle(ChatFormatting.GRAY));
     }
+
+    //? if <26.1 {
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        hoverText(stack, context, tooltip::add, flag);
+    }
+    //?}
 }

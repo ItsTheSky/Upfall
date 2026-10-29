@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "upfall:block/ironbark_slab"
+    },
+    "type=double": {
+      "model": "upfall:block/ironbark_planks"
+    },
+    "type=top": {
+      "model": "upfall:block/ironbark_slab_top"
+    }
+  }
+}

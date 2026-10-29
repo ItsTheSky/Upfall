@@ -1,5 +1,9 @@
 package net.itsthesky.upfall.content.chronospire.block.entity;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.McPlayers;
+import net.itsthesky.upfall.compat.mc.UpfallBlockEntity;
 import net.itsthesky.upfall.content.chronospire.ChronoBlocks;
 import net.itsthesky.upfall.content.chronospire.ChronoClock;
 import net.itsthesky.upfall.content.chronospire.ChronoPhase;
@@ -10,8 +14,6 @@ import net.itsthesky.upfall.content.chronospire.block.PhaseWheelBlock;
 import net.itsthesky.upfall.content.chronospire.puzzle.PuzzleGates;
 import net.itsthesky.upfall.content.chronospire.puzzle.WheelRing;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,7 +22,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class ChronoGnomonBlockEntity extends BlockEntity {
+public class ChronoGnomonBlockEntity extends UpfallBlockEntity {
     private static final int RANGE = 7;
     private static final int DEPTH = 6;
     private static final float[] PITCH = {0.707F, 0.891F, 1.059F, 1.335F};
@@ -110,8 +111,8 @@ public class ChronoGnomonBlockEntity extends BlockEntity {
             return;
         }
         ChronoPhase phase = ChronoClock.phase(level);
-        player.displayClientMessage(Component.translatable(solved() ? "message.upfall.wheel.at_rest" : "message.upfall.wheel.hint",
-                phase.displayName().withColor(phase.color())), true);
+        McPlayers.overlay(player, Component.translatable(solved() ? "message.upfall.wheel.at_rest" : "message.upfall.wheel.hint",
+                phase.displayName().withColor(phase.color())));
     }
 
     public void scramble() {
@@ -121,7 +122,7 @@ public class ChronoGnomonBlockEntity extends BlockEntity {
         int[] values = new int[wheels.size()];
         do {
             for (int i = 0; i < values.length; i++) {
-                values[i] = level.random.nextInt(WheelRing.STATES);
+                values[i] = level.getRandom().nextInt(WheelRing.STATES);
             }
         } while (WheelRing.solved(values, target));
         writeWheels(wheels, values);
@@ -155,18 +156,16 @@ public class ChronoGnomonBlockEntity extends BlockEntity {
     }
 
     private static void tell(Player player, String key) {
-        player.displayClientMessage(Component.translatable(key), true);
+        McPlayers.overlay(player, Component.translatable(key));
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        gates.save(tag);
+    protected void saveData(DataOut out) {
+        gates.save(out);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        gates.load(tag);
+    protected void loadData(DataIn in) {
+        gates.load(in);
     }
 }

@@ -4,14 +4,18 @@ import net.itsthesky.upfall.client.UpfallParticle;
 import net.itsthesky.upfall.content.UpfallClientModule;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
+//? if >=26.1 {
+/*import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+*///?} else {
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.BlockModelShaper;
+//?}
 
 public class QuantumClientModule implements UpfallClientModule {
     @Override
@@ -30,6 +34,15 @@ public class QuantumClientModule implements UpfallClientModule {
     }
 
     private static void modifyModels(ModelEvent.ModifyBakingResult event) {
+        //? if >=26.1 {
+        /*var models = event.getBakingResult().blockStateModels();
+        for (var state : QuantumBlocks.VEIL_GAS.get().getStateDefinition().getPossibleStates()) {
+            BlockStateModel model = models.get(state);
+            if (model != null) {
+                models.put(state, new VeilGasModel(model));
+            }
+        }
+        *///?} else {
         for (var state : QuantumBlocks.VEIL_GAS.get().getStateDefinition().getPossibleStates()) {
             ModelResourceLocation location = BlockModelShaper.stateToModelLocation(state);
             BakedModel model = event.getModels().get(location);
@@ -37,5 +50,6 @@ public class QuantumClientModule implements UpfallClientModule {
                 event.getModels().put(location, new VeilGasModel(model));
             }
         }
+        //?}
     }
 }

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "upfall:kairite_gear",
+  "base": "minecraft:redstone_block",
+  "result": {
+    "id": "upfall:hastening_gear"
+  },
+  "template": "upfall:hastening_gear_blueprint"
+}

@@ -68,7 +68,7 @@ public class ExhaustVentBlock extends Block {
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        if (!level.isClientSide && !oldState.is(this)) {
+        if (!level.isClientSide() && !oldState.is(this)) {
             level.scheduleTick(pos, this, 1);
         }
     }

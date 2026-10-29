@@ -1,5 +1,7 @@
 package net.itsthesky.upfall.content.reliquary.block;
 
+import net.itsthesky.upfall.compat.mc.McPlayers;
+import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.itsthesky.upfall.content.reliquary.ReliquaryBlocks;
 import net.itsthesky.upfall.content.reliquary.ReliquaryItems;
@@ -11,7 +13,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -26,6 +27,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+//? if <26.1 {
+import net.minecraft.world.ItemInteractionResult;
+//?}
 
 public class FoldSocketBlock extends Block {
     public static final BooleanProperty FILLED = BooleanProperty.create("filled");
@@ -42,11 +46,23 @@ public class FoldSocketBlock extends Block {
         builder.add(FILLED);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
+                                          InteractionHand hand, BlockHitResult hit) {
+        return UseResults.item(insertShard(stack, state, level, pos, player), level);
+    }
+    *///?} else {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
                                               InteractionHand hand, BlockHitResult hit) {
+        return UseResults.item(insertShard(stack, state, level, pos, player), level);
+    }
+    //?}
+
+    private UseResults.Outcome insertShard(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player) {
         if (state.getValue(FILLED) || !stack.is(ReliquaryItems.FOLD_SHARD.get())) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return UseResults.Outcome.PASS_TO_DEFAULT;
         }
         if (level instanceof ServerLevel server) {
             if (!player.getAbilities().instabuild) {
@@ -64,22 +80,22 @@ public class FoldSocketBlock extends Block {
             }
             int missing = empty + Math.max(0, REQUIRED - sockets.size());
             if (missing == 0) {
-                player.displayClientMessage(Component.translatable("message.upfall.fold_socket.complete"), true);
+                McPlayers.overlay(player, Component.translatable("message.upfall.fold_socket.complete"));
                 dissolveSeals(server, pos);
                 FoldWarden.summon(server, sockets);
             } else {
-                player.displayClientMessage(Component.translatable("message.upfall.fold_socket.remaining", missing), true);
+                McPlayers.overlay(player, Component.translatable("message.upfall.fold_socket.remaining", missing));
             }
         }
-        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        return UseResults.Outcome.SIDED_SUCCESS;
     }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!level.isClientSide) {
-            player.displayClientMessage(Component.translatable(state.getValue(FILLED) ? "message.upfall.fold_socket.filled" : "message.upfall.fold_socket.empty"), true);
+        if (!level.isClientSide()) {
+            McPlayers.overlay(player, Component.translatable(state.getValue(FILLED) ? "message.upfall.fold_socket.filled" : "message.upfall.fold_socket.empty"));
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return UseResults.sided(level);
     }
 
     private static void dissolveSeals(ServerLevel level, BlockPos origin) {

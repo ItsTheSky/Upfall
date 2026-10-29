@@ -1,52 +1,43 @@
 package net.itsthesky.upfall.content.quantum;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.content.machines.MachinesRecipes;
+import net.itsthesky.upfall.content.machines.ModelBox;
 import net.itsthesky.upfall.content.rustworks.RustworksBlocks;
 import net.itsthesky.upfall.content.rustworks.RustworksItems;
 import net.itsthesky.upfall.datagen.DataContribution;
+import net.itsthesky.upfall.datagen.DataGenContext;
 import net.itsthesky.upfall.datagen.ModBlockStateProvider;
 import net.itsthesky.upfall.datagen.ModFrenchLanguageProvider;
 import net.itsthesky.upfall.datagen.ModItemModelProvider;
 import net.itsthesky.upfall.datagen.ModLanguageProvider;
 import net.itsthesky.upfall.datagen.ModParticleProvider;
-import net.itsthesky.upfall.datagen.ModRecipeProvider;
 import net.itsthesky.upfall.datagen.ModSoundProvider;
 import net.itsthesky.upfall.datagen.ModTagProviders;
+import net.itsthesky.upfall.datagen.RecipeContext;
 import net.itsthesky.upfall.item.UpfallSmithingTemplates;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModTags;
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SmithingTemplateItem;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.SmithingTransformRecipe;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 final class QuantumData implements DataContribution {
     static final Map<String, String[]> NAMES = new LinkedHashMap<>();
@@ -127,34 +118,28 @@ final class QuantumData implements DataContribution {
 
     @Override
     public void blockStates(ModBlockStateProvider states) {
-        ModelFile gas = states.models().cubeAll("veil_gas", states.blockTexture("veil_gas")).renderType("translucent");
-        states.simpleBlock(QuantumBlocks.VEIL_GAS.get(), gas);
-        floorDeco(states, QuantumBlocks.ABANDONED_PICKAXE.get());
-        floorDeco(states, QuantumBlocks.CRACKED_VEIL_MASK.get());
-        floorDeco(states, QuantumBlocks.SCATTERED_BONES.get());
-        ModelFile lantern = states.models().withExistingParent("spent_lantern", states.mcLoc("block/template_lantern"))
-                .texture("lantern", states.blockTexture("spent_lantern")).renderType("cutout");
-        ModelFile hanging = states.models().withExistingParent("spent_lantern_hanging", states.mcLoc("block/template_hanging_lantern"))
-                .texture("lantern", states.blockTexture("spent_lantern")).renderType("cutout");
-        states.getVariantBuilder(QuantumBlocks.SPENT_LANTERN.get()).forAllStatesExcept(state -> ConfiguredModel.builder()
-                .modelFile(state.getValue(net.minecraft.world.level.block.LanternBlock.HANGING) ? hanging : lantern).build(),
-                net.minecraft.world.level.block.LanternBlock.WATERLOGGED);
-        ModelFile cluster = states.models().cross("flicker_shard_cluster", states.blockTexture("flicker_shard_cluster")).renderType("cutout");
-        states.directionalBlock(QuantumBlocks.FLICKER_SHARD_CLUSTER.get(), state -> cluster);
-        states.itemModels().withExistingParent("flicker_shard_cluster", states.mcLoc("item/generated"))
-                .texture("layer0", states.blockTexture("flicker_shard_cluster"));
-        QuantumBlockModels.register(states);
+        QuantumModels.blockStates(states);
     }
 
-    private static void floorDeco(ModBlockStateProvider states, Block block) {
-        String name = ModBlockStateProvider.name(block);
-        ModelFile model = states.models().withExistingParent(name, states.mcLoc("block/block"))
-                .texture("deco", states.blockTexture(name)).texture("particle", states.blockTexture(name)).renderType("cutout")
-                .element().from(0, 0.25F, 0).to(16, 0.25F, 16)
-                .face(Direction.UP).texture("#deco").uvs(0, 0, 16, 16).end()
-                .face(Direction.DOWN).texture("#deco").uvs(0, 16, 16, 0).end().end();
-        states.horizontalBlock(block, model);
-        states.itemModels().withExistingParent(name, states.mcLoc("item/generated")).texture("layer0", states.blockTexture(name));
+    static List<ModelBox> floorDecoBoxes() {
+        Map<Direction, ModelBox.Face> faces = new LinkedHashMap<>();
+        faces.put(Direction.UP, ModelBox.Face.of("deco").uvs(0, 0, 16, 16));
+        faces.put(Direction.DOWN, ModelBox.Face.of("deco").uvs(0, 16, 16, 0));
+        return List.of(new ModelBox(0, 0.25F, 0, 16, 0.25F, 16, faces));
+    }
+
+    static List<ModelBox> pedestalBoxes() {
+        return List.of(
+                pedestalPart(0, 0, 16, 3, Direction.DOWN),
+                pedestalPart(3, 3, 13, 13, null),
+                pedestalPart(1, 13, 15, 16, Direction.UP));
+    }
+
+    private static ModelBox pedestalPart(float min, float minY, float max, float maxY, Direction culled) {
+        return ModelBox.cube(min, minY, min, max, maxY, max, direction -> {
+            ModelBox.Face face = ModelBox.Face.of(direction == Direction.UP ? "top" : direction == Direction.DOWN ? "bottom" : "side");
+            return direction == culled || direction.getAxis().isHorizontal() && min == 0 ? face.cull(direction) : face;
+        });
     }
 
     @Override
@@ -164,37 +149,37 @@ final class QuantumData implements DataContribution {
         models.basicItem(QuantumItems.QUANTUM_STONE.get());
         models.basicItem(QuantumItems.BOTTLED_VEIL_GAS.get());
         QuantumItems.blueprints().forEach(blueprint -> models.basicItem(blueprint.get()));
-        models.withExistingParent("spent_lantern", models.modLoc("block/spent_lantern"));
+        QuantumModels.spentLanternItem(models);
     }
 
     @Override
-    public void recipes(RecipeOutput output) {
-        output.accept(Upfall.id("veil_mask_smithing"), new SmithingTransformRecipe(Ingredient.of(QuantumItems.VEIL_MASK_BLUEPRINT.get()),
-                Ingredient.of(Items.IRON_HELMET), Ingredient.of(RustworksItems.KAIRITE_GEAR.get()), new ItemStack(QuantumItems.VEIL_MASK.get())), null);
+    public void recipes(RecipeContext recipes) {
+        MachinesRecipes.smithing(recipes.output(), "veil_mask_smithing", Ingredient.of(QuantumItems.VEIL_MASK_BLUEPRINT.get()),
+                Ingredient.of(Items.IRON_HELMET), Ingredient.of(RustworksItems.KAIRITE_GEAR.get()), QuantumItems.VEIL_MASK.get(), 1);
         for (DeferredItem<SmithingTemplateItem> blueprint : QuantumItems.blueprints()) {
-            ShapedRecipeBuilder.shaped(RecipeCategory.MISC, blueprint.get(), 2)
+            recipes.shaped(RecipeCategory.MISC, blueprint.get(), 2)
                     .define('#', RustworksItems.KAIRITE_DUST.get()).define('C', RustworksBlocks.RUSTSLATE.get()).define('S', blueprint.get())
                     .pattern("#S#").pattern("#C#").pattern("###")
-                    .unlockedBy(ModRecipeProvider.hasName(blueprint.get()), ModRecipeProvider.hasItem(blueprint.get()))
-                    .save(output);
+                    .unlockedBy(RecipeContext.hasName(blueprint.get()), recipes.has(blueprint.get()))
+                    .save(recipes.output());
         }
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, QuantumItems.QUANTUM_STONE.get())
+        recipes.shaped(RecipeCategory.MISC, QuantumItems.QUANTUM_STONE.get())
                 .define('S', QuantumItems.FLICKER_SHARD.get()).define('P', ModBlocks.PEARLSTONE.get())
                 .pattern("SPS").pattern("P P").pattern("SPS")
-                .unlockedBy(ModRecipeProvider.hasName(QuantumItems.FLICKER_SHARD.get()), ModRecipeProvider.hasItem(QuantumItems.FLICKER_SHARD.get()))
-                .save(output);
+                .unlockedBy(RecipeContext.hasName(QuantumItems.FLICKER_SHARD.get()), recipes.has(QuantumItems.FLICKER_SHARD.get()))
+                .save(recipes.output());
         Item plate = RustworksItems.RUSTY_PLATE.get();
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, QuantumBlocks.SPENT_LANTERN.get())
+        recipes.shaped(RecipeCategory.DECORATIONS, QuantumBlocks.SPENT_LANTERN.get())
                 .define('P', plate).define('G', Items.GLASS_PANE)
                 .pattern(" P ").pattern("PGP").pattern(" P ")
-                .unlockedBy(ModRecipeProvider.hasName(plate), ModRecipeProvider.hasItem(plate))
-                .save(output);
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, QuantumBlocks.ABANDONED_PICKAXE.get())
+                .unlockedBy(RecipeContext.hasName(plate), recipes.has(plate))
+                .save(recipes.output());
+        recipes.shaped(RecipeCategory.DECORATIONS, QuantumBlocks.ABANDONED_PICKAXE.get())
                 .define('P', plate).define('S', Items.STICK)
                 .pattern("PPP").pattern(" S ").pattern(" S ")
-                .unlockedBy(ModRecipeProvider.hasName(plate), ModRecipeProvider.hasItem(plate))
-                .save(output);
-        QuantumRecipes.register(output);
+                .unlockedBy(RecipeContext.hasName(plate), recipes.has(plate))
+                .save(recipes.output());
+        QuantumRecipes.register(recipes);
     }
 
     @Override
@@ -208,7 +193,15 @@ final class QuantumData implements DataContribution {
         tags.tag(ModTags.Blocks.FLICKER_CLUSTER_WALLS).addTag(ModTags.Blocks.GAS_CAVE_REPLACEABLE);
         tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(QuantumBlocks.SPENT_LANTERN.get(), QuantumBlocks.FLICKER_SHARD_CLUSTER.get(),
                 QuantumBlocks.PEDESTAL.get(), QuantumBlocks.QUANTUM_PEDESTAL.get());
-        QuantumBlockModels.blockTags(tags);
+        tags.tag(BlockTags.DRAGON_IMMUNE).add(vaultBlocks());
+        tags.tag(BlockTags.WITHER_IMMUNE).add(vaultBlocks());
+        tags.tag(BlockTags.IMPERMEABLE).add(QuantumBlocks.VAULT_GLASS.get(), QuantumBlocks.FROST_GLASS.get());
+    }
+
+    private static Block[] vaultBlocks() {
+        return new Block[] {QuantumBlocks.VAULT_BRICKS.get(), QuantumBlocks.VAULT_TILES.get(), QuantumBlocks.VAULT_GLASS.get(),
+                QuantumBlocks.FROST_GLASS.get(), QuantumBlocks.VAULT_LAMP.get(), QuantumBlocks.CRUMBLING_FLOOR.get(),
+                QuantumBlocks.SHIFTING_CHEST.get(), QuantumBlocks.VAULT_CORE.get()};
     }
 
     @Override
@@ -281,22 +274,13 @@ final class QuantumData implements DataContribution {
     }
 
     @Override
-    public void addProviders(GatherDataEvent event, DataGenerator generator, PackOutput output,
-                             CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {
-        generator.addProvider(event.includeServer(), new TagsProvider<DamageType>(output, Registries.DAMAGE_TYPE, registries, Upfall.MODID, helper) {
-            @Override
-            protected void addTags(HolderLookup.Provider provider) {
-                tag(DamageTypeTags.BYPASSES_ARMOR).add(QuantumDamageTypes.VEIL_GAS, QuantumDamageTypes.ENTANGLEMENT);
-                tag(DamageTypeTags.NO_KNOCKBACK).add(QuantumDamageTypes.VEIL_GAS, QuantumDamageTypes.ENTANGLEMENT);
-                tag(DamageTypeTags.BYPASSES_SHIELD).add(QuantumDamageTypes.VEIL_GAS, QuantumDamageTypes.ENTANGLEMENT);
-            }
-
-            @Override
-            public String getName() {
-                return "Quantum Damage Type Tags";
-            }
+    public void addProviders(DataGenContext ctx) {
+        ctx.<DamageType>tags(Registries.DAMAGE_TYPE, "Quantum Damage Type Tags", tags -> {
+            tags.tag(DamageTypeTags.BYPASSES_ARMOR).add(QuantumDamageTypes.VEIL_GAS, QuantumDamageTypes.ENTANGLEMENT);
+            tags.tag(DamageTypeTags.NO_KNOCKBACK).add(QuantumDamageTypes.VEIL_GAS, QuantumDamageTypes.ENTANGLEMENT);
+            tags.tag(DamageTypeTags.BYPASSES_SHIELD).add(QuantumDamageTypes.VEIL_GAS, QuantumDamageTypes.ENTANGLEMENT);
         });
-        QuantumWorldgen.addProviders(event, generator, output, registries, helper);
-        generator.addProvider(event.includeServer(), QuantumAdvancements.provider(output, registries, helper));
+        QuantumWorldgen.addProviders(ctx);
+        ctx.add(ctx.advancements("Quantum advancements", List.of(QuantumAdvancements::generate)));
     }
 }

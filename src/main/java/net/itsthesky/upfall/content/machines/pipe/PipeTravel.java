@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.machines.pipe;
 
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -92,13 +93,13 @@ public final class PipeTravel {
 
     public static boolean tryStart(ServerPlayer player, BlockPos entrance) {
         if (isTraveling(player)) return false;
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = McLevel.serverLevel(player);
         Long cooldown = COOLDOWNS.get(player.getUUID());
         if (cooldown != null && level.getGameTime() < cooldown) return false;
         Optional<PipeRoute> route = PipeNetwork.findRoute(level, entrance, exit -> PipeNetwork.exitClear(level, exit));
         if (route.isEmpty()) {
             COOLDOWNS.put(player.getUUID(), level.getGameTime() + REENTRY_COOLDOWN);
-            level.playSound(null, entrance, PneumaticPipes.JAMMED.get(), SoundSource.BLOCKS, 0.6F, 0.9F + level.random.nextFloat() * 0.2F);
+            level.playSound(null, entrance, PneumaticPipes.JAMMED.get(), SoundSource.BLOCKS, 0.6F, 0.9F + level.getRandom().nextFloat() * 0.2F);
             return false;
         }
         PipePath path = new PipePath(route.get().playerPoints(player.position()));
@@ -106,8 +107,8 @@ public final class PipeTravel {
         SESSIONS.put(player.getUUID(), session);
         applyTravelState(player);
         send(player, new PipeTravelStartPayload(path.points(), 0, SPEED, route.get().ejectPush()));
-        Vec3 mouth = Vec3.atCenterOf(entrance).add(Vec3.atLowerCornerOf(facingOf(level, entrance).getNormal()).scale(0.6));
-        level.playSound(null, entrance, PneumaticPipes.ENTER.get(), SoundSource.BLOCKS, 0.9F, 0.95F + level.random.nextFloat() * 0.1F);
+        Vec3 mouth = Vec3.atCenterOf(entrance).add(directionVec(facingOf(level, entrance)).scale(0.6));
+        level.playSound(null, entrance, PneumaticPipes.ENTER.get(), SoundSource.BLOCKS, 0.9F, 0.95F + level.getRandom().nextFloat() * 0.1F);
         level.sendParticles(ParticleTypes.POOF, mouth.x, mouth.y, mouth.z, 8, 0.3, 0.3, 0.3, 0.02);
         level.sendParticles(ParticleTypes.SMALL_GUST, mouth.x, mouth.y, mouth.z, 1, 0, 0, 0, 0);
         return true;
@@ -117,6 +118,10 @@ public final class PipeTravel {
         if (player.connection != null && player.connection.hasChannel(payload)) {
             PacketDistributor.sendToPlayer(player, payload);
         }
+    }
+
+    static Vec3 directionVec(Direction dir) {
+        return new Vec3(dir.getStepX(), dir.getStepY(), dir.getStepZ());
     }
 
     private static Direction facingOf(ServerLevel level, BlockPos pos) {
@@ -136,14 +141,14 @@ public final class PipeTravel {
         player.noPhysics = player.isSpectator();
         player.setForcedPose(null);
         player.resetFallDistance();
-        COOLDOWNS.put(player.getUUID(), player.serverLevel().getGameTime() + Math.max(REENTRY_COOLDOWN, GRACE_TICKS));
+        COOLDOWNS.put(player.getUUID(), McLevel.serverLevel(player).getGameTime() + Math.max(REENTRY_COOLDOWN, GRACE_TICKS));
     }
 
     private static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         Session session = SESSIONS.get(player.getUUID());
         if (session == null) return;
-        if (!player.isAlive() || player.serverLevel() != session.level) {
+        if (!player.isAlive() || McLevel.serverLevel(player) != session.level) {
             clearTravelState(player);
             return;
         }
@@ -186,8 +191,8 @@ public final class PipeTravel {
         player.setDeltaMovement(push);
         send(player, new PipeTravelEndPayload(push));
         BlockPos exit = session.route.exit();
-        Vec3 mouth = Vec3.atCenterOf(exit).add(Vec3.atLowerCornerOf(session.route.exitFacing().getNormal()).scale(0.7));
-        session.level.playSound(null, exit, PneumaticPipes.EXIT.get(), SoundSource.BLOCKS, 0.9F, 0.95F + session.level.random.nextFloat() * 0.1F);
+        Vec3 mouth = Vec3.atCenterOf(exit).add(directionVec(session.route.exitFacing()).scale(0.7));
+        session.level.playSound(null, exit, PneumaticPipes.EXIT.get(), SoundSource.BLOCKS, 0.9F, 0.95F + session.level.getRandom().nextFloat() * 0.1F);
         session.level.playSound(null, exit, PneumaticPipes.POP.get(), SoundSource.BLOCKS, 0.5F, 1.0F);
         session.level.sendParticles(ParticleTypes.POOF, mouth.x, mouth.y, mouth.z, 12, 0.3, 0.3, 0.3, 0.05);
         session.level.sendParticles(ParticleTypes.SMALL_GUST, mouth.x, mouth.y, mouth.z, 2, 0.2, 0.2, 0.2, 0);
@@ -283,7 +288,7 @@ public final class PipeTravel {
 
     private static boolean inGrace(ServerPlayer player) {
         Long until = COOLDOWNS.get(player.getUUID());
-        return until != null && player.serverLevel().getGameTime() < until;
+        return until != null && McLevel.serverLevel(player).getGameTime() < until;
     }
 
     private static void onServerStopped(ServerStoppedEvent event) {

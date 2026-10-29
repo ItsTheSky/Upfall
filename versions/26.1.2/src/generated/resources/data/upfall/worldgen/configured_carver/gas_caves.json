@@ -1,0 +1,14 @@
+{
+  "type": "upfall:gas_caves",
+  "config": {
+    "lava_level": {
+      "above_bottom": 0
+    },
+    "probability": 1.0,
+    "replaceable": "#upfall:gas_cave_replaceable",
+    "y": {
+      "absolute": 128
+    },
+    "yScale": 1.0
+  }
+}

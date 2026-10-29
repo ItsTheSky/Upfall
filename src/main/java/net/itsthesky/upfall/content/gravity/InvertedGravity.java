@@ -108,7 +108,7 @@ public final class InvertedGravity {
     }
 
     private static boolean isRemote(Player player) {
-        return player.level().isClientSide && !player.isLocalPlayer();
+        return player.level().isClientSide() && !player.isLocalPlayer();
     }
 
     private static void onPlayerTickPre(PlayerTickEvent.Pre event) {
@@ -134,7 +134,7 @@ public final class InvertedGravity {
                 }
             }
         }
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             state.flipO = state.flip;
             state.flip = Mth.approach(state.flip, invert ? 1.0F : 0.0F, 1.0F / FLIP_TICKS);
         }
@@ -185,7 +185,7 @@ public final class InvertedGravity {
     private static void release(Player player) {
         boolean supported = isSupportedBelow(player);
         player.setOnGround(supported);
-        if (!supported && !player.level().isClientSide && !player.isSpectator()) {
+        if (!supported && !player.level().isClientSide() && !player.isSpectator()) {
             player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, RELEASE_SLOW_FALLING_TICKS, 0, false, false, true));
         }
     }

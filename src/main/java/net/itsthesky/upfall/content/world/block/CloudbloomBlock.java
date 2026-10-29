@@ -40,11 +40,19 @@ public class CloudbloomBlock extends Block {
         return below.is(WorldBlocks.CLOUDSTALK.get()) || CloudstalkBlock.isCloudSoil(below);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected BlockState updateShape(BlockState state, LevelReader level, net.minecraft.world.level.ScheduledTickAccess ticks, BlockPos pos, Direction facing, BlockPos facingPos, BlockState facingState, RandomSource random) {
+        return facing == Direction.DOWN && !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState()
+                : super.updateShape(state, level, ticks, pos, facing, facingPos, facingState, random);
+    }
+    *///?} else {
     @Override
     protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos pos, BlockPos facingPos) {
         return facing == Direction.DOWN && !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState()
                 : super.updateShape(state, facing, facingState, level, pos, facingPos);
     }
+    //?}
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {

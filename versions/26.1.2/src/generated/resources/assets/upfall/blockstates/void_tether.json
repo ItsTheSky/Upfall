@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "upfall:block/void_tether"
+    }
+  }
+}

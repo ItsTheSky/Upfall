@@ -1,14 +1,15 @@
 package net.itsthesky.upfall.gametest;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.content.grotto.GrottoBlocks;
 import net.itsthesky.upfall.content.grotto.GrottoLayout;
 import net.itsthesky.upfall.content.grotto.GrottoLoot;
 import net.itsthesky.upfall.content.grotto.GrottoPiece;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.RandomizableContainer;
@@ -27,13 +28,9 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.List;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class GrottoGameTests {
     private GrottoGameTests() {}
 
@@ -45,7 +42,7 @@ public final class GrottoGameTests {
     private static ItemStack pickaxe(GameTestHelper helper, ResourceKey<Enchantment> enchant, int level) {
         ItemStack stack = new ItemStack(Items.NETHERITE_PICKAXE);
         if (enchant != null) {
-            stack.enchant(helper.getLevel().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(enchant), level);
+            stack.enchant(helper.getLevel().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(enchant), level);
         }
         return stack;
     }
@@ -54,7 +51,7 @@ public final class GrottoGameTests {
         return stacks.stream().filter(s -> s.is(item)).mapToInt(ItemStack::getCount).sum();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void mistglowCrystalDropsDust(GameTestHelper helper) {
         Block crystal = ModBlocks.MISTGLOW_CRYSTAL.get();
         Item dust = GrottoBlocks.MISTGLOW_DUST.get();
@@ -72,7 +69,7 @@ public final class GrottoGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void gildedDuskslateDropsNuggets(GameTestHelper helper) {
         Block ore = ModBlocks.GILDED_DUSKSLATE.get();
         int plainMax = 0;
@@ -90,7 +87,7 @@ public final class GrottoGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void lanternStandsAndHangs(GameTestHelper helper) {
         BlockPos floor = new BlockPos(2, 1, 2);
         helper.setBlock(floor, Blocks.STONE);
@@ -105,7 +102,7 @@ public final class GrottoGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void layoutHasAllFeatures(GameTestHelper helper) {
         GrottoLayout layout = new GrottoLayout(1234L, 0, 0, 56);
         BoundingBox box = layout.bounds();
@@ -135,7 +132,7 @@ public final class GrottoGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty", timeoutTicks = 1200)
+    @UpfallGameTest(template = "empty", timeoutTicks = 1200)
     public static void pieceGeneratesChunkByChunk(GameTestHelper helper) {
         var level = helper.getLevel();
         GrottoPiece piece = GrottoPiece.create(99L, 8000, 8000, 56);
@@ -143,8 +140,8 @@ public final class GrottoGameTests {
         for (int cx = bounds.minX() >> 4; cx <= bounds.maxX() >> 4; cx++) {
             for (int cz = bounds.minZ() >> 4; cz <= bounds.maxZ() >> 4; cz++) {
                 ChunkPos chunk = new ChunkPos(cx, cz);
-                BoundingBox chunkBox = new BoundingBox(chunk.getMinBlockX(), level.getMinBuildHeight(), chunk.getMinBlockZ(),
-                        chunk.getMaxBlockX(), level.getMaxBuildHeight(), chunk.getMaxBlockZ());
+                BoundingBox chunkBox = new BoundingBox(chunk.getMinBlockX(), McLevel.minY(level), chunk.getMinBlockZ(),
+                        chunk.getMaxBlockX(), McLevel.maxYExclusive(level), chunk.getMaxBlockZ());
                 piece.postProcess(level, level.structureManager(), level.getChunkSource().getGenerator(), level.getRandom(), chunkBox, chunk, BlockPos.ZERO);
             }
         }
@@ -157,7 +154,7 @@ public final class GrottoGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void grottoLootIsRich(GameTestHelper helper) {
         var table = helper.getLevel().getServer().reloadableRegistries().getLootTable(GrottoLoot.CRYSTAL_GROTTO);
         LootParams params = new LootParams.Builder(helper.getLevel())

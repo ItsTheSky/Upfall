@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "upfall:block/gildroot_pressure_plate"
+    },
+    "powered=true": {
+      "model": "upfall:block/gildroot_pressure_plate_down"
+    }
+  }
+}

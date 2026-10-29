@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_levitite_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:levitite_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:levitite_shovel_smithing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_levitite_ingot"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:levitite_shovel_smithing"
+    ]
+  }
+}

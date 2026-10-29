@@ -10,7 +10,11 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+//? if >=26.1 {
+/*public class LumenSproutsBlock extends net.minecraft.world.level.block.VegetationBlock {
+*///?} else {
 public class LumenSproutsBlock extends BushBlock {
+//?}
     public static final MapCodec<LumenSproutsBlock> CODEC = simpleCodec(LumenSproutsBlock::new);
     private static final VoxelShape SHAPE = BushBlock.box(3.0, 0.0, 3.0, 13.0, 12.0, 13.0);
 
@@ -19,7 +23,7 @@ public class LumenSproutsBlock extends BushBlock {
     }
 
     @Override
-    protected MapCodec<? extends BushBlock> codec() {
+    protected MapCodec<? extends LumenSproutsBlock> codec() {
         return CODEC;
     }
 
@@ -30,7 +34,11 @@ public class LumenSproutsBlock extends BushBlock {
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        //? if >=26.1 {
+        /*Vec3 offset = state.getOffset(pos);
+        *///?} else {
         Vec3 offset = state.getOffset(level, pos);
+        //?}
         return SHAPE.move(offset.x, offset.y, offset.z);
     }
 }

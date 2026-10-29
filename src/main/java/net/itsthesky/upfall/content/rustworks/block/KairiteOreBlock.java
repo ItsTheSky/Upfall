@@ -22,7 +22,11 @@ public class KairiteOreBlock extends DropExperienceBlock {
     public static final int PERIOD = 200;
     public static final int PEAK_LENGTH = 40;
     public static final int FADE_LENGTH = 20;
+    //? if >=26.1 {
+    /*private static final DustParticleOptions SPARK = new DustParticleOptions(net.minecraft.util.ARGB.colorFromFloat(1.0F, 0.47F, 0.92F, 0.76F), 0.6F);
+    *///?} else {
     private static final DustParticleOptions SPARK = new DustParticleOptions(new Vector3f(0.47F, 0.92F, 0.76F), 0.6F);
+    //?}
 
     public KairiteOreBlock(Properties properties) {
         super(UniformInt.of(1, 3), properties);
@@ -68,7 +72,7 @@ public class KairiteOreBlock extends DropExperienceBlock {
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        if (!level.isClientSide && !oldState.is(this)) {
+        if (!level.isClientSide() && !oldState.is(this)) {
             level.scheduleTick(pos, this, 1);
         }
     }

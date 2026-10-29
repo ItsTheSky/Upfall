@@ -1,15 +1,14 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.rustworks.RustworksBlocks;
 import net.itsthesky.upfall.content.rustworks.RustworksLoot;
 import net.itsthesky.upfall.content.rustworks.block.ExhaustVentBlock;
 import net.itsthesky.upfall.content.rustworks.worldgen.RustworksFeatures;
 import net.itsthesky.upfall.content.rustworks.worldgen.StalledAutomatonFeature;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -21,19 +20,15 @@ import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.Optional;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class RustworksAutomatonGameTests {
     private RustworksAutomatonGameTests() {}
 
     private static final int GROUND = 4;
 
-    @GameTest(template = "empty_large", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 200)
     public static void stalledAutomatonPosesStandAndHideTheirCache(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         BlockPos origin = new BlockPos(12, GROUND + 1, 12);
@@ -69,7 +64,7 @@ public final class RustworksAutomatonGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 200)
     public static void stalledAutomatonNeedsFlatGround(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         StalledAutomatonFeature feature = RustworksFeatures.STALLED_AUTOMATON.get();
@@ -84,7 +79,7 @@ public final class RustworksAutomatonGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 260)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 260)
     public static void exhaustVentLaunchesEntities(GameTestHelper helper) {
         BlockPos vent = new BlockPos(12, 1, 12);
         helper.setBlock(vent, RustworksBlocks.EXHAUST_VENT.get().defaultBlockState());

@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.gameplay;
 
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.registry.ModEffects;
 import net.itsthesky.upfall.worldgen.ModBiomes;
 import net.itsthesky.upfall.worldgen.ModDimensions;
@@ -23,7 +24,7 @@ public final class WeightlessZones {
 
     private static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player) || player.tickCount % CHECK_INTERVAL != 0 || player.isSpectator()) return;
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = McLevel.serverLevel(player);
         if (level.dimension() != ModDimensions.UPFALL) return;
         if (isInZone(level, player.blockPosition())) {
             player.addEffect(new MobEffectInstance(ModEffects.WEIGHTLESS, EFFECT_TICKS, 0, true, false, true));

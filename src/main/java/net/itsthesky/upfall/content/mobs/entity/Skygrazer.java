@@ -40,7 +40,11 @@ public class Skygrazer extends Animal {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
+        //? if >=26.1 {
+        /*return Animal.createAnimalAttributes()
+        *///?} else {
         return Animal.createMobAttributes()
+        //?}
                 .add(Attributes.MAX_HEALTH, 22.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.23)
                 .add(Attributes.ATTACK_DAMAGE, 4.0)
@@ -88,7 +92,11 @@ public class Skygrazer extends Animal {
 
     @Override
     public Skygrazer getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
+        //? if >=26.1 {
+        /*return MobEntities.SKYGRAZER.get().create(level, MobSpawnType.BREEDING);
+        *///?} else {
         return MobEntities.SKYGRAZER.get().create(level);
+        //?}
     }
 
     @Override

@@ -1,0 +1,111 @@
+{
+  "attributes": {
+    "minecraft:audio/ambient_sounds": {
+      "additions": {
+        "sound": "upfall:ambient.gilded_ridge.additions",
+        "tick_chance": 0.008
+      },
+      "mood": {
+        "block_search_extent": 8,
+        "offset": 2.0,
+        "sound": "upfall:ambient.drifting_archipelago.mood",
+        "tick_delay": 6000
+      }
+    },
+    "minecraft:audio/background_music": {
+      "creative": {
+        "max_delay": 24000,
+        "min_delay": 12000,
+        "sound": "minecraft:music.creative"
+      },
+      "default": {
+        "max_delay": 18000,
+        "min_delay": 6000,
+        "sound": "upfall:music.upfall"
+      }
+    },
+    "minecraft:visual/ambient_particles": [
+      {
+        "particle": {
+          "type": "upfall:gilded_dust"
+        },
+        "probability": 0.005
+      }
+    ],
+    "minecraft:visual/fog_color": "#e8c095",
+    "minecraft:visual/sky_color": "#b2c2e2",
+    "minecraft:visual/water_fog_color": "#7c7a9e"
+  },
+  "carvers": "upfall:gas_caves",
+  "downfall": 0.4,
+  "effects": {
+    "foliage_color": "#e2b85a",
+    "grass_color": "#d8c98a",
+    "water_color": "#a9c8e8"
+  },
+  "features": [
+    [],
+    [],
+    [
+      "upfall:sky_pond"
+    ],
+    [],
+    [
+      "upfall:drifting_ruins"
+    ],
+    [],
+    [
+      "upfall:ore_nimbusite",
+      "upfall:gilded_vein",
+      "upfall:ore_levitite",
+      "upfall:ore_pearled_cloud"
+    ],
+    [
+      "upfall:mistglow_crystal",
+      "upfall:upfall_cascade",
+      "upfall:glowvines",
+      "upfall:raincloud_patch",
+      "upfall:needle_tip",
+      "upfall:gas_cave_props"
+    ],
+    [],
+    [
+      "upfall:skyreach_trees_sparse",
+      "upfall:patch_gilded_tuft_dense",
+      "upfall:patch_cloud_fern",
+      "upfall:patch_duskbloom",
+      "upfall:cloudstalks"
+    ],
+    [
+      "upfall:updraft_from_clouds",
+      "upfall:updraft_from_islands",
+      "upfall:cloudlets_rare"
+    ]
+  ],
+  "has_precipitation": false,
+  "spawn_costs": {},
+  "spawners": {
+    "ambient": [],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [
+      {
+        "type": "upfall:duskwing",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 4
+      },
+      {
+        "type": "upfall:cragmaw",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 10
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [],
+    "water_creature": []
+  },
+  "temperature": 0.7
+}

@@ -40,6 +40,9 @@ public final class ModTags {
         public static final TagKey<Item> HANDHELD_LIGHTS = tag("handheld_lights");
         public static final TagKey<Item> VEIL_PROTECTION = tag("veil_protection");
         public static final TagKey<Item> QUANTUM_UPGRADABLE = tag("quantum_upgradable");
+        public static final TagKey<Item> REPAIRS_NIMBUSITE = tag("repairs_nimbusite");
+        public static final TagKey<Item> REPAIRS_LEVITITE = tag("repairs_levitite");
+        public static final TagKey<Item> REPAIRS_FOLD_ANCHOR = tag("repairs_fold_anchor");
 
         private static TagKey<Item> tag(String name) {
             return TagKey.create(Registries.ITEM, Upfall.id(name));

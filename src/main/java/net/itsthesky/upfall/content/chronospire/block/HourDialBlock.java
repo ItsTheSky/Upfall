@@ -1,5 +1,8 @@
 package net.itsthesky.upfall.content.chronospire.block;
 
+import net.itsthesky.upfall.compat.mc.McPlayers;
+import net.itsthesky.upfall.compat.mc.TooltipSource;
+import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.content.chronospire.ChronoClock;
 import net.itsthesky.upfall.content.chronospire.ChronoPhase;
 import net.minecraft.ChatFormatting;
@@ -19,8 +22,9 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.List;
+import java.util.function.Consumer;
 
-public class HourDialBlock extends PhaseTrackingBlock {
+public class HourDialBlock extends PhaseTrackingBlock implements TooltipSource {
     public HourDialBlock(Properties properties) {
         super(properties);
         registerDefaultState(stateDefinition.any().setValue(PHASE, ChronoPhase.DAWN));
@@ -47,15 +51,22 @@ public class HourDialBlock extends PhaseTrackingBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!level.isClientSide) {
-            player.displayClientMessage(describe(level), true);
+        if (!level.isClientSide()) {
+            McPlayers.overlay(player, describe(level));
             level.playSound(null, pos, SoundEvents.NOTE_BLOCK_CHIME.value(), SoundSource.BLOCKS, 0.5F, 1.4F);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return UseResults.sided(level);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("block.upfall.hour_dial.desc").withStyle(ChatFormatting.GRAY));
+    public void hoverText(ItemStack stack, Item.TooltipContext context, Consumer<Component> out, TooltipFlag flag) {
+        out.accept(Component.translatable("block.upfall.hour_dial.desc").withStyle(ChatFormatting.GRAY));
     }
+
+    //? if <26.1 {
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        hoverText(stack, context, tooltip::add, flag);
+    }
+    //?}
 }

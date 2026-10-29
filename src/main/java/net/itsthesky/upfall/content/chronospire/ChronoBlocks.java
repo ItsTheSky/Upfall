@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.chronospire;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.chronospire.block.ChronoCurrentBlock;
 import net.itsthesky.upfall.content.chronospire.block.ChronoGnomonBlock;
 import net.itsthesky.upfall.content.chronospire.block.ChronoSealBlock;
@@ -74,16 +75,16 @@ public final class ChronoBlocks {
                     .isViewBlocking((s, l, p) -> false).isRedstoneConductor((s, l, p) -> false)
                     .lightLevel(s -> s.getValue(ChronoSealBlock.OPEN) ? 0 : 6));
 
-    public static final DeferredBlock<ChronoCurrentBlock> CHRONO_CURRENT = BLOCKS.registerBlock("chrono_current", ChronoCurrentBlock::new,
+    public static final DeferredBlock<ChronoCurrentBlock> CHRONO_CURRENT = McRegistration.block(BLOCKS, "chrono_current", ChronoCurrentBlock::new,
             BlockBehaviour.Properties.of().noCollission().noOcclusion().noLootTable().replaceable().strength(-1.0F, 0.0F)
                     .isValidSpawn(Blocks::never).isSuffocating((s, l, p) -> false).isViewBlocking((s, l, p) -> false)
                     .pushReaction(PushReaction.DESTROY));
-    public static final DeferredBlock<Block> DRIFT_PLATE = BLOCKS.registerBlock("drift_plate", Block::new,
+    public static final DeferredBlock<Block> DRIFT_PLATE = McRegistration.block(BLOCKS, "drift_plate", Block::new,
             BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(-1.0F, 3600000.0F));
 
     private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory,
                                                            BlockBehaviour.Properties props) {
-        DeferredBlock<B> block = BLOCKS.registerBlock(name, factory, props);
+        DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
         CREATIVE_ORDER.add(ITEMS.registerSimpleBlockItem(block));
         return block;
     }

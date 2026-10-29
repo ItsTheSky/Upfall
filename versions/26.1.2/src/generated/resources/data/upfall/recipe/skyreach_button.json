@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "wooden_button",
+  "ingredients": [
+    "upfall:skyreach_planks"
+  ],
+  "result": {
+    "id": "upfall:skyreach_button"
+  }
+}

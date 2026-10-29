@@ -1,8 +1,6 @@
 package net.itsthesky.upfall.content.mobs.client;
 
 import net.itsthesky.upfall.Upfall;
-import net.itsthesky.upfall.content.mobs.entity.Skygrazer;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -11,11 +9,26 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
+//? if >=26.1 {
+/*import net.minecraft.client.model.EntityModel;
+*///?} else {
+import net.itsthesky.upfall.content.mobs.entity.Skygrazer;
+import net.minecraft.client.model.HierarchicalModel;
+//?}
 
+//? if >=26.1 {
+/*public class SkygrazerModel extends EntityModel<SkygrazerRenderState> {
+*///?} else {
 public class SkygrazerModel extends HierarchicalModel<Skygrazer> {
+//?}
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(Upfall.id("skygrazer"), "main");
+    public static final float SHADOW_RADIUS = 0.6F;
+    public static final float BABY_SCALE = 0.55F;
+    public static final float BABY_SHADOW_FACTOR = 0.5F;
 
+    //? if <26.1 {
     private final ModelPart root;
+    //?}
     private final ModelPart neck;
     private final ModelPart head;
     private final ModelPart leftEar;
@@ -27,7 +40,11 @@ public class SkygrazerModel extends HierarchicalModel<Skygrazer> {
     private final ModelPart hindLeft;
 
     public SkygrazerModel(ModelPart root) {
+        //? if >=26.1 {
+        /*super(root);
+        *///?} else {
         this.root = root;
+        //?}
         ModelPart body = root.getChild("body");
         this.neck = body.getChild("neck");
         this.head = neck.getChild("head");
@@ -77,6 +94,13 @@ public class SkygrazerModel extends HierarchicalModel<Skygrazer> {
         return LayerDefinition.create(mesh, 128, 64);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void setupAnim(SkygrazerRenderState state) {
+        super.setupAnim(state);
+        pose(state.walkAnimationPos, state.walkAnimationSpeed, state.ageInTicks, state.yRot, state.xRot, state.entityId);
+    }
+    *///?} else {
     @Override
     public ModelPart root() {
         return root;
@@ -84,6 +108,11 @@ public class SkygrazerModel extends HierarchicalModel<Skygrazer> {
 
     @Override
     public void setupAnim(Skygrazer entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        pose(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, entity.getId());
+    }
+    //?}
+
+    private void pose(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, int entityId) {
         float swing = limbSwing * 0.6662F;
         frontRight.xRot = Mth.cos(swing) * 1.2F * limbSwingAmount;
         hindLeft.xRot = Mth.cos(swing) * 1.2F * limbSwingAmount;
@@ -93,7 +122,7 @@ public class SkygrazerModel extends HierarchicalModel<Skygrazer> {
         neck.yRot = netHeadYaw * Mth.DEG_TO_RAD * 0.4F;
         head.yRot = netHeadYaw * Mth.DEG_TO_RAD * 0.6F;
         head.xRot = -0.35F + headPitch * Mth.DEG_TO_RAD;
-        float flop = Mth.sin(ageInTicks * 0.15F + entity.getId()) * 0.05F + limbSwingAmount * Mth.cos(ageInTicks * 0.9F) * 0.15F;
+        float flop = Mth.sin(ageInTicks * 0.15F + entityId) * 0.05F + limbSwingAmount * Mth.cos(ageInTicks * 0.9F) * 0.15F;
         rightEar.zRot = -0.4F - flop;
         leftEar.zRot = 0.4F + flop;
         tail.xRot = 0.2F + Mth.sin(ageInTicks * 0.12F) * 0.1F;

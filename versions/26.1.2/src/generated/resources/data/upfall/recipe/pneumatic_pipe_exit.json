@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "upfall:pneumatic_pipe",
+    "minecraft:dropper"
+  ],
+  "result": {
+    "id": "upfall:pneumatic_pipe_exit"
+  }
+}

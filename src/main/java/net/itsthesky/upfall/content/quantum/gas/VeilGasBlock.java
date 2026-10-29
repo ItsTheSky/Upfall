@@ -2,6 +2,8 @@ package net.itsthesky.upfall.content.quantum.gas;
 
 import com.mojang.serialization.MapCodec;
 import net.itsthesky.upfall.UpfallConfig;
+import net.itsthesky.upfall.compat.mc.McEntities;
+import net.itsthesky.upfall.compat.mc.McEnv;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.itsthesky.upfall.content.quantum.QuantumDamageTypes;
 import net.minecraft.core.BlockPos;
@@ -52,10 +54,17 @@ public class VeilGasBlock extends Block {
         return RenderShape.MODEL;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
+    }
+    *///?} else {
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
+    //?}
 
     @Override
     protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
@@ -72,15 +81,26 @@ public class VeilGasBlock extends Block {
         return true;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, net.minecraft.world.entity.InsideBlockEffectApplier effectApplier, boolean isPrecise) {
+        gasInside(level, pos, entity);
+    }
+    *///?} else {
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (level.isClientSide || !(entity instanceof LivingEntity living) || !living.isAlive()) return;
+        gasInside(level, pos, entity);
+    }
+    //?}
+
+    private static void gasInside(Level level, BlockPos pos, Entity entity) {
+        if (level.isClientSide() || !(entity instanceof LivingEntity living) || !living.isAlive()) return;
         if (!touchesHead(living, pos) || VeilProtection.isProtected(living)) return;
         int interval = UpfallConfig.getInt(UpfallConfig.GAS_DAMAGE_INTERVAL);
         if (living.tickCount % interval != 0) return;
         float damage = (float) UpfallConfig.getDouble(UpfallConfig.GAS_DAMAGE);
         if (damage > 0.0F) {
-            living.hurt(level.damageSources().source(QuantumDamageTypes.VEIL_GAS), damage);
+            McEntities.hurt(living, level.damageSources().source(QuantumDamageTypes.VEIL_GAS), damage);
         }
     }
 
@@ -91,7 +111,7 @@ public class VeilGasBlock extends Block {
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (random.nextInt(5) != 0) return;
-        Player player = net.neoforged.fml.loading.FMLEnvironment.dist.isClient() ? VeilGasClientHooks.localPlayer() : null;
+        Player player = McEnv.isClient() ? VeilGasClientHooks.localPlayer() : null;
         if (player == null || player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) > 25.0) return;
         boolean visible = VeilProtection.isProtected(player);
         if (!visible && random.nextInt(3) != 0) return;

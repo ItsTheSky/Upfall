@@ -29,7 +29,7 @@ public class WeatheredBricksBlock extends Block {
 
     @Override
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
-        if (!level.isClientSide && entity instanceof Player player && !player.isSpectator() && !player.isCreative()
+        if (!level.isClientSide() && entity instanceof Player player && !player.isSpectator() && !player.isCreative()
                 && !level.getBlockTicks().hasScheduledTick(pos, this)) {
             level.scheduleTick(pos, this, DELAY);
             level.playSound(null, pos, QuantumSounds.FLOOR_CRUMBLE.get(), SoundSource.BLOCKS, 0.4F, 1.4F);

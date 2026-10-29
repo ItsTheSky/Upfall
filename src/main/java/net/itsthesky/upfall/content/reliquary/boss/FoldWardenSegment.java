@@ -32,6 +32,15 @@ public class FoldWardenSegment extends PartEntity<FoldWarden> {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+    }
+
+    @Override
+    protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+    }
+    *///?} else {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
     }
@@ -39,6 +48,7 @@ public class FoldWardenSegment extends PartEntity<FoldWarden> {
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
     }
+    //?}
 
     @Override
     public boolean isPickable() {
@@ -51,11 +61,26 @@ public class FoldWardenSegment extends PartEntity<FoldWarden> {
         return getParent().getPickResult();
     }
 
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
+    private boolean hurtSegment(DamageSource source, float amount) {
+        //? if >=26.1 {
+        /*if (!isActive() || isInvulnerableToBase(source)) return false;
+        *///?} else {
         if (!isActive() || isInvulnerableTo(source)) return false;
+        //?}
         return getParent().hurtFromSegment(source, amount);
     }
+
+    //? if >=26.1 {
+    /*@Override
+    public boolean hurtServer(net.minecraft.server.level.ServerLevel level, DamageSource source, float amount) {
+        return hurtSegment(source, amount);
+    }
+    *///?} else {
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        return hurtSegment(source, amount);
+    }
+    //?}
 
     @Override
     public boolean is(Entity entity) {

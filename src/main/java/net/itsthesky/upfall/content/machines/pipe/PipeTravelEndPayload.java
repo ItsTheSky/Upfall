@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.machines.pipe;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McCodecs;
 import net.itsthesky.upfall.content.machines.pipe.client.PipeTravelClient;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -11,7 +12,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 public record PipeTravelEndPayload(Vec3 motion) implements CustomPacketPayload {
     public static final Type<PipeTravelEndPayload> TYPE = new Type<>(Upfall.id("pipe_travel_end"));
     public static final StreamCodec<RegistryFriendlyByteBuf, PipeTravelEndPayload> STREAM_CODEC = StreamCodec.of(
-            (buf, payload) -> buf.writeVec3(payload.motion), buf -> new PipeTravelEndPayload(buf.readVec3()));
+            (buf, payload) -> McCodecs.writeVec3(buf, payload.motion), buf -> new PipeTravelEndPayload(McCodecs.readVec3(buf)));
 
     @Override
     public Type<? extends CustomPacketPayload> type() {

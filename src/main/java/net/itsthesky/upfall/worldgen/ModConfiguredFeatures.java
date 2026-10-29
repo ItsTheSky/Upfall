@@ -36,6 +36,10 @@ public final class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_CLOUD_FERN = ModFeatureKeys.key("patch_cloud_fern");
     public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_DUSKBLOOM = ModFeatureKeys.key("patch_duskbloom");
 
+    static final int GILDED_TUFT_TRIES = 32;
+    static final int CLOUD_FERN_TRIES = 32;
+    static final int DUSKBLOOM_TRIES = 24;
+
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         none(context, SKYREACH_TREE, ModFeatures.SKYREACH_TREE.get());
         none(context, GILDROOT_TREE, ModFeatures.GILDROOT_TREE.get());
@@ -57,9 +61,9 @@ public final class ModConfiguredFeatures {
         FeatureUtils.register(context, GILDED_VEIN, Feature.ORE, new OreConfiguration(List.of(
                 OreConfiguration.target(duskslate, ModBlocks.GILDED_DUSKSLATE.get().defaultBlockState())), 26));
 
-        patch(context, PATCH_GILDED_TUFT, ModBlocks.GILDED_TUFT.get(), 32);
-        patch(context, PATCH_CLOUD_FERN, ModBlocks.CLOUD_FERN.get(), 32);
-        patch(context, PATCH_DUSKBLOOM, ModBlocks.DUSKBLOOM.get(), 24);
+        patch(context, PATCH_GILDED_TUFT, ModBlocks.GILDED_TUFT.get(), GILDED_TUFT_TRIES);
+        patch(context, PATCH_CLOUD_FERN, ModBlocks.CLOUD_FERN.get(), CLOUD_FERN_TRIES);
+        patch(context, PATCH_DUSKBLOOM, ModBlocks.DUSKBLOOM.get(), DUSKBLOOM_TRIES);
         UpfallModules.forEachData(data -> data.configuredFeatures(context));
     }
 
@@ -69,7 +73,11 @@ public final class ModConfiguredFeatures {
     }
 
     private static void patch(BootstrapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, Block block, int tries) {
+        //? if >=26.1 {
+        /*FeatureUtils.register(context, key, Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(block)));
+        *///?} else {
         FeatureUtils.register(context, key, Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
                 new SimpleBlockConfiguration(BlockStateProvider.simple(block)), List.of(), tries));
+        //?}
     }
 }

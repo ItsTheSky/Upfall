@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#texture",
+          "uv": [
+            0.0,
+            16.0,
+            16.0,
+            0.0
+          ]
+        },
+        "up": {
+          "texture": "#texture"
+        }
+      },
+      "from": [
+        0,
+        0.25,
+        0
+      ],
+      "light_emission": 6,
+      "to": [
+        16,
+        0.25,
+        16
+      ]
+    }
+  ],
+  "textures": {
+    "particle": "upfall:block/skylily",
+    "texture": "upfall:block/skylily"
+  }
+}

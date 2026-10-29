@@ -27,6 +27,17 @@ public class ShiftingChestBlockEntity extends RandomizableContainerBlockEntity {
         return viewers > 0;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void startOpen(net.minecraft.world.entity.ContainerUser user) {
+        if (!user.getLivingEntity().isSpectator()) viewers++;
+    }
+
+    @Override
+    public void stopOpen(net.minecraft.world.entity.ContainerUser user) {
+        if (!user.getLivingEntity().isSpectator()) viewers = Math.max(0, viewers - 1);
+    }
+    *///?} else {
     @Override
     public void startOpen(Player player) {
         if (!player.isSpectator()) viewers++;
@@ -36,6 +47,7 @@ public class ShiftingChestBlockEntity extends RandomizableContainerBlockEntity {
     public void stopOpen(Player player) {
         if (!player.isSpectator()) viewers = Math.max(0, viewers - 1);
     }
+    //?}
 
     @Override
     public int getContainerSize() {
@@ -62,6 +74,24 @@ public class ShiftingChestBlockEntity extends RandomizableContainerBlockEntity {
         return ChestMenu.threeRows(id, inventory, this);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput output) {
+        super.saveAdditional(output);
+        if (!trySaveLootTable(output)) {
+            ContainerHelper.saveAllItems(output, items);
+        }
+    }
+
+    @Override
+    protected void loadAdditional(net.minecraft.world.level.storage.ValueInput input) {
+        super.loadAdditional(input);
+        items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
+        if (!tryLoadLootTable(input)) {
+            ContainerHelper.loadAllItems(input, items);
+        }
+    }
+    *///?} else {
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
@@ -78,17 +108,28 @@ public class ShiftingChestBlockEntity extends RandomizableContainerBlockEntity {
             ContainerHelper.loadAllItems(tag, items, registries);
         }
     }
+    //?}
 
     public CompoundTag takeContents(HolderLookup.Provider registries) {
+        //? if >=26.1 {
+        /*net.minecraft.world.level.storage.TagValueOutput output = net.minecraft.world.level.storage.TagValueOutput.createWithContext(net.minecraft.util.ProblemReporter.DISCARDING, registries);
+        saveAdditional(output);
+        CompoundTag tag = output.buildResult();
+        *///?} else {
         CompoundTag tag = new CompoundTag();
         saveAdditional(tag, registries);
+        //?}
         items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
         setLootTable(null);
         return tag;
     }
 
     public void receiveContents(CompoundTag tag, HolderLookup.Provider registries) {
+        //? if >=26.1 {
+        /*loadAdditional(net.minecraft.world.level.storage.TagValueInput.create(net.minecraft.util.ProblemReporter.DISCARDING, registries, tag));
+        *///?} else {
         loadAdditional(tag, registries);
+        //?}
         setChanged();
     }
 }

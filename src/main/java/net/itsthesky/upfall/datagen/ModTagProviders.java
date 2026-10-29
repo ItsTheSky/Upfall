@@ -13,8 +13,6 @@ import net.itsthesky.upfall.registry.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.IntrinsicHolderTagsProvider.IntrinsicTagAppender;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -25,7 +23,15 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
+
+//? if >=26.1 {
+/*import net.minecraft.data.tags.TagAppender;
+import net.neoforged.neoforge.common.data.BlockTagCopyingItemTagProvider;
+*///?} else {
+import net.minecraft.data.tags.IntrinsicHolderTagsProvider.IntrinsicTagAppender;
+import net.minecraft.data.tags.ItemTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+//?}
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -46,9 +52,15 @@ public final class ModTagProviders {
     public static final TagKey<Block> C_STORAGE_LEVITITE = TagKey.create(Registries.BLOCK, Tags.Blocks.STORAGE_BLOCKS.location().withSuffix("/levitite"));
 
     public static class Blocks extends BlockTagsProvider {
+        //? if >=26.1 {
+        /*public Blocks(PackOutput output, CompletableFuture<HolderLookup.Provider> lookup) {
+            super(output, lookup, Upfall.MODID);
+        }
+        *///?} else {
         public Blocks(PackOutput output, CompletableFuture<HolderLookup.Provider> lookup, ExistingFileHelper helper) {
             super(output, lookup, Upfall.MODID, helper);
         }
+        //?}
 
         @Override
         protected void addTags(HolderLookup.Provider provider) {
@@ -80,6 +92,9 @@ public final class ModTagProviders {
                     BlockTags.INCORRECT_FOR_NETHERITE_TOOL)) {
                 tag(incorrect).addTag(ModTags.Blocks.NEEDS_NIMBUSITE_TOOL);
             }
+            //? if >=26.1 {
+            /*tag(BlockTags.INCORRECT_FOR_COPPER_TOOL).addTag(ModTags.Blocks.NEEDS_NIMBUSITE_TOOL);
+            *///?}
             tag(ModTags.Blocks.INCORRECT_FOR_NIMBUSITE_TOOL);
             tag(ModTags.Blocks.INCORRECT_FOR_LEVITITE_TOOL);
 
@@ -103,6 +118,9 @@ public final class ModTagProviders {
             }
 
             tag(BlockTags.SMALL_FLOWERS).add(ModBlocks.DUSKBLOOM.get());
+            //? if >=26.1 {
+            /*tag(BlockTags.BEE_ATTRACTIVE).add(ModBlocks.DUSKBLOOM.get());
+            *///?}
             tag(BlockTags.FLOWER_POTS).add(ModBlocks.POTTED_DUSKBLOOM.get(), ModBlocks.POTTED_CLOUD_FERN.get(), ModBlocks.POTTED_SKYREACH_SAPLING.get(),
                     ModBlocks.POTTED_IRONBARK_SAPLING.get());
             tag(BlockTags.REPLACEABLE_BY_TREES).add(ModBlocks.CLOUD_FERN.get(), ModBlocks.GILDED_TUFT.get(), ModBlocks.MIST.get(),
@@ -114,6 +132,11 @@ public final class ModTagProviders {
             tag(BlockTags.BEACON_BASE_BLOCKS).add(ModBlocks.NIMBUSITE_BLOCK.get(), ModBlocks.LEVITITE_BLOCK.get());
 
             tag(ModTags.Blocks.SKY_PLANTABLE).addTag(BlockTags.DIRT).add(ModBlocks.DENSE_CLOUD.get(), ModBlocks.DUSKSLATE.get());
+            //? if >=26.1 {
+            /*tag(ModTags.Blocks.SKY_PLANTABLE).add(net.minecraft.world.level.block.Blocks.GRASS_BLOCK, net.minecraft.world.level.block.Blocks.PODZOL,
+                    net.minecraft.world.level.block.Blocks.MYCELIUM, net.minecraft.world.level.block.Blocks.MOSS_BLOCK,
+                    net.minecraft.world.level.block.Blocks.MUD, net.minecraft.world.level.block.Blocks.MUDDY_MANGROVE_ROOTS);
+            *///?}
             tag(ModTags.Blocks.UPFALL_STONE).add(ModBlocks.PEARLSTONE.get(), ModBlocks.DUSKSLATE.get());
             tag(ModTags.Blocks.FEATURE_REPLACEABLE).add(net.minecraft.world.level.block.Blocks.AIR, ModBlocks.MIST.get(),
                     ModBlocks.CLOUD_FERN.get(), ModBlocks.GILDED_TUFT.get(), ModBlocks.DUSKBLOOM.get(), ModBlocks.GLOWVINE.get(),
@@ -130,17 +153,32 @@ public final class ModTagProviders {
             UpfallModules.forEachData(data -> data.blockTags(this));
         }
 
+        //? if >=26.1 {
+        /*@Override
+        public TagAppender<Block, Block> tag(TagKey<Block> tag) {
+            return super.tag(tag);
+        }
+        *///?} else {
         @Override
         public IntrinsicTagAppender<Block> tag(TagKey<Block> tag) {
             return super.tag(tag);
         }
+        //?}
     }
 
+    //? if >=26.1 {
+    /*public static class Items extends BlockTagCopyingItemTagProvider {
+        public Items(PackOutput output, CompletableFuture<HolderLookup.Provider> lookup,
+                     CompletableFuture<TagsProvider.TagLookup<Block>> blockTags) {
+            super(output, lookup, blockTags, Upfall.MODID);
+        }
+    *///?} else {
     public static class Items extends ItemTagsProvider {
         public Items(PackOutput output, CompletableFuture<HolderLookup.Provider> lookup,
                      CompletableFuture<TagsProvider.TagLookup<Block>> blockTags, ExistingFileHelper helper) {
             super(output, lookup, blockTags, Upfall.MODID, helper);
         }
+    //?}
 
         private static TagKey<Item> c(TagKey<Item> parent, String suffix) {
             return TagKey.create(Registries.ITEM, parent.location().withSuffix("/" + suffix));
@@ -165,6 +203,9 @@ public final class ModTagProviders {
             copy(BlockTags.LEAVES, ItemTags.LEAVES);
             copy(BlockTags.SAPLINGS, ItemTags.SAPLINGS);
             copy(BlockTags.SMALL_FLOWERS, ItemTags.SMALL_FLOWERS);
+            //? if >=26.1 {
+            /*copy(BlockTags.BEE_ATTRACTIVE, ItemTags.BEE_FOOD);
+            *///?}
             copy(BlockTags.STAIRS, ItemTags.STAIRS);
             copy(BlockTags.SLABS, ItemTags.SLABS);
             copy(BlockTags.WALLS, ItemTags.WALLS);
@@ -199,13 +240,25 @@ public final class ModTagProviders {
             tag(c(Tags.Items.RAW_MATERIALS, "nimbusite")).add(ModItems.RAW_NIMBUSITE.get());
             tag(Tags.Items.RAW_MATERIALS).addTag(c(Tags.Items.RAW_MATERIALS, "nimbusite"));
             tag(ItemTags.FOX_FOOD).add(ModItems.CLOUDBERRY.get());
+            //? if >=26.1 {
+            /*tag(ModTags.Items.REPAIRS_NIMBUSITE).add(ModItems.NIMBUSITE_INGOT.get());
+            tag(ModTags.Items.REPAIRS_LEVITITE).add(ModItems.LEVITITE_INGOT.get());
+            tag(ModTags.Items.REPAIRS_FOLD_ANCHOR).add(net.itsthesky.upfall.content.world.WorldItems.CLOUD_PEARL.get());
+            *///?}
             UpfallModules.forEachData(data -> data.itemTags(this));
         }
 
+        //? if >=26.1 {
+        /*@Override
+        public TagAppender<Item, Item> tag(TagKey<Item> tag) {
+            return super.tag(tag);
+        }
+        *///?} else {
         @Override
         public IntrinsicTagAppender<Item> tag(TagKey<Item> tag) {
             return super.tag(tag);
         }
+        //?}
 
         @Override
         public void copy(TagKey<Block> blockTag, TagKey<Item> itemTag) {
@@ -213,18 +266,11 @@ public final class ModTagProviders {
         }
     }
 
-    public static class Structures extends TagsProvider<Structure> {
-        public Structures(PackOutput output, CompletableFuture<HolderLookup.Provider> lookup, ExistingFileHelper helper) {
-            super(output, Registries.STRUCTURE, lookup, Upfall.MODID, helper);
-        }
-
-        @Override
-        protected void addTags(HolderLookup.Provider provider) {
-            tag(ModTags.Structures.ON_PEARL_AERIE_MAPS).add(AerieStructures.PEARL_AERIE);
-            tag(ModTags.Structures.ON_CHRONOSPIRE_MAPS).add(ChronospireData.STRUCTURE);
-            tag(ModTags.Structures.ON_SHIFTING_VAULT_MAPS).add(QuantumStructures.SHIFTING_VAULT);
-            tag(ModTags.Structures.ON_STALLED_ENGINE_MAPS).add(EngineStructures.STALLED_ENGINE);
-            tag(ModTags.Structures.ON_TILTED_RELIQUARY_MAPS).add(ReliquaryStructures.TILTED_RELIQUARY);
-        }
+    public static void structures(TagSink<Structure> tags) {
+        tags.tag(ModTags.Structures.ON_PEARL_AERIE_MAPS).add(AerieStructures.PEARL_AERIE);
+        tags.tag(ModTags.Structures.ON_CHRONOSPIRE_MAPS).add(ChronospireData.STRUCTURE);
+        tags.tag(ModTags.Structures.ON_SHIFTING_VAULT_MAPS).add(QuantumStructures.SHIFTING_VAULT);
+        tags.tag(ModTags.Structures.ON_STALLED_ENGINE_MAPS).add(EngineStructures.STALLED_ENGINE);
+        tags.tag(ModTags.Structures.ON_TILTED_RELIQUARY_MAPS).add(ReliquaryStructures.TILTED_RELIQUARY);
     }
 }

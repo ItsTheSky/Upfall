@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "upfall:kairite_dust",
+    "upfall:kairite_dust",
+    "upfall:kairite_dust",
+    "upfall:kairite_dust",
+    "upfall:kairite_dust",
+    "upfall:kairite_dust",
+    "upfall:kairite_dust",
+    "upfall:kairite_dust",
+    "upfall:kairite_dust"
+  ],
+  "result": {
+    "id": "upfall:kairite_gear"
+  }
+}

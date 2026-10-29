@@ -12,7 +12,9 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
+//? if <26.1 {
 import net.minecraft.util.random.SimpleWeightedRandomList;
+//?}
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -23,10 +25,12 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.minecraft.world.level.levelgen.placement.RandomOffsetPlacement;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -61,9 +65,14 @@ public final class RustworksFloraWorldgen {
         FeatureUtils.register(context, WIREVINE_CONFIGURED, WIREVINE.get(), NoneFeatureConfiguration.INSTANCE);
         BlockState tall = RustworksBlocks.TALL_RIVETGRASS.get().defaultBlockState();
         BlockState shortGrass = RustworksBlocks.RIVETGRASS.get().defaultBlockState();
+        //? if >=26.1 {
+        /*FeatureUtils.register(context, RIVETGRASS_CONFIGURED, Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(new WeightedStateProvider(net.minecraft.util.random.WeightedList.<BlockState>builder().add(shortGrass, 5).add(tall, 2).build())));
+        *///?} else {
         FeatureUtils.register(context, RIVETGRASS_CONFIGURED, Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
                 new SimpleBlockConfiguration(new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder().add(shortGrass, 5).add(tall, 2).build())),
                 List.of(), 40));
+        //?}
     }
 
     public static void placedFeatures(BootstrapContext<PlacedFeature> context) {
@@ -76,8 +85,14 @@ public final class RustworksFloraWorldgen {
                 RustworksBlocks.LEAKING_PIPE.get(), RustworksBlocks.RUSTSLATE_BRICKS.get());
         register(context, configured, MOSS_PLACED, MOSS_CONFIGURED,
                 CountPlacement.of(3), InSquarePlacement.spread(), SurfaceScanPlacement.floor(mossGround, MIN_Y, MAX_Y), BiomeFilter.biome());
+        //? if >=26.1 {
+        /*register(context, configured, RIVETGRASS_PLACED, RIVETGRASS_CONFIGURED,
+                CountPlacement.of(4), InSquarePlacement.spread(), SurfaceScanPlacement.floor(ground, MIN_Y, MAX_Y), BiomeFilter.biome(),
+                CountPlacement.of(40), RandomOffsetPlacement.ofTriangle(7, 3), BlockPredicateFilter.forPredicate(BlockPredicate.matchesBlocks(net.minecraft.world.level.block.Blocks.AIR)));
+        *///?} else {
         register(context, configured, RIVETGRASS_PLACED, RIVETGRASS_CONFIGURED,
                 CountPlacement.of(4), InSquarePlacement.spread(), SurfaceScanPlacement.floor(ground, MIN_Y, MAX_Y), BiomeFilter.biome());
+        //?}
         register(context, configured, BLOOM_PLACED, BLOOM_CONFIGURED,
                 CountPlacement.of(3), InSquarePlacement.spread(), SurfaceScanPlacement.floor(ground, MIN_Y, MAX_Y), BiomeFilter.biome());
         register(context, configured, WIREVINE_PLACED, WIREVINE_CONFIGURED,

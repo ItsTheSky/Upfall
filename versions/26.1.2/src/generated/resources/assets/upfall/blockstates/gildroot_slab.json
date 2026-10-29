@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "upfall:block/gildroot_slab"
+    },
+    "type=double": {
+      "model": "upfall:block/gildroot_planks"
+    },
+    "type=top": {
+      "model": "upfall:block/gildroot_slab_top"
+    }
+  }
+}

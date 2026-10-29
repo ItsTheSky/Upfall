@@ -28,7 +28,7 @@ public class FadingCloudBlock extends DenseCloudBlock {
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         if (!oldState.is(this)) {
-            level.scheduleTick(pos, this, LIFETIME + level.random.nextInt(60));
+            level.scheduleTick(pos, this, LIFETIME + level.getRandom().nextInt(60));
         }
     }
 
@@ -48,8 +48,15 @@ public class FadingCloudBlock extends DenseCloudBlock {
         return 1.0F;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
+    }
+    *///?} else {
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
+    //?}
 }

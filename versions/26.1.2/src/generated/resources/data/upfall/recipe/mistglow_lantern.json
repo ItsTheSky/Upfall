@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": "upfall:mistglow_dust",
+    "G": "minecraft:gold_nugget",
+    "N": "upfall:nimbusite_ingot"
+  },
+  "pattern": [
+    "GNG",
+    "DDD",
+    "GNG"
+  ],
+  "result": {
+    "id": "upfall:mistglow_lantern"
+  }
+}

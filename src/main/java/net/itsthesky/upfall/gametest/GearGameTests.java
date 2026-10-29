@@ -1,16 +1,17 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.content.gravity.SetBonusTooltips;
 import net.itsthesky.upfall.gameplay.ArmorSetBonuses;
+import net.itsthesky.upfall.gametest.framework.GameTestCompat;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModItems;
-import net.minecraft.gametest.framework.GameTest;
-import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,26 +21,26 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.level.GameType;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class GearGameTests {
     private GearGameTests() {}
 
     private static ItemStack smith(GameTestHelper helper, Item template, Item base, Item addition) {
         var level = helper.getLevel();
         var input = new SmithingRecipeInput(new ItemStack(template), new ItemStack(base), new ItemStack(addition));
-        return level.getRecipeManager().getRecipeFor(RecipeType.SMITHING, input, level)
+        return McLevel.serverRecipes(level).getRecipeFor(RecipeType.SMITHING, input, level)
+                //? if >=26.1 {
+                /*.map(holder -> holder.value().assemble(input))
+                *///?} else {
                 .map(holder -> holder.value().assemble(input, level.registryAccess()))
+                //?}
                 .orElse(ItemStack.EMPTY);
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void smithingUpgradeChain(GameTestHelper helper) {
         ItemStack nimbusite = smith(helper, ModItems.NIMBUSITE_UPGRADE_SMITHING_TEMPLATE.get(), Items.NETHERITE_SWORD, ModItems.NIMBUSITE_INGOT.get());
         helper.assertTrue(nimbusite.is(ModItems.NIMBUSITE_SWORD.get()), "Netherite sword did not upgrade to Nimbusite: " + nimbusite);
@@ -50,17 +51,25 @@ public final class GearGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    private static double armorValue(Item helmet) {
+        double[] total = {0.0};
+        helmet.getDefaultInstance().forEachModifier(EquipmentSlot.HEAD, (attribute, modifier) -> {
+            if (attribute.is(Attributes.ARMOR.unwrapKey().orElseThrow())) total[0] += modifier.amount();
+        });
+        return total[0];
+    }
+
+    @UpfallGameTest(template = "empty")
     public static void tierStatsBeatNetherite(GameTestHelper helper) {
         helper.assertTrue(ModItems.NIMBUSITE_SWORD.get().getDefaultInstance().getMaxDamage() > Items.NETHERITE_SWORD.getDefaultInstance().getMaxDamage(),
                 "Nimbusite durability must exceed netherite");
         helper.assertTrue(ModItems.LEVITITE_SWORD.get().getDefaultInstance().getMaxDamage() > ModItems.NIMBUSITE_SWORD.get().getDefaultInstance().getMaxDamage(),
                 "Levitite durability must exceed nimbusite");
-        helper.assertTrue(ModItems.LEVITITE_HELMET.get().getDefense() > ((net.minecraft.world.item.ArmorItem) Items.NETHERITE_HELMET).getDefense(), "Levitite helmet must beat netherite");
+        helper.assertTrue(armorValue(ModItems.LEVITITE_HELMET.get()) > armorValue(Items.NETHERITE_HELMET), "Levitite helmet must beat netherite");
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void miningTiers(GameTestHelper helper) {
         var nimbusiteOre = net.itsthesky.upfall.registry.ModBlocks.NIMBUSITE_ORE.get().defaultBlockState();
         var levititeOre = net.itsthesky.upfall.registry.ModBlocks.LEVITITE_ORE.get().defaultBlockState();
@@ -84,7 +93,7 @@ public final class GearGameTests {
         return player;
     }
 
-    @GameTest(template = "empty", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty", timeoutTicks = 200)
     public static void fallDamageSetBonuses(GameTestHelper helper) {
         ServerPlayer plain = playerWith(helper, Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS);
         ServerPlayer nimbusite = playerWith(helper, ModItems.NIMBUSITE_HELMET.get(), ModItems.NIMBUSITE_CHESTPLATE.get(),
@@ -99,7 +108,7 @@ public final class GearGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void doubleJumpMotion(GameTestHelper helper) {
         Vec3 standing = ArmorSetBonuses.doubleJumpMotion(Vec3.ZERO, 0.0F, 0.0F, false);
         helper.assertTrue(standing.y == ArmorSetBonuses.DOUBLE_JUMP_VELOCITY && standing.horizontalDistance() == 0.0,
@@ -117,25 +126,25 @@ public final class GearGameTests {
         return component.getSiblings().stream().anyMatch(sibling -> mentions(sibling, key));
     }
 
-    private static Component line(List<Component> tooltip, String key) {
+    private static Component line(GameTestHelper helper, List<Component> tooltip, String key) {
         return tooltip.stream().filter(line -> mentions(line, key)).findFirst()
-                .orElseThrow(() -> new GameTestAssertException("Missing tooltip line " + key + " in " + tooltip));
+                .orElseThrow(() -> GameTestCompat.failure(helper, "Missing tooltip line " + key + " in " + tooltip));
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void setBonusTooltips(GameTestHelper helper) {
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         player.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ModItems.LEVITITE_HELMET.get()));
         player.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ModItems.LEVITITE_CHESTPLATE.get()));
         var context = Item.TooltipContext.of(helper.getLevel());
         List<Component> levitite = new ItemStack(ModItems.LEVITITE_BOOTS.get()).getTooltipLines(context, player, TooltipFlag.NORMAL);
-        Component header = line(levitite, SetBonusTooltips.HEADER_WORN);
+        Component header = line(helper, levitite, SetBonusTooltips.HEADER_WORN);
         Object[] args = ((TranslatableContents) header.getContents()).getArgs();
         helper.assertTrue(args.length == 2 && args[0] instanceof Component worn && worn.getString().equals("2") && Integer.valueOf(4).equals(args[1]),
                 "The header should count 2 of 4 Levitite pieces: " + Arrays.toString(args));
-        line(levitite, SetBonusTooltips.LEVITITE_NO_FALL_DAMAGE);
-        line(levitite, SetBonusTooltips.LEVITITE_DOUBLE_JUMP);
-        line(levitite, SetBonusTooltips.LEVITITE_GLIDE);
+        line(helper, levitite, SetBonusTooltips.LEVITITE_NO_FALL_DAMAGE);
+        line(helper, levitite, SetBonusTooltips.LEVITITE_DOUBLE_JUMP);
+        line(helper, levitite, SetBonusTooltips.LEVITITE_GLIDE);
         int headerIndex = levitite.indexOf(header);
         int modifiers = 0;
         for (int i = 0; i < levitite.size(); i++) {
@@ -144,9 +153,9 @@ public final class GearGameTests {
         helper.assertTrue(headerIndex > 0 && headerIndex < modifiers, "The set bonus sits before the attribute modifiers: " + levitite);
 
         List<Component> nimbusite = new ItemStack(ModItems.NIMBUSITE_LEGGINGS.get()).getTooltipLines(context, player, TooltipFlag.NORMAL);
-        line(nimbusite, SetBonusTooltips.NIMBUSITE_FALL_DAMAGE);
+        line(helper, nimbusite, SetBonusTooltips.NIMBUSITE_FALL_DAMAGE);
         List<Component> anonymous = new ItemStack(ModItems.NIMBUSITE_LEGGINGS.get()).getTooltipLines(context, null, TooltipFlag.NORMAL);
-        line(anonymous, SetBonusTooltips.HEADER);
+        line(helper, anonymous, SetBonusTooltips.HEADER);
         List<Component> sword = new ItemStack(ModItems.LEVITITE_SWORD.get()).getTooltipLines(context, player, TooltipFlag.NORMAL);
         helper.assertFalse(sword.stream().anyMatch(l -> mentions(l, SetBonusTooltips.HEADER_WORN)), "Only armor pieces describe the set bonus");
         helper.succeed();

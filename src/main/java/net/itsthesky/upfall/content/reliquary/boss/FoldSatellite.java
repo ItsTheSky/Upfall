@@ -1,5 +1,9 @@
 package net.itsthesky.upfall.content.reliquary.boss;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.McEntities;
+import net.itsthesky.upfall.compat.mc.UpfallFlyingMob;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.itsthesky.upfall.content.reliquary.ReliquarySounds;
 import net.minecraft.core.BlockPos;
@@ -13,7 +17,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -24,7 +27,7 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class FoldSatellite extends FlyingMob implements Enemy {
+public class FoldSatellite extends UpfallFlyingMob implements Enemy {
     public enum Mode { ORBIT, MARK, DIVE, RISE }
 
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(FoldSatellite.class, EntityDataSerializers.INT);
@@ -50,7 +53,7 @@ public class FoldSatellite extends FlyingMob implements Enemy {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return FlyingMob.createMobAttributes()
+        return UpfallFlyingMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 16.0)
                 .add(Attributes.ARMOR, 4.0)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
@@ -97,9 +100,15 @@ public class FoldSatellite extends FlyingMob implements Enemy {
         this.noPhysics = false;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void customServerAiStep(ServerLevel level) {
+        super.customServerAiStep(level);
+    *///?} else {
     @Override
     protected void customServerAiStep() {
         super.customServerAiStep();
+    //?}
         FoldWarden owner = owner();
         if (owner == null) {
             if (++orphanTicks > 100) discard();
@@ -164,7 +173,7 @@ public class FoldSatellite extends FlyingMob implements Enemy {
         DamageSource source = damageSources().mobAttack(owner);
         for (LivingEntity victim : server.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(SLAM_RADIUS, 1.5, SLAM_RADIUS),
                 e -> !(e instanceof FoldSatellite) && !(e instanceof FoldWarden) && e.isAlive())) {
-            if (victim.hurt(source, SLAM_DAMAGE)) {
+            if (McEntities.hurt(victim, source, SLAM_DAMAGE)) {
                 Vec3 push = victim.position().subtract(position()).multiply(1, 0, 1);
                 if (push.lengthSqr() > 1.0E-4) victim.knockback(0.8, -push.x, -push.z);
             }
@@ -178,19 +187,41 @@ public class FoldSatellite extends FlyingMob implements Enemy {
         return entity instanceof FoldWarden warden && warden.isAlive() ? warden : null;
     }
 
+    private void save(DataOut out) {
+        if (ownerId != null) out.putUUID("Owner", ownerId);
+        out.putInt("Index", index);
+    }
+
+    private void load(DataIn in) {
+        in.getUUID("Owner").ifPresent(id -> ownerId = id);
+        index = in.getIntOr("Index", 0);
+    }
+
+    //? if >=26.1 {
+    /*@Override
+    protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        save(DataOut.of(output));
+    }
+
+    @Override
+    protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+        super.readAdditionalSaveData(input);
+        load(DataIn.of(input));
+    }
+    *///?} else {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        if (ownerId != null) tag.putUUID("Owner", ownerId);
-        tag.putInt("Index", index);
+        save(DataOut.of(tag, level().registryAccess()));
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        if (tag.hasUUID("Owner")) ownerId = tag.getUUID("Owner");
-        index = tag.getInt("Index");
+        load(DataIn.of(tag, level().registryAccess()));
     }
+    //?}
 
     @Override
     public boolean removeWhenFarAway(double distance) {
@@ -198,7 +229,11 @@ public class FoldSatellite extends FlyingMob implements Enemy {
     }
 
     @Override
+    //? if >=26.1 {
+    /*public boolean causeFallDamage(double distance, float multiplier, DamageSource source) {
+    *///?} else {
     public boolean causeFallDamage(float distance, float multiplier, DamageSource source) {
+    //?}
         return false;
     }
 

@@ -1,5 +1,8 @@
 package net.itsthesky.upfall.content.hamlet.entity;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.McEntities;
 import net.itsthesky.upfall.content.hamlet.HamletEntities;
 import net.itsthesky.upfall.content.hamlet.HamletSounds;
 import net.itsthesky.upfall.content.hamlet.block.RopeAnchorBlockEntity;
@@ -138,7 +141,11 @@ public class ZiplinePulley extends Entity {
             return Result.BLOCKED;
         }
         level.addFreshEntity(pulley);
+        //? if >=26.1 {
+        /*if (!rider.startRiding(pulley, true, true)) {
+        *///?} else {
         if (!rider.startRiding(pulley, true)) {
+        //?}
             pulley.discard();
             return Result.BUSY;
         }
@@ -218,7 +225,7 @@ public class ZiplinePulley extends Entity {
             updateLine();
         }
         Entity rider = getFirstPassenger();
-        boolean server = !level().isClientSide;
+        boolean server = !level().isClientSide();
         if (server && (rider == null || !anchorsIntact())) {
             if (rider != null) {
                 letGo(rider, null);
@@ -267,7 +274,7 @@ public class ZiplinePulley extends Entity {
         this.landing = landing;
         rider.stopRiding();
         if (landing != null && !(rider instanceof LivingEntity)) {
-            rider.moveTo(landing.x, landing.y, landing.z, rider.getYRot(), rider.getXRot());
+            McEntities.snapTo(rider, landing.x, landing.y, landing.z, rider.getYRot(), rider.getXRot());
         }
         if (rider instanceof ServerPlayer player) {
             player.connection.teleport(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
@@ -344,7 +351,7 @@ public class ZiplinePulley extends Entity {
         super.onSyncedDataUpdated(key);
         if (DATA_FROM.equals(key) || DATA_TO.equals(key)) {
             lineReady = false;
-        } else if (level().isClientSide && DATA_PROGRESS.equals(key)) {
+        } else if (level().isClientSide() && DATA_PROGRESS.equals(key)) {
             double serverProgress = entityData.get(DATA_PROGRESS);
             if (!synced || Math.abs(serverProgress - progress) > 0.8) {
                 progress = serverProgress;
@@ -354,26 +361,67 @@ public class ZiplinePulley extends Entity {
         }
     }
 
+    // 26.1.2 has no lerpTo: the no-op handler keeps the client pulley driven by its own simulation, as the empty lerpTo did.
+    // TODO: check in game that server position packets do not make the client pulley jitter.
+    //? if >=26.1 {
+    /*private final net.minecraft.world.entity.InterpolationHandler noInterpolation = new net.minecraft.world.entity.InterpolationHandler(this) {
+        @Override
+        public void interpolateTo(Vec3 position, float yRot, float xRot) {
+        }
+    };
+
+    @Override
+    public net.minecraft.world.entity.InterpolationHandler getInterpolation() {
+        return noInterpolation;
+    }
+
+    @Override
+    public boolean hurtServer(net.minecraft.server.level.ServerLevel level, net.minecraft.world.damagesource.DamageSource source, float damage) {
+        if (!isInvulnerableToBase(source)) {
+            markHurt();
+        }
+        return false;
+    }
+
+    @Override
+    protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+        load(DataIn.of(input));
+    }
+
+    @Override
+    protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+        save(DataOut.of(output));
+    }
+    *///?} else {
     @Override
     public void lerpTo(double x, double y, double z, float yRot, float xRot, int steps) {
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        entityData.set(DATA_FROM, BlockPos.of(tag.getLong("From")));
-        entityData.set(DATA_TO, BlockPos.of(tag.getLong("To")));
-        updateLine();
-        progress = tag.getDouble("Progress");
-        speed = Math.max(MIN_SPEED, tag.getDouble("Speed"));
-        entityData.set(DATA_PROGRESS, (float) progress);
+        load(DataIn.of(tag, registryAccess()));
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.putLong("From", entityData.get(DATA_FROM).asLong());
-        tag.putLong("To", entityData.get(DATA_TO).asLong());
-        tag.putDouble("Progress", progress);
-        tag.putDouble("Speed", speed);
+        save(DataOut.of(tag, registryAccess()));
+    }
+    //?}
+
+    private void load(DataIn in) {
+        entityData.set(DATA_FROM, BlockPos.of(in.getLongOr("From", 0L)));
+        entityData.set(DATA_TO, BlockPos.of(in.getLongOr("To", 0L)));
+        updateLine();
+        progress = in.getDoubleOr("Progress", 0.0);
+        speed = Math.max(MIN_SPEED, in.getDoubleOr("Speed", 0.0));
+        entityData.set(DATA_PROGRESS, (float) progress);
+    }
+
+    private void save(DataOut out) {
+        out.putLong("From", entityData.get(DATA_FROM).asLong());
+        out.putLong("To", entityData.get(DATA_TO).asLong());
+        out.putDouble("Progress", progress);
+        out.putDouble("Speed", speed);
     }
 
     @Override

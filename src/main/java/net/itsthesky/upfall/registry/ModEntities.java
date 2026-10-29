@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.registry;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.entity.Skyray;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
@@ -18,7 +19,7 @@ public final class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(Registries.ENTITY_TYPE, Upfall.MODID);
 
     public static final DeferredHolder<EntityType<?>, EntityType<Skyray>> SKYRAY = ENTITY_TYPES.register("skyray",
-            () -> EntityType.Builder.of(Skyray::new, MobCategory.AMBIENT).sized(1.6F, 0.4F).clientTrackingRange(10).build("upfall:skyray"));
+            () -> McRegistration.entityType(EntityType.Builder.of(Skyray::new, MobCategory.AMBIENT).sized(1.6F, 0.4F).clientTrackingRange(10), "skyray"));
 
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(SKYRAY.get(), Skyray.createAttributes().build());

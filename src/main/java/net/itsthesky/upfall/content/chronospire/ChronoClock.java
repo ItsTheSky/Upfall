@@ -1,7 +1,7 @@
 package net.itsthesky.upfall.content.chronospire;
 
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 
 public final class ChronoClock {
@@ -13,7 +13,7 @@ public final class ChronoClock {
 
     public static long time(Level level) {
         Level source = level instanceof ServerLevel server ? server.getServer().overworld() : level;
-        return source.getGameRules().getBoolean(GameRules.RULE_DAYLIGHT) ? source.getDayTime() : source.getGameTime();
+        return McLevel.daylightCycle(source) ? McLevel.dayTime(source) : source.getGameTime();
     }
 
     public static ChronoPhase phaseAt(long time) {

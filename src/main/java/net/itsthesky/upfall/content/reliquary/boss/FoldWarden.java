@@ -1,5 +1,9 @@
 package net.itsthesky.upfall.content.reliquary.boss;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.McEntities;
+import net.itsthesky.upfall.compat.mc.UpfallFlyingMob;
 import net.itsthesky.upfall.content.mobs.entity.AirSteering;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.itsthesky.upfall.content.reliquary.ReliquaryBlocks;
@@ -9,7 +13,6 @@ import net.itsthesky.upfall.content.reliquary.block.FoldSocketBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -27,7 +30,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -45,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class FoldWarden extends FlyingMob implements Enemy {
+public class FoldWarden extends UpfallFlyingMob implements Enemy {
     public enum Phase { AWAKEN, CUBE, UNFOLD, WYRM }
 
     public enum Attack { NONE, TILT, WEIGHT, COIL, SHED, DIVE, BREATH }
@@ -76,8 +78,13 @@ public class FoldWarden extends FlyingMob implements Enemy {
     private static final float WEIGHT_DAMAGE = 4.4F;
     private static final EntityDimensions WYRM_DIMENSIONS = EntityDimensions.scalable(2.0F, 1.7F);
 
+    //? if >=26.1 {
+    /*private final ServerBossEvent bossEvent = (ServerBossEvent) new ServerBossEvent(Mth.createInsecureUUID(random), getDisplayName(),
+            BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.NOTCHED_10).setDarkenScreen(true);
+    *///?} else {
     private final ServerBossEvent bossEvent = (ServerBossEvent) new ServerBossEvent(getDisplayName(),
             BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.NOTCHED_10).setDarkenScreen(true);
+    //?}
     private final FoldWardenSegment[] segments = new FoldWardenSegment[SEGMENTS];
     private final FoldWyrmBrain wyrm = new FoldWyrmBrain(this);
     private final List<UUID> lifted = new ArrayList<>();
@@ -102,7 +109,7 @@ public class FoldWarden extends FlyingMob implements Enemy {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return FlyingMob.createMobAttributes()
+        return UpfallFlyingMob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 400.0)
                 .add(Attributes.ARMOR, 10.0)
                 .add(Attributes.ATTACK_DAMAGE, 11.0)
@@ -130,9 +137,9 @@ public class FoldWarden extends FlyingMob implements Enemy {
         BlockPos center = BlockPos.containing(x / sockets.size(), y / sockets.size(), z / sockets.size());
         AABB around = new AABB(center).inflate(ARENA_RADIUS * 2);
         if (!level.getEntitiesOfClass(FoldWarden.class, around, w -> w.home != null && w.home.closerThan(center, 4.0)).isEmpty()) return;
-        FoldWarden warden = ReliquaryEntities.FOLD_WARDEN.get().create(level);
+        FoldWarden warden = ReliquaryEntities.create(ReliquaryEntities.FOLD_WARDEN.get(), level);
         if (warden == null) return;
-        warden.moveTo(center.getX() + 0.5, center.getY() + 1, center.getZ() + 0.5, 0.0F, 0.0F);
+        McEntities.snapTo(warden, center.getX() + 0.5, center.getY() + 1, center.getZ() + 0.5, 0.0F, 0.0F);
         warden.home = center;
         level.addFreshEntity(warden);
     }
@@ -247,7 +254,7 @@ public class FoldWarden extends FlyingMob implements Enemy {
         super.tick();
         this.noPhysics = false;
         updateSegments();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             shutterO = shutter;
             float open = phase() == Phase.UNFOLD || phase() == Phase.CUBE && !isShielded() ? 1.0F : 0.0F;
             shutter = Mth.approach(shutter, open, 0.06F);
@@ -285,9 +292,15 @@ public class FoldWarden extends FlyingMob implements Enemy {
         }
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void customServerAiStep(ServerLevel level) {
+        super.customServerAiStep(level);
+    *///?} else {
     @Override
     protected void customServerAiStep() {
         super.customServerAiStep();
+    //?}
         if (home == null) home = blockPosition();
         entityData.set(PHASE_TICKS, phaseTicks() + 1);
         switch (phase()) {
@@ -411,10 +424,10 @@ public class FoldWarden extends FlyingMob implements Enemy {
     private void spawnSatellites() {
         if (!(level() instanceof ServerLevel server)) return;
         for (int i = 0; i < SATELLITES; i++) {
-            FoldSatellite satellite = ReliquaryEntities.FOLD_SATELLITE.get().create(server);
+            FoldSatellite satellite = ReliquaryEntities.create(ReliquaryEntities.FOLD_SATELLITE.get(), server);
             if (satellite == null) continue;
             double angle = i * Math.PI / 2.0;
-            satellite.moveTo(getX() + Math.cos(angle) * 1.5, getY(0.5), getZ() + Math.sin(angle) * 1.5, 0.0F, 0.0F);
+            McEntities.snapTo(satellite, getX() + Math.cos(angle) * 1.5, getY(0.5), getZ() + Math.sin(angle) * 1.5, 0.0F, 0.0F);
             satellite.bind(this, i);
             server.addFreshEntity(satellite);
         }
@@ -434,7 +447,7 @@ public class FoldWarden extends FlyingMob implements Enemy {
         if (tickCount % 10 != 0) return;
         DamageSource source = damageSources().mobAttack(this);
         for (Player player : level().getEntitiesOfClass(Player.class, getBoundingBox().inflate(0.3), this::fightable)) {
-            if (player.hurt(source, CONTACT_DAMAGE)) {
+            if (McEntities.hurt(player, source, CONTACT_DAMAGE)) {
                 player.knockback(1.2, getX() - player.getX(), getZ() - player.getZ());
             }
         }
@@ -586,20 +599,35 @@ public class FoldWarden extends FlyingMob implements Enemy {
     }
 
     boolean hurtFromSegment(DamageSource source, float amount) {
+        //? if >=26.1 {
+        /*return level() instanceof ServerLevel server && hurtServer(server, source, amount * 0.5F);
+        *///?} else {
         return hurt(source, amount * 0.5F);
+        //?}
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public boolean isInvulnerableTo(ServerLevel level, DamageSource source) {
+        if (super.isInvulnerableTo(level, source)) return true;
+    *///?} else {
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
         if (super.isInvulnerableTo(source)) return true;
+    //?}
         if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) return false;
         Phase phase = phase();
         return phase == Phase.AWAKEN || phase == Phase.UNFOLD || phase == Phase.CUBE && isShielded();
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+    *///?} else {
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!level().isClientSide && phase() == Phase.CUBE && isShielded() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)
+    //?}
+        if (!level().isClientSide() && phase() == Phase.CUBE && isShielded() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)
                 && source.getEntity() instanceof Player) {
             playSound(ReliquarySounds.WARDEN_SHIELD_HIT.get(), 2.0F, 1.0F);
             if (level() instanceof ServerLevel server) {
@@ -608,7 +636,11 @@ public class FoldWarden extends FlyingMob implements Enemy {
                         Mth.lerp(0.5, at.z, getZ()), 8, 0.3, 0.3, 0.3, 0.05);
             }
         }
+        //? if >=26.1 {
+        /*return super.hurtServer(level, source, amount);
+        *///?} else {
         return super.hurt(source, amount);
+        //?}
     }
 
     @Override
@@ -619,11 +651,19 @@ public class FoldWarden extends FlyingMob implements Enemy {
         super.setHealth(health);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void kill(ServerLevel level) {
+        killing = true;
+        super.kill(level);
+    }
+    *///?} else {
     @Override
     public void kill() {
         killing = true;
         super.kill();
     }
+    //?}
 
     @Override
     public void die(DamageSource source) {
@@ -700,22 +740,18 @@ public class FoldWarden extends FlyingMob implements Enemy {
         bossEvent.setName(getDisplayName());
     }
 
-    @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        if (home != null) tag.put("Home", NbtUtils.writeBlockPos(home));
-        tag.putInt("Phase", entityData.get(PHASE));
-        tag.putInt("PhaseTicks", phaseTicks());
-        tag.putInt("SatelliteRespawn", satelliteRespawn);
+    private void save(DataOut out) {
+        if (home != null) out.putBlockPos("Home", home);
+        out.putInt("Phase", entityData.get(PHASE));
+        out.putInt("PhaseTicks", phaseTicks());
+        out.putInt("SatelliteRespawn", satelliteRespawn);
     }
 
-    @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        NbtUtils.readBlockPos(tag, "Home").ifPresent(pos -> home = pos);
-        entityData.set(PHASE, tag.getInt("Phase"));
-        entityData.set(PHASE_TICKS, tag.getInt("PhaseTicks"));
-        satelliteRespawn = tag.getInt("SatelliteRespawn");
+    private void load(DataIn in) {
+        in.getBlockPos("Home").ifPresent(pos -> home = pos);
+        entityData.set(PHASE, in.getIntOr("Phase", 0));
+        entityData.set(PHASE_TICKS, in.getIntOr("PhaseTicks", 0));
+        satelliteRespawn = in.getIntOr("SatelliteRespawn", 0);
         if (phase() == Phase.UNFOLD || phase() == Phase.WYRM) {
             entityData.set(SHIELDED, false);
             bossEvent.setColor(BossEvent.BossBarColor.BLUE);
@@ -723,13 +759,43 @@ public class FoldWarden extends FlyingMob implements Enemy {
         if (hasCustomName()) bossEvent.setName(getDisplayName());
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        save(DataOut.of(output));
+    }
+
+    @Override
+    protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+        super.readAdditionalSaveData(input);
+        load(DataIn.of(input));
+    }
+    *///?} else {
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        save(DataOut.of(tag, level().registryAccess()));
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        load(DataIn.of(tag, level().registryAccess()));
+    }
+    //?}
+
     @Override
     public boolean removeWhenFarAway(double distance) {
         return false;
     }
 
     @Override
+    //? if >=26.1 {
+    /*public boolean causeFallDamage(double distance, float multiplier, DamageSource source) {
+    *///?} else {
     public boolean causeFallDamage(float distance, float multiplier, DamageSource source) {
+    //?}
         return false;
     }
 
@@ -753,8 +819,14 @@ public class FoldWarden extends FlyingMob implements Enemy {
         return true;
     }
 
+    //? if <26.1 {
     @Override
     public AABB getBoundingBoxForCulling() {
+        return cullingBox();
+    }
+    //?}
+
+    public AABB cullingBox() {
         AABB box = getBoundingBox().inflate(3.0);
         if (phase() == Phase.UNFOLD || phase() == Phase.WYRM) {
             for (FoldWardenSegment segment : segments) {

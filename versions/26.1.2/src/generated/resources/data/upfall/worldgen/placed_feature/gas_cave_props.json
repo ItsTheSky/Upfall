@@ -1,0 +1,8 @@
+{
+  "feature": "upfall:gas_cave_props",
+  "placement": [
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

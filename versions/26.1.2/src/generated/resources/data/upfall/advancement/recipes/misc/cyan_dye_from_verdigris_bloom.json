@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:cyan_dye_from_verdigris_bloom"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_verdigris_bloom": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:verdigris_bloom"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_verdigris_bloom"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:cyan_dye_from_verdigris_bloom"
+    ]
+  }
+}

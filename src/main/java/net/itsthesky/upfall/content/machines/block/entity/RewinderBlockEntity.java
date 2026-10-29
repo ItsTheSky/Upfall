@@ -1,7 +1,11 @@
 package net.itsthesky.upfall.content.machines.block.entity;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.UpfallBlockEntity;
 import net.itsthesky.upfall.content.machines.KairiteFuel;
 import net.itsthesky.upfall.content.machines.MachineBlockEntities;
+import net.itsthesky.upfall.content.rustworks.RustworksItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,13 +16,13 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Containers;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class RewinderBlockEntity extends BlockEntity {
+public class RewinderBlockEntity extends UpfallBlockEntity {
     public static final int REPAIR_INTERVAL = 40;
     public static final int FUEL_CAPACITY = 1000;
     public static final int POINTS_PER_UNIT = 11;
@@ -119,20 +123,35 @@ public class RewinderBlockEntity extends BlockEntity {
         }
     }
 
-    @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        if (!stack.isEmpty()) {
-            tag.put("Item", stack.save(registries));
+    public void dropContents() {
+        if (level == null) return;
+        Containers.dropItemStack(level, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, stack);
+        int dust = fuel / (KairiteFuel.DUST_UNITS * POINTS_PER_UNIT);
+        if (dust > 0) {
+            Containers.dropItemStack(level, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, new ItemStack(RustworksItems.KAIRITE_DUST.get(), dust));
         }
-        tag.putInt("Fuel", fuel);
+    }
+
+    //? if >=26.1 {
+    /*@Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        dropContents();
+    }
+    *///?}
+
+    @Override
+    protected void saveData(DataOut out) {
+        if (!stack.isEmpty()) {
+            out.putItem("Item", stack);
+        }
+        out.putInt("Fuel", fuel);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        stack = tag.contains("Item") ? ItemStack.parse(registries, tag.getCompound("Item")).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
-        fuel = tag.getInt("Fuel");
+    protected void loadData(DataIn in) {
+        stack = in.getItem("Item");
+        fuel = in.getIntOr("Fuel", 0);
     }
 
     @Override

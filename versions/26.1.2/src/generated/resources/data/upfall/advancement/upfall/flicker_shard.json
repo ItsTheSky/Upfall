@@ -1,0 +1,32 @@
+{
+  "parent": "upfall:upfall/gas_cave",
+  "criteria": {
+    "flicker_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:flicker_shard"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.flicker_shard.description"
+    },
+    "icon": {
+      "id": "upfall:flicker_shard"
+    },
+    "title": {
+      "translate": "advancements.upfall.flicker_shard.title"
+    }
+  },
+  "requirements": [
+    [
+      "flicker_shard"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

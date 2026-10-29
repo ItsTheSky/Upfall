@@ -1,8 +1,6 @@
 package net.itsthesky.upfall.content.mobs.client;
 
 import net.itsthesky.upfall.Upfall;
-import net.itsthesky.upfall.content.mobs.entity.Duskwing;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -11,11 +9,23 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
+//? if >=26.1 {
+/*import net.minecraft.client.model.EntityModel;
+*///?} else {
+import net.itsthesky.upfall.content.mobs.entity.Duskwing;
+import net.minecraft.client.model.HierarchicalModel;
+//?}
 
+//? if >=26.1 {
+/*public class DuskwingModel extends EntityModel<DuskwingRenderState> {
+*///?} else {
 public class DuskwingModel extends HierarchicalModel<Duskwing> {
+//?}
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(Upfall.id("duskwing"), "main");
 
+    //? if <26.1 {
     private final ModelPart root;
+    //?}
     private final ModelPart body;
     private final ModelPart head;
     private final ModelPart crest;
@@ -28,7 +38,11 @@ public class DuskwingModel extends HierarchicalModel<Duskwing> {
     private final ModelPart rightLeg;
 
     public DuskwingModel(ModelPart root) {
+        //? if >=26.1 {
+        /*super(root);
+        *///?} else {
         this.root = root;
+        //?}
         this.body = root.getChild("body");
         this.head = body.getChild("head");
         this.crest = head.getChild("crest");
@@ -80,6 +94,13 @@ public class DuskwingModel extends HierarchicalModel<Duskwing> {
         return LayerDefinition.create(mesh, 64, 64);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void setupAnim(DuskwingRenderState state) {
+        super.setupAnim(state);
+        pose(state.ageInTicks, state.yRot, state.xRot, state.entityId, state.diving, state.rise);
+    }
+    *///?} else {
     @Override
     public ModelPart root() {
         return root;
@@ -87,11 +108,14 @@ public class DuskwingModel extends HierarchicalModel<Duskwing> {
 
     @Override
     public void setupAnim(Duskwing entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        boolean diving = entity.isDiving();
-        float phase = ageInTicks * 0.5F + entity.getId() * 1.7F;
+        pose(ageInTicks, netHeadYaw, headPitch, entity.getId(), entity.isDiving(), (float) entity.getDeltaMovement().y);
+    }
+    //?}
+
+    private void pose(float ageInTicks, float netHeadYaw, float headPitch, int entityId, boolean diving, float rise) {
+        float phase = ageInTicks * 0.5F + entityId * 1.7F;
         float flap = diving ? 0.15F : Mth.sin(phase) * 0.6F;
         float sweep = diving ? 1.1F : 0.0F;
-        float rise = (float) entity.getDeltaMovement().y;
         body.xRot = diving ? 0.8F : Mth.clamp(-rise * 1.2F, -0.4F, 0.4F) + 0.05F;
         body.y = 18.0F + (diving ? 0.0F : Mth.sin(phase) * 0.8F);
 

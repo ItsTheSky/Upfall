@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "upfall:block/skyreach_pressure_plate"
+    },
+    "powered=true": {
+      "model": "upfall:block/skyreach_pressure_plate_down"
+    }
+  }
+}

@@ -1,10 +1,12 @@
 package net.itsthesky.upfall.content.hamlet.entity;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.content.hamlet.HamletSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -37,6 +39,7 @@ import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
@@ -56,6 +59,7 @@ public class Loftkin extends AbstractVillager {
     private int lostTicks;
     private int greetCooldown = 100;
     private long lastRestock;
+    private boolean deferTrades;
 
     public Loftkin(EntityType<? extends Loftkin> type, Level level) {
         super(type, level);
@@ -135,15 +139,22 @@ public class Loftkin extends AbstractVillager {
         return 1;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public boolean causeFallDamage(double fallDistance, float multiplier, DamageSource source) {
+        return false;
+    }
+    *///?} else {
     @Override
     public boolean causeFallDamage(float fallDistance, float multiplier, DamageSource source) {
         return false;
     }
+    //?}
 
     @Override
     public void aiStep() {
         super.aiStep();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (greetCooldown > 0) {
@@ -221,7 +232,7 @@ public class Loftkin extends AbstractVillager {
         if (hand == InteractionHand.MAIN_HAND) {
             player.awardStat(Stats.TALKED_TO_VILLAGER);
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (getOffers().isEmpty()) {
                 setUnhappyCounter(40);
                 playSound(HamletSounds.LOFTKIN_NO.get(), getSoundVolume(), getVoicePitch());
@@ -230,13 +241,33 @@ public class Loftkin extends AbstractVillager {
             setTradingPlayer(player);
             openTradingScreen(player, getDisplayName(), 1);
         }
-        return InteractionResult.sidedSuccess(level().isClientSide);
+        return UseResults.sided(level());
     }
 
+    public void deferTradesUntilLoaded() {
+        deferTrades = true;
+    }
+
+    // Worldgen saves the entity into its proto chunk, and the map trades search for structures, which would wait on the chunk being generated.
+    @Override
+    public MerchantOffers getOffers() {
+        if (offers == null && deferTrades) {
+            return new MerchantOffers();
+        }
+        return super.getOffers();
+    }
+
+    //? if >=26.1 {
+    /*@Override
+    protected void updateTrades(ServerLevel level) {
+        LoftkinTrades.fill(this, getOffers(), random);
+    }
+    *///?} else {
     @Override
     protected void updateTrades() {
         LoftkinTrades.fill(this, getOffers(), random);
     }
+    //?}
 
     @Override
     protected void rewardTradeXp(MerchantOffer offer) {
@@ -286,21 +317,43 @@ public class Loftkin extends AbstractVillager {
         return 200;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        save(DataOut.of(output));
+    }
+
+    @Override
+    protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+        super.readAdditionalSaveData(input);
+        load(DataIn.of(input));
+    }
+    *///?} else {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putInt("Variant", getVariant());
-        tag.putLong("LastRestock", lastRestock);
-        if (home != null) {
-            tag.put("Home", NbtUtils.writeBlockPos(home));
-        }
+        save(DataOut.of(tag, registryAccess()));
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setVariant(tag.getInt("Variant"));
-        lastRestock = tag.getLong("LastRestock");
-        NbtUtils.readBlockPos(tag, "Home").ifPresent(this::setHome);
+        load(DataIn.of(tag, registryAccess()));
+    }
+    //?}
+
+    private void save(DataOut out) {
+        out.putInt("Variant", getVariant());
+        out.putLong("LastRestock", lastRestock);
+        if (home != null) {
+            out.putBlockPos("Home", home);
+        }
+    }
+
+    private void load(DataIn in) {
+        setVariant(in.getIntOr("Variant", 0));
+        lastRestock = in.getLongOr("LastRestock", 0L);
+        in.getBlockPos("Home").ifPresent(this::setHome);
     }
 }

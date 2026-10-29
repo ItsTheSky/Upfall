@@ -9,6 +9,10 @@ final class GuideCompat {
     private GuideCompat() {}
 
     static void register() {
+        // GuideME 26 guide building loads client-only classes, so a dedicated server must skip it.
+        //? if >=26.1 {
+        /*if (!net.itsthesky.upfall.compat.mc.McEnv.isClient()) return;
+        *///?}
         Guide.builder(GuideModule.GUIDE_ID).build();
     }
 

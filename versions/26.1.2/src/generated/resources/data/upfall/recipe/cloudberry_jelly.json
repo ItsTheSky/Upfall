@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "upfall:mist_gel",
+    "upfall:mist_gel",
+    "upfall:cloudberry",
+    "upfall:cloudberry",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "id": "upfall:cloudberry_jelly"
+  }
+}

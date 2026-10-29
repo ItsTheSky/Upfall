@@ -28,7 +28,7 @@ public class HamletClientModule implements UpfallClientModule {
 
     private static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(LoftkinModel.LAYER, LoftkinModel::createLayer);
-        event.registerLayerDefinition(ZiplinePulleyRenderer.LAYER, ZiplinePulleyRenderer::createLayer);
+        event.registerLayerDefinition(ZiplinePulleyModelParts.LAYER, ZiplinePulleyModelParts::createLayer);
     }
 
     private static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -41,13 +41,17 @@ public class HamletClientModule implements UpfallClientModule {
         event.registerItem(new IClientItemExtensions() {
             @Override
             public HumanoidModel.ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack stack) {
+                //? if >=26.1 {
+                /*return entity.getVehicle() instanceof ZiplinePulley ? HumanoidModel.ArmPose.THROW_TRIDENT : null;
+                *///?} else {
                 return entity.getVehicle() instanceof ZiplinePulley ? HumanoidModel.ArmPose.THROW_SPEAR : null;
+                //?}
             }
         }, HamletItems.ZIPLINE_HANDLE.get());
     }
 
     private static void onEntityJoin(EntityJoinLevelEvent event) {
-        if (event.getLevel().isClientSide && event.getEntity() instanceof ZiplinePulley pulley) {
+        if (event.getLevel().isClientSide() && event.getEntity() instanceof ZiplinePulley pulley) {
             Minecraft.getInstance().getSoundManager().play(new ZiplineSoundInstance(pulley));
         }
     }

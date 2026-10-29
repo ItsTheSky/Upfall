@@ -5,34 +5,30 @@ import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.cave.GasCaveNetwork;
 import net.itsthesky.upfall.content.quantum.cave.GasCaveNetworks;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.worldgen.UpfallTerrain;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.RandomState;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class GasCaveGameTests {
     private GasCaveGameTests() {}
 
     static RandomState upfallNoise(GameTestHelper helper, long seed) {
         var registries = helper.getLevel().registryAccess();
-        var settings = registries.registryOrThrow(Registries.NOISE_SETTINGS).getHolderOrThrow(UpfallTerrain.SETTINGS);
+        var settings = registries.lookupOrThrow(Registries.NOISE_SETTINGS).getOrThrow(UpfallTerrain.SETTINGS);
         return RandomState.create(settings.value(), registries.lookupOrThrow(Registries.NOISE), seed);
     }
 
-    @GameTest(template = "empty", timeoutTicks = 2400)
+    @UpfallGameTest(template = "empty", timeoutTicks = 2400)
     public static void gasCavesStayInsideIslands(GameTestHelper helper) {
         RandomState state = upfallNoise(helper, 20261012L);
         java.util.function.ToDoubleFunction<BlockPos> terrain = GasCaveNetworks.interpolated(state.router().finalDensity());

@@ -39,7 +39,7 @@ public class VoidTetherBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, MachineBlockEntities.VOID_TETHER.get(), VoidTetherBlockEntity::serverTick);
+        return level.isClientSide() ? null : createTickerHelper(type, MachineBlockEntities.VOID_TETHER.get(), VoidTetherBlockEntity::serverTick);
     }
 
     @Override

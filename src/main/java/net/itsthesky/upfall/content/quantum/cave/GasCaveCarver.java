@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.quantum.cave;
 
 import it.unimi.dsi.fastutil.longs.LongList;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -39,10 +40,14 @@ public class GasCaveCarver extends WorldCarver<CarverConfiguration> {
         boolean carved = false;
         for (int i = 0; i < cells.size(); i++) {
             pos.set(cells.getLong(i));
-            if (pos.getY() <= chunk.getMinBuildHeight() || pos.getY() >= chunk.getMaxBuildHeight()) continue;
+            if (pos.getY() <= McLevel.minY(chunk) || pos.getY() >= McLevel.maxYExclusive(chunk)) continue;
             BlockState current = chunk.getBlockState(pos);
             if (current.isAir() || !canReplaceBlock(config, current)) continue;
+            //? if >=26.1 {
+            /*chunk.setBlockState(pos, gas);
+            *///?} else {
             chunk.setBlockState(pos, gas, false);
+            //?}
             mask.set(pos.getX() & 15, pos.getY(), pos.getZ() & 15);
             carved = true;
         }

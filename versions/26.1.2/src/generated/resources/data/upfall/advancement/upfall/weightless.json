@@ -1,0 +1,30 @@
+{
+  "parent": "upfall:upfall/hanging_roots",
+  "criteria": {
+    "weightless": {
+      "conditions": {
+        "effects": {
+          "upfall:weightless": {}
+        }
+      },
+      "trigger": "minecraft:effects_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.weightless.description"
+    },
+    "icon": {
+      "id": "upfall:gildfruit"
+    },
+    "title": {
+      "translate": "advancements.upfall.weightless.title"
+    }
+  },
+  "requirements": [
+    [
+      "weightless"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -25,7 +25,11 @@ public class TallRivetgrassBlock extends DoublePlantBlock {
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        //? if >=26.1 {
+        /*Vec3 offset = state.getOffset(pos);
+        *///?} else {
         Vec3 offset = state.getOffset(level, pos);
+        //?}
         return SHAPE.move(offset.x, offset.y, offset.z);
     }
 }

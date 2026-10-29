@@ -1,0 +1,111 @@
+{
+  "attributes": {
+    "minecraft:audio/ambient_sounds": {
+      "loop": "upfall:ambient.mistsea.loop",
+      "mood": {
+        "block_search_extent": 8,
+        "offset": 2.0,
+        "sound": "upfall:ambient.mistsea.mood",
+        "tick_delay": 6000
+      }
+    },
+    "minecraft:audio/background_music": {
+      "creative": {
+        "max_delay": 24000,
+        "min_delay": 12000,
+        "sound": "minecraft:music.creative"
+      },
+      "default": {
+        "max_delay": 18000,
+        "min_delay": 6000,
+        "sound": "upfall:music.upfall"
+      }
+    },
+    "minecraft:visual/ambient_particles": [
+      {
+        "particle": {
+          "type": "upfall:mist_mote"
+        },
+        "probability": 0.006
+      }
+    ],
+    "minecraft:visual/fog_color": "#f2e9ed",
+    "minecraft:visual/sky_color": "#b7cde6",
+    "minecraft:visual/water_fog_color": "#9a98ba"
+  },
+  "carvers": "upfall:gas_caves",
+  "downfall": 0.4,
+  "effects": {
+    "foliage_color": "#b4dccf",
+    "grass_color": "#b4dccf",
+    "water_color": "#b4d2e8"
+  },
+  "features": [
+    [],
+    [],
+    [
+      "upfall:sky_pond_rare"
+    ],
+    [],
+    [
+      "upfall:drifting_ruins"
+    ],
+    [],
+    [
+      "upfall:ore_nimbusite",
+      "upfall:ore_pearled_cloud"
+    ],
+    [
+      "upfall:mistglow_crystal",
+      "upfall:glowvines",
+      "upfall:raincloud_patch",
+      "upfall:needle_tip",
+      "upfall:gas_cave_props"
+    ],
+    [],
+    [
+      "upfall:skyreach_trees_sparse",
+      "upfall:patch_gilded_tuft",
+      "upfall:patch_cloud_fern",
+      "upfall:cloudstalks_dense"
+    ],
+    [
+      "upfall:updraft_from_clouds",
+      "upfall:cloudlets"
+    ]
+  ],
+  "has_precipitation": false,
+  "spawn_costs": {},
+  "spawners": {
+    "ambient": [
+      {
+        "type": "upfall:skyray",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 12
+      }
+    ],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [
+      {
+        "type": "upfall:duskwing",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 2
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [
+      {
+        "type": "upfall:mistjelly",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 14
+      }
+    ],
+    "water_creature": []
+  },
+  "temperature": 0.7
+}

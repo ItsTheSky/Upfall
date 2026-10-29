@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "upfall:kairite_gear",
+  "base": "minecraft:iron_helmet",
+  "result": {
+    "id": "upfall:veil_mask"
+  },
+  "template": "upfall:veil_mask_blueprint"
+}

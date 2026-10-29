@@ -15,11 +15,13 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.minecraft.world.level.levelgen.placement.RandomOffsetPlacement;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
 
 import java.util.ArrayList;
@@ -98,13 +100,13 @@ public final class ModPlacedFeatures {
                 RarityFilter.onAverageOnceEvery(2), InSquarePlacement.spread(), SurfaceScanPlacement.floor(onGrass, MIN_Y, MAX_Y), BiomeFilter.biome());
         register(context, configured, GILDROOT_TREES, ModConfiguredFeatures.GILDROOT_TREE,
                 CountPlacement.of(5), InSquarePlacement.spread(), SurfaceScanPlacement.ceiling(underIsland, MIN_Y, MAX_Y), BiomeFilter.biome());
-        register(context, configured, PATCH_GILDED_TUFT, ModConfiguredFeatures.PATCH_GILDED_TUFT,
+        patch(context, configured, PATCH_GILDED_TUFT, ModConfiguredFeatures.PATCH_GILDED_TUFT, ModConfiguredFeatures.GILDED_TUFT_TRIES,
                 CountPlacement.of(3), InSquarePlacement.spread(), SurfaceScanPlacement.floor(onGrass, MIN_Y, MAX_Y), BiomeFilter.biome());
-        register(context, configured, PATCH_GILDED_TUFT_DENSE, ModConfiguredFeatures.PATCH_GILDED_TUFT,
+        patch(context, configured, PATCH_GILDED_TUFT_DENSE, ModConfiguredFeatures.PATCH_GILDED_TUFT, ModConfiguredFeatures.GILDED_TUFT_TRIES,
                 CountPlacement.of(6), InSquarePlacement.spread(), SurfaceScanPlacement.floor(BlockPredicate.matchesTag(ModTags.Blocks.SKY_PLANTABLE), MIN_Y, MAX_Y), BiomeFilter.biome());
-        register(context, configured, PATCH_CLOUD_FERN, ModConfiguredFeatures.PATCH_CLOUD_FERN,
+        patch(context, configured, PATCH_CLOUD_FERN, ModConfiguredFeatures.PATCH_CLOUD_FERN, ModConfiguredFeatures.CLOUD_FERN_TRIES,
                 CountPlacement.of(2), InSquarePlacement.spread(), SurfaceScanPlacement.floor(onGrass, MIN_Y, MAX_Y), BiomeFilter.biome());
-        register(context, configured, PATCH_DUSKBLOOM, ModConfiguredFeatures.PATCH_DUSKBLOOM,
+        patch(context, configured, PATCH_DUSKBLOOM, ModConfiguredFeatures.PATCH_DUSKBLOOM, ModConfiguredFeatures.DUSKBLOOM_TRIES,
                 RarityFilter.onAverageOnceEvery(2), InSquarePlacement.spread(), SurfaceScanPlacement.floor(onGrass, MIN_Y, MAX_Y), BiomeFilter.biome());
         UpfallModules.forEachData(data -> data.placedFeatures(context));
     }
@@ -112,6 +114,19 @@ public final class ModPlacedFeatures {
     private static void register(BootstrapContext<PlacedFeature> context, HolderGetter<ConfiguredFeature<?, ?>> configured,
                                  ResourceKey<PlacedFeature> key, ResourceKey<ConfiguredFeature<?, ?>> feature, PlacementModifier... modifiers) {
         PlacementUtils.register(context, key, configured.getOrThrow(feature), new ArrayList<>(List.of(modifiers)));
+    }
+
+    private static void patch(BootstrapContext<PlacedFeature> context, HolderGetter<ConfiguredFeature<?, ?>> configured,
+                              ResourceKey<PlacedFeature> key, ResourceKey<ConfiguredFeature<?, ?>> feature, int tries, PlacementModifier... modifiers) {
+        //? if >=26.1 {
+        /*List<PlacementModifier> all = new ArrayList<>(List.of(modifiers));
+        all.add(CountPlacement.of(tries));
+        all.add(RandomOffsetPlacement.ofTriangle(7, 3));
+        all.add(BlockPredicateFilter.forPredicate(BlockPredicate.matchesBlocks(net.minecraft.world.level.block.Blocks.AIR)));
+        PlacementUtils.register(context, key, configured.getOrThrow(feature), all);
+        *///?} else {
+        register(context, configured, key, feature, modifiers);
+        //?}
     }
 
     static ResourceKey<PlacedFeature> key(String name) {

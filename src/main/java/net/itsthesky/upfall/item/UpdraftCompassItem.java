@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class UpdraftCompassItem extends Item {
     public static final int SEARCH_RADIUS = 160;
@@ -27,12 +28,23 @@ public class UpdraftCompassItem extends Item {
         super(properties);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, net.minecraft.world.entity.EquipmentSlot slot) {
+        refresh(stack, level, entity);
+    }
+    *///?} else {
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
-        if (!(level instanceof ServerLevel serverLevel) || level.getGameTime() % REFRESH_TICKS != 0) return;
+        if (level instanceof ServerLevel serverLevel) refresh(stack, serverLevel, entity);
+    }
+    //?}
+
+    private void refresh(ItemStack stack, ServerLevel level, Entity entity) {
+        if (level.getGameTime() % REFRESH_TICKS != 0) return;
         GlobalPos target = null;
         if (level.dimension() == ModDimensions.UPFALL) {
-            target = findNearestVent(serverLevel, entity.blockPosition())
+            target = findNearestVent(level, entity.blockPosition())
                     .map(pos -> GlobalPos.of(level.dimension(), pos))
                     .orElse(null);
         }
@@ -49,8 +61,19 @@ public class UpdraftCompassItem extends Item {
         return level.getPoiManager().findClosest(type -> type.is(ModPoiTypes.UPDRAFT_VENT.getKey()), from, SEARCH_RADIUS, PoiManager.Occupancy.ANY);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, net.minecraft.world.item.component.TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        hoverText(stack, context, tooltip, flag);
+    }
+    *///?} else {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("item.upfall.updraft_compass.desc").withStyle(ChatFormatting.GRAY));
+        hoverText(stack, context, tooltip::add, flag);
+    }
+    //?}
+
+    private void hoverText(ItemStack stack, TooltipContext context, Consumer<Component> tooltip, TooltipFlag flag) {
+        tooltip.accept(Component.translatable("item.upfall.updraft_compass.desc").withStyle(ChatFormatting.GRAY));
     }
 }

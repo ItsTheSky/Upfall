@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "upfall:item/fold_warden_spawn_egg"
+  }
+}

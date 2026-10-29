@@ -4,13 +4,23 @@ import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.UpfallModules;
 import net.itsthesky.upfall.registry.ModParticles;
 import net.minecraft.data.PackOutput;
+//? if >=26.1 {
+/*import net.neoforged.neoforge.client.data.ParticleDescriptionProvider;
+*///?} else {
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.ParticleDescriptionProvider;
+//?}
 
 public class ModParticleProvider extends ParticleDescriptionProvider {
+    //? if >=26.1 {
+    /*public ModParticleProvider(PackOutput output) {
+        super(output);
+    }
+    *///?} else {
     public ModParticleProvider(PackOutput output, ExistingFileHelper helper) {
         super(output, helper);
     }
+    //?}
 
     @Override
     protected void addDescriptions() {

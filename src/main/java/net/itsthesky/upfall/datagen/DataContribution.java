@@ -1,9 +1,5 @@
 package net.itsthesky.upfall.datagen;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageType;
@@ -17,11 +13,18 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
+
+//? if <26.1 {
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+//?}
+import java.util.Set;
 
 public interface DataContribution {
     DataContribution NONE = new DataContribution() {
@@ -42,7 +45,15 @@ public interface DataContribution {
 
     default void blockLoot(ModBlockLootProvider loot) {}
 
+    default void recipes(RecipeContext recipes) {
+        //? if <26.1 {
+        recipes(recipes.output());
+        //?}
+    }
+
+    //? if <26.1 {
     default void recipes(RecipeOutput output) {}
+    //?}
 
     default void blockTags(ModTagProviders.Blocks tags) {}
 
@@ -74,6 +85,14 @@ public interface DataContribution {
 
     default void biomeCarvers(ResourceKey<Biome> biome, BiomeGenerationSettings.Builder generation) {}
 
+    default void addProviders(DataGenContext ctx) {
+        //? if <26.1 {
+        addProviders(ctx.event(), ctx.generator(), ctx.output(), ctx.registries(), ctx.helper());
+        //?}
+    }
+
+    //? if <26.1 {
     default void addProviders(GatherDataEvent event, DataGenerator generator, PackOutput output,
                               CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {}
+    //?}
 }

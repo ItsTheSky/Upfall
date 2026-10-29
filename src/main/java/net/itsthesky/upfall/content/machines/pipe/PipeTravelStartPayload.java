@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.machines.pipe;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McCodecs;
 import net.itsthesky.upfall.content.machines.pipe.client.PipeTravelClient;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -17,18 +18,18 @@ public record PipeTravelStartPayload(List<Vec3> points, double progress, float s
     public static final StreamCodec<RegistryFriendlyByteBuf, PipeTravelStartPayload> STREAM_CODEC = StreamCodec.of(
             (buf, payload) -> {
                 buf.writeVarInt(payload.points.size());
-                payload.points.forEach(buf::writeVec3);
+                payload.points.forEach(point -> McCodecs.writeVec3(buf, point));
                 buf.writeDouble(payload.progress);
                 buf.writeFloat(payload.speed);
-                buf.writeVec3(payload.push);
+                McCodecs.writeVec3(buf, payload.push);
             },
             buf -> {
                 int count = Math.min(buf.readVarInt(), MAX_POINTS);
                 List<Vec3> points = new ArrayList<>(count);
                 for (int i = 0; i < count; i++) {
-                    points.add(buf.readVec3());
+                    points.add(McCodecs.readVec3(buf));
                 }
-                return new PipeTravelStartPayload(points, buf.readDouble(), buf.readFloat(), buf.readVec3());
+                return new PipeTravelStartPayload(points, buf.readDouble(), buf.readFloat(), McCodecs.readVec3(buf));
             });
 
     @Override

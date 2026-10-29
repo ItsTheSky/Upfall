@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "upfall:lumen_shard",
+    "upfall:lumen_shard",
+    "upfall:lumen_shard",
+    "upfall:lumen_shard",
+    "minecraft:pink_dye"
+  ],
+  "result": {
+    "id": "upfall:rose_crystal_block"
+  }
+}

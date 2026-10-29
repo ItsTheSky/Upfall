@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.entity;
 
+import net.itsthesky.upfall.compat.mc.UpfallFlyingMob;
 import net.itsthesky.upfall.registry.ModSounds;
 import net.itsthesky.upfall.worldgen.ModDimensions;
 import net.minecraft.core.BlockPos;
@@ -8,7 +9,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.FlyingMob;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -20,7 +21,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
-public class Skyray extends FlyingMob {
+public class Skyray extends UpfallFlyingMob {
     private static final int MIN_GLIDE_Y = 72;
     private static final int MAX_GLIDE_Y = 240;
 
@@ -31,7 +32,7 @@ public class Skyray extends FlyingMob {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return FlyingMob.createMobAttributes()
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 12.0)
                 .add(Attributes.FOLLOW_RANGE, 32.0)
                 .add(Attributes.FLYING_SPEED, 0.6);

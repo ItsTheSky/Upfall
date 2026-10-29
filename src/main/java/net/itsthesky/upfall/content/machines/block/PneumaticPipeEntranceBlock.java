@@ -18,12 +18,12 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import org.jetbrains.annotations.Nullable;
 
 public class PneumaticPipeEntranceBlock extends BaseEntityBlock {
     public static final MapCodec<PneumaticPipeEntranceBlock> CODEC = simpleCodec(PneumaticPipeEntranceBlock::new);
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 
     public PneumaticPipeEntranceBlock(Properties properties) {
         super(properties);
@@ -67,9 +67,10 @@ public class PneumaticPipeEntranceBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, PneumaticPipes.ENTRANCE.get(), PneumaticPipeEntranceBlockEntity::serverTick);
+        return level.isClientSide() ? null : createTickerHelper(type, PneumaticPipes.ENTRANCE.get(), PneumaticPipeEntranceBlockEntity::serverTick);
     }
 
+    //? if <26.1 {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof PneumaticPipeEntranceBlockEntity entrance) {
@@ -77,4 +78,5 @@ public class PneumaticPipeEntranceBlock extends BaseEntityBlock {
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
     }
+    //?}
 }

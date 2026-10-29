@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/grass_block",
+  "textures": {
+    "bottom": "upfall:block/skysoil",
+    "overlay": "upfall:block/skygrass_block_side_overlay",
+    "particle": "upfall:block/skysoil",
+    "side": "upfall:block/skygrass_block_side",
+    "top": "upfall:block/skygrass_block_top"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "upfall:lumen_shard",
+    "upfall:lumen_shard",
+    "upfall:lumen_shard",
+    "upfall:lumen_shard",
+    "minecraft:light_blue_dye"
+  ],
+  "result": {
+    "id": "upfall:azure_crystal_block"
+  }
+}

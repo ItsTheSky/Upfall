@@ -9,17 +9,10 @@ import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.EnterBlockTrigger;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ItemLike;
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 final class QuantumAdvancements {
@@ -38,22 +31,7 @@ final class QuantumAdvancements {
                     "Action fantôme", "Réussissez une incantation sur un Piédestal quantique pour renforcer une pièce d'équipement en levitite"},
     };
 
-    static DataProvider provider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {
-        AdvancementProvider provider = new AdvancementProvider(output, registries, helper, List.of(QuantumAdvancements::generate));
-        return new DataProvider() {
-            @Override
-            public CompletableFuture<?> run(CachedOutput cache) {
-                return provider.run(cache);
-            }
-
-            @Override
-            public String getName() {
-                return "Quantum advancements";
-            }
-        };
-    }
-
-    private static void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper helper) {
+    static void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver) {
         AdvancementHolder enter = AdvancementSubProvider.createPlaceholder("upfall:upfall/enter");
         AdvancementHolder gas = save(saver, enter, "gas_cave", QuantumItems.BOTTLED_VEIL_GAS.get(), EnterBlockTrigger.TriggerInstance.entersBlock(QuantumBlocks.VEIL_GAS.get()));
         save(saver, gas, "flicker_shard", QuantumItems.FLICKER_SHARD.get(), InventoryChangeTrigger.TriggerInstance.hasItems(QuantumItems.FLICKER_SHARD.get()));

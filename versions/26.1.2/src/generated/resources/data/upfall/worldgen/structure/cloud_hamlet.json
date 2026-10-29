@@ -1,0 +1,9 @@
+{
+  "type": "upfall:cloud_hamlet",
+  "biomes": [
+    "upfall:mistsea",
+    "upfall:drifting_archipelago"
+  ],
+  "spawn_overrides": {},
+  "step": "surface_structures"
+}

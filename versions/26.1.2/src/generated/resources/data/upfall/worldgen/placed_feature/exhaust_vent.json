@@ -1,0 +1,21 @@
+{
+  "feature": "upfall:exhaust_vent",
+  "placement": [
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "upfall:surface_scan",
+      "max_y": 300,
+      "min_y": 64,
+      "support": {
+        "type": "minecraft:matching_blocks",
+        "blocks": "upfall:oxide_turf"
+      },
+      "surface": "floor"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

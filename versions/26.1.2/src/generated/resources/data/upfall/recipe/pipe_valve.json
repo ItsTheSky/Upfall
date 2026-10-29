@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": "upfall:rusty_plate",
+    "P": "upfall:rusty_pipe"
+  },
+  "pattern": [
+    " # ",
+    "###",
+    " P "
+  ],
+  "result": {
+    "id": "upfall:pipe_valve"
+  }
+}

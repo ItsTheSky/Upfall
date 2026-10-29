@@ -9,22 +9,17 @@ import net.itsthesky.upfall.datagen.ModDataMapProvider;
 import net.itsthesky.upfall.datagen.ModItemModelProvider;
 import net.itsthesky.upfall.datagen.ModLanguageProvider;
 import net.itsthesky.upfall.datagen.ModParticleProvider;
-import net.itsthesky.upfall.datagen.ModRecipeProvider;
 import net.itsthesky.upfall.datagen.ModTagProviders;
+import net.itsthesky.upfall.datagen.RecipeContext;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModTags;
 import net.itsthesky.upfall.worldgen.ModBiomes;
 import net.itsthesky.upfall.worldgen.UpfallTerrain;
 import net.itsthesky.upfall.worldgen.placement.SurfaceScanPlacement;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -61,8 +56,6 @@ import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.registries.datamaps.builtin.Compostable;
 import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 
@@ -89,42 +82,8 @@ final class WorldData implements DataContribution {
         states.simpleBlockWithItem(WorldBlocks.CLOUD_LAMP.get(), states.glowingCube("cloud_lamp", "solid"));
         states.translucentCube(WorldBlocks.FADING_CLOUD, false);
 
-        ModelFile pearled = states.models().withExistingParent("pearled_cloud", states.mcLoc("block/block"))
-                .texture("base", states.blockTexture("dense_cloud")).texture("pearls", states.blockTexture("pearled_cloud_pearls"))
-                .texture("particle", states.blockTexture("dense_cloud")).renderType("cutout")
-                .element().from(0, 0, 0).to(16, 16, 16).allFaces((dir, face) -> face.texture("#base").cullface(dir)).end()
-                .element().from(0, 0, 0).to(16, 16, 16).shade(false).ao(false).emissivity(15, 15)
-                .allFaces((dir, face) -> face.texture("#pearls").cullface(dir)).end();
-        states.simpleBlockWithItem(WorldBlocks.PEARLED_CLOUD.get(), pearled);
-
-        ModelFile reedLower = states.models().cross("skyreed_bottom", states.blockTexture("skyreed_bottom")).renderType("cutout");
-        ModelFile reedUpper = states.models().cross("skyreed_top", states.blockTexture("skyreed_top")).renderType("cutout");
-        states.getVariantBuilder(WorldBlocks.SKYREED.get()).forAllStates(state -> ConfiguredModel.builder()
-                .modelFile(state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.LOWER ? reedLower : reedUpper).build());
-        states.itemModels().withExistingParent("skyreed", states.mcLoc("item/generated")).texture("layer0", states.blockTexture("skyreed_top"));
-
-        ModelFile lily = states.models().withExistingParent("skylily", states.mcLoc("block/block"))
-                .texture("texture", states.blockTexture("skylily")).texture("particle", states.blockTexture("skylily"))
-                .renderType("cutout").ao(false)
-                .element().from(0, 0.25F, 0).to(16, 0.25F, 16).emissivity(6, 6)
-                .face(Direction.UP).texture("#texture").uvs(0, 0, 16, 16).end()
-                .face(Direction.DOWN).texture("#texture").uvs(0, 16, 16, 0).end().end();
-        states.getVariantBuilder(WorldBlocks.SKYLILY.get()).forAllStates(state -> ConfiguredModel.allYRotations(lily, 0, false));
-        states.itemModels().withExistingParent("skylily", states.mcLoc("item/generated")).texture("layer0", states.blockTexture("skylily"));
-
         states.crossPlant(WorldBlocks.CLOUDSTALK.get(), "cloudstalk");
-
-        ModelFile bloom = states.models().withExistingParent("cloudbloom", states.mcLoc("block/block"))
-                .texture("side", states.blockTexture("cloudbloom_side")).texture("top", states.blockTexture("cloudbloom_top"))
-                .texture("particle", states.blockTexture("cloudbloom_side")).renderType("cutout").ao(false)
-                .element().from(3, 1, 3).to(13, 8, 13).shade(false).emissivity(12, 12)
-                .allFaces((dir, face) -> face.texture(dir.getAxis().isVertical() ? "#top" : "#side")).end()
-                .element().from(5, 8, 5).to(11, 11, 11).shade(false).emissivity(12, 12)
-                .allFaces((dir, face) -> face.texture(dir.getAxis().isVertical() ? "#top" : "#side")).end()
-                .element().from(7, 0, 7).to(9, 1, 9)
-                .allFaces((dir, face) -> face.texture("#side")).end();
-        states.simpleBlock(WorldBlocks.CLOUDBLOOM.get(), bloom);
-        states.blockItem(WorldBlocks.CLOUDBLOOM.get());
+        WorldModels.blockStates(states);
     }
 
     @Override
@@ -148,22 +107,22 @@ final class WorldData implements DataContribution {
     }
 
     @Override
-    public void recipes(RecipeOutput output) {
+    public void recipes(RecipeContext recipes) {
         ItemLike pearl = WorldItems.CLOUD_PEARL.get();
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, WorldBlocks.CLOUD_LAMP.get())
+        recipes.shaped(RecipeCategory.BUILDING_BLOCKS, WorldBlocks.CLOUD_LAMP.get())
                 .pattern(" P ").pattern("PCP").pattern(" P ")
                 .define('P', pearl).define('C', ModBlocks.DENSE_CLOUD.get())
-                .unlockedBy(ModRecipeProvider.hasName(pearl), ModRecipeProvider.hasItem(pearl)).save(output);
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.TOOLS, WorldItems.NIMBUS_FLASK.get())
+                .unlockedBy(RecipeContext.hasName(pearl), recipes.has(pearl)).save(recipes.output());
+        recipes.shapeless(RecipeCategory.TOOLS, WorldItems.NIMBUS_FLASK.get())
                 .requires(Items.GLASS_BOTTLE).requires(pearl, 2).requires(ModBlocks.DENSE_CLOUD.get())
-                .unlockedBy(ModRecipeProvider.hasName(pearl), ModRecipeProvider.hasItem(pearl)).save(output);
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.PAPER, 3)
+                .unlockedBy(RecipeContext.hasName(pearl), recipes.has(pearl)).save(recipes.output());
+        recipes.save(recipes.shaped(RecipeCategory.MISC, Items.PAPER, 3)
                 .pattern("RRR").define('R', WorldBlocks.SKYREED_ITEM.get())
-                .unlockedBy(ModRecipeProvider.hasName(WorldBlocks.SKYREED_ITEM.get()), ModRecipeProvider.hasItem(WorldBlocks.SKYREED_ITEM.get()))
-                .save(output, Upfall.id("paper_from_skyreed"));
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(WorldBlocks.SKYSILT.get()), RecipeCategory.BUILDING_BLOCKS, Items.GLASS, 0.1F, 200)
-                .unlockedBy(ModRecipeProvider.hasName(WorldBlocks.SKYSILT.get()), ModRecipeProvider.hasItem(WorldBlocks.SKYSILT.get()))
-                .save(output, Upfall.id("glass_from_skysilt"));
+                .unlockedBy(RecipeContext.hasName(WorldBlocks.SKYREED_ITEM.get()), recipes.has(WorldBlocks.SKYREED_ITEM.get())),
+                Upfall.id("paper_from_skyreed"));
+        recipes.save(recipes.smelting(Ingredient.of(WorldBlocks.SKYSILT.get()), RecipeCategory.BUILDING_BLOCKS, Items.GLASS, 0.1F, 200)
+                .unlockedBy(RecipeContext.hasName(WorldBlocks.SKYSILT.get()), recipes.has(WorldBlocks.SKYSILT.get())),
+                Upfall.id("glass_from_skysilt"));
     }
 
     @Override

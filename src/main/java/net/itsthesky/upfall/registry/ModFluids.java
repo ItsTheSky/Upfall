@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.registry;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Blocks;
@@ -39,7 +40,7 @@ public final class ModFluids {
     public static final DeferredHolder<Fluid, FlowingFluid> FLOWING_SKYWATER = FLUIDS.register("flowing_skywater",
             () -> new BaseFlowingFluid.Flowing(properties()));
 
-    public static final DeferredBlock<LiquidBlock> SKYWATER_BLOCK = ModBlocks.BLOCKS.registerBlock("skywater",
+    public static final DeferredBlock<LiquidBlock> SKYWATER_BLOCK = McRegistration.block(ModBlocks.BLOCKS, "skywater",
             props -> new LiquidBlock(SKYWATER.get(), props), BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).mapColor(MapColor.COLOR_LIGHT_BLUE)
                     .pushReaction(PushReaction.DESTROY));
 

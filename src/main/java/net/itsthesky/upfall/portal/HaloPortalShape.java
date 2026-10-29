@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.portal;
 
 import net.itsthesky.upfall.block.HaloPortalBlock;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModTags;
 import net.minecraft.core.BlockPos;
@@ -62,7 +63,7 @@ public class HaloPortalShape {
 
     @Nullable
     private BlockPos calculateBottomLeft(BlockPos pos) {
-        int minY = Math.max(level.getMinBuildHeight(), pos.getY() - MAX_HEIGHT);
+        int minY = Math.max(McLevel.minY(level), pos.getY() - MAX_HEIGHT);
         while (pos.getY() > minY && isEmpty(level.getBlockState(pos.below()))) {
             pos = pos.below();
         }

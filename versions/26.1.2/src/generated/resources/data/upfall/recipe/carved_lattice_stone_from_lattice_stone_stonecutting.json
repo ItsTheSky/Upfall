@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "upfall:lattice_stone",
+  "result": {
+    "id": "upfall:carved_lattice_stone"
+  }
+}

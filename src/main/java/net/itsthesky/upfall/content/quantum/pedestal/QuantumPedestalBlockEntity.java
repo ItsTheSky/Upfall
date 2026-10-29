@@ -1,6 +1,9 @@
 package net.itsthesky.upfall.content.quantum.pedestal;
 
 import net.itsthesky.upfall.UpfallConfig;
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.McLevel;
+import net.itsthesky.upfall.compat.mc.McPlayers;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.itsthesky.upfall.content.quantum.QuantumRecipeTypes;
@@ -70,7 +73,7 @@ public class QuantumPedestalBlockEntity extends PedestalBlockEntity {
     }
 
     private Optional<RecipeHolder<QuantumIncantationRecipe>> recipe(IncantationInput input) {
-        return level.getRecipeManager().getRecipeFor(QuantumRecipeTypes.INCANTATION.get(), input, level);
+        return McLevel.serverRecipes((ServerLevel) level).getRecipeFor(QuantumRecipeTypes.INCANTATION.get(), input, level);
     }
 
     public @Nullable Component tryStart(ServerPlayer player) {
@@ -159,7 +162,7 @@ public class QuantumPedestalBlockEntity extends PedestalBlockEntity {
         server.sendParticles(ParticleTypes.LARGE_SMOKE, top.x, top.y, top.z, 12, 0.3, 0.2, 0.3, 0.02);
         server.playSound(null, worldPosition, QuantumSounds.RITUAL_FAIL.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         Player player = ritualist == null ? null : server.getPlayerByUUID(ritualist);
-        if (player != null) player.displayClientMessage(Component.translatable("message.upfall.incantation.collapsed"), true);
+        if (player != null) McPlayers.overlay(player, Component.translatable("message.upfall.incantation.collapsed"));
     }
 
     private void consumeRing() {
@@ -189,8 +192,8 @@ public class QuantumPedestalBlockEntity extends PedestalBlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        active = tag.getBoolean("Active");
+    protected void loadData(DataIn in) {
+        super.loadData(in);
+        active = in.getBooleanOr("Active", false);
     }
 }

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "open=false": {
+      "model": "upfall:block/sky_cache"
+    },
+    "open=true": {
+      "model": "upfall:block/sky_cache_open"
+    }
+  }
+}

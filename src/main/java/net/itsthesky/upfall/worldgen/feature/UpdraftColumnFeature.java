@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.worldgen.feature;
 
 import com.mojang.serialization.Codec;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,7 +28,7 @@ public class UpdraftColumnFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = context.level();
         RandomSource random = context.random();
         BlockPos base = context.origin().below();
-        while (level.getBlockState(base).is(ModBlocks.MIST.get()) && base.getY() > level.getMinBuildHeight()) {
+        while (level.getBlockState(base).is(ModBlocks.MIST.get()) && base.getY() > McLevel.minY(level)) {
             base = base.below();
         }
         if (!level.getBlockState(base).isSolid()) {
@@ -62,6 +63,6 @@ public class UpdraftColumnFeature extends Feature<NoneFeatureConfiguration> {
                 }
             }
         }
-        return best < 0 ? -1 : Math.min(level.getMaxBuildHeight() - 1, best + 3);
+        return best < 0 ? -1 : Math.min(McLevel.maxYExclusive(level) - 1, best + 3);
     }
 }

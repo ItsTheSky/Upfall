@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "upfall:block/exhaust_vent"
+    },
+    "active=true": {
+      "model": "upfall:block/exhaust_vent_active"
+    }
+  }
+}

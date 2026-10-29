@@ -6,6 +6,6 @@ import net.neoforged.bus.api.IEventBus;
 public class GravityClientModule implements UpfallClientModule {
     @Override
     public void register(IEventBus modEventBus) {
-        InvertedGravityClient.register();
+        InvertedGravityClient.register(modEventBus);
     }
 }

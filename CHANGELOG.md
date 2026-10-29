@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Versions
+- Upfall now also runs on Minecraft 26.1.2 (NeoForge 26.1, Java 25) with the same content as 1.21.1.
+- JEI and GuideME are supported on both versions; EMI integration is 1.21.1 only.
+- Jars are now named upfall-<version>+<minecraft version>.jar.
+
 ### Advancements
 - The Upfall advancement tab is now split into branches that follow the real dependencies: exploration, Cloud Hamlet,
   Nimbusite and Levitite gear, Rustworks machines, Chronospire, Pearl Aerie, Quantum and Tilted Reliquary.

@@ -1,14 +1,13 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.reliquary.worldgen.ReliquaryPlacement;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModItems;
 import net.itsthesky.upfall.worldgen.ExplorerMaps;
 import net.itsthesky.upfall.worldgen.ModLootTables;
 import net.itsthesky.upfall.worldgen.ReliquaryZones;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.ItemStack;
@@ -19,13 +18,9 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.List;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class LootGameTests {
     private LootGameTests() {}
 
@@ -37,7 +32,7 @@ public final class LootGameTests {
         return table.getRandomItems(params);
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void observatoryAlwaysHoldsLevititeTemplate(GameTestHelper helper) {
         for (int i = 0; i < 20; i++) {
             List<ItemStack> loot = roll(helper, ModLootTables.INVERTED_OBSERVATORY);
@@ -47,7 +42,7 @@ public final class LootGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void ruinsSometimesHoldNimbusiteTemplate(GameTestHelper helper) {
         int found = 0;
         for (int i = 0; i < 200; i++) {
@@ -59,7 +54,7 @@ public final class LootGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void observatorySometimesHoldsReliquaryMap(GameTestHelper helper) {
         int found = 0;
         for (int i = 0; i < 200; i++) {
@@ -72,7 +67,7 @@ public final class LootGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void explorerMapMarksItsTarget(GameTestHelper helper) {
         BlockPos target = helper.absolutePos(new BlockPos(900, 80, -1300));
         ItemStack map = ExplorerMaps.create(helper.getLevel(), target, ExplorerMaps.CHRONOSPIRE.decoration(), ExplorerMaps.CHRONOSPIRE.translationKey());
@@ -87,7 +82,7 @@ public final class LootGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void reliquaryPlacementStepsByCell(GameTestHelper helper) {
         ReliquaryPlacement placement = new ReliquaryPlacement(1510202618);
         helper.assertTrue(placement.spacing() == ReliquaryZones.CELL_CHUNKS, "Map search rings must step one zone cell at a time");

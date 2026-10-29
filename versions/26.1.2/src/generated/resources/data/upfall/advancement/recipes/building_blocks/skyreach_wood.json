@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_skyreach_log": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:skyreach_log"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:skyreach_wood"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_skyreach_log"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:skyreach_wood"
+    ]
+  }
+}

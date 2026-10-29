@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "upfall:polished_duskslate",
+  "result": {
+    "count": 2,
+    "id": "upfall:duskslate_brick_slab"
+  }
+}

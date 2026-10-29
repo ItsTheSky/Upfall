@@ -1,5 +1,7 @@
 package net.itsthesky.upfall.content.hamlet.world;
 
+import net.itsthesky.upfall.compat.mc.McEntities;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.content.hamlet.HamletBlocks;
 import net.itsthesky.upfall.content.hamlet.HamletEntities;
 import net.itsthesky.upfall.content.hamlet.block.RopeAnchorBlockEntity;
@@ -167,7 +169,7 @@ final class Blueprint {
     private static void hangRope(WorldGenLevel level, Drop drop) {
         int length = VOID_ROPE_LENGTH;
         BlockPos.MutableBlockPos pos = drop.top.mutable();
-        for (int i = 0; i < drop.maxLength && pos.getY() > level.getMinBuildHeight(); i++, pos.move(0, -1, 0)) {
+        for (int i = 0; i < drop.maxLength && pos.getY() > McLevel.minY(level); i++, pos.move(0, -1, 0)) {
             if (!level.getBlockState(pos).canBeReplaced()) {
                 length = i;
                 break;
@@ -181,13 +183,18 @@ final class Blueprint {
     }
 
     private static void spawnLoftkin(WorldGenLevel level, BlockPos feet, int variant) {
+        //? if >=26.1 {
+        /*Loftkin loftkin = HamletEntities.LOFTKIN.get().create(level.getLevel(), MobSpawnType.STRUCTURE);
+        *///?} else {
         Loftkin loftkin = HamletEntities.LOFTKIN.get().create(level.getLevel());
+        //?}
         if (loftkin == null) return;
-        loftkin.moveTo(feet.getX() + 0.5, feet.getY(), feet.getZ() + 0.5, level.getRandom().nextFloat() * 360.0F, 0.0F);
+        McEntities.snapTo(loftkin, feet.getX() + 0.5, feet.getY(), feet.getZ() + 0.5, level.getRandom().nextFloat() * 360.0F, 0.0F);
         loftkin.setHome(feet);
         EventHooks.finalizeMobSpawn(loftkin, level, level.getCurrentDifficultyAt(feet), MobSpawnType.STRUCTURE, null);
         loftkin.setVariant(variant);
         loftkin.setPersistenceRequired();
+        if (!(level instanceof net.minecraft.server.level.ServerLevel)) loftkin.deferTradesUntilLoaded();
         level.addFreshEntityWithPassengers(loftkin);
     }
 }

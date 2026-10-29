@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.reliquary.boss;
 
+import net.itsthesky.upfall.compat.mc.McEntities;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -33,7 +34,7 @@ public class FoldFragment extends Projectile {
 
     void launch(FoldWarden owner, Vec3 from, Vec3 target) {
         setOwner(owner);
-        moveTo(from.x, from.y, from.z, 0.0F, 0.0F);
+        McEntities.snapTo(this, from.x, from.y, from.z, 0.0F, 0.0F);
         this.target = target;
         setDeltaMovement(target.subtract(from).normalize().scale(SPEED));
     }

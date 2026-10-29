@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.engine.block;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.content.engine.EngineSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -69,10 +70,10 @@ public class DrainValveBlock extends DirectionalBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             turn(level, pos, state, player);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return UseResults.sided(level);
     }
 
     public static void turn(Level level, BlockPos pos, BlockState state, @Nullable Player player) {

@@ -1,0 +1,227 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "north": {
+          "texture": "#glass"
+        },
+        "south": {
+          "texture": "#glass"
+        }
+      },
+      "from": [
+        1,
+        2,
+        14
+      ],
+      "to": [
+        2,
+        14,
+        14
+      ]
+    },
+    {
+      "faces": {
+        "north": {
+          "texture": "#glass"
+        },
+        "south": {
+          "texture": "#glass"
+        }
+      },
+      "from": [
+        1,
+        2,
+        2
+      ],
+      "to": [
+        2,
+        14,
+        2
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#glass"
+        },
+        "up": {
+          "texture": "#glass"
+        }
+      },
+      "from": [
+        1,
+        2,
+        2
+      ],
+      "to": [
+        2,
+        2,
+        14
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#glass"
+        },
+        "up": {
+          "texture": "#glass"
+        }
+      },
+      "from": [
+        1,
+        14,
+        2
+      ],
+      "to": [
+        2,
+        14,
+        14
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        }
+      },
+      "from": [
+        0,
+        14,
+        1
+      ],
+      "to": [
+        1,
+        15,
+        15
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        }
+      },
+      "from": [
+        0,
+        1,
+        1
+      ],
+      "to": [
+        1,
+        2,
+        15
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        }
+      },
+      "from": [
+        0,
+        2,
+        14
+      ],
+      "to": [
+        1,
+        14,
+        15
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#band"
+        },
+        "east": {
+          "texture": "#band"
+        },
+        "north": {
+          "texture": "#band"
+        },
+        "south": {
+          "texture": "#band"
+        },
+        "up": {
+          "texture": "#band"
+        },
+        "west": {
+          "texture": "#band"
+        }
+      },
+      "from": [
+        0,
+        2,
+        1
+      ],
+      "to": [
+        1,
+        14,
+        2
+      ]
+    }
+  ],
+  "textures": {
+    "band": {
+      "force_translucent": true,
+      "sprite": "upfall:block/pneumatic_pipe_band"
+    },
+    "glass": {
+      "force_translucent": true,
+      "sprite": "upfall:block/pneumatic_pipe_glass"
+    },
+    "particle": {
+      "force_translucent": true,
+      "sprite": "upfall:block/pneumatic_pipe_band"
+    }
+  }
+}

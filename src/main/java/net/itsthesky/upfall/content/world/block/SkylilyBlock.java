@@ -10,7 +10,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+//? if >=26.1 {
+/*public class SkylilyBlock extends net.minecraft.world.level.block.VegetationBlock {
+*///?} else {
 public class SkylilyBlock extends BushBlock {
+//?}
     public static final MapCodec<SkylilyBlock> CODEC = simpleCodec(SkylilyBlock::new);
     private static final VoxelShape SHAPE = Block.box(1.0, 0.0, 1.0, 15.0, 1.5, 15.0);
 
@@ -19,7 +23,7 @@ public class SkylilyBlock extends BushBlock {
     }
 
     @Override
-    protected MapCodec<? extends BushBlock> codec() {
+    protected MapCodec<SkylilyBlock> codec() {
         return CODEC;
     }
 

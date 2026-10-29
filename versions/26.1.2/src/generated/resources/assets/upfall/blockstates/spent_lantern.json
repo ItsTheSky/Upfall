@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "upfall:block/spent_lantern"
+    },
+    "hanging=true": {
+      "model": "upfall:block/spent_lantern_hanging"
+    }
+  }
+}

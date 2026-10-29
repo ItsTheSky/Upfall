@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "upfall:block/pearlstone_slab"
+    },
+    "type=double": {
+      "model": "upfall:block/pearlstone"
+    },
+    "type=top": {
+      "model": "upfall:block/pearlstone_slab_top"
+    }
+  }
+}

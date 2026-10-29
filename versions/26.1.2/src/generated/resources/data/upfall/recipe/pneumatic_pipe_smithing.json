@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "upfall:kairite_gear",
+  "base": "minecraft:copper_block",
+  "result": {
+    "count": 8,
+    "id": "upfall:pneumatic_pipe"
+  },
+  "template": "upfall:pneumatic_pipe_blueprint"
+}

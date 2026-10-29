@@ -1,0 +1,13 @@
+{
+  "parent": "minecraft:block/nether_portal_ew",
+  "textures": {
+    "particle": {
+      "force_translucent": true,
+      "sprite": "upfall:block/halo_portal"
+    },
+    "portal": {
+      "force_translucent": true,
+      "sprite": "upfall:block/halo_portal"
+    }
+  }
+}

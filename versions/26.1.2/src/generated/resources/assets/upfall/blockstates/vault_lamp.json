@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "upfall:block/vault_lamp_off"
+    },
+    "lit=true": {
+      "model": "upfall:block/vault_lamp"
+    }
+  }
+}

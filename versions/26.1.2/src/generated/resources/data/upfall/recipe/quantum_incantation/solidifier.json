@@ -1,0 +1,11 @@
+{
+  "type": "upfall:quantum_incantation",
+  "base": "upfall:levitite_leggings",
+  "ingredients": [
+    "upfall:dense_cloud",
+    "upfall:dense_cloud",
+    "upfall:mist_gel",
+    "upfall:mist_gel"
+  ],
+  "upgrade": "solidifier"
+}

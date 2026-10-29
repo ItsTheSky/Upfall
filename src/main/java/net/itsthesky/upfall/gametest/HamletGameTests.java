@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.gametest;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McEntities;
 import net.itsthesky.upfall.content.hamlet.HamletBlocks;
 import net.itsthesky.upfall.content.hamlet.HamletEntities;
 import net.itsthesky.upfall.content.hamlet.HamletItems;
@@ -13,12 +14,13 @@ import net.itsthesky.upfall.content.hamlet.entity.ZiplinePulley;
 import net.itsthesky.upfall.content.hamlet.rope.RopeLines;
 import net.itsthesky.upfall.content.hamlet.world.HamletLayout;
 import net.itsthesky.upfall.content.hamlet.world.HamletPieces;
+import net.itsthesky.upfall.gametest.framework.GameTestCompat;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
@@ -43,8 +45,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.ArrayDeque;
 import java.util.HashSet;
@@ -52,8 +52,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class HamletGameTests {
     private HamletGameTests() {}
 
@@ -61,7 +59,7 @@ public final class HamletGameTests {
         return absolute.subtract(helper.absolutePos(BlockPos.ZERO));
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void ropeIsClimbableAndHangs(GameTestHelper helper) {
         BlockPos beam = new BlockPos(3, 6, 3);
         helper.setBlock(beam, HamletBlocks.WOVEN_PLANKS.get());
@@ -84,7 +82,7 @@ public final class HamletGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void ropeTiedToSideWallSurvives(GameTestHelper helper) {
         helper.setBlock(new BlockPos(2, 4, 3), HamletBlocks.WOVEN_PLANKS.get());
         helper.setBlock(new BlockPos(3, 4, 3), HamletBlocks.ROPE.get().defaultBlockState().setValue(RopeBlock.END, false));
@@ -114,7 +112,7 @@ public final class HamletGameTests {
         return new BlockPos[]{a, b};
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 300)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 300)
     public static void ziplineCarriesRiderToTheOtherPlatform(GameTestHelper helper) {
         BlockPos[] line = buildZipline(helper);
         ArmorStand rider = helper.spawn(EntityType.ARMOR_STAND, new Vec3(2.5, 9.0, 11.5));
@@ -132,7 +130,7 @@ public final class HamletGameTests {
         });
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 300)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 300)
     public static void ziplineStopsBeforeAnObstacle(GameTestHelper helper) {
         BlockPos[] line = buildZipline(helper);
         for (int y = 3; y <= 9; y++) {
@@ -150,12 +148,12 @@ public final class HamletGameTests {
         });
     }
 
-    @GameTest(template = "empty_large")
+    @UpfallGameTest(template = "empty_large")
     public static void ziplineStartsFromAnchorAndLettingGoDrops(GameTestHelper helper) {
         BlockPos[] line = buildZipline(helper);
         FakePlayer fake = FakePlayerFactory.getMinecraft(helper.getLevel());
         Vec3 stand = helper.absoluteVec(new Vec3(2.5, 9.0, 11.5));
-        fake.moveTo(stand.x, stand.y, stand.z, 0.0F, 0.0F);
+        McEntities.snapTo(fake, stand.x, stand.y, stand.z, 0.0F, 0.0F);
         helper.assertTrue(ZiplinePulley.rideFromAnchor(fake, helper.absolutePos(line[0])) != ZiplinePulley.Result.STARTED, "A fake player rode");
 
         ArmorStand rider = helper.spawn(EntityType.ARMOR_STAND, new Vec3(2.5, 9.0, 11.5));
@@ -177,16 +175,16 @@ public final class HamletGameTests {
         });
     }
 
-    @GameTest(template = "empty_large")
+    @UpfallGameTest(template = "empty_large")
     public static void breakingAnAnchorUntiesTheLine(GameTestHelper helper) {
         BlockPos[] line = buildZipline(helper);
         helper.destroyBlock(line[1]);
-        RopeAnchorBlockEntity anchor = (RopeAnchorBlockEntity) helper.getBlockEntity(line[0]);
+        RopeAnchorBlockEntity anchor = GameTestCompat.blockEntity(helper, line[0], RopeAnchorBlockEntity.class);
         helper.assertTrue(anchor.links().isEmpty(), "The other end still holds the line");
         helper.succeed();
     }
 
-    @GameTest(template = "empty_large")
+    @UpfallGameTest(template = "empty_large")
     public static void ropeAnchorsTieLines(GameTestHelper helper) {
         BlockState peg = HamletBlocks.ROPE_ANCHOR.get().defaultBlockState();
         BlockPos[] pegs = {new BlockPos(2, 2, 2), new BlockPos(12, 2, 2), new BlockPos(2, 2, 12), new BlockPos(12, 2, 12), new BlockPos(20, 2, 20)};
@@ -196,7 +194,7 @@ public final class HamletGameTests {
         }
         var level = helper.getLevel();
         helper.assertTrue(RopeLines.link(level, helper.absolutePos(pegs[0]), helper.absolutePos(pegs[1])) == RopeLines.LinkResult.LINKED, "Rope line not tied");
-        RopeAnchorBlockEntity end = (RopeAnchorBlockEntity) helper.getBlockEntity(pegs[1]);
+        RopeAnchorBlockEntity end = GameTestCompat.blockEntity(helper, pegs[1], RopeAnchorBlockEntity.class);
         helper.assertTrue(end.isLinkedTo(helper.absolutePos(pegs[0])), "Line not tied on both ends");
         helper.setBlock(new BlockPos(20, 1, 2), HamletBlocks.WOVEN_PLANKS.get());
         helper.setBlock(new BlockPos(20, 2, 2), HamletBlocks.ZIPLINE_ANCHOR.get());
@@ -206,7 +204,7 @@ public final class HamletGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void loftkinBartersUpfallGoods(GameTestHelper helper) {
         Loftkin loftkin = helper.spawn(HamletEntities.LOFTKIN.get(), new BlockPos(3, 1, 3));
         List<MerchantOffer> offers = loftkin.getOffers();
@@ -221,7 +219,7 @@ public final class HamletGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 500)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 500)
     public static void loftkinStaysOnItsPlatform(GameTestHelper helper) {
         for (int x = 8; x <= 14; x++) {
             for (int z = 8; z <= 14; z++) {
@@ -238,7 +236,7 @@ public final class HamletGameTests {
         });
     }
 
-    @GameTest(template = "empty_large")
+    @UpfallGameTest(template = "empty_large")
     public static void fallingLoftkinOpensParasol(GameTestHelper helper) {
         Loftkin loftkin = helper.spawn(HamletEntities.LOFTKIN.get(), new BlockPos(11, 14, 11));
         helper.runAfterDelay(15, () -> {
@@ -248,7 +246,7 @@ public final class HamletGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void lostLoftkinReturnsHome(GameTestHelper helper) {
         helper.setBlock(new BlockPos(3, 1, 3), HamletBlocks.WOVEN_PLANKS.get());
         Loftkin loftkin = helper.spawn(HamletEntities.LOFTKIN.get(), new BlockPos(3, 2, 3));
@@ -265,7 +263,7 @@ public final class HamletGameTests {
                 .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(helper.absolutePos(BlockPos.ZERO))).create(LootContextParamSets.CHEST));
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void hamletCachesHoldLoot(GameTestHelper helper) {
         for (int i = 0; i < 30; i++) {
             helper.assertFalse(roll(helper, HamletLoot.HOME).isEmpty(), "Empty home loot");
@@ -275,7 +273,7 @@ public final class HamletGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty", timeoutTicks = 400)
+    @UpfallGameTest(template = "empty", timeoutTicks = 400)
     public static void hamletLayoutsAreConnectedAndRideable(GameTestHelper helper) {
         for (long seed = 0; seed < 40; seed++) {
             HamletLayout.Plan plan = HamletLayout.plan(RandomSource.create(seed), new BlockPos(0, 70, 0));
@@ -348,12 +346,16 @@ public final class HamletGameTests {
         }
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void loftkinSpawnsPersistentFromStructure(GameTestHelper helper) {
+        //? if >=26.1 {
+        /*Loftkin loftkin = HamletEntities.LOFTKIN.get().create(helper.getLevel(), MobSpawnType.STRUCTURE);
+        *///?} else {
         Loftkin loftkin = HamletEntities.LOFTKIN.get().create(helper.getLevel());
+        //?}
         helper.assertTrue(loftkin != null, "Cannot create a Loftkin");
         Vec3 pos = helper.absoluteVec(new Vec3(3.5, 1.0, 3.5));
-        loftkin.moveTo(pos.x, pos.y, pos.z);
+        McEntities.snapTo(loftkin, pos.x, pos.y, pos.z);
         loftkin.setHome(BlockPos.containing(pos));
         net.neoforged.neoforge.event.EventHooks.finalizeMobSpawn(loftkin, helper.getLevel(), helper.getLevel().getCurrentDifficultyAt(BlockPos.containing(pos)),
                 MobSpawnType.STRUCTURE, null);

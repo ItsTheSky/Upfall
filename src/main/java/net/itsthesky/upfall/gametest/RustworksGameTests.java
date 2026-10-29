@@ -1,14 +1,15 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McLevel;
+import net.itsthesky.upfall.compat.mc.McPlayers;
 import net.itsthesky.upfall.content.engine.EngineBlocks;
 import net.itsthesky.upfall.content.rustworks.RustworksBlocks;
 import net.itsthesky.upfall.content.rustworks.RustworksItems;
 import net.itsthesky.upfall.content.rustworks.block.KairiteOreBlock;
 import net.itsthesky.upfall.content.rustworks.block.LeakingPipeBlock;
 import net.itsthesky.upfall.content.rustworks.block.StillflowCauldronBlock;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,13 +20,9 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.List;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class RustworksGameTests {
     private RustworksGameTests() {}
 
@@ -40,8 +37,13 @@ public final class RustworksGameTests {
     private static void craft(GameTestHelper helper, int width, int height, List<ItemStack> grid, net.minecraft.world.level.ItemLike result, int count) {
         var level = helper.getLevel();
         var input = CraftingInput.of(width, height, grid);
-        ItemStack out = level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, input, level)
-                .map(holder -> holder.value().assemble(input, level.registryAccess())).orElse(ItemStack.EMPTY);
+        ItemStack out = McLevel.serverRecipes(level).getRecipeFor(RecipeType.CRAFTING, input, level)
+                //? if >=26.1 {
+                /*.map(holder -> holder.value().assemble(input))
+                *///?} else {
+                .map(holder -> holder.value().assemble(input, level.registryAccess()))
+                //?}
+                .orElse(ItemStack.EMPTY);
         helper.assertTrue(out.is(result.asItem()) && out.getCount() == count, "Crafting " + result + " gave " + out);
     }
 
@@ -49,7 +51,7 @@ public final class RustworksGameTests {
         return new ItemStack(item);
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void metalBlockRecipes(GameTestHelper helper) {
         var plate = s(RustworksItems.RUSTY_PLATE.get());
         var none = ItemStack.EMPTY;
@@ -67,7 +69,7 @@ public final class RustworksGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void kairiteOreDropsFollowGlow(GameTestHelper helper) {
         BlockState ore = RustworksBlocks.KAIRITE_ORE.get().defaultBlockState();
         for (int i = 0; i < 20; i++) {
@@ -84,7 +86,7 @@ public final class RustworksGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void kairitePhaseWindow(GameTestHelper helper) {
         int peak = 0;
         for (int phase = 0; phase < KairiteOreBlock.PERIOD; phase++) {
@@ -96,7 +98,7 @@ public final class RustworksGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty", timeoutTicks = 100)
+    @UpfallGameTest(template = "empty", timeoutTicks = 100)
     public static void kairiteOreTicksToCurrentPhase(GameTestHelper helper) {
         BlockPos pos = new BlockPos(1, 2, 1);
         helper.setBlock(pos, RustworksBlocks.KAIRITE_ORE.get());
@@ -111,7 +113,7 @@ public final class RustworksGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void leakingPipeFillsCauldronInSteps(GameTestHelper helper) {
         helper.setBlock(new BlockPos(1, 8, 1), RustworksBlocks.LEAKING_PIPE.get());
         helper.setBlock(new BlockPos(1, 2, 1), Blocks.CAULDRON);
@@ -126,7 +128,7 @@ public final class RustworksGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void leakingPipeBlockedBySolid(GameTestHelper helper) {
         helper.setBlock(new BlockPos(1, 8, 1), RustworksBlocks.LEAKING_PIPE.get());
         helper.setBlock(new BlockPos(1, 5, 1), Blocks.STONE);
@@ -139,7 +141,7 @@ public final class RustworksGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void kairiteDustConvertsFullStillflow(GameTestHelper helper) {
         BlockPos pos = new BlockPos(1, 2, 1);
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
@@ -152,9 +154,13 @@ public final class RustworksGameTests {
                 helper.assertTrue(dust.getCount() == 2 && helper.getBlockState(pos).is(RustworksBlocks.STILLFLOW_CAULDRON.get()),
                         "Level " + level + " must not convert");
             } else {
+                //? if >=26.1 {
+                /*helper.assertBlock(pos, b -> b == Blocks.CAULDRON, b -> net.minecraft.network.chat.Component.literal("Full cauldron must become empty"));
+                *///?} else {
                 helper.assertBlock(pos, b -> b == Blocks.CAULDRON, () -> "Full cauldron must become empty");
+                //?}
                 helper.assertTrue(dust.getCount() == 1, "One dust must be consumed");
-                helper.assertTrue(count(player.getInventory().items, RustworksItems.KAIRITE_GEAR.get()) == 1, "Player must receive one gear");
+                helper.assertTrue(count(McPlayers.mainItems(player.getInventory()), RustworksItems.KAIRITE_GEAR.get()) == 1, "Player must receive one gear");
             }
         }
         helper.succeed();

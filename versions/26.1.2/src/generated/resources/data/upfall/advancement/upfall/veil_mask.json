@@ -1,0 +1,32 @@
+{
+  "parent": "upfall:upfall/kairite_gear",
+  "criteria": {
+    "has_item": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:veil_mask"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.veil_mask.description"
+    },
+    "icon": {
+      "id": "upfall:veil_mask"
+    },
+    "title": {
+      "translate": "advancements.upfall.veil_mask.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_item"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

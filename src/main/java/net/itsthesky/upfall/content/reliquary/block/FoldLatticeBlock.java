@@ -19,8 +19,8 @@ public class FoldLatticeBlock extends Block {
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        if (!level.isClientSide && !oldState.is(this)) {
-            level.scheduleTick(pos, this, LIFETIME + level.random.nextInt(20));
+        if (!level.isClientSide() && !oldState.is(this)) {
+            level.scheduleTick(pos, this, LIFETIME + level.getRandom().nextInt(20));
         }
     }
 

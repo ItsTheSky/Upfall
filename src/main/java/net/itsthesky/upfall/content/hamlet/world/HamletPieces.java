@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.hamlet.world;
 
+import net.itsthesky.upfall.compat.mc.McNbt;
 import net.itsthesky.upfall.content.hamlet.HamletBlocks;
 import net.itsthesky.upfall.content.hamlet.HamletLoot;
 import net.itsthesky.upfall.content.hamlet.HamletStructures;
@@ -201,18 +202,18 @@ public final class HamletPieces {
 
         public PlatformPiece(CompoundTag tag) {
             super(HamletStructures.PLATFORM.get(), tag);
-            this.kind = HamletLayout.Kind.valueOf(tag.getString("Kind"));
-            this.center = BlockPos.of(tag.getLong("Center"));
-            this.radius = tag.getInt("Radius");
-            this.front = Direction.from2DDataValue(tag.getInt("Front"));
+            this.kind = HamletLayout.Kind.valueOf(McNbt.getString(tag, "Kind"));
+            this.center = BlockPos.of(McNbt.getLong(tag, "Center"));
+            this.radius = McNbt.getInt(tag, "Radius");
+            this.front = Direction.from2DDataValue(McNbt.getInt(tag, "Front"));
             List<BlockPos> list = new ArrayList<>();
-            for (long packed : tag.getLongArray("Openings")) {
+            for (long packed : McNbt.getLongArray(tag, "Openings")) {
                 list.add(BlockPos.of(packed));
             }
             this.openings = List.copyOf(list);
-            this.bridgeMask = tag.getInt("BridgeMask");
-            this.stallMask = tag.getInt("StallMask");
-            this.seed = tag.getLong("Seed");
+            this.bridgeMask = McNbt.getInt(tag, "BridgeMask");
+            this.stallMask = McNbt.getInt(tag, "StallMask");
+            this.seed = McNbt.getLong(tag, "Seed");
         }
 
         @Override
@@ -647,11 +648,11 @@ public final class HamletPieces {
 
         public BridgePiece(CompoundTag tag) {
             super(HamletStructures.BRIDGE.get(), tag);
-            this.fromCenter = BlockPos.of(tag.getLong("From"));
-            this.fromRadius = tag.getInt("FromRadius");
-            this.toCenter = BlockPos.of(tag.getLong("To"));
-            this.toRadius = tag.getInt("ToRadius");
-            this.direction = Direction.from2DDataValue(tag.getInt("Direction"));
+            this.fromCenter = BlockPos.of(McNbt.getLong(tag, "From"));
+            this.fromRadius = McNbt.getInt(tag, "FromRadius");
+            this.toCenter = BlockPos.of(McNbt.getLong(tag, "To"));
+            this.toRadius = McNbt.getInt(tag, "ToRadius");
+            this.direction = Direction.from2DDataValue(McNbt.getInt(tag, "Direction"));
         }
 
         @Override
@@ -716,10 +717,10 @@ public final class HamletPieces {
 
         public ZiplinePiece(CompoundTag tag) {
             super(HamletStructures.ZIPLINE.get(), tag);
-            this.anchorA = BlockPos.of(tag.getLong("A"));
-            this.deckA = tag.getInt("DeckA");
-            this.anchorB = BlockPos.of(tag.getLong("B"));
-            this.deckB = tag.getInt("DeckB");
+            this.anchorA = BlockPos.of(McNbt.getLong(tag, "A"));
+            this.deckA = McNbt.getInt(tag, "DeckA");
+            this.anchorB = BlockPos.of(McNbt.getLong(tag, "B"));
+            this.deckB = McNbt.getInt(tag, "DeckB");
         }
 
         @Override
@@ -741,7 +742,11 @@ public final class HamletPieces {
             for (int y = deckY + 1; y < anchor.getY(); y++) {
                 bp.set(new BlockPos(anchor.getX(), y, anchor.getZ()), log(Direction.Axis.Y));
             }
+            //? if >=26.1 {
+            /*Direction along = Direction.getApproximateNearest(other.getX() - anchor.getX(), 0, other.getZ() - anchor.getZ());
+            *///?} else {
             Direction along = Direction.getNearest(other.getX() - anchor.getX(), 0, other.getZ() - anchor.getZ());
+            //?}
             bp.set(anchor, HamletBlocks.ZIPLINE_ANCHOR.get().defaultBlockState().setValue(ZiplineAnchorBlock.FACING, along));
             bp.link(anchor, other);
         }

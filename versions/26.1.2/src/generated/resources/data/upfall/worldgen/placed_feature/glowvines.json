@@ -1,0 +1,24 @@
+{
+  "feature": "upfall:hanging_glowvine",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": 2
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "upfall:surface_scan",
+      "max_y": 300,
+      "min_y": 64,
+      "support": {
+        "type": "minecraft:solid"
+      },
+      "surface": "ceiling"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "type": "upfall:quantum_incantation",
+  "base": "upfall:levitite_chestplate",
+  "ingredients": [
+    "upfall:rope_spool",
+    "upfall:rope_spool",
+    "upfall:zipline_anchor",
+    "upfall:duskwing_plume"
+  ],
+  "upgrade": "zipline"
+}

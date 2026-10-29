@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_levitite_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:levitite_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:levitite_ingot_from_levitite_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_levitite_block"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:levitite_ingot_from_levitite_block"
+    ]
+  }
+}

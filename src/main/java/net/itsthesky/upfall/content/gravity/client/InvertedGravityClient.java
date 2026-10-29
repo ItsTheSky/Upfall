@@ -1,13 +1,28 @@
 package net.itsthesky.upfall.content.gravity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.itsthesky.upfall.compat.mc.client.McCamera;
 import net.itsthesky.upfall.content.gravity.InvertedGravity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
+//? if >=26.1 {
+/*import net.itsthesky.upfall.Upfall;
+import net.minecraft.client.entity.ClientAvatarEntity;
+import net.minecraft.client.player.ClientInput;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.util.context.ContextKey;
+import net.minecraft.world.entity.Avatar;
+import net.minecraft.world.entity.player.Input;
+import net.minecraft.world.phys.Vec2;
+import net.neoforged.neoforge.client.renderstate.AvatarRenderStateModifier;
+import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
+*///?} else {
+import net.minecraft.client.player.Input;
 import net.minecraft.world.entity.player.Player;
+//?}
 import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.CalculatePlayerTurnEvent;
 import net.neoforged.neoforge.client.event.MovementInputUpdateEvent;
 import net.neoforged.neoforge.client.event.RenderPlayerEvent;
@@ -15,22 +30,33 @@ import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import org.joml.Quaternionf;
 
+//? if <26.1 {
 import java.util.ArrayDeque;
 import java.util.Deque;
+//?}
 
 public final class InvertedGravityClient {
     private InvertedGravityClient() {}
 
+    //? if >=26.1 {
+    /*private record FlipData(float progress, float bodyYaw) {}
+
+    private static final ContextKey<FlipData> FLIP = new ContextKey<>(Upfall.id("inverted_gravity_flip"));
+    *///?} else {
     private record SavedRotation(Player player, boolean mirrored, float xRot, float xRotO, float yHeadRot, float yHeadRotO) {}
 
     private static final Deque<SavedRotation> SAVED = new ArrayDeque<>();
+    //?}
 
-    public static void register() {
+    public static void register(IEventBus modEventBus) {
         NeoForge.EVENT_BUS.addListener(InvertedGravityClient::onCameraAngles);
         NeoForge.EVENT_BUS.addListener(InvertedGravityClient::onPlayerTurn);
         NeoForge.EVENT_BUS.addListener(InvertedGravityClient::onMovementInput);
         NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, InvertedGravityClient::onRenderPlayerPre);
         NeoForge.EVENT_BUS.addListener(InvertedGravityClient::onRenderPlayerPost);
+        //? if >=26.1 {
+        /*modEventBus.addListener(InvertedGravityClient::registerRenderStateModifiers);
+        *///?}
     }
 
     private static float eased(float progress) {
@@ -38,7 +64,7 @@ public final class InvertedGravityClient {
     }
 
     private static void onCameraAngles(ViewportEvent.ComputeCameraAngles event) {
-        float flip = InvertedGravity.flipProgress(event.getCamera().getEntity(), (float) event.getPartialTick());
+        float flip = InvertedGravity.flipProgress(McCamera.entity(event.getCamera()), (float) event.getPartialTick());
         if (flip > 0.0F) {
             event.setRoll(event.getRoll() + 180.0F * eased(flip));
         }
@@ -58,12 +84,56 @@ public final class InvertedGravityClient {
 
     private static void onMovementInput(MovementInputUpdateEvent event) {
         if (event.getEntity() != Minecraft.getInstance().player || !viewUpsideDown()) return;
+        //? if >=26.1 {
+        /*ClientInput input = event.getInput();
+        input.moveVector = new Vec2(-input.moveVector.x, input.moveVector.y);
+        Input keys = input.keyPresses;
+        input.keyPresses = new Input(keys.forward(), keys.backward(), keys.right(), keys.left(), keys.jump(), keys.shift(), keys.sprint());
+        *///?} else {
         Input input = event.getInput();
         input.leftImpulse = -input.leftImpulse;
         boolean left = input.left;
         input.left = input.right;
         input.right = left;
+        //?}
     }
+
+    //? if >=26.1 {
+    /*private static void registerRenderStateModifiers(RegisterRenderStateModifiersEvent event) {
+        event.registerAvatarEntityModifier(new AvatarRenderStateModifier() {
+            @Override
+            public <T extends Avatar & ClientAvatarEntity> void accept(T avatar, AvatarRenderState state) {
+                float flip = InvertedGravity.flipProgress(avatar, state.partialTick);
+                if (flip <= 0.0F) return;
+                float bodyYaw = Mth.rotLerp(state.partialTick, avatar.yBodyRotO, avatar.yBodyRot) * Mth.DEG_TO_RAD;
+                state.setRenderData(FLIP, new FlipData(flip, bodyYaw));
+            }
+        });
+    }
+
+    private static void onRenderPlayerPre(RenderPlayerEvent.Pre<?> event) {
+        AvatarRenderState state = event.getRenderState();
+        FlipData data = state.getRenderData(FLIP);
+        if (data == null) return;
+        float angle = 180.0F * eased(data.progress());
+        float half = state.boundingBoxHeight / 2.0F;
+        PoseStack poseStack = event.getPoseStack();
+        poseStack.pushPose();
+        poseStack.translate(0.0F, half, 0.0F);
+        poseStack.mulPose(new Quaternionf().rotationAxis(angle * Mth.DEG_TO_RAD, -Mth.sin(data.bodyYaw()), 0.0F, Mth.cos(data.bodyYaw())));
+        poseStack.translate(0.0F, -half, 0.0F);
+
+        if (angle > 90.0F) {
+            state.xRot = -state.xRot;
+            state.yRot = -state.yRot;
+        }
+    }
+
+    private static void onRenderPlayerPost(RenderPlayerEvent.Post<?> event) {
+        if (event.getRenderState().getRenderData(FLIP) == null) return;
+        event.getPoseStack().popPose();
+    }
+    *///?} else {
 
     private static void onRenderPlayerPre(RenderPlayerEvent.Pre event) {
         Player player = event.getEntity();
@@ -102,4 +172,5 @@ public final class InvertedGravityClient {
         }
         event.getPoseStack().popPose();
     }
+    //?}
 }

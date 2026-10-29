@@ -1,19 +1,21 @@
 package net.itsthesky.upfall.content.chronospire.puzzle;
 
+import com.mojang.serialization.Codec;
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
 import net.itsthesky.upfall.content.chronospire.block.ChronoSealBlock;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.IntArrayTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public final class PuzzleGates {
     private static final BoundingBox DEFAULT = new BoundingBox(-6, -2, -6, 6, 8, 6);
+    private static final Codec<List<int[]>> GATES = Codec.INT_STREAM.xmap(IntStream::toArray, Arrays::stream).listOf();
 
     private final List<BoundingBox> boxes = new ArrayList<>();
 
@@ -38,18 +40,17 @@ public final class PuzzleGates {
         return opened;
     }
 
-    public void save(CompoundTag tag) {
-        ListTag list = new ListTag();
+    public void save(DataOut out) {
+        List<int[]> list = new ArrayList<>();
         for (BoundingBox box : boxes) {
-            list.add(new IntArrayTag(new int[]{box.minX(), box.minY(), box.minZ(), box.maxX(), box.maxY(), box.maxZ()}));
+            list.add(new int[]{box.minX(), box.minY(), box.minZ(), box.maxX(), box.maxY(), box.maxZ()});
         }
-        tag.put("Gates", list);
+        out.store("Gates", GATES, list);
     }
 
-    public void load(CompoundTag tag) {
+    public void load(DataIn in) {
         boxes.clear();
-        for (Tag entry : tag.getList("Gates", Tag.TAG_INT_ARRAY)) {
-            int[] v = ((IntArrayTag) entry).getAsIntArray();
+        for (int[] v : in.read("Gates", GATES).orElse(List.of())) {
             if (v.length == 6) {
                 boxes.add(new BoundingBox(v[0], v[1], v[2], v[3], v[4], v[5]));
             }

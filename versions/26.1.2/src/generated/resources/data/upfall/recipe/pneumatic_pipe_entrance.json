@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "upfall:pneumatic_pipe",
+    "minecraft:hopper"
+  ],
+  "result": {
+    "id": "upfall:pneumatic_pipe_entrance"
+  }
+}

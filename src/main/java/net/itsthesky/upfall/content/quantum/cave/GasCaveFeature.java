@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.quantum.cave;
 
+import net.itsthesky.upfall.compat.mc.McChunks;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerChunkCache;
@@ -24,18 +25,18 @@ public class GasCaveFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = context.level();
         if (!(level.getLevel().getChunkSource() instanceof ServerChunkCache cache)) return false;
         RandomState state = cache.randomState();
-        ChunkPos chunk = new ChunkPos(context.origin());
+        ChunkPos chunk = McChunks.of(context.origin());
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         boolean placed = false;
         for (int dx = -GasCaveNetworks.RANGE; dx <= GasCaveNetworks.RANGE; dx++) {
             for (int dz = -GasCaveNetworks.RANGE; dz <= GasCaveNetworks.RANGE; dz++) {
-                GasCaveNetwork network = GasCaveNetworks.get(state, new ChunkPos(chunk.x + dx, chunk.z + dz));
+                GasCaveNetwork network = GasCaveNetworks.get(state, new ChunkPos(McChunks.x(chunk) + dx, McChunks.z(chunk) + dz));
                 if (network.isEmpty()) continue;
                 for (GasCaveNetwork.Prop prop : network.propsIn(chunk)) {
                     pos.set(prop.pos());
                     BlockState current = level.getBlockState(pos);
                     boolean gas = current.is(QuantumBlocks.VEIL_GAS.get());
-                    if (prop.solidOnly() ? gas || current.isAir() || !current.isSolidRender(level, pos) : !gas) continue;
+                    if (prop.solidOnly() ? gas || current.isAir() || !solidRender(current, level, pos) : !gas) continue;
                     if (!prop.state().canSurvive(level, pos)) continue;
                     level.setBlock(pos, prop.state(), Block.UPDATE_CLIENTS);
                     if (prop.loot() != null) {
@@ -46,5 +47,13 @@ public class GasCaveFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
         return placed;
+    }
+
+    private static boolean solidRender(BlockState state, WorldGenLevel level, BlockPos pos) {
+        //? if >=26.1 {
+        /*return state.isSolidRender();
+        *///?} else {
+        return state.isSolidRender(level, pos);
+        //?}
     }
 }

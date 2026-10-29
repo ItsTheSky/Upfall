@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.engine;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.engine.block.DrainRegulatorBlock;
 import net.itsthesky.upfall.content.engine.block.DrainRegulatorBlockEntity;
 import net.itsthesky.upfall.content.engine.block.DrainValveBlock;
@@ -32,14 +33,14 @@ public final class EngineBlocks {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Upfall.MODID);
     static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
 
-    public static final DeferredBlock<StagnantMistBlock> STAGNANT_MIST = BLOCKS.registerBlock("stagnant_mist", StagnantMistBlock::new,
+    public static final DeferredBlock<StagnantMistBlock> STAGNANT_MIST = McRegistration.block(BLOCKS, "stagnant_mist", StagnantMistBlock::new,
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).strength(-1.0F, 3600000.0F).noLootTable().noOcclusion()
                     .sound(SoundType.WOOL).isValidSpawn(Blocks::never).isSuffocating((s, l, p) -> false)
                     .isViewBlocking((s, l, p) -> false).isRedstoneConductor((s, l, p) -> false).pushReaction(PushReaction.BLOCK));
     public static final DeferredBlock<DrainValveBlock> DRAIN_VALVE = block("drain_valve", DrainValveBlock::new,
             BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                     .requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.COPPER).noOcclusion());
-    public static final DeferredBlock<DrainRegulatorBlock> DRAIN_REGULATOR = BLOCKS.registerBlock("drain_regulator", DrainRegulatorBlock::new,
+    public static final DeferredBlock<DrainRegulatorBlock> DRAIN_REGULATOR = McRegistration.block(BLOCKS, "drain_regulator", DrainRegulatorBlock::new,
             BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).instrument(NoteBlockInstrument.IRON_XYLOPHONE)
                     .requiresCorrectToolForDrops().strength(5.0F, 3600000.0F).sound(SoundType.COPPER).noLootTable()
                     .pushReaction(PushReaction.BLOCK));
@@ -48,11 +49,11 @@ public final class EngineBlocks {
                     .requiresCorrectToolForDrops().strength(3.5F, 6.0F).sound(SoundType.POLISHED_DEEPSLATE));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DrainRegulatorBlockEntity>> DRAIN_REGULATOR_ENTITY = BLOCK_ENTITIES.register(
-            "drain_regulator", () -> BlockEntityType.Builder.of(DrainRegulatorBlockEntity::new, DRAIN_REGULATOR.get()).build(null));
+            "drain_regulator", () -> McRegistration.<DrainRegulatorBlockEntity>blockEntityType(DrainRegulatorBlockEntity::new, DRAIN_REGULATOR.get()));
 
     private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory,
                                                            BlockBehaviour.Properties props) {
-        DeferredBlock<B> block = BLOCKS.registerBlock(name, factory, props);
+        DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
         CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(block));
         return block;
     }

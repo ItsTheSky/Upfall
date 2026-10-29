@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "upfall:block/rustslate_bricks",
+    "side": "upfall:block/rustslate_bricks",
+    "top": "upfall:block/rustslate_bricks"
+  }
+}

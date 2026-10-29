@@ -1,19 +1,18 @@
 package net.itsthesky.upfall.content.machines.block;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.compat.mc.McPlayers;
+import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.content.machines.KairiteFuel;
 import net.itsthesky.upfall.content.machines.MachineBlockEntities;
 import net.itsthesky.upfall.content.machines.block.entity.HasteningGearBlockEntity;
-import net.itsthesky.upfall.content.rustworks.RustworksItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -31,15 +30,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+//? if <26.1 {
+import net.minecraft.world.ItemInteractionResult;
+//?}
 
 public class HasteningGearBlock extends BaseEntityBlock {
     public static final MapCodec<HasteningGearBlock> CODEC = simpleCodec(HasteningGearBlock::new);
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     private static final VoxelShape[] SHAPES = new VoxelShape[6];
 
@@ -99,13 +101,24 @@ public class HasteningGearBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, MachineBlockEntities.HASTENING_GEAR.get(), HasteningGearBlockEntity::serverTick);
+        return level.isClientSide() ? null : createTickerHelper(type, MachineBlockEntities.HASTENING_GEAR.get(), HasteningGearBlockEntity::serverTick);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected InteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        return UseResults.item(interact(held, level, pos, player), level);
+    }
+    *///?} else {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        return UseResults.item(interact(held, level, pos, player), level);
+    }
+    //?}
+
+    private UseResults.Outcome interact(ItemStack held, Level level, BlockPos pos, Player player) {
         if (KairiteFuel.units(held) > 0 && level.getBlockEntity(pos) instanceof HasteningGearBlockEntity gear) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 int used = gear.accept(held);
                 if (used > 0) {
                     if (!player.getAbilities().instabuild) held.shrink(used);
@@ -114,45 +127,55 @@ public class HasteningGearBlock extends BaseEntityBlock {
                     showFuel(player, gear);
                 }
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return UseResults.Outcome.SIDED_SUCCESS;
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return UseResults.Outcome.PASS_TO_DEFAULT;
     }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof HasteningGearBlockEntity gear) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 showFuel(player, gear);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return UseResults.sided(level);
         }
         return InteractionResult.PASS;
     }
 
     private static void showFuel(Player player, HasteningGearBlockEntity gear) {
-        player.displayClientMessage(Component.translatable("message.upfall.hastening_gear.fuel",
-                gear.fuel() * 100 / HasteningGearBlockEntity.FUEL_CAPACITY), true);
+        McPlayers.overlay(player, Component.translatable("message.upfall.hastening_gear.fuel",
+                gear.fuel() * 100 / HasteningGearBlockEntity.FUEL_CAPACITY));
     }
 
+    //? if <26.1 {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof HasteningGearBlockEntity gear) {
-            int dust = gear.fuel() / (KairiteFuel.DUST_UNITS * HasteningGearBlockEntity.UNIT_TICKS);
-            if (dust > 0) {
-                Containers.dropItemStack(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(RustworksItems.KAIRITE_DUST.get(), dust));
-            }
+            gear.dropContents();
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
     }
+    //?}
 
     @Override
     protected boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
+        return analogSignal(level, pos);
+    }
+    *///?} else {
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        return analogSignal(level, pos);
+    }
+    //?}
+
+    private static int analogSignal(Level level, BlockPos pos) {
         return level.getBlockEntity(pos) instanceof HasteningGearBlockEntity gear ? gear.signal() : 0;
     }
 }

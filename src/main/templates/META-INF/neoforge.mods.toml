@@ -36,13 +36,14 @@ A twilight sky dimension where gravity is upside down in places: drifting archip
 [[dependencies.${mod_id}]]
     modId="jei"
     type="optional"
-    versionRange="[19,)"
+    versionRange="${jei_version_range}"
     ordering="NONE"
     side="CLIENT"
-
+<%if (emi_enabled) {%>
 [[dependencies.${mod_id}]]
     modId="emi"
     type="optional"
     versionRange="[1.1,)"
     ordering="NONE"
     side="CLIENT"
+<%}%>

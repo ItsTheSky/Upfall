@@ -1,20 +1,14 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.148'
+    id 'net.neoforged.moddev'
     id 'idea'
 }
 
-tasks.named('wrapper', Wrapper).configure {
-    // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
-    // Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
-    // documentation attached on cursor hover of gradle classes and methods. However, this comes with increased
-    // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
-    // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
-    distributionType = Wrapper.DistributionType.BIN
-}
+def hasParchment = project.hasProperty('parchment_mappings_version')
+def hasEmi = project.hasProperty('emi_version')
 
-version = mod_version
+version = "${mod_version}+${minecraft_version}"
 group = mod_group_id
 
 sourceSets.main.resources {
@@ -34,16 +28,25 @@ base {
     archivesName = mod_id
 }
 
-// Mojang ships Java 21 to end users in 1.21.1, so mods should target Java 21.
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(project.java_version as int)
+
+if (!hasEmi) {
+    sourceSets.main.java.exclude('net/itsthesky/upfall/compat/emi/**')
+}
 
 neoForge {
     // Specify the version of NeoForge to use.
     version = project.neo_version
 
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
+    if (sc.current.parsed.matches('>=26.1')) {
+        accessTransformers.from(project.file('src/main/resources/META-INF/accesstransformer.cfg'))
+    }
+
+    if (hasParchment) {
+        parchment {
+            mappingsVersion = project.parchment_mappings_version
+            minecraftVersion = project.parchment_minecraft_version
+        }
     }
 
     // This line is optional. Access Transformers are automatically detected
@@ -70,15 +73,24 @@ neoForge {
         gameTestServer {
             type = "gameTestServer"
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            if (sc.current.parsed.matches('>=26.1')) {
+                programArgument '--tests'
+                programArgument "${project.mod_id}:*"
+            }
         }
 
         data {
-            data()
+            if (sc.current.parsed.matches('>=26.1')) {
+                clientData()
+            } else {
+                data()
+            }
             // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
             // gameDirectory = project.file('run-data')
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', rootProject.file('src/main/resources/').getAbsolutePath()
+            programArguments.addAll '--existing', file('src/main/resources/').getAbsolutePath()
         }
 
         // applies to all the run configs above
@@ -122,9 +134,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly "mezz.jei:jei-1.21.1-common-api:${jei_version}"
-    compileOnly "mezz.jei:jei-1.21.1-neoforge-api:${jei_version}"
-    compileOnly "dev.emi:emi-neoforge:${emi_version}+1.21.1:api"
+    compileOnly "mezz.jei:jei-${jei_mc_version}-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${jei_mc_version}-neoforge-api:${jei_version}"
+    if (hasEmi) {
+        compileOnly "dev.emi:emi-neoforge:${emi_version}+${minecraft_version}:api"
+    }
     compileOnly "org.appliedenergistics:guideme:${guideme_version}"
     localRuntime "org.appliedenergistics:guideme:${guideme_version}"
 
@@ -164,17 +178,23 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_license            : mod_license,
             mod_version            : mod_version,
             guideme_version        : guideme_version,
+            jei_version_range      : jei_version_range,
+            emi_enabled            : hasEmi,
     ]
     inputs.properties replaceProperties
     expand replaceProperties
-    from "src/main/templates"
-    into "build/generated/sources/modMetadata"
+    from rootProject.file('src/main/templates')
+    into layout.buildDirectory.dir('generated/sources/modMetadata')
 }
 // Include the output of "generateModMetadata" as an input directory for the build
 // this works with both building through Gradle and the IDE.
 sourceSets.main.resources.srcDir generateModMetadata
 // To avoid having to run "generateModMetadata" manually, make it run on every project reload
 neoForge.ideSyncTask generateModMetadata
+
+tasks.named('createMinecraftArtifacts') {
+    dependsOn 'stonecutterGenerate'
+}
 
 // Example configuration to allow publishing using the maven-publish plugin
 publishing {

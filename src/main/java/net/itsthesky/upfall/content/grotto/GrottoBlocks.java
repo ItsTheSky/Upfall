@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.grotto;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.grotto.block.LumenSproutsBlock;
 import net.itsthesky.upfall.content.grotto.block.PrismPoolBlock;
 import net.minecraft.world.item.Item;
@@ -72,7 +73,7 @@ public final class GrottoBlocks {
 
     private static <B extends Block> DeferredBlock<B> block(String name, java.util.function.Function<BlockBehaviour.Properties, ? extends B> factory,
                                                             BlockBehaviour.Properties props) {
-        DeferredBlock<B> block = BLOCKS.registerBlock(name, factory, props);
+        DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
         CREATIVE_ORDER.add(ITEMS.registerSimpleBlockItem(block));
         return block;
     }
@@ -89,7 +90,13 @@ public final class GrottoBlocks {
     }
 
     private static DeferredBlock<AmethystClusterBlock> cluster(String name, MapColor color, float height, float offset, int light, SoundType sound) {
-        return block(name, props -> new AmethystClusterBlock(height, offset, props), BlockBehaviour.Properties.of()
+        // 26.1.2 takes the shape width instead of the 1.21.1 edge offset.
+        //? if >=26.1 {
+        /*float shape = 16.0F - 2.0F * offset;
+        *///?} else {
+        float shape = offset;
+        //?}
+        return block(name, props -> new AmethystClusterBlock(height, shape, props), BlockBehaviour.Properties.of()
                 .mapColor(color).forceSolidOn().noOcclusion().sound(sound).strength(1.5F).lightLevel(s -> light)
                 .pushReaction(PushReaction.DESTROY));
     }

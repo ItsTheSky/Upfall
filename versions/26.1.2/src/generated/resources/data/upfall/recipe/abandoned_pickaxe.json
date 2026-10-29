@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": "upfall:rusty_plate",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "PPP",
+    " S ",
+    " S "
+  ],
+  "result": {
+    "id": "upfall:abandoned_pickaxe"
+  }
+}

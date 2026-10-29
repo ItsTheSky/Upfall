@@ -1,0 +1,133 @@
+{
+  "attributes": {
+    "minecraft:audio/ambient_sounds": {
+      "additions": {
+        "sound": "upfall:ambient.drifting_archipelago.additions",
+        "tick_chance": 0.006
+      },
+      "mood": {
+        "block_search_extent": 8,
+        "offset": 2.0,
+        "sound": "upfall:ambient.drifting_archipelago.mood",
+        "tick_delay": 6000
+      }
+    },
+    "minecraft:audio/background_music": {
+      "creative": {
+        "max_delay": 24000,
+        "min_delay": 12000,
+        "sound": "minecraft:music.creative"
+      },
+      "default": {
+        "max_delay": 18000,
+        "min_delay": 6000,
+        "sound": "upfall:music.upfall"
+      }
+    },
+    "minecraft:visual/ambient_particles": [
+      {
+        "particle": {
+          "type": "upfall:petal"
+        },
+        "probability": 0.0025
+      }
+    ],
+    "minecraft:visual/fog_color": "#e8b0ba",
+    "minecraft:visual/sky_color": "#a9c8e8",
+    "minecraft:visual/water_fog_color": "#7c7a9e"
+  },
+  "carvers": "upfall:gas_caves",
+  "creature_spawn_probability": 0.3,
+  "downfall": 0.4,
+  "effects": {
+    "foliage_color": "#9fd4c4",
+    "grass_color": "#9fd4c4",
+    "water_color": "#9fc8e0"
+  },
+  "features": [
+    [],
+    [],
+    [
+      "upfall:sky_stream",
+      "upfall:sky_lake",
+      "upfall:sky_pond"
+    ],
+    [],
+    [
+      "upfall:drifting_ruins"
+    ],
+    [],
+    [
+      "upfall:ore_nimbusite",
+      "upfall:ore_pearled_cloud"
+    ],
+    [
+      "upfall:mistglow_crystal",
+      "upfall:upfall_cascade",
+      "upfall:glowvines",
+      "upfall:raincloud_patch",
+      "upfall:needle_tip",
+      "upfall:gas_cave_props"
+    ],
+    [],
+    [
+      "upfall:skyreach_trees",
+      "upfall:patch_gilded_tuft",
+      "upfall:patch_cloud_fern",
+      "upfall:patch_duskbloom",
+      "upfall:cloudstalks"
+    ],
+    [
+      "upfall:updraft_from_clouds",
+      "upfall:updraft_from_islands",
+      "upfall:cloudlets_rare"
+    ]
+  ],
+  "has_precipitation": false,
+  "spawn_costs": {},
+  "spawners": {
+    "ambient": [
+      {
+        "type": "upfall:skyray",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 8
+      }
+    ],
+    "axolotls": [],
+    "creature": [
+      {
+        "type": "upfall:skygrazer",
+        "maxCount": 4,
+        "minCount": 2,
+        "weight": 10
+      }
+    ],
+    "misc": [],
+    "monster": [
+      {
+        "type": "upfall:duskwing",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 3
+      },
+      {
+        "type": "upfall:cragmaw",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 6
+      }
+    ],
+    "underground_water_creature": [],
+    "water_ambient": [
+      {
+        "type": "upfall:mistjelly",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 3
+      }
+    ],
+    "water_creature": []
+  },
+  "temperature": 0.7
+}

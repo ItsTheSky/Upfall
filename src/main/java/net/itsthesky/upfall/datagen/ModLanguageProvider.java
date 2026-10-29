@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.datagen;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McIds;
 import net.itsthesky.upfall.content.UpfallModules;
 import net.itsthesky.upfall.item.UpfallSmithingTemplates;
 import net.itsthesky.upfall.registry.ModBlocks;
@@ -81,7 +82,7 @@ public class ModLanguageProvider extends LanguageProvider {
         advancement("levitite_armor", "Above It All", "Wear a full set of Levitite armor");
         add("message.upfall.void_rescue", "The sky lets you go... you drift back to the Overworld.");
         for (var biome : ModBiomes.ALL) {
-            add("biome.upfall." + biome.location().getPath(), name(biome.location().getPath()));
+            add("biome.upfall." + McIds.id(biome).getPath(), name(McIds.id(biome).getPath()));
         }
 
         template("nimbusite_upgrade", "Nimbusite Upgrade", "Netherite Equipment", "Nimbusite Ingot",
@@ -104,23 +105,23 @@ public class ModLanguageProvider extends LanguageProvider {
 
     private void autoNames() {
         for (var entry : BuiltInRegistries.BLOCK.entrySet()) {
-            if (isUpfall(entry.getKey().location()) && !added.contains(entry.getValue().getDescriptionId())) {
-                add(entry.getValue(), name(entry.getKey().location().getPath()));
+            if (isUpfall(McIds.id(entry.getKey())) && !added.contains(entry.getValue().getDescriptionId())) {
+                add(entry.getValue(), name(McIds.id(entry.getKey()).getPath()));
             }
         }
         for (var entry : BuiltInRegistries.ITEM.entrySet()) {
-            if (isUpfall(entry.getKey().location()) && !added.contains(entry.getValue().getDescriptionId())) {
-                add(entry.getValue(), name(entry.getKey().location().getPath()));
+            if (isUpfall(McIds.id(entry.getKey())) && !added.contains(entry.getValue().getDescriptionId())) {
+                add(entry.getValue(), name(McIds.id(entry.getKey()).getPath()));
             }
         }
         for (var entry : BuiltInRegistries.ENTITY_TYPE.entrySet()) {
-            if (isUpfall(entry.getKey().location()) && !added.contains(entry.getValue().getDescriptionId())) {
-                add(entry.getValue(), name(entry.getKey().location().getPath()));
+            if (isUpfall(McIds.id(entry.getKey())) && !added.contains(entry.getValue().getDescriptionId())) {
+                add(entry.getValue(), name(McIds.id(entry.getKey()).getPath()));
             }
         }
         for (var entry : BuiltInRegistries.MOB_EFFECT.entrySet()) {
-            if (isUpfall(entry.getKey().location()) && !added.contains(entry.getValue().getDescriptionId())) {
-                add(entry.getValue(), name(entry.getKey().location().getPath()));
+            if (isUpfall(McIds.id(entry.getKey())) && !added.contains(entry.getValue().getDescriptionId())) {
+                add(entry.getValue(), name(McIds.id(entry.getKey()).getPath()));
             }
         }
     }

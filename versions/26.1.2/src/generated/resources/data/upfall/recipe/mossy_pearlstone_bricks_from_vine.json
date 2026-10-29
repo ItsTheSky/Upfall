@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "upfall:pearlstone_bricks",
+    "minecraft:vine"
+  ],
+  "result": {
+    "id": "upfall:mossy_pearlstone_bricks"
+  }
+}

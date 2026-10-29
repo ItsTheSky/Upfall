@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "open=false": {
+      "model": "upfall:block/chrono_seal"
+    },
+    "open=true": {
+      "model": "upfall:block/chrono_seal_open"
+    }
+  }
+}

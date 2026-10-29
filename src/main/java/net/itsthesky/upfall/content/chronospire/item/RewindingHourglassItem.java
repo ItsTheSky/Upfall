@@ -1,5 +1,7 @@
 package net.itsthesky.upfall.content.chronospire.item;
 
+import net.itsthesky.upfall.compat.mc.McPlayers;
+import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.registry.ModParticles;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -8,7 +10,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +18,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.function.Consumer;
+//? if <26.1 {
+import net.minecraft.world.InteractionResultHolder;
+//?}
 
 public class RewindingHourglassItem extends Item {
     public static final int MIN_AGE = 60;
@@ -26,16 +31,27 @@ public class RewindingHourglassItem extends Item {
         super(properties);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public net.minecraft.world.InteractionResult use(Level level, Player player, InteractionHand hand) {
+        return UseResults.hold(rewind(level, player, hand), level);
+    }
+    *///?} else {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        return UseResults.hold(rewind(level, player, hand), level);
+    }
+    //?}
+
+    private UseResults.Held rewind(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (!(player instanceof ServerPlayer serverPlayer) || !(level instanceof ServerLevel server)) {
-            return InteractionResultHolder.success(stack);
+            return UseResults.Held.success(stack);
         }
         HourglassTracker.Footing footing = HourglassTracker.rewind(player.getUUID(), level.dimension(), level.getGameTime(), MIN_AGE);
         if (footing == null) {
-            player.displayClientMessage(Component.translatable("message.upfall.hourglass.empty"), true);
-            return InteractionResultHolder.fail(stack);
+            McPlayers.overlay(player, Component.translatable("message.upfall.hourglass.empty"));
+            return UseResults.Held.fail(stack);
         }
         Vec3 from = player.position();
         server.sendParticles(ModParticles.GILDED_DUST.get(), from.x, from.y + 1.0, from.z, 30, 0.3, 0.6, 0.3, 0.02);
@@ -47,12 +63,23 @@ public class RewindingHourglassItem extends Item {
         server.playSound(null, footing.pos().x, footing.pos().y, footing.pos().z, SoundEvents.CHORUS_FRUIT_TELEPORT, SoundSource.PLAYERS, 0.8F, 1.4F);
         server.playSound(null, footing.pos().x, footing.pos().y, footing.pos().z, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.PLAYERS, 1.0F, 0.6F);
         HourglassTracker.clear(player.getUUID());
-        player.getCooldowns().addCooldown(this, COOLDOWN);
-        return InteractionResultHolder.consume(stack);
+        McPlayers.cooldown(player, this, COOLDOWN);
+        return UseResults.Held.consume(stack);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, net.minecraft.world.item.component.TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+        hoverText(tooltip);
+    }
+    *///?} else {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("item.upfall.rewinding_hourglass.desc").withStyle(ChatFormatting.GRAY));
+        hoverText(tooltip::add);
+    }
+    //?}
+
+    private void hoverText(Consumer<Component> out) {
+        out.accept(Component.translatable("item.upfall.rewinding_hourglass.desc").withStyle(ChatFormatting.GRAY));
     }
 }

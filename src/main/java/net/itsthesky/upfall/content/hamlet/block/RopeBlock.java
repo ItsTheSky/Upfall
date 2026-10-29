@@ -1,11 +1,11 @@
 package net.itsthesky.upfall.content.hamlet.block;
 
+import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.content.hamlet.HamletSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -24,6 +24,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+//? if <26.1 {
+import net.minecraft.world.ItemInteractionResult;
+//?}
 
 public class RopeBlock extends Block {
     public static final BooleanProperty END = BooleanProperty.create("end");
@@ -73,8 +76,20 @@ public class RopeBlock extends Block {
         return state.canSurvive(context.getLevel(), context.getClickedPos()) ? state : null;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected BlockState updateShape(BlockState state, LevelReader level, net.minecraft.world.level.ScheduledTickAccess ticks, BlockPos pos,
+                                     Direction direction, BlockPos neighborPos, BlockState neighborState, net.minecraft.util.RandomSource random) {
+        return shapeAfterUpdate(state, direction, neighborState, level, pos);
+    }
+    *///?} else {
     @Override
     protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        return shapeAfterUpdate(state, direction, neighborState, level, pos);
+    }
+    //?}
+
+    private static BlockState shapeAfterUpdate(BlockState state, Direction direction, BlockState neighborState, LevelReader level, BlockPos pos) {
         if (!state.canSurvive(level, pos)) {
             return Blocks.AIR.defaultBlockState();
         }
@@ -84,11 +99,23 @@ public class RopeBlock extends Block {
         return state;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected net.minecraft.world.InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
+                                                              InteractionHand hand, BlockHitResult hit) {
+        return UseResults.item(interact(stack, state, level, pos, player), level);
+    }
+    *///?} else {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
                                               InteractionHand hand, BlockHitResult hit) {
+        return UseResults.item(interact(stack, state, level, pos, player), level);
+    }
+    //?}
+
+    private UseResults.Outcome interact(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player) {
         if (!stack.is(asItem())) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return UseResults.Outcome.PASS_TO_DEFAULT;
         }
         BlockPos.MutableBlockPos bottom = pos.mutable();
         for (int i = 0; i < MAX_EXTEND && level.getBlockState(bottom.below()).getBlock() instanceof RopeBlock; i++) {
@@ -96,16 +123,16 @@ public class RopeBlock extends Block {
         }
         BlockPos target = bottom.below();
         if (!level.isInWorldBounds(target) || !level.getBlockState(target).canBeReplaced()) {
-            return ItemInteractionResult.FAIL;
+            return UseResults.Outcome.FAIL;
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             level.setBlock(target, defaultBlockState(), Block.UPDATE_ALL);
             level.playSound(null, target, getSoundType(state, level, target, player).getPlaceSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
             level.playSound(null, target, HamletSounds.ROPE_TIE.get(), SoundSource.BLOCKS, 0.5F, 1.2F);
             level.gameEvent(player, GameEvent.BLOCK_PLACE, target);
             stack.consume(1, player);
         }
-        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        return UseResults.Outcome.SIDED_SUCCESS;
     }
 
     @Override

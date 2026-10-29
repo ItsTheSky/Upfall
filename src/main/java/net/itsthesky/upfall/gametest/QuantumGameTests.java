@@ -2,6 +2,7 @@ package net.itsthesky.upfall.gametest;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.UpfallConfig;
+import net.itsthesky.upfall.compat.mc.McEntities;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.cluster.FlickerShardClusterBlock;
 import net.itsthesky.upfall.content.quantum.observe.QuantumObservation;
@@ -11,13 +12,13 @@ import net.itsthesky.upfall.content.quantum.vault.ShiftingVaultLayout;
 import net.itsthesky.upfall.content.quantum.vault.ShiftingVaultStructure;
 import net.itsthesky.upfall.content.quantum.vault.VaultCoreBlockEntity;
 import net.itsthesky.upfall.content.quantum.vault.VaultTunnel;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.worldgen.ModBiomes;
 import net.itsthesky.upfall.worldgen.UpfallTerrain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
@@ -31,14 +32,10 @@ import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.ArrayDeque;
 import java.util.List;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class QuantumGameTests {
     private QuantumGameTests() {}
 
@@ -47,7 +44,7 @@ public final class QuantumGameTests {
         for (ServerPlayer stray : List.copyOf(helper.getLevel().players())) leave(helper, stray);
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
         Vec3 feet = Vec3.atBottomCenterOf(helper.absolutePos(relative));
-        player.moveTo(feet.x, feet.y, feet.z);
+        McEntities.snapTo(player, feet.x, feet.y, feet.z);
         player.setItemInHand(net.minecraft.world.InteractionHand.OFF_HAND, new ItemStack(Items.TORCH));
         look(helper, player, lookAt);
         return player;
@@ -71,7 +68,7 @@ public final class QuantumGameTests {
     }
 
 
-    @GameTest(template = "empty_large", timeoutTicks = 100, batch = "quantum_observer_rule")
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 100, batch = "quantum_observer_rule")
     public static void observationRule(GameTestHelper helper) {
         BlockPos target = new BlockPos(12, 2, 4);
         helper.setBlock(target, Blocks.GOLD_BLOCK);
@@ -100,7 +97,7 @@ public final class QuantumGameTests {
     }
 
 
-    @GameTest(template = "empty_large", timeoutTicks = 400, batch = "quantum_observer_cluster")
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 400, batch = "quantum_observer_cluster")
     public static void flickerClusterJumpsWhenUnobserved(GameTestHelper helper) {
         for (int x = 4; x <= 20; x++) {
             for (int y = 1; y <= 5; y++) helper.setBlock(new BlockPos(x, y, 4), ModBlocks.PEARLSTONE.get());
@@ -130,7 +127,7 @@ public final class QuantumGameTests {
     }
 
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void shiftingVaultLayout(GameTestHelper helper) {
         BlockPos origin = new BlockPos(1000, 120, 1000);
         for (long seed = 0; seed < 8; seed++) {
@@ -175,7 +172,7 @@ public final class QuantumGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 400, batch = "quantum_observer_chest")
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 400, batch = "quantum_observer_chest")
     public static void shiftingChestJumpsWhenUnobserved(GameTestHelper helper) {
         List<BlockPos> spots = List.of(new BlockPos(4, 2, 12), new BlockPos(20, 2, 12), new BlockPos(12, 2, 4));
         List<BlockPos> absolute = spots.stream().map(helper::absolutePos).toList();
@@ -216,10 +213,10 @@ public final class QuantumGameTests {
         });
     }
 
-    @GameTest(template = "empty", timeoutTicks = 12000)
+    @UpfallGameTest(template = "empty", timeoutTicks = 12000)
     public static void shiftingVaultSites(GameTestHelper helper) {
         var registries = helper.getLevel().registryAccess();
-        var settings = registries.registryOrThrow(Registries.NOISE_SETTINGS).getHolderOrThrow(UpfallTerrain.SETTINGS);
+        var settings = registries.lookupOrThrow(Registries.NOISE_SETTINGS).getOrThrow(UpfallTerrain.SETTINGS);
         var generator = new NoiseBasedChunkGenerator(ModBiomes.biomeSource(registries.lookupOrThrow(Registries.BIOME)), settings);
         RandomState state = RandomState.create(settings.value(), registries.lookupOrThrow(Registries.NOISE), 20261012L);
         LevelHeightAccessor height = LevelHeightAccessor.create(UpfallTerrain.MIN_Y, UpfallTerrain.HEIGHT);

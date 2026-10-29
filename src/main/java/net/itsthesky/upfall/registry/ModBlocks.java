@@ -14,6 +14,7 @@ import net.itsthesky.upfall.block.UpdraftMistBlock;
 import net.itsthesky.upfall.block.UpdraftVentBlock;
 import net.itsthesky.upfall.block.UpfallCascadeBlock;
 import net.itsthesky.upfall.block.UpfallLogBlock;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.rustworks.worldgen.RustworksFeatures;
 import net.itsthesky.upfall.worldgen.ModFeatureKeys;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -104,11 +105,11 @@ public final class ModBlocks {
             .isValidSpawn(Blocks::never).pushReaction(PushReaction.DESTROY));
     public static final DeferredBlock<UpdraftVentBlock> UPDRAFT_VENT = block("updraft_vent", UpdraftVentBlock::new,
             stone(MapColor.QUARTZ, 2.0F, SoundType.CALCITE).randomTicks().lightLevel(s -> 6));
-    public static final DeferredBlock<UpdraftMistBlock> UPDRAFT_MIST = BLOCKS.registerBlock("updraft_mist", UpdraftMistBlock::new, BlockBehaviour.Properties.of()
+    public static final DeferredBlock<UpdraftMistBlock> UPDRAFT_MIST = McRegistration.block(BLOCKS, "updraft_mist", UpdraftMistBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.GOLD).noCollission().noOcclusion().noLootTable().replaceable().strength(-1.0F, 0.0F)
             .lightLevel(s -> 3).isViewBlocking((s, l, p) -> false).isSuffocating((s, l, p) -> false)
             .isValidSpawn(Blocks::never).pushReaction(PushReaction.DESTROY).sound(SoundType.WOOL));
-    public static final DeferredBlock<UpfallCascadeBlock> UPFALL_CASCADE = BLOCKS.registerBlock("upfall_cascade", UpfallCascadeBlock::new, BlockBehaviour.Properties.of()
+    public static final DeferredBlock<UpfallCascadeBlock> UPFALL_CASCADE = McRegistration.block(BLOCKS, "upfall_cascade", UpfallCascadeBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.WATER).noCollission().noOcclusion().noLootTable().replaceable().strength(-1.0F, 0.0F).lightLevel(s -> 5)
             .isViewBlocking((s, l, p) -> false).isSuffocating((s, l, p) -> false)
             .isValidSpawn(Blocks::never).pushReaction(PushReaction.DESTROY).sound(SoundType.WOOL));
@@ -127,7 +128,7 @@ public final class ModBlocks {
     public static final DeferredBlock<GlowvineBlock> GLOWVINE = block("glowvine", GlowvineBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.GOLD).randomTicks().noCollission().instabreak().sound(SoundType.CAVE_VINES)
             .lightLevel(s -> 10).pushReaction(PushReaction.DESTROY));
-    public static final DeferredBlock<GlowvinePlantBlock> GLOWVINE_PLANT = BLOCKS.registerBlock("glowvine_plant", GlowvinePlantBlock::new, BlockBehaviour.Properties.of()
+    public static final DeferredBlock<GlowvinePlantBlock> GLOWVINE_PLANT = McRegistration.block(BLOCKS, "glowvine_plant", GlowvinePlantBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.GOLD).noCollission().instabreak().sound(SoundType.CAVE_VINES)
             .lightLevel(s -> 7).pushReaction(PushReaction.DESTROY));
     public static final DeferredBlock<Block> MISTGLOW_CRYSTAL = block("mistglow_crystal", Block::new, BlockBehaviour.Properties.of()
@@ -156,7 +157,7 @@ public final class ModBlocks {
     public static final DeferredBlock<SkyCacheBlock> SKY_CACHE = block("sky_cache", SkyCacheBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.QUARTZ).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.CHERRY_WOOD).ignitedByLava());
 
-    public static final DeferredBlock<HaloPortalBlock> HALO_PORTAL = BLOCKS.registerBlock("halo_portal", HaloPortalBlock::new, BlockBehaviour.Properties.of()
+    public static final DeferredBlock<HaloPortalBlock> HALO_PORTAL = McRegistration.block(BLOCKS, "halo_portal", HaloPortalBlock::new, BlockBehaviour.Properties.of()
             .noCollission().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 12).noLootTable()
             .pushReaction(PushReaction.BLOCK));
 
@@ -176,7 +177,13 @@ public final class ModBlocks {
     }
 
     private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, BlockBehaviour.Properties props) {
-        DeferredBlock<B> block = BLOCKS.registerBlock(name, factory, props);
+        DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
+        CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(block));
+        return block;
+    }
+
+    private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, Supplier<BlockBehaviour.Properties> props) {
+        DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
         CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(block));
         return block;
     }
@@ -193,14 +200,14 @@ public final class ModBlocks {
 
     private static StoneVariants variants(String prefix, DeferredBlock<Block> base) {
         Supplier<BlockBehaviour.Properties> props = () -> BlockBehaviour.Properties.ofFullCopy(base.get());
-        DeferredBlock<StairBlock> stairs = block(prefix + "_stairs", p -> new StairBlock(base.get().defaultBlockState(), props.get()), BlockBehaviour.Properties.of());
-        DeferredBlock<SlabBlock> slab = block(prefix + "_slab", p -> new SlabBlock(props.get()), BlockBehaviour.Properties.of());
-        DeferredBlock<WallBlock> wall = block(prefix + "_wall", p -> new WallBlock(props.get().forceSolidOn()), BlockBehaviour.Properties.of());
+        DeferredBlock<StairBlock> stairs = block(prefix + "_stairs", p -> new StairBlock(base.get().defaultBlockState(), p), props);
+        DeferredBlock<SlabBlock> slab = block(prefix + "_slab", SlabBlock::new, props);
+        DeferredBlock<WallBlock> wall = block(prefix + "_wall", WallBlock::new, () -> props.get().forceSolidOn());
         return new StoneVariants(stairs, slab, wall);
     }
 
     private static DeferredBlock<FlowerPotBlock> pot(String name, DeferredBlock<? extends Block> plant) {
-        return BLOCKS.registerBlock(name, props -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, plant, props),
+        return McRegistration.block(BLOCKS, name, props -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, plant, props),
                 BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
     }
 
@@ -211,8 +218,8 @@ public final class ModBlocks {
 
     private static WoodSet wood(String name, BlockSetType setType, WoodType woodType, MapColor planksColor, MapColor barkColor,
                                 Function<BlockBehaviour.Properties, ? extends SaplingBlock> saplingFactory) {
-        DeferredBlock<RotatedPillarBlock> strippedLog = BLOCKS.registerBlock("stripped_" + name + "_log", RotatedPillarBlock::new, wooden(planksColor));
-        DeferredBlock<RotatedPillarBlock> strippedWood = BLOCKS.registerBlock("stripped_" + name + "_wood", RotatedPillarBlock::new, wooden(planksColor));
+        DeferredBlock<RotatedPillarBlock> strippedLog = McRegistration.block(BLOCKS, "stripped_" + name + "_log", RotatedPillarBlock::new, wooden(planksColor));
+        DeferredBlock<RotatedPillarBlock> strippedWood = McRegistration.block(BLOCKS, "stripped_" + name + "_wood", RotatedPillarBlock::new, wooden(planksColor));
         DeferredBlock<UpfallLogBlock> log = block(name + "_log", p -> new UpfallLogBlock(strippedLog, p), wooden(barkColor));
         DeferredBlock<UpfallLogBlock> wood = block(name + "_wood", p -> new UpfallLogBlock(strippedWood, p), wooden(barkColor));
         CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(strippedLog));
@@ -222,16 +229,21 @@ public final class ModBlocks {
         DeferredBlock<SlabBlock> slab = block(name + "_slab", SlabBlock::new, wooden(planksColor));
         DeferredBlock<FenceBlock> fence = block(name + "_fence", FenceBlock::new, wooden(planksColor).forceSolidOn());
         DeferredBlock<FenceGateBlock> fenceGate = block(name + "_fence_gate", p -> new FenceGateBlock(woodType, p), wooden(planksColor).forceSolidOn());
-        DeferredBlock<DoorBlock> door = BLOCKS.registerBlock(name + "_door", p -> new DoorBlock(setType, p),
+        DeferredBlock<DoorBlock> door = McRegistration.block(BLOCKS, name + "_door", p -> new DoorBlock(setType, p),
                 wooden(planksColor).strength(3.0F).noOcclusion().pushReaction(PushReaction.DESTROY));
-        CREATIVE_ORDER.add(BLOCK_ITEMS.registerItem(name + "_door", p -> new DoubleHighBlockItem(door.get(), p)));
+        CREATIVE_ORDER.add(McRegistration.blockItem(BLOCK_ITEMS, name + "_door", p -> new DoubleHighBlockItem(door.get(), p)));
         DeferredBlock<TrapDoorBlock> trapdoor = block(name + "_trapdoor", p -> new TrapDoorBlock(setType, p),
                 wooden(planksColor).strength(3.0F).noOcclusion().isValidSpawn(Blocks::never));
         DeferredBlock<ButtonBlock> button = block(name + "_button", p -> new ButtonBlock(setType, 30, p),
                 BlockBehaviour.Properties.of().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY));
         DeferredBlock<PressurePlateBlock> plate = block(name + "_pressure_plate", p -> new PressurePlateBlock(setType, p),
                 wooden(planksColor).forceSolidOn().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY));
-        DeferredBlock<LeavesBlock> leaves = block(name + "_leaves", LeavesBlock::new, BlockBehaviour.Properties.of()
+        //? if >=26.1 {
+        /*Function<BlockBehaviour.Properties, LeavesBlock> leavesFactory = p -> new net.minecraft.world.level.block.TintedParticleLeavesBlock(0.0F, p);
+        *///?} else {
+        Function<BlockBehaviour.Properties, LeavesBlock> leavesFactory = LeavesBlock::new;
+        //?}
+        DeferredBlock<LeavesBlock> leaves = block(name + "_leaves", leavesFactory, BlockBehaviour.Properties.of()
                 .mapColor(barkColor == MapColor.GOLD ? MapColor.COLOR_YELLOW : barkColor == MapColor.COLOR_PURPLE ? MapColor.COLOR_ORANGE : MapColor.COLOR_CYAN)
                 .strength(0.2F).randomTicks().sound(SoundType.AZALEA_LEAVES).noOcclusion()
                 .isValidSpawn(Blocks::ocelotOrParrot).isSuffocating((s, l, p) -> false).isViewBlocking((s, l, p) -> false)

@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.quantum.pedestal;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.compat.mc.McPlayers;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.QuantumParticles;
 import net.minecraft.core.BlockPos;
@@ -41,7 +42,7 @@ public class QuantumPedestalBlock extends PedestalBlock {
     @Override
     @SuppressWarnings("unchecked")
     public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide || type != QuantumBlocks.QUANTUM_PEDESTAL_ENTITY.get()) return null;
+        if (level.isClientSide() || type != QuantumBlocks.QUANTUM_PEDESTAL_ENTITY.get()) return null;
         return (BlockEntityTicker<T>) (BlockEntityTicker<QuantumPedestalBlockEntity>) QuantumPedestalBlockEntity::serverTick;
     }
 
@@ -53,10 +54,10 @@ public class QuantumPedestalBlock extends PedestalBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (!player.isSecondaryUseActive()) return super.useWithoutItem(state, level, pos, player, hit);
-        if (level.isClientSide) return InteractionResult.SUCCESS;
+        if (level.isClientSide()) return InteractionResult.SUCCESS;
         if (player instanceof ServerPlayer serverPlayer && level.getBlockEntity(pos) instanceof QuantumPedestalBlockEntity pedestal) {
             Component refusal = pedestal.tryStart(serverPlayer);
-            if (refusal != null) player.displayClientMessage(refusal, true);
+            if (refusal != null) McPlayers.overlay(player, refusal);
         }
         return InteractionResult.CONSUME;
     }

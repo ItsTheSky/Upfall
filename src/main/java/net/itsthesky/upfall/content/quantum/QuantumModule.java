@@ -18,7 +18,9 @@ public class QuantumModule implements UpfallModule {
         QuantumComponents.COMPONENTS.register(modEventBus);
         QuantumTriggers.TRIGGERS.register(modEventBus);
         QuantumParticles.PARTICLE_TYPES.register(modEventBus);
+        //? if <26.1 {
         QuantumItems.ARMOR_MATERIALS.register(modEventBus);
+        //?}
         QuantumBlocks.BLOCKS.register(modEventBus);
         QuantumBlocks.BLOCK_ITEMS.register(modEventBus);
         QuantumBlocks.BLOCK_ENTITIES.register(modEventBus);

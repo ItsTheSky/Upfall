@@ -2,10 +2,12 @@ package net.itsthesky.upfall.content.rustworks.worldgen;
 
 import com.mojang.serialization.MapCodec;
 import it.unimi.dsi.fastutil.HashCommon;
+import net.itsthesky.upfall.compat.mc.McChunks;
 import net.itsthesky.upfall.content.engine.EngineStructures;
 import net.itsthesky.upfall.content.engine.worldgen.StalledEngineStructure;
 import net.itsthesky.upfall.worldgen.SurfaceSampler;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -54,7 +56,7 @@ public class PipeBridgeStructure extends Structure {
     }
 
     private static Optional<PipeBridge> plan(GenerationContext context, ChunkPos chunk) {
-        Key key = new Key(context.seed(), chunk.toLong());
+        Key key = new Key(context.seed(), McChunks.key(chunk));
         synchronized (PLANS) {
             Optional<PipeBridge> cached = PLANS.get(key);
             if (cached != null) return cached;
@@ -69,7 +71,7 @@ public class PipeBridgeStructure extends Structure {
     private static Optional<PipeBridge> compute(GenerationContext context, ChunkPos chunk) {
         if (!validBiome(context, chunk.getMiddleBlockX(), BIOME_PROBE_Y, chunk.getMiddleBlockZ())) return Optional.empty();
         WorldgenRandom random = new WorldgenRandom(new LegacyRandomSource(0L));
-        random.setLargeFeatureSeed(context.seed(), chunk.x, chunk.z);
+        random.setLargeFeatureSeed(context.seed(), McChunks.x(chunk), McChunks.z(chunk));
         PipeBridge.Heights heights = new SurfaceSampler(context.chunkGenerator(), context.heightAccessor(), context.randomState())::height;
         PipeBridge.Biomes biomes = (x, y, z) -> validBiome(context, x, y, z);
         for (int attempt = 0; attempt < ATTEMPTS; attempt++) {
@@ -124,8 +126,8 @@ public class PipeBridgeStructure extends Structure {
         BoundingBox mine = bridge.bounds().inflatedBy(CONFLICT_MARGIN);
         int spacing = own.spacing();
         int range = Mth.positiveCeilDiv(2 * REACH + 16 + CONFLICT_MARGIN, spacing * 16) + 1;
-        int regionX = Math.floorDiv(self.x, spacing);
-        int regionZ = Math.floorDiv(self.z, spacing);
+        int regionX = Math.floorDiv(McChunks.x(self), spacing);
+        int regionZ = Math.floorDiv(McChunks.z(self), spacing);
         for (int dx = -range; dx <= range; dx++) {
             for (int dz = -range; dz <= range; dz++) {
                 ChunkPos other = own.getPotentialStructureChunk(context.seed(), (regionX + dx) * spacing, (regionZ + dz) * spacing);
@@ -140,14 +142,15 @@ public class PipeBridgeStructure extends Structure {
     }
 
     private static boolean stronger(long seed, ChunkPos a, ChunkPos b) {
-        long ha = HashCommon.mix(seed ^ a.toLong());
-        long hb = HashCommon.mix(seed ^ b.toLong());
-        return ha != hb ? ha > hb : a.toLong() > b.toLong();
+        long ha = HashCommon.mix(seed ^ McChunks.key(a));
+        long hb = HashCommon.mix(seed ^ McChunks.key(b));
+        return ha != hb ? ha > hb : McChunks.key(a) > McChunks.key(b);
     }
 
     private static RandomSpreadStructurePlacement placement(GenerationContext context, ResourceKey<StructureSet> key) {
-        return context.registryAccess().registry(Registries.STRUCTURE_SET)
-                .flatMap(registry -> registry.getOptional(key))
+        return context.registryAccess().lookup(Registries.STRUCTURE_SET)
+                .flatMap(registry -> registry.get(key))
+                .map(Holder::value)
                 .map(StructureSet::placement)
                 .filter(RandomSpreadStructurePlacement.class::isInstance)
                 .map(RandomSpreadStructurePlacement.class::cast)

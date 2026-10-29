@@ -1,9 +1,10 @@
 package net.itsthesky.upfall.worldgen;
 
 import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
+import net.itsthesky.upfall.compat.mc.McChunks;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -57,7 +58,7 @@ public final class SurfaceSampler {
     }
 
     public int height(int x, int z) {
-        long key = ChunkPos.asLong(x, z);
+        long key = McChunks.key(x, z);
         if (heights.containsKey(key)) return heights.get(key);
         int height = compute(x, z);
         heights.put(key, height);
@@ -70,11 +71,11 @@ public final class SurfaceSampler {
         }
         int cellHeight = noise.getCellHeight();
         int cellCountY = Mth.floorDiv(noise.height(), cellHeight);
-        if (cellCountY <= 0) return level.getMinBuildHeight();
+        if (cellCountY <= 0) return McLevel.minY(level);
         int cellWidth = noise.getCellWidth();
         int cellX = Math.floorDiv(x, cellWidth);
         int cellZ = Math.floorDiv(z, cellWidth);
-        Cell cell = cells.computeIfAbsent(ChunkPos.asLong(cellX, cellZ), k -> new Cell(cellX * cellWidth, cellZ * cellWidth));
+        Cell cell = cells.computeIfAbsent(McChunks.key(cellX, cellZ), k -> new Cell(cellX * cellWidth, cellZ * cellWidth));
         return cell.height(x, z, cellWidth, cellHeight, cellCountY, Mth.floorDiv(noise.minY(), cellHeight));
     }
 
@@ -107,7 +108,7 @@ public final class SurfaceSampler {
                     if (!state.isAir()) return y + 1;
                 }
             }
-            return level.getMinBuildHeight();
+            return McLevel.minY(level);
         }
     }
 

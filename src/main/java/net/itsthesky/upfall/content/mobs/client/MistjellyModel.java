@@ -1,8 +1,6 @@
 package net.itsthesky.upfall.content.mobs.client;
 
 import net.itsthesky.upfall.Upfall;
-import net.itsthesky.upfall.content.mobs.entity.Mistjelly;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -11,13 +9,27 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
+//? if >=26.1 {
+/*import net.minecraft.client.model.EntityModel;
+*///?} else {
+import net.itsthesky.upfall.content.mobs.entity.Mistjelly;
+import net.minecraft.client.model.HierarchicalModel;
+//?}
 
+//? if >=26.1 {
+/*public class MistjellyModel extends EntityModel<MistjellyRenderState> {
+*///?} else {
 public class MistjellyModel extends HierarchicalModel<Mistjelly> {
+//?}
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(Upfall.id("mistjelly"), "main");
+    public static final float RENDER_SCALE = 1.4F;
+    public static final int BLOCK_LIGHT = 13;
     private static final float[][] TENTACLES = {{-3.5F, -3.5F}, {3.5F, -3.5F}, {-3.5F, 3.5F}, {3.5F, 3.5F}};
     private static final float[][] ARMS = {{-2.0F, -1.5F}, {2.0F, -1.5F}, {-2.0F, 1.5F}, {2.0F, 1.5F}};
 
+    //? if <26.1 {
     private final ModelPart root;
+    //?}
     private final ModelPart bell;
     private final ModelPart under;
     private final ModelPart[] upper = new ModelPart[4];
@@ -25,7 +37,11 @@ public class MistjellyModel extends HierarchicalModel<Mistjelly> {
     private final ModelPart[] arms = new ModelPart[4];
 
     public MistjellyModel(ModelPart root) {
+        //? if >=26.1 {
+        /*super(root);
+        *///?} else {
         this.root = root;
+        //?}
         this.bell = root.getChild("bell");
         this.under = root.getChild("under");
         for (int i = 0; i < 4; i++) {
@@ -58,6 +74,13 @@ public class MistjellyModel extends HierarchicalModel<Mistjelly> {
         return LayerDefinition.create(mesh, 64, 64);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void setupAnim(MistjellyRenderState state) {
+        super.setupAnim(state);
+        pose(state.ageInTicks, state.entityId, state.aggressive, state.horizontalSpeed);
+    }
+    *///?} else {
     @Override
     public ModelPart root() {
         return root;
@@ -65,8 +88,13 @@ public class MistjellyModel extends HierarchicalModel<Mistjelly> {
 
     @Override
     public void setupAnim(Mistjelly entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        float t = ageInTicks + entity.getId() * 13.0F;
-        float rate = entity.isAggressive() ? 0.28F : 0.12F;
+        pose(ageInTicks, entity.getId(), entity.isAggressive(), (float) entity.getDeltaMovement().horizontalDistance());
+    }
+    //?}
+
+    private void pose(float ageInTicks, int entityId, boolean aggressive, float horizontalSpeed) {
+        float t = ageInTicks + entityId * 13.0F;
+        float rate = aggressive ? 0.28F : 0.12F;
         float pulse = Mth.sin(t * rate);
         float bob = Mth.sin(t * 0.07F) * 0.6F;
         bell.y = 9.0F + bob;
@@ -77,7 +105,7 @@ public class MistjellyModel extends HierarchicalModel<Mistjelly> {
         under.xScale = bell.xScale;
         under.zScale = bell.xScale;
 
-        float drift = (float) entity.getDeltaMovement().horizontalDistance() * 2.0F;
+        float drift = horizontalSpeed * 2.0F;
         for (int i = 0; i < 4; i++) {
             float phase = t * 0.09F + i * 1.3F;
             upper[i].xRot = Mth.sin(phase) * 0.22F + drift * 0.5F - pulse * 0.1F;

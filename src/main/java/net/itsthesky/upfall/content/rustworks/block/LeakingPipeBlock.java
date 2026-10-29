@@ -21,7 +21,11 @@ public class LeakingPipeBlock extends RustyPipeBlock {
     public static final MapCodec<LeakingPipeBlock> CODEC = simpleCodec(LeakingPipeBlock::new);
     public static final int MAX_DRIP_DISTANCE = 10;
     private static final float DRIP_CHANCE = 0.2F;
+    //? if >=26.1 {
+    /*private static final DustParticleOptions DRIP = new DustParticleOptions(net.minecraft.util.ARGB.colorFromFloat(1.0F, 0.25F, 0.66F, 0.55F), 0.8F);
+    *///?} else {
     private static final DustParticleOptions DRIP = new DustParticleOptions(new Vector3f(0.25F, 0.66F, 0.55F), 0.8F);
+    //?}
 
     public LeakingPipeBlock(Properties properties) {
         super(properties);

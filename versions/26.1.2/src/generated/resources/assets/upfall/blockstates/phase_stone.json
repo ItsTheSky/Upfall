@@ -1,0 +1,76 @@
+{
+  "variants": {
+    "mode=fading,phase=dawn,slab=false": {
+      "model": "upfall:block/phase_stone_dawn_fading"
+    },
+    "mode=fading,phase=dawn,slab=true": {
+      "model": "upfall:block/phase_stone_dawn_fading_slab"
+    },
+    "mode=fading,phase=dusk,slab=false": {
+      "model": "upfall:block/phase_stone_dusk_fading"
+    },
+    "mode=fading,phase=dusk,slab=true": {
+      "model": "upfall:block/phase_stone_dusk_fading_slab"
+    },
+    "mode=fading,phase=midnight,slab=false": {
+      "model": "upfall:block/phase_stone_midnight_fading"
+    },
+    "mode=fading,phase=midnight,slab=true": {
+      "model": "upfall:block/phase_stone_midnight_fading_slab"
+    },
+    "mode=fading,phase=noon,slab=false": {
+      "model": "upfall:block/phase_stone_noon_fading"
+    },
+    "mode=fading,phase=noon,slab=true": {
+      "model": "upfall:block/phase_stone_noon_fading_slab"
+    },
+    "mode=ghost,phase=dawn,slab=false": {
+      "model": "upfall:block/phase_stone_dawn_ghost"
+    },
+    "mode=ghost,phase=dawn,slab=true": {
+      "model": "upfall:block/phase_stone_dawn_ghost_slab"
+    },
+    "mode=ghost,phase=dusk,slab=false": {
+      "model": "upfall:block/phase_stone_dusk_ghost"
+    },
+    "mode=ghost,phase=dusk,slab=true": {
+      "model": "upfall:block/phase_stone_dusk_ghost_slab"
+    },
+    "mode=ghost,phase=midnight,slab=false": {
+      "model": "upfall:block/phase_stone_midnight_ghost"
+    },
+    "mode=ghost,phase=midnight,slab=true": {
+      "model": "upfall:block/phase_stone_midnight_ghost_slab"
+    },
+    "mode=ghost,phase=noon,slab=false": {
+      "model": "upfall:block/phase_stone_noon_ghost"
+    },
+    "mode=ghost,phase=noon,slab=true": {
+      "model": "upfall:block/phase_stone_noon_ghost_slab"
+    },
+    "mode=solid,phase=dawn,slab=false": {
+      "model": "upfall:block/phase_stone_dawn"
+    },
+    "mode=solid,phase=dawn,slab=true": {
+      "model": "upfall:block/phase_stone_dawn_slab"
+    },
+    "mode=solid,phase=dusk,slab=false": {
+      "model": "upfall:block/phase_stone_dusk"
+    },
+    "mode=solid,phase=dusk,slab=true": {
+      "model": "upfall:block/phase_stone_dusk_slab"
+    },
+    "mode=solid,phase=midnight,slab=false": {
+      "model": "upfall:block/phase_stone_midnight"
+    },
+    "mode=solid,phase=midnight,slab=true": {
+      "model": "upfall:block/phase_stone_midnight_slab"
+    },
+    "mode=solid,phase=noon,slab=false": {
+      "model": "upfall:block/phase_stone_noon"
+    },
+    "mode=solid,phase=noon,slab=true": {
+      "model": "upfall:block/phase_stone_noon_slab"
+    }
+  }
+}

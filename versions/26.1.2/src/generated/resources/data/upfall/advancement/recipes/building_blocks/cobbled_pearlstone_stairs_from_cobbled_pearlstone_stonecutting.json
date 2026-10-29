@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cobbled_pearlstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:cobbled_pearlstone"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:cobbled_pearlstone_stairs_from_cobbled_pearlstone_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cobbled_pearlstone"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:cobbled_pearlstone_stairs_from_cobbled_pearlstone_stonecutting"
+    ]
+  }
+}

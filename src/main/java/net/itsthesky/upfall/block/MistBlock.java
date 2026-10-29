@@ -39,10 +39,17 @@ public class MistBlock extends Block {
         return Shapes.empty();
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
+    }
+    *///?} else {
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
+    //?}
 
     @Override
     protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
@@ -54,8 +61,20 @@ public class MistBlock extends Block {
         return adjacent.is(this) || super.skipRendering(state, adjacent, direction);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, net.minecraft.world.entity.InsideBlockEffectApplier effectApplier, boolean isPrecise) {
+        if (!entity.getBoundingBox().deflate(1.0E-7).intersects(pos)) return;
+        slow(entity);
+    }
+    *///?} else {
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        slow(entity);
+    }
+    //?}
+
+    private static void slow(Entity entity) {
         if (QuantumUpgradeEffects.ignoresMist(entity)) return;
         Vec3 motion = entity.getDeltaMovement();
         double drag = EnchantingEffects.mistDrag(entity);

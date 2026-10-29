@@ -17,7 +17,12 @@ public class PneumaticPipeBlock extends PipeBlock {
     public static final MapCodec<PneumaticPipeBlock> CODEC = simpleCodec(PneumaticPipeBlock::new);
 
     public PneumaticPipeBlock(Properties properties) {
+        // 26.1.2 PipeBlock takes the full width in pixels, 1.21.1 the half-width in blocks
+        //? if >=26.1 {
+        /*super(12.0F, properties);
+        *///?} else {
         super(0.375F, properties);
+        //?}
         BlockState state = stateDefinition.any();
         for (Direction dir : Direction.values()) {
             state = state.setValue(PROPERTY_BY_DIRECTION.get(dir), false);
@@ -40,8 +45,20 @@ public class PneumaticPipeBlock extends PipeBlock {
         return withConnections(defaultBlockState(), context.getLevel(), context.getClickedPos());
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected BlockState updateShape(BlockState state, net.minecraft.world.level.LevelReader level, net.minecraft.world.level.ScheduledTickAccess ticks,
+                                     BlockPos pos, Direction dir, BlockPos neighborPos, BlockState neighbor, net.minecraft.util.RandomSource random) {
+        return withConnection(state, dir, neighbor);
+    }
+    *///?} else {
     @Override
     protected BlockState updateShape(BlockState state, Direction dir, BlockState neighbor, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        return withConnection(state, dir, neighbor);
+    }
+    //?}
+
+    private static BlockState withConnection(BlockState state, Direction dir, BlockState neighbor) {
         return state.setValue(PROPERTY_BY_DIRECTION.get(dir), PipeNetwork.connected(state, neighbor, dir));
     }
 
@@ -57,8 +74,15 @@ public class PneumaticPipeBlock extends PipeBlock {
         return false;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
+    }
+    *///?} else {
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
+    //?}
 }

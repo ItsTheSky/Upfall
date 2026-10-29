@@ -8,13 +8,14 @@ import net.itsthesky.upfall.worldgen.ExplorerMaps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.level.ItemLike;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +28,21 @@ public final class LoftkinTrades {
     private static final int POOL_PICKS = 5;
     private static final int MAX_MAP_PICKS = 2;
 
-    private static List<VillagerTrades.ItemListing> staples() {
+    @FunctionalInterface
+    private interface Listing {
+        @Nullable
+        MerchantOffer getOffer(Entity trader, RandomSource random);
+    }
+
+    private static List<Listing> staples() {
         return List.of(
                 offer(ModItems.RAW_NIMBUSITE.get(), 2, null, 0, HamletItems.ZIPLINE_HANDLE.get(), 1, 4, 10),
                 offer(ModItems.CLOUDBERRY.get(), 4, null, 0, HamletBlocks.ROPE.get(), 6, 16, 2),
                 offer(ModItems.NIMBUSITE_INGOT.get(), 10, ModItems.GILDFRUIT.get(), 4, ModItems.NIMBUSITE_UPGRADE_SMITHING_TEMPLATE.get(), 1, 1, 30));
     }
 
-    private static List<VillagerTrades.ItemListing> pool() {
-        List<VillagerTrades.ItemListing> pool = new ArrayList<>(List.of(
+    private static List<Listing> pool() {
+        List<Listing> pool = new ArrayList<>(List.of(
                 offer(ModItems.NIMBUSITE_INGOT.get(), 1, null, 0, HamletBlocks.ZIPLINE_ANCHOR.get(), 2, 8, 5),
                 offer(ModItems.CLOUDBERRY.get(), 6, null, 0, HamletBlocks.ROPE_ANCHOR.get(), 3, 12, 2),
                 offer(ModItems.GILDFRUIT.get(), 1, null, 0, HamletBlocks.CLOUD_LANTERN.get(), 4, 12, 3),
@@ -53,7 +60,7 @@ public final class LoftkinTrades {
         return pool;
     }
 
-    private static List<VillagerTrades.ItemListing> maps() {
+    private static List<Listing> maps() {
         return List.of(
                 map((level, pos) -> ExplorerMaps.toStructure(level, pos, ExplorerMaps.STALLED_ENGINE), ModItems.GILDFRUIT.get(), 3, 2, 5),
                 map((level, pos) -> ExplorerMaps.toStructure(level, pos, ExplorerMaps.PEARL_AERIE), ModItems.NIMBUSITE_INGOT.get(), 3, 1, 10),
@@ -64,20 +71,20 @@ public final class LoftkinTrades {
     }
 
     static void fill(Loftkin loftkin, MerchantOffers offers, RandomSource random) {
-        for (VillagerTrades.ItemListing listing : staples()) {
+        for (Listing listing : staples()) {
             MerchantOffer offer = listing.getOffer(loftkin, random);
             if (offer != null) {
                 offers.add(offer);
             }
         }
-        List<VillagerTrades.ItemListing> pool = new ArrayList<>(pool());
+        List<Listing> pool = new ArrayList<>(pool());
         for (int i = 0; i < POOL_PICKS && !pool.isEmpty(); i++) {
             MerchantOffer offer = pool.remove(random.nextInt(pool.size())).getOffer(loftkin, random);
             if (offer != null) {
                 offers.add(offer);
             }
         }
-        List<VillagerTrades.ItemListing> maps = new ArrayList<>(maps());
+        List<Listing> maps = new ArrayList<>(maps());
         int mapPicks = 1 + random.nextInt(MAX_MAP_PICKS);
         for (int i = 0; i < mapPicks && !maps.isEmpty(); i++) {
             MerchantOffer offer = maps.remove(random.nextInt(maps.size())).getOffer(loftkin, random);
@@ -87,14 +94,14 @@ public final class LoftkinTrades {
         }
     }
 
-    private static VillagerTrades.ItemListing offer(ItemLike cost, int count, ItemLike extraCost, int extraCount,
-                                                    ItemLike result, int resultCount, int maxUses, int xp) {
+    private static Listing offer(ItemLike cost, int count, ItemLike extraCost, int extraCount,
+                                 ItemLike result, int resultCount, int maxUses, int xp) {
         return (trader, random) -> new MerchantOffer(new ItemCost(cost, count),
                 extraCost == null ? Optional.empty() : Optional.of(new ItemCost(extraCost, extraCount)),
                 new ItemStack(result, resultCount), maxUses, xp, 0.05F);
     }
 
-    private static VillagerTrades.ItemListing map(BiFunction<ServerLevel, BlockPos, ItemStack> map, ItemLike cost, int count, int maxUses, int xp) {
+    private static Listing map(BiFunction<ServerLevel, BlockPos, ItemStack> map, ItemLike cost, int count, int maxUses, int xp) {
         return (trader, random) -> {
             if (!(trader.level() instanceof ServerLevel level)) {
                 return null;

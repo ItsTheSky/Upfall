@@ -53,8 +53,15 @@ public class ChronoSealBlock extends Block {
         return adjacent.is(this) && !adjacent.getValue(OPEN) && !state.getValue(OPEN);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
+    }
+    *///?} else {
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
+    //?}
 }

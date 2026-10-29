@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.rustworks.worldgen;
 
+import net.itsthesky.upfall.compat.mc.McNbt;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -29,9 +30,9 @@ public class PipeBridgePiece extends StructurePiece {
 
     public PipeBridgePiece(CompoundTag tag) {
         super(RustworksStructures.PIECE.get(), tag);
-        this.bridge = PipeBridge.load(tag.getCompound("Bridge"));
-        this.from = tag.getInt("From");
-        this.to = tag.getInt("To");
+        this.bridge = PipeBridge.load(McNbt.getCompound(tag, "Bridge"));
+        this.from = McNbt.getInt(tag, "From");
+        this.to = McNbt.getInt(tag, "To");
     }
 
     public static void addAll(StructurePiecesBuilder builder, PipeBridge bridge) {

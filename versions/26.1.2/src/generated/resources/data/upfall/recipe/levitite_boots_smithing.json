@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "upfall:levitite_ingot",
+  "base": "upfall:nimbusite_boots",
+  "result": {
+    "id": "upfall:levitite_boots"
+  },
+  "template": "upfall:levitite_upgrade_smithing_template"
+}

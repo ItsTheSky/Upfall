@@ -3,10 +3,10 @@ package net.itsthesky.upfall.content.world.feature;
 import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
+import net.itsthesky.upfall.compat.mc.McChunks;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,7 +32,7 @@ public class NeedleTipFeature extends Feature<NoneFeatureConfiguration> {
         }
         BlockPos.MutableBlockPos top = new BlockPos.MutableBlockPos(origin.getX(), start, origin.getZ());
         LongSet visited = new LongOpenHashSet();
-        visited.add(ChunkPos.asLong(top.getX(), top.getZ()));
+        visited.add(McChunks.key(top.getX(), top.getZ()));
         for (int step = 0; step < MAX_STEPS; step++) {
             BlockPos best = null;
             int bestY = top.getY();
@@ -40,7 +40,7 @@ public class NeedleTipFeature extends Feature<NoneFeatureConfiguration> {
                 for (int dz = -1; dz <= 1; dz++) {
                     int x = top.getX() + dx;
                     int z = top.getZ() + dz;
-                    if ((dx == 0 && dz == 0) || visited.contains(ChunkPos.asLong(x, z))
+                    if ((dx == 0 && dz == 0) || visited.contains(McChunks.key(x, z))
                             || Math.abs(x - origin.getX()) > MAX_STEPS || Math.abs(z - origin.getZ()) > MAX_STEPS) continue;
                     int y = topOf(level, x, top.getY(), z);
                     if (y > bestY || y == bestY && best == null && y == top.getY()) {
@@ -51,7 +51,7 @@ public class NeedleTipFeature extends Feature<NoneFeatureConfiguration> {
             }
             if (best == null) break;
             top.set(best);
-            visited.add(ChunkPos.asLong(top.getX(), top.getZ()));
+            visited.add(McChunks.key(top.getX(), top.getZ()));
         }
         if (top.getY() < MIN_TIP_Y || !isNeedle(level.getBlockState(top)) || level.getBlockState(top.above()).is(ModBlocks.MISTGLOW_CRYSTAL.get())) {
             return false;

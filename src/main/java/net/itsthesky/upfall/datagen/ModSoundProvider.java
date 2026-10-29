@@ -6,15 +6,23 @@ import net.itsthesky.upfall.registry.ModSounds;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+//? if <26.1 {
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+//?}
 import net.neoforged.neoforge.common.data.SoundDefinition;
 import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class ModSoundProvider extends SoundDefinitionsProvider {
+    //? if >=26.1 {
+    /*public ModSoundProvider(PackOutput output) {
+        super(output, Upfall.MODID);
+    }
+    *///?} else {
     public ModSoundProvider(PackOutput output, ExistingFileHelper helper) {
         super(output, Upfall.MODID, helper);
     }
+    //?}
 
     @Override
     public void registerSounds() {

@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.reliquary.worldgen;
 
+import net.itsthesky.upfall.compat.mc.McNbt;
 import net.itsthesky.upfall.content.reliquary.ReliquaryStructures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -38,10 +39,10 @@ public class ReliquaryPiece extends StructurePiece {
 
     public ReliquaryPiece(CompoundTag tag) {
         super(ReliquaryStructures.TILTED_RELIQUARY_PIECE.get(), tag);
-        this.origin = BlockPos.of(tag.getLong("Origin"));
-        this.seed = tag.getLong("Seed");
-        this.kind = Kind.values()[tag.getInt("Kind")];
-        this.index = tag.getInt("Index");
+        this.origin = BlockPos.of(McNbt.getLong(tag, "Origin"));
+        this.seed = McNbt.getLong(tag, "Seed");
+        this.kind = Kind.values()[McNbt.getInt(tag, "Kind")];
+        this.index = McNbt.getInt(tag, "Index");
     }
 
     @Override

@@ -1,0 +1,14 @@
+{
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 20261011,
+    "separation": 12,
+    "spacing": 28
+  },
+  "structures": [
+    {
+      "structure": "upfall:cloud_hamlet",
+      "weight": 1
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "upfall:block/mistglow_lantern"
+    },
+    "hanging=true": {
+      "model": "upfall:block/mistglow_lantern_hanging"
+    }
+  }
+}

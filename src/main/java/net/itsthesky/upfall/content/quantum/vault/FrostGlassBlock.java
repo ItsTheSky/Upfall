@@ -40,7 +40,7 @@ public class FrostGlassBlock extends TransparentBlock implements ObservationBloc
     public static void frost(ServerLevel level, BlockPos pos, BlockState state, int ticks) {
         if (!state.getValue(FROSTED)) {
             level.setBlock(pos, state.setValue(FROSTED, true), Block.UPDATE_CLIENTS);
-            level.playSound(null, pos, QuantumSounds.FROST.get(), SoundSource.BLOCKS, 0.6F, 0.9F + level.random.nextFloat() * 0.2F);
+            level.playSound(null, pos, QuantumSounds.FROST.get(), SoundSource.BLOCKS, 0.6F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         }
         level.scheduleTick(pos, state.getBlock(), ticks);
     }

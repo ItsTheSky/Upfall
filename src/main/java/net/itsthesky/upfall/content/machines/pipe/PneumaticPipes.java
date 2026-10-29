@@ -1,14 +1,15 @@
 package net.itsthesky.upfall.content.machines.pipe;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McEnv;
+import net.itsthesky.upfall.compat.mc.McItemHandlers;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.machines.MachinesBlocks;
 import net.itsthesky.upfall.content.machines.pipe.client.PipeTravelClient;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -24,10 +25,9 @@ public final class PneumaticPipes {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(Registries.SOUND_EVENT, Upfall.MODID);
     public static final Map<String, String> SUBTITLES = new LinkedHashMap<>();
 
-    @SuppressWarnings("DataFlowIssue")
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PneumaticPipeEntranceBlockEntity>> ENTRANCE = BLOCK_ENTITIES.register(
-            "pneumatic_pipe_entrance", () -> BlockEntityType.Builder.of(PneumaticPipeEntranceBlockEntity::new,
-                    MachinesBlocks.PNEUMATIC_PIPE_ENTRANCE.get()).build(null));
+            "pneumatic_pipe_entrance", () -> McRegistration.blockEntityType(PneumaticPipeEntranceBlockEntity::new,
+                    MachinesBlocks.PNEUMATIC_PIPE_ENTRANCE.get()));
 
     public static final DeferredHolder<SoundEvent, SoundEvent> ENTER = sound("block.pneumatic_pipe.enter", "Pneumatic pipe inhales");
     public static final DeferredHolder<SoundEvent, SoundEvent> TRAVEL = sound("block.pneumatic_pipe.travel", "Air rushes through a pipe");
@@ -48,7 +48,7 @@ public final class PneumaticPipes {
         modEventBus.addListener(PneumaticPipes::registerPayloads);
         modEventBus.addListener(PneumaticPipes::registerCapabilities);
         PipeTravel.register();
-        if (FMLEnvironment.dist.isClient()) {
+        if (McEnv.isClient()) {
             PipeTravelClient.register();
         }
     }
@@ -60,6 +60,6 @@ public final class PneumaticPipes {
     }
 
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ENTRANCE.get(), (entrance, side) -> entrance.inlet());
+        McItemHandlers.registerSink(event, ENTRANCE.get(), PneumaticPipeEntranceBlockEntity::inlet);
     }
 }

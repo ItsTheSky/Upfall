@@ -1,15 +1,16 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McEntities;
+import net.itsthesky.upfall.compat.mc.McItemHandlers;
 import net.itsthesky.upfall.content.machines.MachinesBlocks;
 import net.itsthesky.upfall.content.machines.pipe.PipeNetwork;
 import net.itsthesky.upfall.content.machines.pipe.PipeRoute;
 import net.itsthesky.upfall.content.machines.pipe.PipeTravel;
 import net.itsthesky.upfall.content.machines.pipe.PneumaticPipeEntranceBlockEntity;
+import net.itsthesky.upfall.gametest.framework.GameTestCompat;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.gametest.framework.GameTest;
-import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -20,21 +21,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HopperBlock;
 import net.minecraft.world.level.block.PipeBlock;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
-import net.neoforged.neoforge.items.IItemHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class PneumaticPipeGameTests {
     private PneumaticPipeGameTests() {}
 
@@ -51,11 +47,15 @@ public final class PneumaticPipeGameTests {
                 helper.getLevel(), helper.absolutePos(pos)));
     }
 
+    private static ItemStack insertIntoEntrance(GameTestHelper helper, BlockPos entrance, ItemStack stack, boolean simulate) {
+        return McItemHandlers.insert(helper.getLevel(), helper.absolutePos(entrance), Direction.UP, stack, simulate, false);
+    }
+
     private static Optional<PipeRoute> route(GameTestHelper helper, BlockPos entrance) {
         return PipeNetwork.findRoute(helper.getLevel(), helper.absolutePos(entrance), exit -> true);
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void pneumaticRouteIsShortest(GameTestHelper helper) {
         BlockPos start = new BlockPos(1, 1, 4);
         entrance(helper, start, Direction.WEST);
@@ -67,7 +67,7 @@ public final class PneumaticPipeGameTests {
         pipe(helper, new BlockPos(3, 1, 6));
         exit(helper, new BlockPos(3, 1, 7), Direction.SOUTH);
 
-        PipeRoute near = route(helper, start).orElseThrow(() -> new GameTestAssertException("No route found"));
+        PipeRoute near = route(helper, start).orElseThrow(() -> GameTestCompat.failure(helper, "No route found"));
         helper.assertTrue(near.exit().equals(helper.absolutePos(new BlockPos(3, 1, 7))), "Shortest exit should win, got " + near.exit());
         helper.assertTrue(near.length() == 5, "Route length should be 5, got " + near.length());
         helper.assertTrue(near.exitFacing() == Direction.SOUTH, "Exit facing should be south");
@@ -76,7 +76,7 @@ public final class PneumaticPipeGameTests {
         helper.assertBlockProperty(new BlockPos(2, 1, 4), PipeBlock.UP, false);
 
         helper.setBlock(new BlockPos(3, 1, 6), Blocks.AIR);
-        PipeRoute far = route(helper, start).orElseThrow(() -> new GameTestAssertException("No route after removing the branch"));
+        PipeRoute far = route(helper, start).orElseThrow(() -> GameTestCompat.failure(helper, "No route after removing the branch"));
         helper.assertTrue(far.exit().equals(helper.absolutePos(new BlockPos(7, 1, 4))), "Far exit expected, got " + far.exit());
         helper.assertTrue(far.length() == 6, "Route length should be 6, got " + far.length());
 
@@ -85,7 +85,7 @@ public final class PneumaticPipeGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void pneumaticRouteTieBreakIsDeterministic(GameTestHelper helper) {
         BlockPos start = new BlockPos(4, 1, 1);
         entrance(helper, start, Direction.NORTH);
@@ -94,7 +94,7 @@ public final class PneumaticPipeGameTests {
         exit(helper, new BlockPos(3, 1, 3), Direction.WEST);
         exit(helper, new BlockPos(5, 1, 3), Direction.EAST);
         exit(helper, new BlockPos(4, 2, 3), Direction.UP);
-        PipeRoute first = route(helper, start).orElseThrow(() -> new GameTestAssertException("No route found"));
+        PipeRoute first = route(helper, start).orElseThrow(() -> GameTestCompat.failure(helper, "No route found"));
         helper.assertTrue(first.exit().equals(helper.absolutePos(new BlockPos(4, 2, 3))), "Ties resolve in Direction order (up first), got " + first.exit());
         for (int i = 0; i < 5; i++) {
             helper.assertTrue(route(helper, start).orElseThrow().equals(first), "Route must be stable");
@@ -105,7 +105,7 @@ public final class PneumaticPipeGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void pneumaticExitFacingIntoEntranceDoesNotConnect(GameTestHelper helper) {
         BlockPos start = new BlockPos(1, 1, 1);
         entrance(helper, start, Direction.UP);
@@ -141,7 +141,7 @@ public final class PneumaticPipeGameTests {
         return cells;
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 200)
     public static void pneumaticRouteIsCapped(GameTestHelper helper) {
         List<BlockPos> cells = snake(700);
         BlockPos start = cells.get(0);
@@ -150,7 +150,7 @@ public final class PneumaticPipeGameTests {
             pipe(helper, cells.get(i));
         }
         exit(helper, cells.get(400), Direction.UP);
-        PipeRoute reachable = route(helper, start).orElseThrow(() -> new GameTestAssertException("A 400-segment route should be found"));
+        PipeRoute reachable = route(helper, start).orElseThrow(() -> GameTestCompat.failure(helper, "A 400-segment route should be found"));
         helper.assertTrue(reachable.length() == 400, "Snake route length should be 400, got " + reachable.length());
         for (int i = 400; i < 650; i++) {
             pipe(helper, cells.get(i));
@@ -160,7 +160,7 @@ public final class PneumaticPipeGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void pneumaticItemsReachChest(GameTestHelper helper) {
         BlockPos start = new BlockPos(1, 1, 1);
         entrance(helper, start, Direction.UP);
@@ -170,25 +170,24 @@ public final class PneumaticPipeGameTests {
         helper.setBlock(new BlockPos(4, 2, 1), Blocks.CHEST);
         helper.spawnItem(Items.DIAMOND, new BlockPos(1, 2, 1));
         helper.succeedWhen(() -> {
-            Container chest = (Container) helper.getBlockEntity(new BlockPos(4, 2, 1));
+            Container chest = GameTestCompat.blockEntity(helper, new BlockPos(4, 2, 1), BaseContainerBlockEntity.class);
             helper.assertTrue(chest.countItem(Items.DIAMOND) == 1, "Diamond should arrive in the chest");
             helper.assertItemEntityNotPresent(Items.DIAMOND);
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void pneumaticItemsPopOutWithoutContainer(GameTestHelper helper) {
         BlockPos start = new BlockPos(1, 1, 1);
         entrance(helper, start, Direction.UP);
         pipe(helper, new BlockPos(2, 1, 1));
         pipe(helper, new BlockPos(3, 1, 1));
         exit(helper, new BlockPos(4, 1, 1), Direction.EAST);
-        IItemHandler inlet = helper.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, helper.absolutePos(start), Direction.UP);
-        helper.assertTrue(inlet != null, "Entrance must expose an item handler");
-        helper.assertTrue(inlet.insertItem(0, new ItemStack(Items.COBBLESTONE, 16), true).isEmpty(), "Simulated insert should be accepted");
-        PneumaticPipeEntranceBlockEntity entrance = helper.getBlockEntity(start);
+        helper.assertTrue(McItemHandlers.hasHandler(helper.getLevel(), helper.absolutePos(start), Direction.UP), "Entrance must expose an item handler");
+        helper.assertTrue(insertIntoEntrance(helper, start, new ItemStack(Items.COBBLESTONE, 16), true).isEmpty(), "Simulated insert should be accepted");
+        PneumaticPipeEntranceBlockEntity entrance = GameTestCompat.blockEntity(helper, start, PneumaticPipeEntranceBlockEntity.class);
         helper.assertTrue(entrance.inTransit() == 0, "Simulation must not enqueue");
-        helper.assertTrue(inlet.insertItem(0, new ItemStack(Items.COBBLESTONE, 16), false).isEmpty(), "Insert should be accepted");
+        helper.assertTrue(insertIntoEntrance(helper, start, new ItemStack(Items.COBBLESTONE, 16), false).isEmpty(), "Insert should be accepted");
         helper.assertTrue(entrance.inTransit() == 1, "Item should be in transit");
         helper.succeedWhen(() -> {
             helper.assertItemEntityCountIs(Items.COBBLESTONE, new BlockPos(5, 1, 1), 1.5, 16);
@@ -196,19 +195,18 @@ public final class PneumaticPipeGameTests {
         });
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void pneumaticRejectsItemsWithoutRoute(GameTestHelper helper) {
         BlockPos start = new BlockPos(1, 1, 1);
         entrance(helper, start, Direction.UP);
         pipe(helper, new BlockPos(2, 1, 1));
-        IItemHandler inlet = helper.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, helper.absolutePos(start), Direction.UP);
-        helper.assertTrue(inlet != null, "Entrance must expose an item handler");
-        ItemStack rest = inlet.insertItem(0, new ItemStack(Items.COBBLESTONE, 4), false);
+        helper.assertTrue(McItemHandlers.hasHandler(helper.getLevel(), helper.absolutePos(start), Direction.UP), "Entrance must expose an item handler");
+        ItemStack rest = insertIntoEntrance(helper, start, new ItemStack(Items.COBBLESTONE, 4), false);
         helper.assertTrue(rest.getCount() == 4, "Without an exit the entrance must refuse items");
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void pneumaticHopperFeedsEntrance(GameTestHelper helper) {
         BlockPos start = new BlockPos(1, 1, 1);
         entrance(helper, start, Direction.NORTH);
@@ -217,10 +215,10 @@ public final class PneumaticPipeGameTests {
         pipe(helper, new BlockPos(1, 1, 3));
         exit(helper, new BlockPos(1, 1, 4), Direction.SOUTH);
         helper.setBlock(new BlockPos(1, 1, 5), Blocks.BARREL);
-        HopperBlockEntity hopper = helper.getBlockEntity(new BlockPos(1, 2, 1));
+        HopperBlockEntity hopper = GameTestCompat.blockEntity(helper, new BlockPos(1, 2, 1), HopperBlockEntity.class);
         hopper.setItem(0, new ItemStack(Items.IRON_INGOT, 3));
         helper.succeedWhen(() -> {
-            Container barrel = (Container) helper.getBlockEntity(new BlockPos(1, 1, 5));
+            Container barrel = GameTestCompat.blockEntity(helper, new BlockPos(1, 1, 5), BaseContainerBlockEntity.class);
             helper.assertTrue(barrel.countItem(Items.IRON_INGOT) == 3, "All ingots should reach the barrel, got " + barrel.countItem(Items.IRON_INGOT));
         });
     }
@@ -229,7 +227,7 @@ public final class PneumaticPipeGameTests {
     private static ServerPlayer rider(GameTestHelper helper, Vec3 at) {
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
-        player.moveTo(helper.absoluteVec(at));
+        McEntities.snapTo(player, helper.absoluteVec(at));
         player.setShiftKeyDown(true);
         helper.onEachTick(() -> {
             if (!player.isRemoved()) player.doTick();
@@ -237,7 +235,7 @@ public final class PneumaticPipeGameTests {
         return player;
     }
 
-    @GameTest(template = "empty", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty", timeoutTicks = 200)
     public static void pneumaticCarriesPlayerToExit(GameTestHelper helper) {
         entrance(helper, new BlockPos(1, 1, 1), Direction.UP);
         for (int x = 2; x <= 4; x++) {
@@ -260,7 +258,7 @@ public final class PneumaticPipeGameTests {
         });
     }
 
-    @GameTest(template = "empty", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty", timeoutTicks = 200)
     public static void pneumaticBrokenPipeEjectsPlayer(GameTestHelper helper) {
         entrance(helper, new BlockPos(1, 1, 1), Direction.UP);
         for (int x = 2; x <= 6; x++) {

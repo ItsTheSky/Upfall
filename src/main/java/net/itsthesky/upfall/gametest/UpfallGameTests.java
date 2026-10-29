@@ -1,28 +1,24 @@
 package net.itsthesky.upfall.gametest;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.worldgen.ModBiomes;
 import net.itsthesky.upfall.worldgen.UpfallTerrain;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.RandomState;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class UpfallGameTests {
     private UpfallGameTests() {}
 
-    @GameTest(template = "empty", timeoutTicks = 2400)
+    @UpfallGameTest(template = "empty", timeoutTicks = 2400)
     public static void terrainShape(GameTestHelper helper) {
         var registries = helper.getLevel().registryAccess();
-        var settings = registries.registryOrThrow(Registries.NOISE_SETTINGS).getHolderOrThrow(UpfallTerrain.SETTINGS);
+        var settings = registries.lookupOrThrow(Registries.NOISE_SETTINGS).getOrThrow(UpfallTerrain.SETTINGS);
         var generator = new NoiseBasedChunkGenerator(ModBiomes.biomeSource(registries.lookupOrThrow(Registries.BIOME)), settings);
         RandomState random = RandomState.create(settings.value(), registries.lookupOrThrow(Registries.NOISE), 20261011L);
         LevelHeightAccessor height = LevelHeightAccessor.create(UpfallTerrain.MIN_Y, UpfallTerrain.HEIGHT);

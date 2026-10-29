@@ -1,0 +1,20 @@
+{
+  "values": [
+    "upfall:pearlstone_stairs",
+    "upfall:cobbled_pearlstone_stairs",
+    "upfall:polished_pearlstone_stairs",
+    "upfall:pearlstone_brick_stairs",
+    "upfall:mossy_pearlstone_brick_stairs",
+    "upfall:duskslate_stairs",
+    "upfall:cobbled_duskslate_stairs",
+    "upfall:polished_duskslate_stairs",
+    "upfall:duskslate_brick_stairs",
+    "upfall:dusk_canopy_stairs",
+    "upfall:pearl_canopy_stairs",
+    "upfall:sky_canopy_stairs",
+    "upfall:rustslate_stairs",
+    "upfall:cobbled_rustslate_stairs",
+    "upfall:polished_rustslate_stairs",
+    "upfall:rustslate_brick_stairs"
+  ]
+}

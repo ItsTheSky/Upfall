@@ -1,0 +1,45 @@
+{
+  "criteria": {
+    "has_halo_frame": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:halo_frame"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_skyward_key": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:skyward_key"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "upfall:block/pearlstone",
+    "description": {
+      "translate": "advancements.upfall.root.description"
+    },
+    "icon": {
+      "id": "upfall:skygrass_block"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.upfall.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_halo_frame",
+      "has_skyward_key"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "N": "upfall:nimbusite_ingot",
+    "T": "minecraft:stick"
+  },
+  "pattern": [
+    " N ",
+    "T T"
+  ],
+  "result": {
+    "id": "upfall:zipline_handle"
+  }
+}

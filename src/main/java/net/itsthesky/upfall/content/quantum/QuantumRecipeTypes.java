@@ -16,6 +16,11 @@ public final class QuantumRecipeTypes {
 
     public static final DeferredHolder<RecipeType<?>, RecipeType<QuantumIncantationRecipe>> INCANTATION =
             TYPES.register("quantum_incantation", () -> RecipeType.simple(Upfall.id("quantum_incantation")));
+    //? if >=26.1 {
+    /*public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<QuantumIncantationRecipe>> INCANTATION_SERIALIZER =
+            SERIALIZERS.register("quantum_incantation", () -> new RecipeSerializer<>(QuantumIncantationRecipe.CODEC, QuantumIncantationRecipe.STREAM_CODEC));
+    *///?} else {
     public static final DeferredHolder<RecipeSerializer<?>, QuantumIncantationRecipe.Serializer> INCANTATION_SERIALIZER =
             SERIALIZERS.register("quantum_incantation", QuantumIncantationRecipe.Serializer::new);
+    //?}
 }

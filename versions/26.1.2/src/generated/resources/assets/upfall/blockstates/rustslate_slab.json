@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "upfall:block/rustslate_slab"
+    },
+    "type=double": {
+      "model": "upfall:block/rustslate"
+    },
+    "type=top": {
+      "model": "upfall:block/rustslate_slab_top"
+    }
+  }
+}

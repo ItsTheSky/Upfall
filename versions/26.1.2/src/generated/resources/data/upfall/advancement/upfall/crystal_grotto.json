@@ -1,0 +1,38 @@
+{
+  "parent": "upfall:upfall/enter",
+  "criteria": {
+    "visited": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structures": "upfall:crystal_grotto"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.crystal_grotto.description"
+    },
+    "icon": {
+      "id": "upfall:azure_cluster"
+    },
+    "title": {
+      "translate": "advancements.upfall.crystal_grotto.title"
+    }
+  },
+  "requirements": [
+    [
+      "visited"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

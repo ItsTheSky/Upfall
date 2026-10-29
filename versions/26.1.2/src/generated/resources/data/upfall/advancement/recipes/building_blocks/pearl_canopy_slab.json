@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_pearl_canopy": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:pearl_canopy"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:pearl_canopy_slab"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_pearl_canopy"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:pearl_canopy_slab"
+    ]
+  }
+}

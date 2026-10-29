@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "upfall:kairite_dust",
+    "C": "upfall:rustslate",
+    "S": "upfall:void_tether_blueprint"
+  },
+  "pattern": [
+    "#S#",
+    "#C#",
+    "###"
+  ],
+  "result": {
+    "count": 2,
+    "id": "upfall:void_tether_blueprint"
+  }
+}

@@ -3,7 +3,11 @@ package net.itsthesky.upfall.content.reliquary.client;
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.reliquary.boss.FoldWarden;
 import net.minecraft.Util;
+//? if >=26.1 {
+/*import net.minecraft.client.model.EntityModel;
+*///?} else {
 import net.minecraft.client.model.HierarchicalModel;
+//?}
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -14,7 +18,11 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.Mth;
 
+//? if >=26.1 {
+/*public class FoldWardenModel extends EntityModel<FoldWardenRenderState> {
+*///?} else {
 public class FoldWardenModel extends HierarchicalModel<FoldWarden> {
+//?}
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(Upfall.id("fold_warden"), "main");
     private static final float QUARTER = Mth.HALF_PI;
     private static final float EIGHTH = Mth.PI / 4.0F;
@@ -24,7 +32,9 @@ public class FoldWardenModel extends HierarchicalModel<FoldWarden> {
     private static final float HALO = 52.0F;
     private static final float PREVIEW_OPEN = 0.45F;
 
+    //? if <26.1 {
     private final ModelPart root;
+    //?}
     private final ModelPart body;
     private final ModelPart core;
     private final ModelPart leftShutter;
@@ -36,7 +46,11 @@ public class FoldWardenModel extends HierarchicalModel<FoldWarden> {
     private final ModelPart crest;
 
     public FoldWardenModel(ModelPart root) {
+        //? if >=26.1 {
+        /*super(root);
+        *///?} else {
         this.root = root;
+        //?}
         this.body = root.getChild("body");
         this.core = body.getChild("core");
         this.leftShutter = core.getChild("left_shutter");
@@ -143,19 +157,36 @@ public class FoldWardenModel extends HierarchicalModel<FoldWarden> {
                 PartPose.offset(0.0F, 8.2F, 10.0F));
     }
 
+    //? if <26.1 {
     @Override
     public ModelPart root() {
         return root;
     }
+    //?}
 
+    //? if >=26.1 {
+    /*@Override
+    public void setupAnim(FoldWardenRenderState state) {
+        super.setupAnim(state);
+        pose(state.preview, state.ageInTicks, state.partialTick, state.phase, state.phaseTicks, state.attack, state.attackTicks,
+                state.entityId, state.xRot, state.shutterO, state.shutter);
+    }
+    *///?} else {
     @Override
     public void setupAnim(FoldWarden entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         boolean preview = !(entity.level() instanceof ClientLevel);
+        pose(preview, ageInTicks, ageInTicks - entity.tickCount, entity.phase(), entity.phaseTicks(), entity.attack(), entity.attackTicks(),
+                entity.getId(), headPitch, entity.shutterO, entity.shutter);
+    }
+    //?}
+
+    private void pose(boolean preview, float ageInTicks, float livePartialTick, FoldWarden.Phase livePhase, int phaseTicks,
+                      FoldWarden.Attack attack, int attackTicks, int entityId, float headPitch, float shutterO, float shutter) {
         if (preview) ageInTicks = (Util.getMillis() % 3_600_000L) / 50.0F;
-        float partialTick = preview ? 0.0F : ageInTicks - entity.tickCount;
-        FoldWarden.Phase phase = preview ? FoldWarden.Phase.CUBE : entity.phase();
+        float partialTick = preview ? 0.0F : livePartialTick;
+        FoldWarden.Phase phase = preview ? FoldWarden.Phase.CUBE : livePhase;
         float unfold = phase == FoldWarden.Phase.UNFOLD
-                ? Mth.clamp((entity.phaseTicks() + partialTick) / FoldWarden.UNFOLD_TICKS, 0.0F, 1.0F)
+                ? Mth.clamp((phaseTicks + partialTick) / FoldWarden.UNFOLD_TICKS, 0.0F, 1.0F)
                 : phase == FoldWarden.Phase.WYRM ? 1.0F : 0.0F;
         float cubeScale = 1.0F - Mth.clamp((unfold - 0.2F) / 0.5F, 0.0F, 1.0F);
         float headScale = Mth.clamp((unfold - 0.35F) / 0.4F, 0.0F, 1.0F);
@@ -164,20 +195,20 @@ public class FoldWardenModel extends HierarchicalModel<FoldWarden> {
         body.xScale = body.yScale = body.zScale = cubeScale;
         head.xScale = head.yScale = head.zScale = headScale;
         head.xRot = headPitch * Mth.DEG_TO_RAD;
-        jaw.xRot = jawOpen(entity, ageInTicks);
+        jaw.xRot = jawOpen(attack, attackTicks, ageInTicks);
         crest.yRot = ageInTicks * 0.1F;
 
         boolean awakening = phase == FoldWarden.Phase.AWAKEN;
-        float awaken = awakening ? Mth.clamp(entity.phaseTicks() / (float) FoldWarden.AWAKEN_TICKS, 0.0F, 1.0F) : 1.0F;
-        float t = ageInTicks + entity.getId() * 3.1F;
+        float awaken = awakening ? Mth.clamp(phaseTicks / (float) FoldWarden.AWAKEN_TICKS, 0.0F, 1.0F) : 1.0F;
+        float t = ageInTicks + entityId * 3.1F;
 
         body.y = BODY_Y + Mth.sin(t * 0.08F) * 1.5F;
         float settle = (1.0F - awaken) * (1.0F - awaken);
         core.yRot = Mth.sin(t * 0.03F) * 0.15F + settle * t * 0.35F + unfold * unfold * 30.0F;
         core.xRot = Mth.sin(t * 0.021F) * 0.06F;
-        body.zRot = preview ? 0.0F : tilt(entity, partialTick) * EIGHTH;
+        body.zRot = preview ? 0.0F : tilt(attack, attackTicks, partialTick) * EIGHTH;
 
-        float open = preview ? PREVIEW_OPEN : Mth.lerp(partialTick, entity.shutterO, entity.shutter);
+        float open = preview ? PREVIEW_OPEN : Mth.lerp(partialTick, shutterO, shutter);
         float swing = open * 1.35F + Mth.sin(t * 0.12F) * 0.04F * open;
         leftShutter.yRot = swing;
         rightShutter.yRot = -swing;
@@ -192,18 +223,18 @@ public class FoldWardenModel extends HierarchicalModel<FoldWarden> {
         }
     }
 
-    private static float jawOpen(FoldWarden entity, float ageInTicks) {
-        return switch (entity.attack()) {
-            case BREATH -> Math.min(0.75F, entity.attackTicks() * 0.05F);
+    private static float jawOpen(FoldWarden.Attack attack, int attackTicks, float ageInTicks) {
+        return switch (attack) {
+            case BREATH -> Math.min(0.75F, attackTicks * 0.05F);
             case COIL, DIVE -> 0.35F;
             case SHED -> 0.5F;
             default -> 0.08F + Mth.sin(ageInTicks * 0.1F) * 0.05F;
         };
     }
 
-    private static float tilt(FoldWarden entity, float partialTick) {
-        if (entity.attack() != FoldWarden.Attack.TILT) return 0.0F;
-        float ticks = entity.attackTicks() + partialTick;
+    private static float tilt(FoldWarden.Attack attack, int attackTicks, float partialTick) {
+        if (attack != FoldWarden.Attack.TILT) return 0.0F;
+        float ticks = attackTicks + partialTick;
         float end = FoldWarden.TILT_WINDUP + FoldWarden.TILT_PUSH;
         if (ticks < FoldWarden.TILT_WINDUP) return Mth.clamp(ticks / FoldWarden.TILT_WINDUP, 0.0F, 1.0F);
         return Mth.clamp((end - ticks) / 10.0F, 0.0F, 1.0F);

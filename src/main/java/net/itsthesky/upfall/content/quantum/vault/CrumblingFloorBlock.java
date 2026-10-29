@@ -58,14 +58,21 @@ public class CrumblingFloorBlock extends Block {
         return state.getValue(CRUMBLED) ? RenderShape.INVISIBLE : RenderShape.MODEL;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return state.getValue(CRUMBLED);
+    }
+    *///?} else {
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return state.getValue(CRUMBLED);
     }
+    //?}
 
     @Override
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
-        if (!level.isClientSide && entity instanceof Player player && !player.isSpectator() && !state.getValue(CRUMBLED)
+        if (!level.isClientSide() && entity instanceof Player player && !player.isSpectator() && !state.getValue(CRUMBLED)
                 && !level.getBlockTicks().hasScheduledTick(pos, this)) {
             level.scheduleTick(pos, this, DELAY);
             level.playSound(null, pos, QuantumSounds.FLOOR_CRUMBLE.get(), SoundSource.BLOCKS, 0.4F, 1.6F);

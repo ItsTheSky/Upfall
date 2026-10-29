@@ -57,7 +57,11 @@ public final class RustworksLoot implements LootTableSubProvider {
                         .add(item(RustworksItems.RUSTY_PLATE.get(), 8, 2, 6))
                         .add(item(RustworksItems.KAIRITE_GEAR.get(), 3, 1, 1))
                         .add(item(Items.IRON_NUGGET, 6, 3, 9))
+                        //? if >=26.1 {
+                        /*.add(item(Items.IRON_CHAIN, 3, 1, 3))
+                        *///?} else {
                         .add(item(Items.CHAIN, 3, 1, 3))
+                        //?}
                         .add(item(Items.REDSTONE, 3, 1, 4)))
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
                         .add(item(MachinesItems.PHASE_WATCH_BLUEPRINT.get(), 2, 1, 1))

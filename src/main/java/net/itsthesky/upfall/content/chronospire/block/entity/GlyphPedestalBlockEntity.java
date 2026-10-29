@@ -1,5 +1,9 @@
 package net.itsthesky.upfall.content.chronospire.block.entity;
 
+import net.itsthesky.upfall.compat.mc.DataIn;
+import net.itsthesky.upfall.compat.mc.DataOut;
+import net.itsthesky.upfall.compat.mc.McPlayers;
+import net.itsthesky.upfall.compat.mc.UpfallBlockEntity;
 import net.itsthesky.upfall.content.chronospire.ChronoBlocks;
 import net.itsthesky.upfall.content.chronospire.ChronoPhase;
 import net.itsthesky.upfall.content.chronospire.ChronoRegistries;
@@ -8,8 +12,6 @@ import net.itsthesky.upfall.content.chronospire.block.GlyphPedestalBlock.Mode;
 import net.itsthesky.upfall.content.chronospire.block.GlyphPedestalBlock;
 import net.itsthesky.upfall.content.chronospire.puzzle.PuzzleGates;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,14 +21,13 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GlyphPedestalBlockEntity extends BlockEntity {
+public class GlyphPedestalBlockEntity extends UpfallBlockEntity {
     public static final int LENGTH = 5;
     public static final int SHOW_INTERVAL = 18;
     private static final int SHOW_LIT = 12;
@@ -54,7 +55,7 @@ public class GlyphPedestalBlockEntity extends BlockEntity {
 
     public int[] sequence() {
         if (sequence.length != LENGTH) {
-            sequence = generate(level != null ? level.random : RandomSource.create(), LENGTH);
+            sequence = generate(level != null ? level.getRandom() : RandomSource.create(), LENGTH);
             setChanged();
         }
         return sequence;
@@ -126,7 +127,7 @@ public class GlyphPedestalBlockEntity extends BlockEntity {
                     if (step >= sequence.length) {
                         solve();
                     } else if (player != null) {
-                        player.displayClientMessage(Component.translatable("message.upfall.glyph.progress", step, sequence.length), true);
+                        McPlayers.overlay(player, Component.translatable("message.upfall.glyph.progress", step, sequence.length));
                     }
                 } else {
                     step = 0;
@@ -216,24 +217,22 @@ public class GlyphPedestalBlockEntity extends BlockEntity {
     }
 
     private static void tell(Player player, String key) {
-        player.displayClientMessage(Component.translatable(key), true);
+        McPlayers.overlay(player, Component.translatable(key));
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putIntArray("Sequence", sequence);
-        tag.putInt("Step", step);
-        tag.putInt("Timer", timer);
-        gates.save(tag);
+    protected void saveData(DataOut out) {
+        out.putIntArray("Sequence", sequence);
+        out.putInt("Step", step);
+        out.putInt("Timer", timer);
+        gates.save(out);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        sequence = tag.getIntArray("Sequence");
-        step = tag.getInt("Step");
-        timer = tag.getInt("Timer");
-        gates.load(tag);
+    protected void loadData(DataIn in) {
+        sequence = in.getIntArrayOrEmpty("Sequence");
+        step = in.getIntOr("Step", 0);
+        timer = in.getIntOr("Timer", 0);
+        gates.load(in);
     }
 }

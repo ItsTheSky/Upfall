@@ -30,10 +30,17 @@ public class StagnantMistBlock extends Block {
         return Shapes.empty();
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
+    }
+    *///?} else {
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
+    //?}
 
     @Override
     protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
@@ -50,7 +57,11 @@ public class StagnantMistBlock extends Block {
         if (random.nextInt(24) != 0) return;
         Direction side = Direction.getRandom(random);
         BlockPos next = pos.relative(side);
+        //? if >=26.1 {
+        /*if (level.getBlockState(next).is(this) || level.getBlockState(next).isSolidRender()) return;
+        *///?} else {
         if (level.getBlockState(next).is(this) || level.getBlockState(next).isSolidRender(level, next)) return;
+        //?}
         level.addParticle(ModParticles.MIST_MOTE.get(),
                 pos.getX() + 0.5 + side.getStepX() * 0.55 + (random.nextDouble() - 0.5) * 0.8,
                 pos.getY() + 0.5 + side.getStepY() * 0.55 + (random.nextDouble() - 0.5) * 0.8,

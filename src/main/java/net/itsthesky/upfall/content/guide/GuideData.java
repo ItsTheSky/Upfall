@@ -4,10 +4,8 @@ import net.itsthesky.upfall.datagen.DataContribution;
 import net.itsthesky.upfall.datagen.ModFrenchLanguageProvider;
 import net.itsthesky.upfall.datagen.ModItemModelProvider;
 import net.itsthesky.upfall.datagen.ModLanguageProvider;
-import net.itsthesky.upfall.datagen.ModRecipeProvider;
+import net.itsthesky.upfall.datagen.RecipeContext;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 
@@ -32,10 +30,10 @@ final class GuideData implements DataContribution {
     }
 
     @Override
-    public void recipes(RecipeOutput output) {
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GuideItems.SKY_ALMANAC.get())
+    public void recipes(RecipeContext recipes) {
+        recipes.shapeless(RecipeCategory.MISC, GuideItems.SKY_ALMANAC.get())
                 .requires(Items.BOOK).requires(Items.FEATHER)
-                .unlockedBy(ModRecipeProvider.hasName(Items.BOOK), ModRecipeProvider.hasItem(Items.BOOK))
-                .save(output.withConditions(new ModLoadedCondition(GuideModule.GUIDEME_ID)));
+                .unlockedBy(RecipeContext.hasName(Items.BOOK), recipes.has(Items.BOOK))
+                .save(recipes.output().withConditions(new ModLoadedCondition(GuideModule.GUIDEME_ID)));
     }
 }

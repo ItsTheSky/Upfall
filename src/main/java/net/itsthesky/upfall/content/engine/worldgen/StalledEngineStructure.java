@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.engine.worldgen;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.compat.mc.McChunks;
 import net.itsthesky.upfall.content.chronospire.data.ChronospireData;
 import net.itsthesky.upfall.content.engine.EngineStructures;
 import net.itsthesky.upfall.worldgen.ModBiomes;
@@ -8,6 +9,7 @@ import net.itsthesky.upfall.worldgen.SurfaceSampler;
 import net.itsthesky.upfall.worldgen.UpfallTerrain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.ChunkPos;
@@ -85,7 +87,7 @@ public class StalledEngineStructure extends Structure {
     }
 
     public static Optional<BlockPos> site(GenerationContext context, ChunkPos chunk) {
-        Key key = new Key(context.seed(), chunk.toLong());
+        Key key = new Key(context.seed(), McChunks.key(chunk));
         synchronized (SITES) {
             Optional<BlockPos> cached = SITES.get(key);
             if (cached != null) return cached;
@@ -135,8 +137,8 @@ public class StalledEngineStructure extends Structure {
     }
 
     static float spireAngle(GenerationContext context, int x, int z) {
-        Optional<StructureSet> set = context.registryAccess().registry(Registries.STRUCTURE_SET)
-                .flatMap(registry -> registry.getOptional(ChronospireData.STRUCTURE_SET));
+        Optional<StructureSet> set = context.registryAccess().lookup(Registries.STRUCTURE_SET)
+                .flatMap(registry -> registry.get(ChronospireData.STRUCTURE_SET)).map(Holder::value);
         if (set.isEmpty() || !(set.get().placement() instanceof RandomSpreadStructurePlacement spread)) {
             return Float.NaN;
         }

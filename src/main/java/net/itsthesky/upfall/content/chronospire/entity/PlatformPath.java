@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.chronospire.entity;
 
+import net.itsthesky.upfall.compat.mc.McNbt;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.DoubleTag;
 import net.minecraft.nbt.ListTag;
@@ -88,12 +89,20 @@ public record PlatformPath(List<Vec3> points, double speed, int pause, int offse
     }
 
     public static PlatformPath load(CompoundTag tag) {
-        ListTag list = tag.getList("Points", Tag.TAG_DOUBLE);
+        ListTag list = McNbt.getList(tag, "Points", Tag.TAG_DOUBLE);
         List<Vec3> points = new ArrayList<>();
         for (int i = 0; i + 2 < list.size(); i += 3) {
-            points.add(new Vec3(list.getDouble(i), list.getDouble(i + 1), list.getDouble(i + 2)));
+            points.add(new Vec3(listDouble(list, i), listDouble(list, i + 1), listDouble(list, i + 2)));
         }
-        double speed = tag.contains("Speed") ? tag.getDouble("Speed") : 0.1;
-        return new PlatformPath(points, Math.max(0.01, speed), tag.getInt("Pause"), tag.getInt("Offset"));
+        double speed = tag.contains("Speed") ? McNbt.getDouble(tag, "Speed") : 0.1;
+        return new PlatformPath(points, Math.max(0.01, speed), McNbt.getInt(tag, "Pause"), McNbt.getInt(tag, "Offset"));
+    }
+
+    private static double listDouble(ListTag list, int index) {
+        //? if >=26.1 {
+        /*return list.getDoubleOr(index, 0.0);
+        *///?} else {
+        return list.getDouble(index);
+        //?}
     }
 }

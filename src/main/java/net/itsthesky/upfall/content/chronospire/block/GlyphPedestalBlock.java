@@ -51,12 +51,12 @@ public class GlyphPedestalBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, ChronoRegistries.GLYPH_PEDESTAL.get(), GlyphPedestalBlockEntity::serverTick);
+        return level.isClientSide() ? null : createTickerHelper(type, ChronoRegistries.GLYPH_PEDESTAL.get(), GlyphPedestalBlockEntity::serverTick);
     }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
         if (level.getBlockEntity(pos) instanceof GlyphPedestalBlockEntity pedestal) {

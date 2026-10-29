@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.hamlet;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.hamlet.block.RopeAnchorBlock;
 import net.itsthesky.upfall.content.hamlet.block.RopeAnchorBlockEntity;
 import net.itsthesky.upfall.content.hamlet.block.RopeBlock;
@@ -49,10 +50,10 @@ public final class HamletBlocks {
     public static final CanopySet SKY_CANOPY = canopy("sky", MapColor.COLOR_LIGHT_BLUE);
     public static final List<CanopySet> CANOPIES = List.of(DUSK_CANOPY, PEARL_CANOPY, SKY_CANOPY);
 
-    public static final DeferredBlock<RopeBlock> ROPE = BLOCKS.registerBlock("rope", RopeBlock::new, BlockBehaviour.Properties.of()
+    public static final DeferredBlock<RopeBlock> ROPE = McRegistration.block(BLOCKS, "rope", RopeBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.SAND).noCollission().strength(0.4F).sound(SoundType.WOOL).noOcclusion()
             .pushReaction(PushReaction.DESTROY).ignitedByLava());
-    public static final DeferredItem<RopeItem> ROPE_ITEM = item(BLOCK_ITEMS.registerItem("rope", p -> new RopeItem(ROPE.get(), p)));
+    public static final DeferredItem<RopeItem> ROPE_ITEM = item(McRegistration.blockItem(BLOCK_ITEMS, "rope", p -> new RopeItem(ROPE.get(), p)));
     public static final DeferredBlock<RopeBridgeBlock> ROPE_BRIDGE = block("rope_bridge", RopeBridgeBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.WOOD).strength(0.8F).sound(SoundType.SCAFFOLDING).noOcclusion().ignitedByLava());
     public static final DeferredBlock<RopeAnchorBlock> ROPE_ANCHOR = block("rope_anchor", RopeAnchorBlock::new, BlockBehaviour.Properties.of()
@@ -66,9 +67,8 @@ public final class HamletBlocks {
     public static final DeferredBlock<RotatedPillarBlock> ROPE_SPOOL = block("rope_spool", RotatedPillarBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASS).strength(1.5F).sound(SoundType.WOOD).ignitedByLava());
 
-    @SuppressWarnings("DataFlowIssue")
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RopeAnchorBlockEntity>> ROPE_ANCHOR_ENTITY = BLOCK_ENTITIES.register("rope_anchor",
-            () -> BlockEntityType.Builder.of(RopeAnchorBlockEntity::new, ROPE_ANCHOR.get(), ZIPLINE_ANCHOR.get()).build(null));
+            () -> McRegistration.blockEntityType(RopeAnchorBlockEntity::new, ROPE_ANCHOR.get(), ZIPLINE_ANCHOR.get()));
 
     private static BlockBehaviour.Properties woven() {
         return BlockBehaviour.Properties.of().mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F)
@@ -85,7 +85,7 @@ public final class HamletBlocks {
     }
 
     private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, BlockBehaviour.Properties props) {
-        DeferredBlock<B> block = BLOCKS.registerBlock(name, factory, props);
+        DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
         item(BLOCK_ITEMS.registerSimpleBlockItem(block));
         return block;
     }

@@ -1,0 +1,25 @@
+{
+  "feature": "upfall:raincloud_patch",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 8
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "upfall:surface_scan",
+      "max_y": 64,
+      "min_y": 30,
+      "support": {
+        "type": "minecraft:matching_blocks",
+        "blocks": "upfall:dense_cloud"
+      },
+      "surface": "ceiling"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

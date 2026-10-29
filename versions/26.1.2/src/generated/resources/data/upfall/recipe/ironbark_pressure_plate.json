@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_pressure_plate",
+  "key": {
+    "#": "upfall:ironbark_planks"
+  },
+  "pattern": [
+    "##"
+  ],
+  "result": {
+    "id": "upfall:ironbark_pressure_plate"
+  }
+}

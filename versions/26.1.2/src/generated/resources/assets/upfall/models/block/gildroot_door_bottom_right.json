@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_right",
+  "textures": {
+    "bottom": "upfall:block/gildroot_door_bottom",
+    "top": "upfall:block/gildroot_door_top"
+  }
+}

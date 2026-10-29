@@ -1,18 +1,18 @@
 package net.itsthesky.upfall.content.machines.block;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.compat.mc.McPlayers;
+import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.content.machines.KairiteFuel;
 import net.itsthesky.upfall.content.machines.MachineBlockEntities;
 import net.itsthesky.upfall.content.machines.block.entity.RewinderBlockEntity;
-import net.itsthesky.upfall.content.rustworks.RustworksItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -28,6 +28,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+//? if <26.1 {
+import net.minecraft.world.ItemInteractionResult;
+//?}
 
 public class RewinderBlock extends BaseEntityBlock {
     public static final MapCodec<RewinderBlock> CODEC = simpleCodec(RewinderBlock::new);
@@ -59,16 +62,27 @@ public class RewinderBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, MachineBlockEntities.REWINDER.get(), RewinderBlockEntity::serverTick);
+        return level.isClientSide() ? null : createTickerHelper(type, MachineBlockEntities.REWINDER.get(), RewinderBlockEntity::serverTick);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected InteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        return UseResults.item(interact(held, level, pos, player), level);
+    }
+    *///?} else {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack held, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        return UseResults.item(interact(held, level, pos, player), level);
+    }
+    //?}
+
+    private UseResults.Outcome interact(ItemStack held, Level level, BlockPos pos, Player player) {
         if (!(level.getBlockEntity(pos) instanceof RewinderBlockEntity rewinder)) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return UseResults.Outcome.PASS_TO_DEFAULT;
         }
         if (KairiteFuel.units(held) > 0) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 int used = rewinder.accept(held);
                 if (used > 0) {
                     if (!player.getAbilities().instabuild) held.shrink(used);
@@ -77,23 +91,23 @@ public class RewinderBlock extends BaseEntityBlock {
                     showFuel(player, rewinder);
                 }
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return UseResults.Outcome.SIDED_SUCCESS;
         }
         if (rewinder.canHold(held)) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 rewinder.place(held);
                 if (!player.getAbilities().instabuild) held.shrink(1);
                 level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 0.9F);
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return UseResults.Outcome.SIDED_SUCCESS;
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return UseResults.Outcome.PASS_TO_DEFAULT;
     }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof RewinderBlockEntity rewinder) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 if (rewinder.stack().isEmpty()) {
                     showFuel(player, rewinder);
                 } else {
@@ -101,35 +115,44 @@ public class RewinderBlock extends BaseEntityBlock {
                     level.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 0.9F);
                 }
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return UseResults.sided(level);
         }
         return InteractionResult.PASS;
     }
 
     private static void showFuel(Player player, RewinderBlockEntity rewinder) {
-        player.displayClientMessage(Component.translatable("message.upfall.rewinder.fuel",
-                rewinder.fuel() * 100 / RewinderBlockEntity.FUEL_CAPACITY), true);
+        McPlayers.overlay(player, Component.translatable("message.upfall.rewinder.fuel",
+                rewinder.fuel() * 100 / RewinderBlockEntity.FUEL_CAPACITY));
     }
 
+    //? if <26.1 {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof RewinderBlockEntity rewinder) {
-            Containers.dropItemStack(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, rewinder.stack());
-            int dust = rewinder.fuel() / (KairiteFuel.DUST_UNITS * RewinderBlockEntity.POINTS_PER_UNIT);
-            if (dust > 0) {
-                Containers.dropItemStack(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(RustworksItems.KAIRITE_DUST.get(), dust));
-            }
+            rewinder.dropContents();
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
     }
+    //?}
 
     @Override
     protected boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos, Direction direction) {
+        return analogSignal(level, pos);
+    }
+    *///?} else {
     @Override
     protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        return analogSignal(level, pos);
+    }
+    //?}
+
+    private static int analogSignal(Level level, BlockPos pos) {
         return level.getBlockEntity(pos) instanceof RewinderBlockEntity rewinder ? rewinder.signal() : 0;
     }
 }

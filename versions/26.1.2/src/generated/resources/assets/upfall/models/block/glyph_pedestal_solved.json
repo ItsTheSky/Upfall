@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "upfall:block/warded_chronostone",
+    "side": "upfall:block/glyph_pedestal_side",
+    "top": "upfall:block/glyph_pedestal_top_solved"
+  }
+}

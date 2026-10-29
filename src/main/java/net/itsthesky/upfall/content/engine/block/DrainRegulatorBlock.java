@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.engine.block;
 
 import com.mojang.serialization.MapCodec;
+import net.itsthesky.upfall.compat.mc.McPlayers;
 import net.itsthesky.upfall.content.engine.EngineBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,13 +23,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class DrainRegulatorBlock extends BaseEntityBlock {
     public static final MapCodec<DrainRegulatorBlock> CODEC = simpleCodec(DrainRegulatorBlock::new);
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty DRAINED = BooleanProperty.create("drained");
 
     public DrainRegulatorBlock(Properties properties) {
@@ -68,18 +69,18 @@ public class DrainRegulatorBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> @Nullable BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, EngineBlocks.DRAIN_REGULATOR_ENTITY.get(), DrainRegulatorBlockEntity::serverTick);
+        return level.isClientSide() ? null : createTickerHelper(type, EngineBlocks.DRAIN_REGULATOR_ENTITY.get(), DrainRegulatorBlockEntity::serverTick);
     }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
         if (level.getBlockEntity(pos) instanceof DrainRegulatorBlockEntity regulator) {
-            player.displayClientMessage(state.getValue(DRAINED)
+            McPlayers.overlay(player, state.getValue(DRAINED)
                     ? Component.translatable("message.upfall.drain_regulator.drained")
-                    : Component.translatable("message.upfall.drain_regulator.status", regulator.openValves(level), regulator.valveCount()), true);
+                    : Component.translatable("message.upfall.drain_regulator.status", regulator.openValves(level), regulator.valveCount()));
         }
         return InteractionResult.CONSUME;
     }

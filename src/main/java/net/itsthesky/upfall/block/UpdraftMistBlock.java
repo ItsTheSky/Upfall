@@ -45,10 +45,17 @@ public class UpdraftMistBlock extends Block {
         return Shapes.empty();
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected boolean propagatesSkylightDown(BlockState state) {
+        return true;
+    }
+    *///?} else {
     @Override
     protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
     }
+    //?}
 
     @Override
     protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
@@ -65,6 +72,15 @@ public class UpdraftMistBlock extends Block {
         return isColumnBase(level.getBlockState(pos.below()));
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected BlockState updateShape(BlockState state, LevelReader level, net.minecraft.world.level.ScheduledTickAccess ticks, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (direction == Direction.DOWN && !isColumnBase(neighborState)) {
+            ticks.scheduleTick(pos, this, 2);
+        }
+        return state;
+    }
+    *///?} else {
     @Override
     protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (direction == Direction.DOWN && !isColumnBase(neighborState)) {
@@ -72,6 +88,7 @@ public class UpdraftMistBlock extends Block {
         }
         return state;
     }
+    //?}
 
     @Override
     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
@@ -80,8 +97,20 @@ public class UpdraftMistBlock extends Block {
         }
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, net.minecraft.world.entity.InsideBlockEffectApplier effectApplier, boolean isPrecise) {
+        if (!entity.getBoundingBox().deflate(1.0E-7).intersects(pos)) return;
+        lift(entity);
+    }
+    *///?} else {
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        lift(entity);
+    }
+    //?}
+
+    private static void lift(Entity entity) {
         Vec3 motion = entity.getDeltaMovement();
         int uplifted = entity instanceof LivingEntity living ? EnchantingEffects.level(living, EnchantingModule.UPLIFTED) : 0;
         double y = entity.isShiftKeyDown() ? Math.max(motion.y, -0.15)
@@ -99,8 +128,15 @@ public class UpdraftMistBlock extends Block {
         }
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+        return ItemStack.EMPTY;
+    }
+    *///?} else {
     @Override
     public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
         return ItemStack.EMPTY;
     }
+    //?}
 }

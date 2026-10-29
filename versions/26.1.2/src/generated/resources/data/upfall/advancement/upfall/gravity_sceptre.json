@@ -1,0 +1,33 @@
+{
+  "parent": "upfall:upfall/pearl_aerie",
+  "criteria": {
+    "sceptre": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:gravity_sceptre"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.gravity_sceptre.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "upfall:gravity_sceptre"
+    },
+    "title": {
+      "translate": "advancements.upfall.gravity_sceptre.title"
+    }
+  },
+  "requirements": [
+    [
+      "sceptre"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

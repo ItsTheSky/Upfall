@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "upfall:block/skyreach_slab"
+    },
+    "type=double": {
+      "model": "upfall:block/skyreach_planks"
+    },
+    "type=top": {
+      "model": "upfall:block/skyreach_slab_top"
+    }
+  }
+}

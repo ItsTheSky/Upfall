@@ -42,7 +42,7 @@ public class SkyCacheBlockEntity extends RandomizableContainerBlockEntity {
         }
 
         @Override
-        protected boolean isOwnContainer(Player player) {
+        public boolean isOwnContainer(Player player) {
             if (player.containerMenu instanceof ChestMenu menu) {
                 Container container = menu.getContainer();
                 return container == SkyCacheBlockEntity.this;
@@ -55,6 +55,24 @@ public class SkyCacheBlockEntity extends RandomizableContainerBlockEntity {
         super(ModBlockEntities.SKY_CACHE.get(), pos, state);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void saveAdditional(net.minecraft.world.level.storage.ValueOutput output) {
+        super.saveAdditional(output);
+        if (!trySaveLootTable(output)) {
+            ContainerHelper.saveAllItems(output, items);
+        }
+    }
+
+    @Override
+    protected void loadAdditional(net.minecraft.world.level.storage.ValueInput input) {
+        super.loadAdditional(input);
+        items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
+        if (!tryLoadLootTable(input)) {
+            ContainerHelper.loadAllItems(input, items);
+        }
+    }
+    *///?} else {
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
@@ -71,6 +89,7 @@ public class SkyCacheBlockEntity extends RandomizableContainerBlockEntity {
             ContainerHelper.loadAllItems(tag, items, registries);
         }
     }
+    //?}
 
     @Override
     public int getContainerSize() {
@@ -97,6 +116,26 @@ public class SkyCacheBlockEntity extends RandomizableContainerBlockEntity {
         return ChestMenu.threeRows(id, inventory, this);
     }
 
+    //? if >=26.1 {
+    /*@Override
+    public void startOpen(net.minecraft.world.entity.ContainerUser user) {
+        if (!remove && !user.getLivingEntity().isSpectator()) {
+            openers.incrementOpeners(user.getLivingEntity(), getLevel(), getBlockPos(), getBlockState(), user.getContainerInteractionRange());
+        }
+    }
+
+    @Override
+    public void stopOpen(net.minecraft.world.entity.ContainerUser user) {
+        if (!remove && !user.getLivingEntity().isSpectator()) {
+            openers.decrementOpeners(user.getLivingEntity(), getLevel(), getBlockPos(), getBlockState());
+        }
+    }
+
+    @Override
+    public java.util.List<net.minecraft.world.entity.ContainerUser> getEntitiesWithContainerOpen() {
+        return openers.getEntitiesWithContainerOpen(getLevel(), getBlockPos());
+    }
+    *///?} else {
     @Override
     public void startOpen(Player player) {
         if (!remove && !player.isSpectator()) {
@@ -110,6 +149,7 @@ public class SkyCacheBlockEntity extends RandomizableContainerBlockEntity {
             openers.decrementOpeners(player, getLevel(), getBlockPos(), getBlockState());
         }
     }
+    //?}
 
     public void recheckOpen() {
         if (!remove) {
@@ -123,6 +163,6 @@ public class SkyCacheBlockEntity extends RandomizableContainerBlockEntity {
 
     private void playSound(SoundEvent sound) {
         level.playSound(null, worldPosition.getX() + 0.5, worldPosition.getY() + 1.0, worldPosition.getZ() + 0.5, sound,
-                SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 1.15F);
+                SoundSource.BLOCKS, 0.5F, level.getRandom().nextFloat() * 0.1F + 1.15F);
     }
 }

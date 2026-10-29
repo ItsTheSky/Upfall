@@ -1,6 +1,8 @@
 package net.itsthesky.upfall.gametest;
 
-import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McChunks;
+import net.itsthesky.upfall.compat.mc.McEntities;
+import net.itsthesky.upfall.compat.mc.McPlayers;
 import net.itsthesky.upfall.content.reliquary.ReliquaryBlocks;
 import net.itsthesky.upfall.content.reliquary.ReliquaryEntities;
 import net.itsthesky.upfall.content.reliquary.ReliquaryItems;
@@ -12,12 +14,13 @@ import net.itsthesky.upfall.content.reliquary.item.FoldAnchorData;
 import net.itsthesky.upfall.content.reliquary.worldgen.ReliquaryBlueprint;
 import net.itsthesky.upfall.content.reliquary.worldgen.ReliquaryLayout;
 import net.itsthesky.upfall.content.reliquary.worldgen.ReliquaryPiece;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.registry.ModDataComponents;
 import net.itsthesky.upfall.worldgen.ReliquaryZones;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -33,15 +36,11 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class ReliquaryGameTests {
     private ReliquaryGameTests() {}
 
@@ -83,7 +82,7 @@ public final class ReliquaryGameTests {
         return loot.stream().filter(s -> s.is(item)).mapToInt(ItemStack::getCount).sum();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void reliquaryLayoutIsBoundedAndComplete(GameTestHelper helper) {
         for (long seed = 0; seed < 50; seed++) {
             ReliquaryLayout.Plan plan = ReliquaryLayout.plan(seed, ORIGIN);
@@ -103,7 +102,7 @@ public final class ReliquaryGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void reliquaryBlueprintsStayInBounds(GameTestHelper helper) {
         for (long seed = 0; seed < 8; seed++) {
             for (ReliquaryBlueprint bp : blueprints(seed)) {
@@ -117,7 +116,7 @@ public final class ReliquaryGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void reliquaryCoreHoldsSocketsSealsAndLoot(GameTestHelper helper) {
         for (long seed = 0; seed < 12; seed++) {
             int sockets = 0;
@@ -143,7 +142,7 @@ public final class ReliquaryGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 200)
     public static void foldSocketsDissolveSealsOnlyWhenAllFilled(GameTestHelper helper) {
         BlockPos[] sockets = {new BlockPos(2, 2, 2), new BlockPos(6, 2, 2), new BlockPos(2, 2, 6), new BlockPos(6, 2, 6)};
         BlockPos[] seals = {new BlockPos(4, 2, 4), new BlockPos(4, 3, 4), new BlockPos(5, 2, 4)};
@@ -193,12 +192,28 @@ public final class ReliquaryGameTests {
         }
     }
 
-    private static void strike(GameTestHelper helper, FoldWarden warden, Player player, float amount) {
-        warden.invulnerableTime = 0;
-        warden.hurt(helper.getLevel().damageSources().playerAttack(player), amount);
+    private static void kill(GameTestHelper helper, Entity entity) {
+        //? if >=26.1 {
+        /*entity.kill(helper.getLevel());
+        *///?} else {
+        entity.kill();
+        //?}
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 400)
+    private static void teleport(ServerPlayer player, ServerLevel level, double x, double y, double z) {
+        //? if >=26.1 {
+        /*player.teleportTo(level, x, y, z, java.util.Set.of(), 0.0F, 0.0F, true);
+        *///?} else {
+        player.teleportTo(level, x, y, z, 0.0F, 0.0F);
+        //?}
+    }
+
+    private static void strike(GameTestHelper helper, FoldWarden warden, Player player, float amount) {
+        warden.invulnerableTime = 0;
+        McEntities.hurt(warden, helper.getLevel().damageSources().playerAttack(player), amount);
+    }
+
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 400)
     public static void foldWardenShieldHoldsUntilSatellitesFall(GameTestHelper helper) {
         FoldWarden warden = helper.spawn(ReliquaryEntities.FOLD_WARDEN.get(), new BlockPos(12, 2, 12));
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
@@ -211,7 +226,7 @@ public final class ReliquaryGameTests {
                     helper.assertTrue(warden.getHealth() == health[0], "Shielded warden took damage");
                     List<FoldSatellite> satellites = satellites(helper, warden);
                     helper.assertTrue(satellites.size() == 4, "Expected 4 satellites, found " + satellites.size());
-                    satellites.forEach(FoldSatellite::kill);
+                    satellites.forEach(satellite -> kill(helper, satellite));
                 })
                 .thenWaitUntil(() -> helper.assertFalse(warden.isShielded(), "Shield is still up"))
                 .thenExecute(() -> {
@@ -222,13 +237,13 @@ public final class ReliquaryGameTests {
                 .thenSucceed();
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 500)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 500)
     public static void foldWardenUnfoldsAtHalfHealth(GameTestHelper helper) {
         FoldWarden warden = helper.spawn(ReliquaryEntities.FOLD_WARDEN.get(), new BlockPos(12, 2, 12));
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         helper.startSequence()
                 .thenWaitUntil(() -> helper.assertTrue(warden.phase() == FoldWarden.Phase.CUBE, "Warden is still awakening"))
-                .thenExecute(() -> satellites(helper, warden).forEach(FoldSatellite::kill))
+                .thenExecute(() -> satellites(helper, warden).forEach(satellite -> kill(helper, satellite)))
                 .thenWaitUntil(() -> helper.assertFalse(warden.isShielded(), "Shield is still up"))
                 .thenExecute(() -> {
                     strike(helper, warden, player, 1000.0F);
@@ -239,7 +254,7 @@ public final class ReliquaryGameTests {
                 .thenExecute(() -> {
                     helper.assertTrue(warden.getBbWidth() < 2.5F, "Wyrm keeps the cube hitbox: " + warden.getBbWidth());
                     helper.assertTrue(warden.segments()[0].isActive(), "Wyrm segments are not active");
-                    helper.assertTrue(warden.segments()[0].hurt(helper.getLevel().damageSources().playerAttack(player), 10.0F),
+                    helper.assertTrue(McEntities.hurt(warden.segments()[0], helper.getLevel().damageSources().playerAttack(player), 10.0F),
                             "Segments must forward damage to the warden");
                     helper.assertTrue(warden.getHealth() < FoldWarden.PHASE_TWO_HEALTH, "Segment hit did not hurt the warden");
                     cleanup(helper);
@@ -247,7 +262,7 @@ public final class ReliquaryGameTests {
                 .thenSucceed();
     }
 
-    @GameTest(template = "empty", timeoutTicks = 240)
+    @UpfallGameTest(template = "empty", timeoutTicks = 240)
     public static void foldLatticeDissolves(GameTestHelper helper) {
         BlockPos pos = new BlockPos(1, 2, 1);
         helper.setBlock(pos, ReliquaryBlocks.FOLD_LATTICE.get());
@@ -255,10 +270,14 @@ public final class ReliquaryGameTests {
         helper.succeedWhen(() -> helper.assertBlockNotPresent(ReliquaryBlocks.FOLD_LATTICE.get(), pos));
     }
 
-    @GameTest(template = "empty_large", timeoutTicks = 200)
+    @UpfallGameTest(template = "empty_large", timeoutTicks = 200)
     public static void foldWardenDropsAnchorAndHeart(GameTestHelper helper) {
         FoldWarden warden = helper.spawn(ReliquaryEntities.FOLD_WARDEN.get(), new BlockPos(12, 2, 12));
+        //? if >=26.1 {
+        /*LootTable table = helper.getLevel().getServer().reloadableRegistries().getLootTable(warden.getType().getDefaultLootTable().orElseThrow());
+        *///?} else {
         LootTable table = helper.getLevel().getServer().reloadableRegistries().getLootTable(warden.getType().getDefaultLootTable());
+        //?}
         LootParams params = new LootParams.Builder(helper.getLevel())
                 .withParameter(LootContextParams.THIS_ENTITY, warden)
                 .withParameter(LootContextParams.ORIGIN, warden.position())
@@ -275,20 +294,20 @@ public final class ReliquaryGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void foldAnchorRecallsAndCostsDurability(GameTestHelper helper) {
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
         player.setGameMode(GameType.SURVIVAL);
         BlockPos anchorPos = helper.absolutePos(new BlockPos(2, 2, 2));
-        player.teleportTo(helper.getLevel(), anchorPos.getX() + 0.5, anchorPos.getY(), anchorPos.getZ() + 0.5, 0.0F, 0.0F);
+        teleport(player, helper.getLevel(), anchorPos.getX() + 0.5, anchorPos.getY(), anchorPos.getZ() + 0.5);
         ItemStack anchor = new ItemStack(ReliquaryItems.FOLD_ANCHOR.get());
         player.setItemInHand(InteractionHand.MAIN_HAND, anchor);
         anchor.use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
         FoldAnchorData data = anchor.get(ModDataComponents.FOLD_ANCHOR);
         helper.assertTrue(data != null && data.pos().pos().equals(anchorPos), "First use must set the anchor on the player position");
         helper.assertTrue(anchor.getDamageValue() == 0, "Setting the anchor must be free");
-        player.getCooldowns().removeCooldown(ReliquaryItems.FOLD_ANCHOR.get());
-        player.teleportTo(helper.getLevel(), anchorPos.getX() + 10.5, anchorPos.getY(), anchorPos.getZ() + 0.5, 0.0F, 0.0F);
+        McPlayers.removeCooldown(player, ReliquaryItems.FOLD_ANCHOR.get());
+        teleport(player, helper.getLevel(), anchorPos.getX() + 10.5, anchorPos.getY(), anchorPos.getZ() + 0.5);
         anchor.use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
         helper.assertTrue(player.blockPosition().equals(anchorPos), "Second use must teleport back to the anchor: " + player.blockPosition());
         helper.assertTrue(anchor.getDamageValue() == 1, "Recall must cost exactly one durability");
@@ -296,7 +315,7 @@ public final class ReliquaryGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void reliquaryLootTablesRoll(GameTestHelper helper) {
         int archiveItems = 0;
         for (int i = 0; i < 40; i++) {
@@ -310,7 +329,7 @@ public final class ReliquaryGameTests {
         helper.succeed();
     }
 
-    @GameTest(template = "empty")
+    @UpfallGameTest(template = "empty")
     public static void reliquaryZonesAreDeterministic(GameTestHelper helper) {
         int present = 0;
         for (long seed = 0; seed < 20; seed++) {
@@ -322,7 +341,7 @@ public final class ReliquaryGameTests {
                     helper.assertTrue(Objects.equals(a, ReliquaryZones.nominalCenter(key, cx, cz)), "Zone center differs for seed " + seed);
                     if (a == null) continue;
                     present++;
-                    helper.assertTrue(ReliquaryZones.cellOfChunk(a.x) == cx && ReliquaryZones.cellOfChunk(a.z) == cz,
+                    helper.assertTrue(ReliquaryZones.cellOfChunk(McChunks.x(a)) == cx && ReliquaryZones.cellOfChunk(McChunks.z(a)) == cz,
                             "Zone center " + a + " escapes its cell " + cx + "," + cz);
                 }
             }

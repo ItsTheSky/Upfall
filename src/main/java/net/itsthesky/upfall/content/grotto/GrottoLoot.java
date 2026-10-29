@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.grotto;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.compat.mc.McIds;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
 import net.minecraft.core.HolderLookup;
@@ -42,7 +43,7 @@ public class GrottoLoot implements LootTableSubProvider {
                 java.util.List<CompletableFuture<?>> saves = new java.util.ArrayList<>();
                 new GrottoLoot(lookup).generate((key, builder) -> {
                     LootTable table = builder.setParamSet(LootContextParamSets.CHEST).build();
-                    saves.add(DataProvider.saveStable(cache, lookup, LootTable.DIRECT_CODEC, table, paths.json(key.location())));
+                    saves.add(DataProvider.saveStable(cache, lookup, LootTable.DIRECT_CODEC, table, paths.json(McIds.id(key))));
                 });
                 return CompletableFuture.allOf(saves.toArray(CompletableFuture[]::new));
             });

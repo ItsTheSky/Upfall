@@ -1,0 +1,33 @@
+{
+  "parent": "upfall:upfall/fold_warden",
+  "criteria": {
+    "anchor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:fold_anchor"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.upfall.fold_anchor.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "upfall:fold_anchor"
+    },
+    "title": {
+      "translate": "advancements.upfall.fold_anchor.title"
+    }
+  },
+  "requirements": [
+    [
+      "anchor"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

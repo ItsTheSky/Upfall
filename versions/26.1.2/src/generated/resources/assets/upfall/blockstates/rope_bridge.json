@@ -1,0 +1,32 @@
+{
+  "variants": {
+    "axis=x,level=0": {
+      "model": "upfall:block/rope_bridge_0"
+    },
+    "axis=x,level=1": {
+      "model": "upfall:block/rope_bridge_1"
+    },
+    "axis=x,level=2": {
+      "model": "upfall:block/rope_bridge_2"
+    },
+    "axis=x,level=3": {
+      "model": "upfall:block/rope_bridge_3"
+    },
+    "axis=z,level=0": {
+      "model": "upfall:block/rope_bridge_0",
+      "y": 90
+    },
+    "axis=z,level=1": {
+      "model": "upfall:block/rope_bridge_1",
+      "y": 90
+    },
+    "axis=z,level=2": {
+      "model": "upfall:block/rope_bridge_2",
+      "y": 90
+    },
+    "axis=z,level=3": {
+      "model": "upfall:block/rope_bridge_3",
+      "y": 90
+    }
+  }
+}

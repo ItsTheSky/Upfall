@@ -1,6 +1,6 @@
 <p align="center"><img src="docs/banner.png" alt="Upfall" width="720"></p>
 
-<p align="center"><b>Endgame sky dimension for Minecraft 1.21.1 (NeoForge).</b></p>
+<p align="center"><b>Endgame sky dimension for Minecraft 1.21.1 and 26.1.2 (NeoForge).</b></p>
 
 ---
 
@@ -8,7 +8,7 @@ Upfall adds a dimension of floating islands above a cloud sea, stuck at dusk. Gr
 updrafts, upward waterfalls, inverted islands you can walk under. It is meant to be reached after the Wither and the
 End, and adds two gear tiers past netherite, machines, structures with puzzles and a boss.
 
-Recipes show up in JEI and EMI when installed. English and French.
+Recipes show up in JEI (both versions) and EMI (1.21.1) when installed. English and French.
 
 ## In-game guide
 
@@ -115,9 +115,10 @@ Vault chest relocates, the Quantum Pedestal collapses if you look away. Light or
 
 ## Built with
 
-* [NeoForge](https://neoforged.net/) 21.1 and [ModDevGradle](https://github.com/neoforged/ModDevGradle)
-* [Parchment](https://parchmentmc.org/) mappings
-* Java 21 and Gradle
+* [NeoForge](https://neoforged.net/) 21.1 (MC 1.21.1) and 26.1 (MC 26.1.2), [ModDevGradle](https://github.com/neoforged/ModDevGradle)
+  and [Stonecutter](https://stonecutter.kikugie.dev/) for the multi-version build
+* [Parchment](https://parchmentmc.org/) mappings (1.21.1)
+* Java 21 (1.21.1) / Java 25 (26.1.2) and Gradle
 * NeoForge **data generators** for every model, loot table, recipe, tag, advancement and the whole worldgen
 * Minecraft's **GameTest** framework for the gameplay tests
 * Paint.NET for all the textures (if you're good at pixel art, I'd love to work with you! Mine are a bit rough)

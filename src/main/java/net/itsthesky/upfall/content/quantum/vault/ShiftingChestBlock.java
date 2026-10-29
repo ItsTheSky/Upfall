@@ -3,6 +3,7 @@ package net.itsthesky.upfall.content.quantum.vault;
 import com.mojang.serialization.MapCodec;
 import net.itsthesky.upfall.content.quantum.QuantumTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
@@ -16,13 +17,13 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class ShiftingChestBlock extends BaseEntityBlock {
     public static final MapCodec<ShiftingChestBlock> CODEC = simpleCodec(ShiftingChestBlock::new);
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
 
     public ShiftingChestBlock(Properties properties) {
         super(properties);
@@ -56,7 +57,7 @@ public class ShiftingChestBlock extends BaseEntityBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (level.isClientSide) return InteractionResult.SUCCESS;
+        if (level.isClientSide()) return InteractionResult.SUCCESS;
         if (level.getBlockEntity(pos) instanceof ShiftingChestBlockEntity chest) {
             player.openMenu(chest);
             if (player instanceof ServerPlayer serverPlayer) {
@@ -66,9 +67,16 @@ public class ShiftingChestBlock extends BaseEntityBlock {
         return InteractionResult.CONSUME;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected void affectNeighborsAfterRemoval(BlockState state, net.minecraft.server.level.ServerLevel level, BlockPos pos, boolean moved) {
+        Containers.updateNeighboursAfterDestroy(state, level, pos);
+    }
+    *///?} else {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
         Containers.dropContentsOnDestroy(state, newState, level, pos);
         super.onRemove(state, level, pos, newState, moved);
     }
+    //?}
 }

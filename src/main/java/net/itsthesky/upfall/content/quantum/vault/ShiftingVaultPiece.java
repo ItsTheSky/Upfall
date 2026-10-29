@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.quantum.vault;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import net.itsthesky.upfall.compat.mc.McNbt;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.QuantumLoot;
 import net.itsthesky.upfall.content.quantum.QuantumStructures;
@@ -41,10 +42,10 @@ public class ShiftingVaultPiece extends StructurePiece {
 
     public ShiftingVaultPiece(CompoundTag tag) {
         super(QuantumStructures.SHIFTING_VAULT_PIECE.get(), tag);
-        this.origin = BlockPos.of(tag.getLong("Origin"));
-        this.seed = tag.getLong("Seed");
+        this.origin = BlockPos.of(McNbt.getLong(tag, "Origin"));
+        this.seed = McNbt.getLong(tag, "Seed");
         this.tunnel = new ArrayList<>();
-        for (long l : tag.getLongArray("Tunnel")) tunnel.add(BlockPos.of(l));
+        for (long l : McNbt.getLongArray(tag, "Tunnel")) tunnel.add(BlockPos.of(l));
     }
 
     private static BoundingBox bounds(BlockPos origin, List<BlockPos> tunnel) {

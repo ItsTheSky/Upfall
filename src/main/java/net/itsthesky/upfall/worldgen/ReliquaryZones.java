@@ -3,6 +3,8 @@ package net.itsthesky.upfall.worldgen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.itsthesky.upfall.compat.mc.McChunks;
+import net.itsthesky.upfall.compat.mc.McIds;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.KeyDispatchDataCodec;
@@ -61,7 +63,7 @@ public final class ReliquaryZones implements DensityFunction.SimpleFunction {
 
     public static long worldKey(long seed) {
         NormalNoise instance = NormalNoise.create(WorldgenRandom.Algorithm.XOROSHIRO.newInstance(seed).forkPositional()
-                .fromHashOf(ModNoises.RELIQUARY.location()), NOISE_PARAMETERS);
+                .fromHashOf(McIds.id(ModNoises.RELIQUARY)), NOISE_PARAMETERS);
         return worldKey(instance.getValue(0.5, 0.0, 0.5), instance.getValue(1031.25, 17.0, -2077.75));
     }
 
@@ -100,7 +102,7 @@ public final class ReliquaryZones implements DensityFunction.SimpleFunction {
     public @Nullable ChunkPos center(int cellX, int cellZ) {
         ChunkPos center = nominalCenter(key(), cellX, cellZ);
         if (center == null) return null;
-        boolean valid = validCells.computeIfAbsent(ChunkPos.asLong(cellX, cellZ), k -> clearOfRustworks(center));
+        boolean valid = validCells.computeIfAbsent(McChunks.key(cellX, cellZ), k -> clearOfRustworks(center));
         return valid ? center : null;
     }
 

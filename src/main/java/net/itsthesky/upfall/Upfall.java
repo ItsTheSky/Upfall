@@ -5,6 +5,7 @@ import net.itsthesky.upfall.content.UpfallModules;
 import net.itsthesky.upfall.gameplay.ArmorSetBonuses;
 import net.itsthesky.upfall.gameplay.UpfallWorldEvents;
 import net.itsthesky.upfall.gameplay.WeightlessZones;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTestRegistrar;
 import net.itsthesky.upfall.network.DoubleJumpPayload;
 import net.itsthesky.upfall.registry.ModArmorMaterials;
 import net.itsthesky.upfall.registry.ModBlockEntities;
@@ -44,7 +45,7 @@ public class Upfall {
         ModDataComponents.DATA_COMPONENTS.register(modEventBus);
         ModParticles.PARTICLE_TYPES.register(modEventBus);
         ModEffects.MOB_EFFECTS.register(modEventBus);
-        ModArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
+        ModArmorMaterials.register(modEventBus);
         ModFluids.FLUID_TYPES.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
@@ -58,6 +59,7 @@ public class Upfall {
         ModPlacements.PLACEMENT_MODIFIERS.register(modEventBus);
         ModPoiTypes.POI_TYPES.register(modEventBus);
         ModTriggers.TRIGGERS.register(modEventBus);
+        UpfallGameTestRegistrar.register(modEventBus);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, UpfallConfig.SPEC);
         modEventBus.addListener(this::commonSetup);

@@ -1,0 +1,40 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "entries": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "upfall:item/phase_watch_dawn"
+        },
+        "threshold": 0.1
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "upfall:item/phase_watch_noon"
+        },
+        "threshold": 0.3
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "upfall:item/phase_watch_dusk"
+        },
+        "threshold": 0.5
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "upfall:item/phase_watch_midnight"
+        },
+        "threshold": 0.7
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "upfall:item/phase_watch"
+    },
+    "property": "upfall:phase"
+  }
+}

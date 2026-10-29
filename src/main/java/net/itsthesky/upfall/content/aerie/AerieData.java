@@ -3,6 +3,7 @@ package net.itsthesky.upfall.content.aerie;
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.aerie.worldgen.PearlAerieStructure;
 import net.itsthesky.upfall.datagen.DataContribution;
+import net.itsthesky.upfall.datagen.DataGenContext;
 import net.itsthesky.upfall.datagen.ModBlockLootProvider;
 import net.itsthesky.upfall.datagen.ModBlockStateProvider;
 import net.itsthesky.upfall.datagen.ModFrenchLanguageProvider;
@@ -19,16 +20,12 @@ import net.minecraft.advancements.critereon.LocationPredicate;
 import net.minecraft.advancements.critereon.PlayerTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
@@ -36,13 +33,8 @@ import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 final class AerieData implements DataContribution {
@@ -105,26 +97,15 @@ final class AerieData implements DataContribution {
     }
 
     @Override
-    public void addProviders(GatherDataEvent event, DataGenerator generator, PackOutput output,
-                             CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {
-        generator.addProvider(event.includeServer(), new Named("Pearl Aerie loot tables", new LootTableProvider(output, Set.of(),
-                List.of(new LootTableProvider.SubProviderEntry(AerieLoot::new, LootContextParamSets.CHEST)), registries)));
-        generator.addProvider(event.includeServer(), new Named("Pearl Aerie advancements",
-                new AdvancementProvider(output, registries, helper, List.of(AerieData::advancements))));
-        generator.addProvider(event.includeServer(), new BiomeTagsProvider(output, registries, Upfall.MODID, helper) {
-            @Override
-            protected void addTags(HolderLookup.Provider provider) {
-                tag(AerieStructures.HAS_PEARL_AERIE).add(ModBiomes.DRIFTING_ARCHIPELAGO);
-            }
-
-            @Override
-            public String getName() {
-                return "Pearl Aerie Biome Tags";
-            }
-        });
+    public void addProviders(DataGenContext ctx) {
+        ctx.add(ctx.lootTables("Pearl Aerie loot tables",
+                List.of(new LootTableProvider.SubProviderEntry(AerieLoot::new, LootContextParamSets.CHEST))));
+        ctx.add(ctx.advancements("Pearl Aerie advancements", List.of(AerieData::advancements)));
+        ctx.<Biome>tags(Registries.BIOME, "Pearl Aerie Biome Tags",
+                tags -> tags.tag(AerieStructures.HAS_PEARL_AERIE).add(ModBiomes.DRIFTING_ARCHIPELAGO));
     }
 
-    private static void advancements(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper helper) {
+    private static void advancements(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver) {
         AdvancementHolder enter = AdvancementSubProvider.createPlaceholder("upfall:upfall/enter");
         AdvancementHolder visited = Advancement.Builder.advancement().parent(enter)
                 .display(ModBlocks.CHISELED_PEARLSTONE_BRICKS.get(), Component.translatable("advancements.upfall.pearl_aerie.title"),
@@ -137,17 +118,5 @@ final class AerieData implements DataContribution {
                         Component.translatable("advancements.upfall.gravity_sceptre.description"), null, AdvancementType.GOAL, true, true, false)
                 .addCriterion("sceptre", InventoryChangeTrigger.TriggerInstance.hasItems(AerieItems.GRAVITY_SCEPTRE.get()))
                 .save(saver, Upfall.id("upfall/gravity_sceptre").toString());
-    }
-
-    private record Named(String name, DataProvider delegate) implements DataProvider {
-        @Override
-        public CompletableFuture<?> run(CachedOutput output) {
-            return delegate.run(output);
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
     }
 }

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "upfall:kairite_dust",
+    "C": "upfall:rustslate",
+    "S": "upfall:rewinder_blueprint"
+  },
+  "pattern": [
+    "#S#",
+    "#C#",
+    "###"
+  ],
+  "result": {
+    "count": 2,
+    "id": "upfall:rewinder_blueprint"
+  }
+}

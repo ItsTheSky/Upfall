@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.quantum.client;
 
+import net.itsthesky.upfall.compat.mc.client.McClientNet;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.upgrade.QuantumUpgrade;
 import net.itsthesky.upfall.content.quantum.upgrade.QuantumUpgrades;
@@ -10,7 +11,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 final class QuantumClientExtras {
     private QuantumClientExtras() {}
@@ -27,7 +27,7 @@ final class QuantumClientExtras {
         Player player = event.getEntity();
         if (event.getHand() == InteractionHand.MAIN_HAND && player.getMainHandItem().isEmpty() && !player.isPassenger()
                 && QuantumUpgrades.equipped(player, QuantumUpgrade.ZIPLINE)) {
-            PacketDistributor.sendToServer(ZiplineLatchPayload.INSTANCE);
+            McClientNet.sendToServer(ZiplineLatchPayload.INSTANCE);
         }
     }
 }

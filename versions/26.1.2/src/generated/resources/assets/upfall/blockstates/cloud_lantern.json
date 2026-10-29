@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "upfall:block/cloud_lantern"
+    },
+    "hanging=true": {
+      "model": "upfall:block/cloud_lantern_hanging"
+    }
+  }
+}

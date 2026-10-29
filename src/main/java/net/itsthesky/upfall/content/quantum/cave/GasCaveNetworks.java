@@ -2,6 +2,7 @@ package net.itsthesky.upfall.content.quantum.cave;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.UpfallConfig;
+import net.itsthesky.upfall.compat.mc.McChunks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -31,10 +32,10 @@ public final class GasCaveNetworks {
                     return size() > CACHE_SIZE;
                 }
             });
-            future = cache.get(source.toLong());
+            future = cache.get(McChunks.key(source));
             if (future == null) {
                 future = new CompletableFuture<>();
-                cache.put(source.toLong(), future);
+                cache.put(McChunks.key(source), future);
                 owner = true;
             }
         }
@@ -51,7 +52,7 @@ public final class GasCaveNetworks {
 
     public static GasCaveNetwork compute(RandomState state, ChunkPos source) {
         if (!UpfallConfig.get(UpfallConfig.CAVES_ENABLED)) return GasCaveNetwork.EMPTY;
-        RandomSource random = state.getOrCreateRandomFactory(Upfall.id("gas_caves")).at(source.x, 0, source.z);
+        RandomSource random = state.getOrCreateRandomFactory(Upfall.id("gas_caves")).at(McChunks.x(source), 0, McChunks.z(source));
         if (random.nextDouble() >= UpfallConfig.getDouble(UpfallConfig.CAVES_CHUNK_CHANCE)) return GasCaveNetwork.EMPTY;
         return GasCaveNetwork.build(source, random, interpolated(state.router().finalDensity()), settings());
     }

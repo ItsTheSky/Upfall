@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "upfall:block/medium_verdant_bud",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "upfall:block/medium_verdant_bud",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "upfall:block/medium_verdant_bud",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "upfall:block/medium_verdant_bud",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "upfall:block/medium_verdant_bud"
+    },
+    "facing=west": {
+      "model": "upfall:block/medium_verdant_bud",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "upfall:pearlstone_bricks",
+  "result": {
+    "id": "upfall:pearlstone_brick_stairs"
+  }
+}

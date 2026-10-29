@@ -6,6 +6,7 @@ import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongList;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import it.unimi.dsi.fastutil.longs.LongSet;
+import net.itsthesky.upfall.compat.mc.McChunks;
 import net.itsthesky.upfall.content.quantum.QuantumBlocks;
 import net.itsthesky.upfall.content.quantum.QuantumLoot;
 import net.itsthesky.upfall.content.quantum.cluster.FlickerShardClusterBlock;
@@ -61,12 +62,12 @@ public final class GasCaveNetwork {
     }
 
     public LongList gasIn(ChunkPos chunk) {
-        LongList list = gas.get(chunk.toLong());
+        LongList list = gas.get(McChunks.key(chunk));
         return list == null ? LongList.of() : list;
     }
 
     public List<Prop> propsIn(ChunkPos chunk) {
-        List<Prop> list = props.get(chunk.toLong());
+        List<Prop> list = props.get(McChunks.key(chunk));
         return list == null ? List.of() : list;
     }
 
@@ -219,7 +220,11 @@ public final class GasCaveNetwork {
                 feet = ellipsoid(x, y, z, radius + (random.nextFloat() - 0.5F) * 0.3F, vertical);
                 nodes.add(feet);
             }
+            //? if >=26.1 {
+            /*Direction heading = Direction.getApproximateNearest(Mth.cos(yaw), 0.0F, Mth.sin(yaw));
+            *///?} else {
             Direction heading = Direction.getNearest(Mth.cos(yaw), 0.0F, Mth.sin(yaw));
+            //?}
             if (depth >= MAX_DEPTH || budget <= 0 || random.nextDouble() >= settings.branchChance()) {
                 deadEnd(feet, heading);
                 return;
@@ -493,12 +498,12 @@ public final class GasCaveNetwork {
                     && density.applyAsDouble(pos.below(2)) > 0.5)) return;
             if (carvingEntrance) network.entranceSet.add(key);
             if (network.gasSet.add(key)) {
-                network.gas.computeIfAbsent(ChunkPos.asLong(pos.getX() >> 4, pos.getZ() >> 4), k -> new LongArrayList()).add(key);
+                network.gas.computeIfAbsent(McChunks.key(pos.getX() >> 4, pos.getZ() >> 4), k -> new LongArrayList()).add(key);
             }
         }
 
         void prop(BlockPos pos, BlockState state, ResourceKey<LootTable> loot, boolean solidOnly) {
-            network.props.computeIfAbsent(ChunkPos.asLong(pos.getX() >> 4, pos.getZ() >> 4), k -> new ArrayList<>())
+            network.props.computeIfAbsent(McChunks.key(pos.getX() >> 4, pos.getZ() >> 4), k -> new ArrayList<>())
                     .add(new Prop(pos.asLong(), state, loot, solidOnly));
         }
 

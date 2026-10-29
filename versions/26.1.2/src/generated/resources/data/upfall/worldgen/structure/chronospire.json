@@ -1,0 +1,6 @@
+{
+  "type": "upfall:chronospire",
+  "biomes": "#upfall:has_structure/chronospire",
+  "spawn_overrides": {},
+  "step": "top_layer_modification"
+}

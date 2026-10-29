@@ -1,13 +1,13 @@
 package net.itsthesky.upfall.gametest;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.gametest.framework.UpfallGameTest;
 import net.itsthesky.upfall.worldgen.ModBiomes;
 import net.itsthesky.upfall.worldgen.UpfallTerrain;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
@@ -15,16 +15,12 @@ import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.RandomState;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@GameTestHolder(Upfall.MODID)
-@PrefixGameTestTemplate(false)
 public final class RustworksWorldgenGameTests {
     private RustworksWorldgenGameTests() {}
 
@@ -39,7 +35,7 @@ public final class RustworksWorldgenGameTests {
         }
     }
 
-    @GameTest(template = "empty", timeoutTicks = 100)
+    @UpfallGameTest(template = "empty", timeoutTicks = 100)
     public static void rustworksIsRareButFindable(GameTestHelper helper) {
         for (long seed : new long[]{1L, 42L, 20261011L}) {
             boolean[][] rust = sample(climate(helper, seed));
@@ -98,7 +94,7 @@ public final class RustworksWorldgenGameTests {
 
     private static Climate2D climate(GameTestHelper helper, long seed) {
         RegistryAccess registries = helper.getLevel().registryAccess();
-        NoiseGeneratorSettings settings = registries.registryOrThrow(Registries.NOISE_SETTINGS).getOrThrow(UpfallTerrain.SETTINGS);
+        NoiseGeneratorSettings settings = registries.lookupOrThrow(Registries.NOISE_SETTINGS).getOrThrow(UpfallTerrain.SETTINGS).value();
         RandomState state = RandomState.create(settings, registries.lookupOrThrow(Registries.NOISE), seed);
         return new Climate2D(ModBiomes.biomeSource(registries.lookupOrThrow(Registries.BIOME)), state.sampler());
     }

@@ -4,6 +4,7 @@ import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.reliquary.worldgen.ReliquaryPlacement;
 import net.itsthesky.upfall.content.reliquary.worldgen.TiltedReliquaryStructure;
 import net.itsthesky.upfall.datagen.DataContribution;
+import net.itsthesky.upfall.datagen.DataGenContext;
 import net.itsthesky.upfall.worldgen.ModBiomes;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
@@ -12,29 +13,20 @@ import net.minecraft.advancements.critereon.LocationPredicate;
 import net.minecraft.advancements.critereon.PlayerTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.CachedOutput;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.advancements.AdvancementSubProvider;
-import net.minecraft.data.tags.BiomeTagsProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.StructureSpawnOverride;
 import net.minecraft.world.level.levelgen.structure.TerrainAdjustment;
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 final class ReliquaryWorldgenData implements DataContribution {
@@ -52,7 +44,11 @@ final class ReliquaryWorldgenData implements DataContribution {
         Map<MobCategory, StructureSpawnOverride> overrides = new EnumMap<>(MobCategory.class);
         for (MobCategory category : MobCategory.values()) {
             if (category != MobCategory.MISC) {
-                overrides.put(category, new StructureSpawnOverride(StructureSpawnOverride.BoundingBoxType.STRUCTURE, WeightedRandomList.create()));
+                //? if >=26.1 {
+                /*overrides.put(category, new StructureSpawnOverride(StructureSpawnOverride.BoundingBoxType.STRUCTURE, net.minecraft.util.random.WeightedList.of()));
+                *///?} else {
+                overrides.put(category, new StructureSpawnOverride(StructureSpawnOverride.BoundingBoxType.STRUCTURE, net.minecraft.util.random.WeightedRandomList.create()));
+                //?}
             }
         }
         return overrides;
@@ -65,24 +61,13 @@ final class ReliquaryWorldgenData implements DataContribution {
     }
 
     @Override
-    public void addProviders(GatherDataEvent event, DataGenerator generator, PackOutput output,
-                             CompletableFuture<HolderLookup.Provider> registries, ExistingFileHelper helper) {
-        generator.addProvider(event.includeServer(), new Named("Tilted Reliquary visit advancement",
-                new AdvancementProvider(output, registries, helper, List.of(ReliquaryWorldgenData::advancements))));
-        generator.addProvider(event.includeServer(), new BiomeTagsProvider(output, registries, Upfall.MODID, helper) {
-            @Override
-            protected void addTags(HolderLookup.Provider provider) {
-                tag(ReliquaryStructures.HAS_TILTED_RELIQUARY).add(ModBiomes.DRIFTING_ARCHIPELAGO, ModBiomes.MISTSEA, ModBiomes.GILDED_RIDGE);
-            }
-
-            @Override
-            public String getName() {
-                return "Tilted Reliquary Biome Tags";
-            }
-        });
+    public void addProviders(DataGenContext ctx) {
+        ctx.add(ctx.advancements("Tilted Reliquary visit advancement", List.of(ReliquaryWorldgenData::advancements)));
+        ctx.<Biome>tags(Registries.BIOME, "Tilted Reliquary Biome Tags", tags -> tags.tag(ReliquaryStructures.HAS_TILTED_RELIQUARY)
+                .add(ModBiomes.DRIFTING_ARCHIPELAGO, ModBiomes.MISTSEA, ModBiomes.GILDED_RIDGE));
     }
 
-    private static void advancements(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper helper) {
+    private static void advancements(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver) {
         AdvancementHolder enter = AdvancementSubProvider.createPlaceholder("upfall:upfall/enter");
         Advancement.Builder.advancement().parent(enter)
                 .display(ReliquaryBlocks.CARVED_LATTICE_STONE.get(), Component.translatable("advancements.upfall.tilted_reliquary.title"),
@@ -90,17 +75,5 @@ final class ReliquaryWorldgenData implements DataContribution {
                 .addCriterion("visited", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.inStructure(
                         registries.lookupOrThrow(Registries.STRUCTURE).getOrThrow(ReliquaryStructures.TILTED_RELIQUARY))))
                 .save(saver, Upfall.id("upfall/tilted_reliquary").toString());
-    }
-
-    private record Named(String name, DataProvider delegate) implements DataProvider {
-        @Override
-        public CompletableFuture<?> run(CachedOutput output) {
-            return delegate.run(output);
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
     }
 }

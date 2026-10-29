@@ -1,5 +1,7 @@
 package net.itsthesky.upfall.content.machines.block.entity;
 
+import net.itsthesky.upfall.compat.mc.McItemHandlers;
+import net.itsthesky.upfall.compat.mc.McLevel;
 import net.itsthesky.upfall.content.machines.MachineBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,9 +16,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class VoidTetherBlockEntity extends BlockEntity {
         if (Math.floorMod(level.getGameTime() + pos.hashCode(), INTERVAL) != 0 || !(level instanceof ServerLevel server)) {
             return;
         }
-        AABB box = new AABB(pos.getX() - RADIUS, level.getMinBuildHeight() - BELOW_WORLD, pos.getZ() - RADIUS,
+        AABB box = new AABB(pos.getX() - RADIUS, McLevel.minY(level) - BELOW_WORLD, pos.getZ() - RADIUS,
                 pos.getX() + RADIUS + 1, pos.getY(), pos.getZ() + RADIUS + 1);
         List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, box, item -> item.isAlive() && isLost(level, item));
         for (int i = 0; i < Math.min(items.size(), MAX_PER_SCAN); i++) {
@@ -45,7 +44,7 @@ public class VoidTetherBlockEntity extends BlockEntity {
     }
 
     public static boolean isLost(Level level, ItemEntity item) {
-        int minY = level.getMinBuildHeight();
+        int minY = McLevel.minY(level);
         if (item.getY() < minY + FLOOR_MARGIN) {
             return true;
         }
@@ -71,9 +70,7 @@ public class VoidTetherBlockEntity extends BlockEntity {
         Vec3 to = Vec3.atBottomCenterOf(tether).add(0, 1.0, 0);
         ItemStack stack = item.getItem().copy();
         for (Direction side : Direction.values()) {
-            IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, tether.relative(side), side.getOpposite());
-            if (handler == null) continue;
-            stack = ItemHandlerHelper.insertItem(handler, stack, false);
+            stack = McItemHandlers.insert(level, tether.relative(side), side.getOpposite(), stack, false, false);
             if (stack.isEmpty()) break;
         }
         if (stack.isEmpty()) {

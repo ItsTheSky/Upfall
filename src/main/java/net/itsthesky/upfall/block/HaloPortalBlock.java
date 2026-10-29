@@ -57,18 +57,43 @@ public class HaloPortalBlock extends Block implements Portal {
         return state.getValue(AXIS) == Direction.Axis.Z ? Z_AXIS : X_AXIS;
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected BlockState updateShape(BlockState state, LevelReader level, net.minecraft.world.level.ScheduledTickAccess ticks, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        return shouldVanish(state, level, pos, direction, neighborState)
+                ? Blocks.AIR.defaultBlockState()
+                : super.updateShape(state, level, ticks, pos, direction, neighborPos, neighborState, random);
+    }
+    *///?} else {
     @Override
     protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        Direction.Axis facingAxis = direction.getAxis();
-        Direction.Axis axis = state.getValue(AXIS);
-        boolean relevant = axis != facingAxis && facingAxis.isHorizontal();
-        return !relevant && !neighborState.is(this) && !new HaloPortalShape(level, pos, axis).isComplete()
+        return shouldVanish(state, level, pos, direction, neighborState)
                 ? Blocks.AIR.defaultBlockState()
                 : super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
+    //?}
 
+    private boolean shouldVanish(BlockState state, LevelReader level, BlockPos pos, Direction direction, BlockState neighborState) {
+        Direction.Axis facingAxis = direction.getAxis();
+        Direction.Axis axis = state.getValue(AXIS);
+        boolean relevant = axis != facingAxis && facingAxis.isHorizontal();
+        return !relevant && !neighborState.is(this) && level instanceof LevelAccessor accessor
+                && !new HaloPortalShape(accessor, pos, axis).isComplete();
+    }
+
+    //? if >=26.1 {
+    /*@Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, net.minecraft.world.entity.InsideBlockEffectApplier effectApplier, boolean isPrecise) {
+        enter(pos, entity);
+    }
+    *///?} else {
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        enter(pos, entity);
+    }
+    //?}
+
+    private void enter(BlockPos pos, Entity entity) {
         if (entity.canUsePortal(false)) {
             entity.setAsInsidePortal(this, pos);
         }
@@ -109,10 +134,17 @@ public class HaloPortalBlock extends Block implements Portal {
         }
     }
 
+    //? if >=26.1 {
+    /*@Override
+    protected ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData) {
+        return ItemStack.EMPTY;
+    }
+    *///?} else {
     @Override
     public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
         return ItemStack.EMPTY;
     }
+    //?}
 
     @Override
     protected BlockState rotate(BlockState state, Rotation rotation) {

@@ -2,6 +2,7 @@ package net.itsthesky.upfall.registry;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.block.entity.SkyCacheBlockEntity;
+import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -14,5 +15,5 @@ public final class ModBlockEntities {
 
     @SuppressWarnings("DataFlowIssue")
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SkyCacheBlockEntity>> SKY_CACHE = BLOCK_ENTITIES.register("sky_cache",
-            () -> BlockEntityType.Builder.of(SkyCacheBlockEntity::new, ModBlocks.SKY_CACHE.get()).build(null));
+            () -> McRegistration.blockEntityType(SkyCacheBlockEntity::new, ModBlocks.SKY_CACHE.get()));
 }

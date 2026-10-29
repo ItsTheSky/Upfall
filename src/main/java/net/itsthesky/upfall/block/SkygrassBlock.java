@@ -51,8 +51,13 @@ public class SkygrassBlock extends Block implements BonemealableBlock {
         if (facingState.getFluidState().getAmount() == 8) {
             return false;
         }
+        //? if >=26.1 {
+        /*int opacity = LightEngine.getLightBlockInto(state, facingState, face, facingState.getLightDampening());
+        return opacity < LightEngine.MAX_LEVEL;
+        *///?} else {
         int opacity = LightEngine.getLightBlockInto(level, state, pos, facingState, facing, face, facingState.getLightBlock(level, facing));
         return opacity < level.getMaxLightLevel();
+        //?}
     }
 
     @Override

@@ -1,0 +1,177 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#cog"
+        },
+        "east": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        },
+        "north": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        },
+        "south": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        },
+        "up": {
+          "texture": "#cog"
+        },
+        "west": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        }
+      },
+      "from": [
+        1,
+        3,
+        5
+      ],
+      "to": [
+        15,
+        5,
+        11
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#cog"
+        },
+        "east": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        },
+        "north": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        },
+        "south": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        },
+        "up": {
+          "texture": "#cog"
+        },
+        "west": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        }
+      },
+      "from": [
+        5,
+        3,
+        1
+      ],
+      "to": [
+        11,
+        5,
+        15
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#cog"
+        },
+        "east": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        },
+        "north": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        },
+        "south": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        },
+        "up": {
+          "texture": "#cog"
+        },
+        "west": {
+          "texture": "#cog",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            12.0
+          ]
+        }
+      },
+      "from": [
+        3,
+        3,
+        3
+      ],
+      "to": [
+        13,
+        5,
+        13
+      ]
+    }
+  ],
+  "textures": {
+    "cog": "upfall:block/hastening_gear_cog",
+    "particle": "upfall:block/hastening_gear_cog"
+  }
+}

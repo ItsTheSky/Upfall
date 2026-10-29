@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "upfall:woven_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_woven_planks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "upfall:woven_planks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_woven_planks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "upfall:woven_stairs"
+    ]
+  }
+}

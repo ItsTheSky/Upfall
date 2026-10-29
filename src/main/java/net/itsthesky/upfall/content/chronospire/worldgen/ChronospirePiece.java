@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.chronospire.worldgen;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import net.itsthesky.upfall.compat.mc.McNbt;
 import net.itsthesky.upfall.content.chronospire.ChronoClock;
 import net.itsthesky.upfall.content.chronospire.ChronoRegistries;
 import net.itsthesky.upfall.content.chronospire.block.PhaseTrackingBlock;
@@ -42,9 +43,9 @@ public class ChronospirePiece extends StructurePiece {
 
     public ChronospirePiece(CompoundTag tag) {
         super(ChronoRegistries.CHRONOSPIRE_PIECE.get(), tag);
-        this.origin = new BlockPos(tag.getInt("OX"), tag.getInt("OY"), tag.getInt("OZ"));
-        this.rotation = tag.getInt("Rot");
-        this.seed = tag.getLong("Seed");
+        this.origin = new BlockPos(McNbt.getInt(tag, "OX"), McNbt.getInt(tag, "OY"), McNbt.getInt(tag, "OZ"));
+        this.rotation = McNbt.getInt(tag, "Rot");
+        this.seed = McNbt.getLong(tag, "Seed");
     }
 
     @Override
@@ -116,7 +117,11 @@ public class ChronospirePiece extends StructurePiece {
         }
         for (PlatformPath path : plan.platforms()) {
             if (!box.isInside(BlockPos.containing(path.points().get(0)))) continue;
+            //? if >=26.1 {
+            /*DriftPlatform platform = ChronoRegistries.DRIFT_PLATFORM.get().create(level.getLevel(), net.minecraft.world.entity.MobSpawnType.STRUCTURE);
+            *///?} else {
             DriftPlatform platform = ChronoRegistries.DRIFT_PLATFORM.get().create(level.getLevel());
+            //?}
             if (platform != null) {
                 platform.setPath(path);
                 platform.setPos(path.points().get(0));

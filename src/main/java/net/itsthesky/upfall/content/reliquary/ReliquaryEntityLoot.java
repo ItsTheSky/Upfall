@@ -3,6 +3,7 @@ package net.itsthesky.upfall.content.reliquary;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -20,7 +21,9 @@ final class ReliquaryEntityLoot extends EntityLootSubProvider {
 
     @Override
     protected Stream<EntityType<?>> getKnownEntityTypes() {
-        return ReliquaryEntities.ENTITY_TYPES.getEntries().stream().map(holder -> (EntityType<?>) holder.get());
+        // 26.1 gives MISC types a default loot table and would require one for fold_fragment; 1.21.1 already skips them
+        return ReliquaryEntities.ENTITY_TYPES.getEntries().stream().filter(holder -> holder.get().getCategory() != MobCategory.MISC)
+                .map(holder -> (EntityType<?>) holder.get());
     }
 
     @Override
