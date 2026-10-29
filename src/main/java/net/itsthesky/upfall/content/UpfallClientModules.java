@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content;
 
+import net.itsthesky.upfall.client.armor.ArmorClientModule;
 import net.itsthesky.upfall.content.chronospire.client.ChronospireClientModule;
 import net.itsthesky.upfall.content.enchanting.client.EnchantingClientModule;
 import net.itsthesky.upfall.content.gravity.client.GravityClientModule;
@@ -28,5 +29,6 @@ public final class UpfallClientModules {
             new MachinesClientModule(),
             new ClockworkClientModule(),
             new QuantumClientModule(),
-            new ReliquaryClientModule());
+            new ReliquaryClientModule(),
+            new ArmorClientModule());
 }

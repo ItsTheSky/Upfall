@@ -9,6 +9,8 @@
 
 ### Gear
 - New textures for the Nimbusite and Levitite ingots and tools.
+- Nimbusite and Levitite armor now use their own 3D models (shoulder pads, chest straps, leg flaps, and wings on the
+  Levitite helmet) instead of the vanilla armor shape.
 
 ### Advancements
 - The Upfall advancement tab is now split into branches that follow the real dependencies: exploration, Cloud Hamlet,
