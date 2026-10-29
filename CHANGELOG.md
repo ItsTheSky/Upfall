@@ -7,6 +7,9 @@
 - JEI and GuideME are supported on both versions; EMI integration is 1.21.1 only.
 - Jars are now named upfall-<version>+<minecraft version>.jar.
 
+### Gear
+- New textures for the Nimbusite and Levitite ingots and tools.
+
 ### Advancements
 - The Upfall advancement tab is now split into branches that follow the real dependencies: exploration, Cloud Hamlet,
   Nimbusite and Levitite gear, Rustworks machines, Chronospire, Pearl Aerie, Quantum and Tilted Reliquary.
