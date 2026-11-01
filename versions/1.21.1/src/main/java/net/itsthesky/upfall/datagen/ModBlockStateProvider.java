@@ -31,16 +31,18 @@ public class ModBlockStateProvider extends BlockStateProvider {
         stone(ModBlocks.POLISHED_PEARLSTONE, ModBlocks.POLISHED_PEARLSTONE_VARIANTS);
         stone(ModBlocks.PEARLSTONE_BRICKS, ModBlocks.PEARLSTONE_BRICK_VARIANTS);
         stone(ModBlocks.MOSSY_PEARLSTONE_BRICKS, ModBlocks.MOSSY_PEARLSTONE_BRICK_VARIANTS);
-        stone(ModBlocks.DUSKSLATE, ModBlocks.DUSKSLATE_VARIANTS);
+        stoneColumn(ModBlocks.DUSKSLATE, ModBlocks.DUSKSLATE_VARIANTS);
         stone(ModBlocks.COBBLED_DUSKSLATE, ModBlocks.COBBLED_DUSKSLATE_VARIANTS);
         stone(ModBlocks.POLISHED_DUSKSLATE, ModBlocks.POLISHED_DUSKSLATE_VARIANTS);
         stone(ModBlocks.DUSKSLATE_BRICKS, ModBlocks.DUSKSLATE_BRICK_VARIANTS);
 
-        for (DeferredBlock<?> block : new DeferredBlock<?>[]{ModBlocks.CRACKED_PEARLSTONE_BRICKS, ModBlocks.CHISELED_PEARLSTONE_BRICKS, ModBlocks.GILDED_DUSKSLATE, ModBlocks.SKYSOIL, ModBlocks.DENSE_CLOUD,
+        for (DeferredBlock<?> block : new DeferredBlock<?>[]{ModBlocks.CRACKED_PEARLSTONE_BRICKS, ModBlocks.CHISELED_PEARLSTONE_BRICKS, ModBlocks.SKYSOIL, ModBlocks.DENSE_CLOUD,
                 ModBlocks.NIMBUSITE_ORE, ModBlocks.DUSKSLATE_NIMBUSITE_ORE, ModBlocks.LEVITITE_ORE,
                 ModBlocks.RAW_NIMBUSITE_BLOCK, ModBlocks.NIMBUSITE_BLOCK, ModBlocks.LEVITITE_BLOCK, ModBlocks.HALO_FRAME}) {
             simpleBlockWithItem(block.get(), cubeAll(block.get()));
         }
+        simpleBlockWithItem(ModBlocks.GILDED_DUSKSLATE.get(), models().cubeColumn(name(ModBlocks.GILDED_DUSKSLATE.get()),
+                blockTexture("gilded_duskslate_side"), blockTexture("gilded_duskslate_top")));
 
         simpleBlockWithItem(ModBlocks.MISTGLOW_CRYSTAL.get(), glowingCube("mistglow_crystal", "solid"));
         skygrass();
@@ -106,6 +108,18 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockItem(variants.stairs().get());
         blockItem(variants.slab().get());
         itemModels().wallInventory(name(variants.wall().get()), texture);
+    }
+
+    public void stoneColumn(DeferredBlock<Block> base, ModBlocks.StoneVariants variants) {
+        ResourceLocation side = blockTexture(name(base.get()) + "_side");
+        ResourceLocation top = blockTexture(name(base.get()) + "_top");
+        simpleBlockWithItem(base.get(), models().cubeColumn(name(base.get()), side, top));
+        stairsBlock(variants.stairs().get(), side, top, top);
+        slabBlock(variants.slab().get(), modLoc("block/" + name(base.get())), side, top, top);
+        wallBlock(variants.wall().get(), side);
+        blockItem(variants.stairs().get());
+        blockItem(variants.slab().get());
+        itemModels().wallInventory(name(variants.wall().get()), side);
     }
 
     private void skygrass() {

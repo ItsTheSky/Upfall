@@ -68,16 +68,18 @@ public class ModBlockStateProvider {
         stone(ModBlocks.POLISHED_PEARLSTONE, ModBlocks.POLISHED_PEARLSTONE_VARIANTS);
         stone(ModBlocks.PEARLSTONE_BRICKS, ModBlocks.PEARLSTONE_BRICK_VARIANTS);
         stone(ModBlocks.MOSSY_PEARLSTONE_BRICKS, ModBlocks.MOSSY_PEARLSTONE_BRICK_VARIANTS);
-        stone(ModBlocks.DUSKSLATE, ModBlocks.DUSKSLATE_VARIANTS);
+        stoneColumn(ModBlocks.DUSKSLATE, ModBlocks.DUSKSLATE_VARIANTS);
         stone(ModBlocks.COBBLED_DUSKSLATE, ModBlocks.COBBLED_DUSKSLATE_VARIANTS);
         stone(ModBlocks.POLISHED_DUSKSLATE, ModBlocks.POLISHED_DUSKSLATE_VARIANTS);
         stone(ModBlocks.DUSKSLATE_BRICKS, ModBlocks.DUSKSLATE_BRICK_VARIANTS);
 
-        for (DeferredBlock<?> block : new DeferredBlock<?>[]{ModBlocks.CRACKED_PEARLSTONE_BRICKS, ModBlocks.CHISELED_PEARLSTONE_BRICKS, ModBlocks.GILDED_DUSKSLATE, ModBlocks.SKYSOIL, ModBlocks.DENSE_CLOUD,
+        for (DeferredBlock<?> block : new DeferredBlock<?>[]{ModBlocks.CRACKED_PEARLSTONE_BRICKS, ModBlocks.CHISELED_PEARLSTONE_BRICKS, ModBlocks.SKYSOIL, ModBlocks.DENSE_CLOUD,
                 ModBlocks.NIMBUSITE_ORE, ModBlocks.DUSKSLATE_NIMBUSITE_ORE, ModBlocks.LEVITITE_ORE,
                 ModBlocks.RAW_NIMBUSITE_BLOCK, ModBlocks.NIMBUSITE_BLOCK, ModBlocks.LEVITITE_BLOCK, ModBlocks.HALO_FRAME}) {
             blocks.createTrivialCube(block.get());
         }
+        simpleBlock(ModBlocks.GILDED_DUSKSLATE.get(), ModelTemplates.CUBE_COLUMN.create(ModBlocks.GILDED_DUSKSLATE.get(),
+                TextureMapping.column(ModBlocks.GILDED_DUSKSLATE.get()), modelOutput()));
 
         simpleBlock(ModBlocks.MISTGLOW_CRYSTAL.get(), glowingCube("mistglow_crystal", "solid"));
         skygrass();
@@ -169,6 +171,15 @@ public class ModBlockStateProvider {
 
     public void stone(DeferredBlock<Block> base, ModBlocks.StoneVariants variants) {
         blocks.family(base.get()).stairs(variants.stairs().get()).slab(variants.slab().get()).wall(variants.wall().get());
+    }
+
+    public void stoneColumn(DeferredBlock<Block> base, ModBlocks.StoneVariants variants) {
+        Material side = blockMaterial(name(base.get()) + "_side");
+        Material top = blockMaterial(name(base.get()) + "_top");
+        TextureMapping mapping = new TextureMapping().put(TextureSlot.SIDE, side).put(TextureSlot.END, top)
+                .put(TextureSlot.TOP, top).put(TextureSlot.BOTTOM, top).put(TextureSlot.WALL, side);
+        blocks.new BlockFamilyProvider(mapping).fullBlock(base.get(), ModelTemplates.CUBE_COLUMN)
+                .stairs(variants.stairs().get()).slab(variants.slab().get()).wall(variants.wall().get());
     }
 
     private void skygrass() {

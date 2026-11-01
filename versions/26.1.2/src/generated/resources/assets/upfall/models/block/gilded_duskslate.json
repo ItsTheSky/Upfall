@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube_column",
   "textures": {
-    "all": "upfall:block/gilded_duskslate"
+    "end": "upfall:block/gilded_duskslate_top",
+    "side": "upfall:block/gilded_duskslate_side"
   }
 }
