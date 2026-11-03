@@ -13,6 +13,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.itsthesky.upfall.registry.UpfallTab;
 
 public class GuideModule implements UpfallModule {
     public static final ResourceLocation GUIDE_ID = Upfall.id("guide");
@@ -25,7 +26,7 @@ public class GuideModule implements UpfallModule {
         if (!isGuideMeLoaded()) {
             return;
         }
-        ModCreativeTabs.EXTRA.add(GuideItems.SKY_ALMANAC);
+        ModCreativeTabs.add(GuideItems.SKY_ALMANAC, UpfallTab.ITEMS);
         GuideCompat.register();
         NeoForge.EVENT_BUS.addListener(GuideModule::onLogin);
     }

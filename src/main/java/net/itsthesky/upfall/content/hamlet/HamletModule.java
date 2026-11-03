@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.itsthesky.upfall.registry.UpfallTab;
 
 public class HamletModule implements UpfallModule {
     @Override
@@ -24,9 +25,8 @@ public class HamletModule implements UpfallModule {
         modEventBus.addListener(HamletEntities::registerAttributes);
         modEventBus.addListener(HamletModule::commonSetup);
 
-        ModCreativeTabs.EXTRA.addAll(HamletBlocks.CREATIVE_ORDER);
-        ModCreativeTabs.EXTRA.add(HamletItems.ZIPLINE_HANDLE);
-        ModCreativeTabs.EXTRA.add(HamletItems.LOFTKIN_SPAWN_EGG);
+        ModCreativeTabs.add(HamletItems.ZIPLINE_HANDLE, UpfallTab.ITEMS);
+        ModCreativeTabs.add(HamletItems.LOFTKIN_SPAWN_EGG, UpfallTab.ITEMS);
     }
 
     private static void commonSetup(FMLCommonSetupEvent event) {

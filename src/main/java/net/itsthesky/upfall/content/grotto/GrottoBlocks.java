@@ -17,15 +17,19 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.ArrayList;
 import java.util.List;
+import net.itsthesky.upfall.registry.ModCreativeTabs;
+import net.itsthesky.upfall.registry.UpfallTab;
+
+import static net.itsthesky.upfall.registry.UpfallTab.BUILDING;
+import static net.itsthesky.upfall.registry.UpfallTab.FUNCTIONAL;
+import static net.itsthesky.upfall.registry.UpfallTab.NATURE;
 
 public final class GrottoBlocks {
     private GrottoBlocks() {}
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Upfall.MODID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Upfall.MODID);
-    public static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
 
     public record CrystalSet(String name, DeferredBlock<Block> block, DeferredBlock<AmethystClusterBlock> cluster,
                              DeferredBlock<AmethystClusterBlock> large, DeferredBlock<AmethystClusterBlock> medium,
@@ -40,21 +44,21 @@ public final class GrottoBlocks {
 
     public static final DeferredBlock<Block> LUMEN_ROCK = block("lumen_rock", Block::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_BLUE).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
-            .strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE));
+            .strength(3.0F, 6.0F).sound(SoundType.DEEPSLATE), NATURE, BUILDING);
     public static final DeferredBlock<Block> MOONSHELL = block("moonshell", Block::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.QUARTZ).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops()
-            .strength(1.8F, 4.0F).sound(SoundType.CALCITE));
+            .strength(1.8F, 4.0F).sound(SoundType.CALCITE), NATURE);
     public static final DeferredBlock<Block> LUMEN_DRUSE = block("lumen_druse", Block::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_LIGHT_BLUE).instrument(NoteBlockInstrument.CHIME).requiresCorrectToolForDrops()
-            .strength(1.5F).sound(SoundType.AMETHYST).lightLevel(s -> 6));
+            .strength(1.5F).sound(SoundType.AMETHYST).lightLevel(s -> 6), NATURE);
     public static final DeferredBlock<Block> LUMEN_MOSS = block("lumen_moss", Block::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.COLOR_CYAN).strength(0.2F).sound(SoundType.MOSS).lightLevel(s -> 3));
+            .mapColor(MapColor.COLOR_CYAN).strength(0.2F).sound(SoundType.MOSS).lightLevel(s -> 3), NATURE);
     public static final DeferredBlock<LumenSproutsBlock> LUMEN_SPROUTS = block("lumen_sprouts", LumenSproutsBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().instabreak().sound(SoundType.SPORE_BLOSSOM)
-            .offsetType(BlockBehaviour.OffsetType.XZ).lightLevel(s -> 7).pushReaction(PushReaction.DESTROY).replaceable());
+            .offsetType(BlockBehaviour.OffsetType.XZ).lightLevel(s -> 7).pushReaction(PushReaction.DESTROY).replaceable(), NATURE);
     public static final DeferredBlock<PrismPoolBlock> PRISM_POOL = block("prism_pool", PrismPoolBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0.5F).sound(SoundType.GLASS).noOcclusion().lightLevel(s -> 9)
-            .isRedstoneConductor((s, l, p) -> false).isViewBlocking((s, l, p) -> false).isSuffocating((s, l, p) -> false));
+            .isRedstoneConductor((s, l, p) -> false).isViewBlocking((s, l, p) -> false).isSuffocating((s, l, p) -> false), NATURE);
 
     public static final CrystalSet AZURE = crystals("azure", MapColor.COLOR_LIGHT_BLUE);
     public static final CrystalSet ROSE = crystals("rose", MapColor.COLOR_PINK);
@@ -63,25 +67,24 @@ public final class GrottoBlocks {
 
     public static final DeferredBlock<LanternBlock> MISTGLOW_LANTERN = block("mistglow_lantern", LanternBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_LIGHT_BLUE).forceSolidOn().requiresCorrectToolForDrops().strength(3.5F)
-            .sound(SoundType.LANTERN).lightLevel(s -> 15).noOcclusion().pushReaction(PushReaction.DESTROY));
+            .sound(SoundType.LANTERN).lightLevel(s -> 15).noOcclusion().pushReaction(PushReaction.DESTROY), FUNCTIONAL, BUILDING);
 
     private static DeferredItem<Item> item(String name) {
         DeferredItem<Item> item = ITEMS.registerSimpleItem(name);
-        CREATIVE_ORDER.add(item);
-        return item;
+        return ModCreativeTabs.add(item, UpfallTab.ITEMS);
     }
 
     private static <B extends Block> DeferredBlock<B> block(String name, java.util.function.Function<BlockBehaviour.Properties, ? extends B> factory,
-                                                            BlockBehaviour.Properties props) {
+                                                            BlockBehaviour.Properties props, UpfallTab... tabs) {
         DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
-        CREATIVE_ORDER.add(ITEMS.registerSimpleBlockItem(block));
+        ModCreativeTabs.add(ITEMS.registerSimpleBlockItem(block), tabs);
         return block;
     }
 
     private static CrystalSet crystals(String name, MapColor color) {
         DeferredBlock<Block> block = block(name + "_crystal_block", Block::new, BlockBehaviour.Properties.of()
                 .mapColor(color).instrument(NoteBlockInstrument.CHIME).requiresCorrectToolForDrops().strength(1.5F)
-                .sound(SoundType.AMETHYST).lightLevel(s -> 10));
+                .sound(SoundType.AMETHYST).lightLevel(s -> 10), NATURE, BUILDING);
         return new CrystalSet(name, block,
                 cluster(name + "_cluster", color, 7.0F, 3.0F, 11, SoundType.AMETHYST_CLUSTER),
                 cluster("large_" + name + "_bud", color, 5.0F, 3.0F, 9, SoundType.LARGE_AMETHYST_BUD),
@@ -98,6 +101,6 @@ public final class GrottoBlocks {
         //?}
         return block(name, props -> new AmethystClusterBlock(height, shape, props), BlockBehaviour.Properties.of()
                 .mapColor(color).forceSolidOn().noOcclusion().sound(sound).strength(1.5F).lightLevel(s -> light)
-                .pushReaction(PushReaction.DESTROY));
+                .pushReaction(PushReaction.DESTROY), NATURE);
     }
 }

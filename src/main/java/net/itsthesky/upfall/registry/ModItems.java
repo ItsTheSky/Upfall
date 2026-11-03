@@ -96,6 +96,7 @@ public final class ModItems {
     private static DeferredItem<Item> simple(String name, Item.Properties props) {
         DeferredItem<Item> item = McRegistration.simpleItem(ITEMS, name, props);
         CREATIVE_ORDER.add(item);
+        ModCreativeTabs.add(item, UpfallTab.ITEMS);
         return item;
     }
 
@@ -106,12 +107,14 @@ public final class ModItems {
     private static <I extends Item> DeferredItem<I> register(String name, Function<Item.Properties, I> factory, Item.Properties props) {
         DeferredItem<I> item = McRegistration.item(ITEMS, name, factory, props);
         CREATIVE_ORDER.add(item);
+        ModCreativeTabs.add(item, UpfallTab.ITEMS);
         return item;
     }
 
     private static DeferredItem<Item> spawnEgg(String name, Supplier<? extends EntityType<? extends Mob>> type, int background, int highlight) {
         DeferredItem<Item> item = McRegistration.spawnEgg(ITEMS, name, type, background, highlight);
         CREATIVE_ORDER.add(item);
+        ModCreativeTabs.add(item, UpfallTab.ITEMS);
         return item;
     }
 

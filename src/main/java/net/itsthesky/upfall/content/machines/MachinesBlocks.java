@@ -9,26 +9,24 @@ import net.itsthesky.upfall.content.machines.block.PneumaticPipeEntranceBlock;
 import net.itsthesky.upfall.content.machines.block.PneumaticPipeExitBlock;
 import net.itsthesky.upfall.content.machines.block.RewinderBlock;
 import net.itsthesky.upfall.content.machines.block.VoidTetherBlock;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import net.itsthesky.upfall.registry.ModCreativeTabs;
+import net.itsthesky.upfall.registry.UpfallTab;
 
 public final class MachinesBlocks {
     private MachinesBlocks() {}
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Upfall.MODID);
     public static final DeferredRegister.Items BLOCK_ITEMS = DeferredRegister.createItems(Upfall.MODID);
-    static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
 
     public static final DeferredBlock<PneumaticPipeBlock> PNEUMATIC_PIPE = block("pneumatic_pipe", PneumaticPipeBlock::new, pipe().noOcclusion());
     public static final DeferredBlock<PneumaticPipeEntranceBlock> PNEUMATIC_PIPE_ENTRANCE = block("pneumatic_pipe_entrance",
@@ -55,7 +53,7 @@ public final class MachinesBlocks {
 
     private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, BlockBehaviour.Properties props) {
         DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
-        CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(block));
+        ModCreativeTabs.add(BLOCK_ITEMS.registerSimpleBlockItem(block), UpfallTab.FUNCTIONAL);
         return block;
     }
 }

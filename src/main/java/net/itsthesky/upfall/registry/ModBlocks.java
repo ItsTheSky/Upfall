@@ -50,18 +50,20 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import static net.itsthesky.upfall.registry.UpfallTab.BUILDING;
+import static net.itsthesky.upfall.registry.UpfallTab.FUNCTIONAL;
+import static net.itsthesky.upfall.registry.UpfallTab.NATURE;
 
 public final class ModBlocks {
     private ModBlocks() {}
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Upfall.MODID);
     public static final DeferredRegister.Items BLOCK_ITEMS = DeferredRegister.createItems(Upfall.MODID);
-    public static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
 
     public static final BlockSetType SKYREACH_SET = BlockSetType.register(new BlockSetType("upfall:skyreach"));
     public static final BlockSetType GILDROOT_SET = BlockSetType.register(new BlockSetType("upfall:gildroot"));
@@ -70,41 +72,41 @@ public final class ModBlocks {
     public static final WoodType GILDROOT_WOOD_TYPE = WoodType.register(new WoodType("upfall:gildroot", GILDROOT_SET));
     public static final WoodType IRONBARK_WOOD_TYPE = WoodType.register(new WoodType("upfall:ironbark", IRONBARK_SET));
 
-    public static final DeferredBlock<Block> PEARLSTONE = block("pearlstone", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE));
+    public static final DeferredBlock<Block> PEARLSTONE = block("pearlstone", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE), BUILDING, NATURE);
     public static final StoneVariants PEARLSTONE_VARIANTS = variants("pearlstone", PEARLSTONE);
-    public static final DeferredBlock<Block> COBBLED_PEARLSTONE = block("cobbled_pearlstone", Block::new, stone(MapColor.QUARTZ, 2.0F, SoundType.CALCITE));
+    public static final DeferredBlock<Block> COBBLED_PEARLSTONE = block("cobbled_pearlstone", Block::new, stone(MapColor.QUARTZ, 2.0F, SoundType.CALCITE), BUILDING);
     public static final StoneVariants COBBLED_PEARLSTONE_VARIANTS = variants("cobbled_pearlstone", COBBLED_PEARLSTONE);
-    public static final DeferredBlock<Block> POLISHED_PEARLSTONE = block("polished_pearlstone", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE));
+    public static final DeferredBlock<Block> POLISHED_PEARLSTONE = block("polished_pearlstone", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE), BUILDING);
     public static final StoneVariants POLISHED_PEARLSTONE_VARIANTS = variants("polished_pearlstone", POLISHED_PEARLSTONE);
-    public static final DeferredBlock<Block> PEARLSTONE_BRICKS = block("pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE));
+    public static final DeferredBlock<Block> PEARLSTONE_BRICKS = block("pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE), BUILDING);
     public static final StoneVariants PEARLSTONE_BRICK_VARIANTS = variants("pearlstone_brick", PEARLSTONE_BRICKS);
-    public static final DeferredBlock<Block> CRACKED_PEARLSTONE_BRICKS = block("cracked_pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE));
-    public static final DeferredBlock<Block> CHISELED_PEARLSTONE_BRICKS = block("chiseled_pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE));
-    public static final DeferredBlock<Block> MOSSY_PEARLSTONE_BRICKS = block("mossy_pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE));
+    public static final DeferredBlock<Block> CRACKED_PEARLSTONE_BRICKS = block("cracked_pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE), BUILDING);
+    public static final DeferredBlock<Block> CHISELED_PEARLSTONE_BRICKS = block("chiseled_pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE), BUILDING);
+    public static final DeferredBlock<Block> MOSSY_PEARLSTONE_BRICKS = block("mossy_pearlstone_bricks", Block::new, stone(MapColor.QUARTZ, 1.5F, SoundType.CALCITE), BUILDING);
     public static final StoneVariants MOSSY_PEARLSTONE_BRICK_VARIANTS = variants("mossy_pearlstone_brick", MOSSY_PEARLSTONE_BRICKS);
 
-    public static final DeferredBlock<Block> DUSKSLATE = block("duskslate", Block::new, stone(MapColor.COLOR_BLUE, 3.0F, SoundType.DEEPSLATE));
+    public static final DeferredBlock<Block> DUSKSLATE = block("duskslate", Block::new, stone(MapColor.COLOR_BLUE, 3.0F, SoundType.DEEPSLATE), BUILDING, NATURE);
     public static final StoneVariants DUSKSLATE_VARIANTS = variants("duskslate", DUSKSLATE);
-    public static final DeferredBlock<Block> COBBLED_DUSKSLATE = block("cobbled_duskslate", Block::new, stone(MapColor.COLOR_BLUE, 3.5F, SoundType.DEEPSLATE));
+    public static final DeferredBlock<Block> COBBLED_DUSKSLATE = block("cobbled_duskslate", Block::new, stone(MapColor.COLOR_BLUE, 3.5F, SoundType.DEEPSLATE), BUILDING);
     public static final StoneVariants COBBLED_DUSKSLATE_VARIANTS = variants("cobbled_duskslate", COBBLED_DUSKSLATE);
-    public static final DeferredBlock<Block> POLISHED_DUSKSLATE = block("polished_duskslate", Block::new, stone(MapColor.COLOR_BLUE, 3.5F, SoundType.POLISHED_DEEPSLATE));
+    public static final DeferredBlock<Block> POLISHED_DUSKSLATE = block("polished_duskslate", Block::new, stone(MapColor.COLOR_BLUE, 3.5F, SoundType.POLISHED_DEEPSLATE), BUILDING);
     public static final StoneVariants POLISHED_DUSKSLATE_VARIANTS = variants("polished_duskslate", POLISHED_DUSKSLATE);
-    public static final DeferredBlock<Block> DUSKSLATE_BRICKS = block("duskslate_bricks", Block::new, stone(MapColor.COLOR_BLUE, 3.5F, SoundType.DEEPSLATE_BRICKS));
+    public static final DeferredBlock<Block> DUSKSLATE_BRICKS = block("duskslate_bricks", Block::new, stone(MapColor.COLOR_BLUE, 3.5F, SoundType.DEEPSLATE_BRICKS), BUILDING);
     public static final StoneVariants DUSKSLATE_BRICK_VARIANTS = variants("duskslate_brick", DUSKSLATE_BRICKS);
-    public static final DeferredBlock<Block> GILDED_DUSKSLATE = block("gilded_duskslate", Block::new, stone(MapColor.GOLD, 3.0F, SoundType.DEEPSLATE));
+    public static final DeferredBlock<Block> GILDED_DUSKSLATE = block("gilded_duskslate", Block::new, stone(MapColor.GOLD, 3.0F, SoundType.DEEPSLATE), BUILDING);
 
     public static final DeferredBlock<Block> SKYSOIL = block("skysoil", Block::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.TERRACOTTA_LIGHT_GRAY).strength(0.5F).sound(SoundType.ROOTED_DIRT));
+            .mapColor(MapColor.TERRACOTTA_LIGHT_GRAY).strength(0.5F).sound(SoundType.ROOTED_DIRT), NATURE);
     public static final DeferredBlock<SkygrassBlock> SKYGRASS_BLOCK = block("skygrass_block", SkygrassBlock::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.COLOR_CYAN).randomTicks().strength(0.6F).sound(SoundType.GRASS));
+            .mapColor(MapColor.COLOR_CYAN).randomTicks().strength(0.6F).sound(SoundType.GRASS), NATURE);
     public static final DeferredBlock<DenseCloudBlock> DENSE_CLOUD = block("dense_cloud", DenseCloudBlock::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.SNOW).strength(0.4F).sound(SoundType.WOOL).instrument(NoteBlockInstrument.FLUTE));
+            .mapColor(MapColor.SNOW).strength(0.4F).sound(SoundType.WOOL).instrument(NoteBlockInstrument.FLUTE), NATURE);
     public static final DeferredBlock<MistBlock> MIST = block("mist", MistBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.SNOW).strength(0.1F).sound(SoundType.WOOL).noOcclusion().noLootTable().replaceable()
             .isViewBlocking((s, l, p) -> false).isSuffocating((s, l, p) -> false).isRedstoneConductor((s, l, p) -> false)
-            .isValidSpawn(Blocks::never).pushReaction(PushReaction.DESTROY));
+            .isValidSpawn(Blocks::never).pushReaction(PushReaction.DESTROY), NATURE);
     public static final DeferredBlock<UpdraftVentBlock> UPDRAFT_VENT = block("updraft_vent", UpdraftVentBlock::new,
-            stone(MapColor.QUARTZ, 2.0F, SoundType.CALCITE).randomTicks().lightLevel(s -> 6));
+            stone(MapColor.QUARTZ, 2.0F, SoundType.CALCITE).randomTicks().lightLevel(s -> 6), NATURE, FUNCTIONAL);
     public static final DeferredBlock<UpdraftMistBlock> UPDRAFT_MIST = McRegistration.block(BLOCKS, "updraft_mist", UpdraftMistBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.GOLD).noCollission().noOcclusion().noLootTable().replaceable().strength(-1.0F, 0.0F)
             .lightLevel(s -> 3).isViewBlocking((s, l, p) -> false).isSuffocating((s, l, p) -> false)
@@ -122,17 +124,17 @@ public final class ModBlocks {
             props -> new SaplingBlock(new TreeGrower("upfall_ironbark", Optional.of(RustworksFeatures.Configured.IRONBARK_TREE_LARGE),
                     Optional.of(RustworksFeatures.Configured.IRONBARK_TREE), Optional.empty()), props));
 
-    public static final DeferredBlock<FlowerBlock> DUSKBLOOM = block("duskbloom", props -> new FlowerBlock(MobEffects.SLOW_FALLING, 7.0F, props), plant(MapColor.COLOR_PINK));
-    public static final DeferredBlock<SkyPlantBlock> CLOUD_FERN = block("cloud_fern", SkyPlantBlock::new, plant(MapColor.COLOR_CYAN).replaceable());
-    public static final DeferredBlock<SkyPlantBlock> GILDED_TUFT = block("gilded_tuft", SkyPlantBlock::new, plant(MapColor.GOLD).replaceable());
+    public static final DeferredBlock<FlowerBlock> DUSKBLOOM = block("duskbloom", props -> new FlowerBlock(MobEffects.SLOW_FALLING, 7.0F, props), plant(MapColor.COLOR_PINK), NATURE);
+    public static final DeferredBlock<SkyPlantBlock> CLOUD_FERN = block("cloud_fern", SkyPlantBlock::new, plant(MapColor.COLOR_CYAN).replaceable(), NATURE);
+    public static final DeferredBlock<SkyPlantBlock> GILDED_TUFT = block("gilded_tuft", SkyPlantBlock::new, plant(MapColor.GOLD).replaceable(), NATURE);
     public static final DeferredBlock<GlowvineBlock> GLOWVINE = block("glowvine", GlowvineBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.GOLD).randomTicks().noCollission().instabreak().sound(SoundType.CAVE_VINES)
-            .lightLevel(s -> 10).pushReaction(PushReaction.DESTROY));
+            .lightLevel(s -> 10).pushReaction(PushReaction.DESTROY), NATURE);
     public static final DeferredBlock<GlowvinePlantBlock> GLOWVINE_PLANT = McRegistration.block(BLOCKS, "glowvine_plant", GlowvinePlantBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.GOLD).noCollission().instabreak().sound(SoundType.CAVE_VINES)
             .lightLevel(s -> 7).pushReaction(PushReaction.DESTROY));
     public static final DeferredBlock<Block> MISTGLOW_CRYSTAL = block("mistglow_crystal", Block::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0.6F).sound(SoundType.AMETHYST).lightLevel(s -> 15));
+            .mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0.6F).sound(SoundType.AMETHYST).lightLevel(s -> 15), NATURE, BUILDING);
 
     public static final DeferredBlock<FlowerPotBlock> POTTED_DUSKBLOOM = pot("potted_duskbloom", DUSKBLOOM);
     public static final DeferredBlock<FlowerPotBlock> POTTED_CLOUD_FERN = pot("potted_cloud_fern", CLOUD_FERN);
@@ -140,22 +142,22 @@ public final class ModBlocks {
     public static final DeferredBlock<FlowerPotBlock> POTTED_IRONBARK_SAPLING = pot("potted_ironbark_sapling", IRONBARK.sapling());
 
     public static final DeferredBlock<DropExperienceBlock> NIMBUSITE_ORE = block("nimbusite_ore",
-            props -> new DropExperienceBlock(UniformInt.of(3, 7), props), stone(MapColor.QUARTZ, 6.0F, SoundType.CALCITE).explosionResistance(9.0F));
+            props -> new DropExperienceBlock(UniformInt.of(3, 7), props), stone(MapColor.QUARTZ, 6.0F, SoundType.CALCITE).explosionResistance(9.0F), NATURE);
     public static final DeferredBlock<DropExperienceBlock> DUSKSLATE_NIMBUSITE_ORE = block("duskslate_nimbusite_ore",
-            props -> new DropExperienceBlock(UniformInt.of(3, 7), props), stone(MapColor.COLOR_BLUE, 7.5F, SoundType.DEEPSLATE).explosionResistance(9.0F));
+            props -> new DropExperienceBlock(UniformInt.of(3, 7), props), stone(MapColor.COLOR_BLUE, 7.5F, SoundType.DEEPSLATE).explosionResistance(9.0F), NATURE);
     public static final DeferredBlock<DropExperienceBlock> LEVITITE_ORE = block("levitite_ore",
-            props -> new DropExperienceBlock(UniformInt.of(6, 12), props), stone(MapColor.COLOR_PURPLE, 25.0F, SoundType.ANCIENT_DEBRIS).explosionResistance(1200.0F));
-    public static final DeferredBlock<Block> RAW_NIMBUSITE_BLOCK = block("raw_nimbusite_block", Block::new, stone(MapColor.COLOR_LIGHT_BLUE, 5.0F, SoundType.STONE).explosionResistance(6.0F));
+            props -> new DropExperienceBlock(UniformInt.of(6, 12), props), stone(MapColor.COLOR_PURPLE, 25.0F, SoundType.ANCIENT_DEBRIS).explosionResistance(1200.0F), NATURE);
+    public static final DeferredBlock<Block> RAW_NIMBUSITE_BLOCK = block("raw_nimbusite_block", Block::new, stone(MapColor.COLOR_LIGHT_BLUE, 5.0F, SoundType.STONE).explosionResistance(6.0F), NATURE);
     public static final DeferredBlock<Block> NIMBUSITE_BLOCK = block("nimbusite_block", Block::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(50.0F, 1200.0F).sound(SoundType.NETHERITE_BLOCK));
+            .mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(50.0F, 1200.0F).sound(SoundType.NETHERITE_BLOCK), BUILDING);
     public static final DeferredBlock<Block> LEVITITE_BLOCK = block("levitite_block", Block::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(55.0F, 1200.0F).sound(SoundType.NETHERITE_BLOCK).lightLevel(s -> 4));
+            .mapColor(MapColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(55.0F, 1200.0F).sound(SoundType.NETHERITE_BLOCK).lightLevel(s -> 4), BUILDING);
 
     public static final DeferredBlock<Block> HALO_FRAME = block("halo_frame", Block::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.QUARTZ).requiresCorrectToolForDrops().strength(25.0F, 1200.0F).sound(SoundType.AMETHYST).lightLevel(s -> 3));
+            .mapColor(MapColor.QUARTZ).requiresCorrectToolForDrops().strength(25.0F, 1200.0F).sound(SoundType.AMETHYST).lightLevel(s -> 3), FUNCTIONAL);
 
     public static final DeferredBlock<SkyCacheBlock> SKY_CACHE = block("sky_cache", SkyCacheBlock::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.QUARTZ).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.CHERRY_WOOD).ignitedByLava());
+            .mapColor(MapColor.QUARTZ).instrument(NoteBlockInstrument.BASS).strength(2.5F).sound(SoundType.CHERRY_WOOD).ignitedByLava(), FUNCTIONAL);
 
     public static final DeferredBlock<HaloPortalBlock> HALO_PORTAL = McRegistration.block(BLOCKS, "halo_portal", HaloPortalBlock::new, BlockBehaviour.Properties.of()
             .noCollission().strength(-1.0F).sound(SoundType.GLASS).lightLevel(s -> 12).noLootTable()
@@ -176,15 +178,17 @@ public final class ModBlocks {
         }
     }
 
-    private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, BlockBehaviour.Properties props) {
+    private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, BlockBehaviour.Properties props,
+                                                           UpfallTab... tabs) {
         DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
-        CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(block));
+        ModCreativeTabs.add(BLOCK_ITEMS.registerSimpleBlockItem(block), tabs);
         return block;
     }
 
-    private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, Supplier<BlockBehaviour.Properties> props) {
+    private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, Supplier<BlockBehaviour.Properties> props,
+                                                           UpfallTab... tabs) {
         DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
-        CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(block));
+        ModCreativeTabs.add(BLOCK_ITEMS.registerSimpleBlockItem(block), tabs);
         return block;
     }
 
@@ -200,9 +204,9 @@ public final class ModBlocks {
 
     private static StoneVariants variants(String prefix, DeferredBlock<Block> base) {
         Supplier<BlockBehaviour.Properties> props = () -> BlockBehaviour.Properties.ofFullCopy(base.get());
-        DeferredBlock<StairBlock> stairs = block(prefix + "_stairs", p -> new StairBlock(base.get().defaultBlockState(), p), props);
-        DeferredBlock<SlabBlock> slab = block(prefix + "_slab", SlabBlock::new, props);
-        DeferredBlock<WallBlock> wall = block(prefix + "_wall", WallBlock::new, () -> props.get().forceSolidOn());
+        DeferredBlock<StairBlock> stairs = block(prefix + "_stairs", p -> new StairBlock(base.get().defaultBlockState(), p), props, BUILDING);
+        DeferredBlock<SlabBlock> slab = block(prefix + "_slab", SlabBlock::new, props, BUILDING);
+        DeferredBlock<WallBlock> wall = block(prefix + "_wall", WallBlock::new, () -> props.get().forceSolidOn(), BUILDING);
         return new StoneVariants(stairs, slab, wall);
     }
 
@@ -220,24 +224,24 @@ public final class ModBlocks {
                                 Function<BlockBehaviour.Properties, ? extends SaplingBlock> saplingFactory) {
         DeferredBlock<RotatedPillarBlock> strippedLog = McRegistration.block(BLOCKS, "stripped_" + name + "_log", RotatedPillarBlock::new, wooden(planksColor));
         DeferredBlock<RotatedPillarBlock> strippedWood = McRegistration.block(BLOCKS, "stripped_" + name + "_wood", RotatedPillarBlock::new, wooden(planksColor));
-        DeferredBlock<UpfallLogBlock> log = block(name + "_log", p -> new UpfallLogBlock(strippedLog, p), wooden(barkColor));
-        DeferredBlock<UpfallLogBlock> wood = block(name + "_wood", p -> new UpfallLogBlock(strippedWood, p), wooden(barkColor));
-        CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(strippedLog));
-        CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(strippedWood));
-        DeferredBlock<Block> planks = block(name + "_planks", Block::new, wooden(planksColor));
-        DeferredBlock<StairBlock> stairs = block(name + "_stairs", p -> new StairBlock(planks.get().defaultBlockState(), p), wooden(planksColor));
-        DeferredBlock<SlabBlock> slab = block(name + "_slab", SlabBlock::new, wooden(planksColor));
-        DeferredBlock<FenceBlock> fence = block(name + "_fence", FenceBlock::new, wooden(planksColor).forceSolidOn());
-        DeferredBlock<FenceGateBlock> fenceGate = block(name + "_fence_gate", p -> new FenceGateBlock(woodType, p), wooden(planksColor).forceSolidOn());
+        DeferredBlock<UpfallLogBlock> log = block(name + "_log", p -> new UpfallLogBlock(strippedLog, p), wooden(barkColor), BUILDING, NATURE);
+        DeferredBlock<UpfallLogBlock> wood = block(name + "_wood", p -> new UpfallLogBlock(strippedWood, p), wooden(barkColor), BUILDING, NATURE);
+        ModCreativeTabs.add(BLOCK_ITEMS.registerSimpleBlockItem(strippedLog), BUILDING);
+        ModCreativeTabs.add(BLOCK_ITEMS.registerSimpleBlockItem(strippedWood), BUILDING);
+        DeferredBlock<Block> planks = block(name + "_planks", Block::new, wooden(planksColor), BUILDING);
+        DeferredBlock<StairBlock> stairs = block(name + "_stairs", p -> new StairBlock(planks.get().defaultBlockState(), p), wooden(planksColor), BUILDING);
+        DeferredBlock<SlabBlock> slab = block(name + "_slab", SlabBlock::new, wooden(planksColor), BUILDING);
+        DeferredBlock<FenceBlock> fence = block(name + "_fence", FenceBlock::new, wooden(planksColor).forceSolidOn(), BUILDING);
+        DeferredBlock<FenceGateBlock> fenceGate = block(name + "_fence_gate", p -> new FenceGateBlock(woodType, p), wooden(planksColor).forceSolidOn(), BUILDING);
         DeferredBlock<DoorBlock> door = McRegistration.block(BLOCKS, name + "_door", p -> new DoorBlock(setType, p),
                 wooden(planksColor).strength(3.0F).noOcclusion().pushReaction(PushReaction.DESTROY));
-        CREATIVE_ORDER.add(McRegistration.blockItem(BLOCK_ITEMS, name + "_door", p -> new DoubleHighBlockItem(door.get(), p)));
+        ModCreativeTabs.add(McRegistration.blockItem(BLOCK_ITEMS, name + "_door", p -> new DoubleHighBlockItem(door.get(), p)), BUILDING);
         DeferredBlock<TrapDoorBlock> trapdoor = block(name + "_trapdoor", p -> new TrapDoorBlock(setType, p),
-                wooden(planksColor).strength(3.0F).noOcclusion().isValidSpawn(Blocks::never));
+                wooden(planksColor).strength(3.0F).noOcclusion().isValidSpawn(Blocks::never), BUILDING);
         DeferredBlock<ButtonBlock> button = block(name + "_button", p -> new ButtonBlock(setType, 30, p),
-                BlockBehaviour.Properties.of().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY));
+                BlockBehaviour.Properties.of().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY), BUILDING);
         DeferredBlock<PressurePlateBlock> plate = block(name + "_pressure_plate", p -> new PressurePlateBlock(setType, p),
-                wooden(planksColor).forceSolidOn().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY));
+                wooden(planksColor).forceSolidOn().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY), BUILDING);
         //? if >=26.1 {
         /*Function<BlockBehaviour.Properties, LeavesBlock> leavesFactory = p -> new net.minecraft.world.level.block.TintedParticleLeavesBlock(0.0F, p);
         *///?} else {
@@ -247,9 +251,9 @@ public final class ModBlocks {
                 .mapColor(barkColor == MapColor.GOLD ? MapColor.COLOR_YELLOW : barkColor == MapColor.COLOR_PURPLE ? MapColor.COLOR_ORANGE : MapColor.COLOR_CYAN)
                 .strength(0.2F).randomTicks().sound(SoundType.AZALEA_LEAVES).noOcclusion()
                 .isValidSpawn(Blocks::ocelotOrParrot).isSuffocating((s, l, p) -> false).isViewBlocking((s, l, p) -> false)
-                .ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor((s, l, p) -> false));
+                .ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor((s, l, p) -> false), NATURE);
         DeferredBlock<? extends SaplingBlock> sapling = block(name + "_sapling", saplingFactory, BlockBehaviour.Properties.of()
-                .mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY));
+                .mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY), NATURE);
         return new WoodSet(name, log, wood, strippedLog, strippedWood, planks, stairs, slab, fence, fenceGate, door, trapdoor,
                 button, plate, leaves, sapling);
     }

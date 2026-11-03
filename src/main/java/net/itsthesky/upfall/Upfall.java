@@ -54,6 +54,7 @@ public class Upfall {
         ModEntities.ENTITY_TYPES.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModCreativeTabs.CREATIVE_TABS.register(modEventBus);
+        modEventBus.addListener(ModCreativeTabs::addToVanillaTabs);
         ModFeatures.FEATURES.register(modEventBus);
         ModDensityFunctions.DENSITY_FUNCTION_TYPES.register(modEventBus);
         ModPlacements.PLACEMENT_MODIFIERS.register(modEventBus);

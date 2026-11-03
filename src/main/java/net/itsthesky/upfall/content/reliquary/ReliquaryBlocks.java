@@ -5,7 +5,6 @@ import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.reliquary.block.FoldLatticeBlock;
 import net.itsthesky.upfall.content.reliquary.block.FoldSealBlock;
 import net.itsthesky.upfall.content.reliquary.block.FoldSocketBlock;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -14,18 +13,16 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.itsthesky.upfall.registry.ModCreativeTabs;
+import net.itsthesky.upfall.registry.UpfallTab;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public final class ReliquaryBlocks {
     private ReliquaryBlocks() {}
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Upfall.MODID);
     public static final DeferredRegister.Items BLOCK_ITEMS = DeferredRegister.createItems(Upfall.MODID);
-    static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
 
     private static BlockBehaviour.Properties stone() {
         return BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ).instrument(NoteBlockInstrument.BASEDRUM)
@@ -45,8 +42,8 @@ public final class ReliquaryBlocks {
                     .noLootTable().pushReaction(PushReaction.BLOCK).lightLevel(state -> 5));
 
     static {
-        CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(LATTICE_STONE));
-        CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(CARVED_LATTICE_STONE));
-        CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(LATTICE_BEAM));
+        ModCreativeTabs.add(BLOCK_ITEMS.registerSimpleBlockItem(LATTICE_STONE), UpfallTab.BUILDING);
+        ModCreativeTabs.add(BLOCK_ITEMS.registerSimpleBlockItem(CARVED_LATTICE_STONE), UpfallTab.BUILDING);
+        ModCreativeTabs.add(BLOCK_ITEMS.registerSimpleBlockItem(LATTICE_BEAM), UpfallTab.BUILDING);
     }
 }

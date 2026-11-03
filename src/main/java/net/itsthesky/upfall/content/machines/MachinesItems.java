@@ -10,14 +10,14 @@ import net.minecraft.world.item.SmithingTemplateItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.ArrayList;
 import java.util.List;
+import net.itsthesky.upfall.registry.ModCreativeTabs;
+import net.itsthesky.upfall.registry.UpfallTab;
 
 public final class MachinesItems {
     private MachinesItems() {}
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Upfall.MODID);
-    static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
     // 26.1.2 blits smithing slot icons from the gui atlas; its copy lives under gui/sprites/container/slot so the id does not collide with item/empty_slot_gear in the items atlas
     //? if >=26.1 {
     /*public static final List<ResourceLocation> GEAR_SLOT_ICONS = List.of(Upfall.id("container/slot/gear"));
@@ -46,7 +46,6 @@ public final class MachinesItems {
     }
 
     private static <I extends Item> DeferredItem<I> add(DeferredItem<I> item) {
-        CREATIVE_ORDER.add(item);
-        return item;
+        return ModCreativeTabs.add(item, UpfallTab.ITEMS);
     }
 }

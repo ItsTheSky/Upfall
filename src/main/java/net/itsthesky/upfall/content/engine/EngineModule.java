@@ -2,7 +2,6 @@ package net.itsthesky.upfall.content.engine;
 
 import net.itsthesky.upfall.content.UpfallModule;
 import net.itsthesky.upfall.datagen.DataContribution;
-import net.itsthesky.upfall.registry.ModCreativeTabs;
 import net.neoforged.bus.api.IEventBus;
 
 public class EngineModule implements UpfallModule {
@@ -14,7 +13,6 @@ public class EngineModule implements UpfallModule {
         EngineBlocks.BLOCK_ENTITIES.register(modEventBus);
         EngineStructures.TYPES.register(modEventBus);
         EngineStructures.PIECES.register(modEventBus);
-        ModCreativeTabs.EXTRA.addAll(EngineBlocks.CREATIVE_ORDER);
     }
 
     @Override

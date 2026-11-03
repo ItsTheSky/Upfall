@@ -26,9 +26,13 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import net.itsthesky.upfall.registry.ModCreativeTabs;
+import net.itsthesky.upfall.registry.UpfallTab;
+
+import static net.itsthesky.upfall.registry.UpfallTab.BUILDING;
+import static net.itsthesky.upfall.registry.UpfallTab.FUNCTIONAL;
 
 public final class HamletBlocks {
     private HamletBlocks() {}
@@ -36,12 +40,11 @@ public final class HamletBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Upfall.MODID);
     public static final DeferredRegister.Items BLOCK_ITEMS = DeferredRegister.createItems(Upfall.MODID);
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Upfall.MODID);
-    static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
 
-    public static final DeferredBlock<Block> WOVEN_PLANKS = block("woven_planks", Block::new, woven());
+    public static final DeferredBlock<Block> WOVEN_PLANKS = block("woven_planks", Block::new, woven(), BUILDING);
     public static final DeferredBlock<StairBlock> WOVEN_STAIRS = block("woven_stairs",
-            p -> new StairBlock(WOVEN_PLANKS.get().defaultBlockState(), p), woven());
-    public static final DeferredBlock<SlabBlock> WOVEN_SLAB = block("woven_slab", SlabBlock::new, woven());
+            p -> new StairBlock(WOVEN_PLANKS.get().defaultBlockState(), p), woven(), BUILDING);
+    public static final DeferredBlock<SlabBlock> WOVEN_SLAB = block("woven_slab", SlabBlock::new, woven(), BUILDING);
 
     public record CanopySet(String color, DeferredBlock<Block> block, DeferredBlock<StairBlock> stairs, DeferredBlock<SlabBlock> slab) {}
 
@@ -53,19 +56,19 @@ public final class HamletBlocks {
     public static final DeferredBlock<RopeBlock> ROPE = McRegistration.block(BLOCKS, "rope", RopeBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.SAND).noCollission().strength(0.4F).sound(SoundType.WOOL).noOcclusion()
             .pushReaction(PushReaction.DESTROY).ignitedByLava());
-    public static final DeferredItem<RopeItem> ROPE_ITEM = item(McRegistration.blockItem(BLOCK_ITEMS, "rope", p -> new RopeItem(ROPE.get(), p)));
+    public static final DeferredItem<RopeItem> ROPE_ITEM = item(McRegistration.blockItem(BLOCK_ITEMS, "rope", p -> new RopeItem(ROPE.get(), p)), FUNCTIONAL, BUILDING);
     public static final DeferredBlock<RopeBridgeBlock> ROPE_BRIDGE = block("rope_bridge", RopeBridgeBlock::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.WOOD).strength(0.8F).sound(SoundType.SCAFFOLDING).noOcclusion().ignitedByLava());
+            .mapColor(MapColor.WOOD).strength(0.8F).sound(SoundType.SCAFFOLDING).noOcclusion().ignitedByLava(), BUILDING, FUNCTIONAL);
     public static final DeferredBlock<RopeAnchorBlock> ROPE_ANCHOR = block("rope_anchor", RopeAnchorBlock::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.WOOD).strength(0.8F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY));
+            .mapColor(MapColor.WOOD).strength(0.8F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY), FUNCTIONAL);
     public static final DeferredBlock<ZiplineAnchorBlock> ZIPLINE_ANCHOR = block("zipline_anchor", ZiplineAnchorBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion()
-            .pushReaction(PushReaction.BLOCK));
+            .pushReaction(PushReaction.BLOCK), FUNCTIONAL);
     public static final DeferredBlock<LanternBlock> CLOUD_LANTERN = block("cloud_lantern", LanternBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.QUARTZ).forceSolidOn().strength(3.5F).sound(SoundType.LANTERN).lightLevel(s -> 15)
-            .noOcclusion().pushReaction(PushReaction.DESTROY));
+            .noOcclusion().pushReaction(PushReaction.DESTROY), FUNCTIONAL, BUILDING);
     public static final DeferredBlock<RotatedPillarBlock> ROPE_SPOOL = block("rope_spool", RotatedPillarBlock::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASS).strength(1.5F).sound(SoundType.WOOD).ignitedByLava());
+            .mapColor(MapColor.SAND).instrument(NoteBlockInstrument.BASS).strength(1.5F).sound(SoundType.WOOD).ignitedByLava(), BUILDING);
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RopeAnchorBlockEntity>> ROPE_ANCHOR_ENTITY = BLOCK_ENTITIES.register("rope_anchor",
             () -> McRegistration.blockEntityType(RopeAnchorBlockEntity::new, ROPE_ANCHOR.get(), ZIPLINE_ANCHOR.get()));
@@ -78,20 +81,20 @@ public final class HamletBlocks {
     private static CanopySet canopy(String color, MapColor mapColor) {
         java.util.function.Supplier<BlockBehaviour.Properties> props = () -> BlockBehaviour.Properties.of().mapColor(mapColor)
                 .instrument(NoteBlockInstrument.GUITAR).strength(0.8F).sound(SoundType.WOOL).ignitedByLava();
-        DeferredBlock<Block> block = block(color + "_canopy", Block::new, props.get());
-        DeferredBlock<StairBlock> stairs = block(color + "_canopy_stairs", p -> new StairBlock(block.get().defaultBlockState(), p), props.get());
-        DeferredBlock<SlabBlock> slab = block(color + "_canopy_slab", SlabBlock::new, props.get());
+        DeferredBlock<Block> block = block(color + "_canopy", Block::new, props.get(), BUILDING);
+        DeferredBlock<StairBlock> stairs = block(color + "_canopy_stairs", p -> new StairBlock(block.get().defaultBlockState(), p), props.get(), BUILDING);
+        DeferredBlock<SlabBlock> slab = block(color + "_canopy_slab", SlabBlock::new, props.get(), BUILDING);
         return new CanopySet(color, block, stairs, slab);
     }
 
-    private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, BlockBehaviour.Properties props) {
+    private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory, BlockBehaviour.Properties props,
+                                                           UpfallTab... tabs) {
         DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
-        item(BLOCK_ITEMS.registerSimpleBlockItem(block));
+        item(BLOCK_ITEMS.registerSimpleBlockItem(block), tabs);
         return block;
     }
 
-    private static <I extends Item> DeferredItem<I> item(DeferredItem<I> item) {
-        CREATIVE_ORDER.add(item);
-        return item;
+    private static <I extends Item> DeferredItem<I> item(DeferredItem<I> item, UpfallTab... tabs) {
+        return ModCreativeTabs.add(item, tabs);
     }
 }

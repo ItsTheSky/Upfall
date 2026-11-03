@@ -47,7 +47,10 @@ public class ModLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        add("itemGroup.upfall", "Upfall");
+        add("itemGroup.upfall.building", "Upfall: Building");
+        add("itemGroup.upfall.nature", "Upfall: Nature");
+        add("itemGroup.upfall.functional", "Upfall: Functional");
+        add("itemGroup.upfall.items", "Upfall: Items & Gear");
         add(ModFluids.SKYWATER_BLOCK.get(), "Skywater");
         add(ModBlocks.UPDRAFT_MIST.get(), "Updraft Mist");
         add(ModBlocks.UPFALL_CASCADE.get(), "Upfall Cascade");

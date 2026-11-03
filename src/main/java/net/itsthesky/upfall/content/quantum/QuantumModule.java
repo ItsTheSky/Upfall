@@ -7,7 +7,6 @@ import net.itsthesky.upfall.content.quantum.pedestal.QuantumPedestalBlock;
 import net.itsthesky.upfall.content.quantum.upgrade.QuantumUpgradeEffects;
 import net.itsthesky.upfall.content.quantum.upgrade.ZiplineLatchPayload;
 import net.itsthesky.upfall.datagen.DataContribution;
-import net.itsthesky.upfall.registry.ModCreativeTabs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -32,8 +31,6 @@ public class QuantumModule implements UpfallModule {
         QuantumStructures.TYPES.register(modEventBus);
         QuantumStructures.PIECES.register(modEventBus);
         QuantumStructures.PLACEMENTS.register(modEventBus);
-        ModCreativeTabs.EXTRA.addAll(QuantumItems.CREATIVE_ORDER);
-        ModCreativeTabs.EXTRA.addAll(QuantumBlocks.CREATIVE_ORDER);
 
         NeoForge.EVENT_BUS.addListener(BottledVeilGasItem::onUseItem);
         NeoForge.EVENT_BUS.addListener(FlickerShardClusterBlockEntity::onLeftClick);

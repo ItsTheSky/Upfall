@@ -2,7 +2,6 @@ package net.itsthesky.upfall.content.reliquary;
 
 import net.itsthesky.upfall.content.UpfallModule;
 import net.itsthesky.upfall.datagen.DataContribution;
-import net.itsthesky.upfall.registry.ModCreativeTabs;
 import net.neoforged.bus.api.IEventBus;
 
 public class ReliquaryModule implements UpfallModule {
@@ -14,8 +13,6 @@ public class ReliquaryModule implements UpfallModule {
         ReliquaryEntities.ENTITY_TYPES.register(modEventBus);
         ReliquarySounds.SOUND_EVENTS.register(modEventBus);
         modEventBus.addListener(ReliquaryEntities::registerAttributes);
-        ModCreativeTabs.EXTRA.addAll(ReliquaryItems.CREATIVE_ORDER);
-        ModCreativeTabs.EXTRA.addAll(ReliquaryBlocks.CREATIVE_ORDER);
     }
 
     @Override

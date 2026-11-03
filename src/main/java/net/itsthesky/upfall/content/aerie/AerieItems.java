@@ -7,15 +7,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.itsthesky.upfall.registry.ModCreativeTabs;
+import net.itsthesky.upfall.registry.UpfallTab;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public final class AerieItems {
     private AerieItems() {}
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Upfall.MODID);
-    static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
 
     // Lazy: 26.1.2 repairable(TagKey) writes to the item registry, which is frozen until RegisterEvent.
     public static final DeferredItem<GravitySceptreItem> GRAVITY_SCEPTRE = McRegistration.item(ITEMS, "gravity_sceptre", GravitySceptreItem::new,
@@ -30,6 +29,6 @@ public final class AerieItems {
     }
 
     static {
-        CREATIVE_ORDER.add(GRAVITY_SCEPTRE);
+        ModCreativeTabs.add(GRAVITY_SCEPTRE, UpfallTab.ITEMS);
     }
 }

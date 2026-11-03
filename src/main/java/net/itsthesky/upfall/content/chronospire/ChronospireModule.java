@@ -7,6 +7,7 @@ import net.itsthesky.upfall.datagen.DataContribution;
 import net.itsthesky.upfall.registry.ModCreativeTabs;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.NeoForge;
+import net.itsthesky.upfall.registry.UpfallTab;
 
 public class ChronospireModule implements UpfallModule {
     @Override
@@ -19,8 +20,7 @@ public class ChronospireModule implements UpfallModule {
         ChronoRegistries.ITEMS.register(modEventBus);
         ChronoRegistries.STRUCTURE_TYPES.register(modEventBus);
         ChronoRegistries.STRUCTURE_PIECES.register(modEventBus);
-        ModCreativeTabs.EXTRA.addAll(ChronoBlocks.CREATIVE_ORDER);
-        ModCreativeTabs.EXTRA.add(ChronoRegistries.REWINDING_HOURGLASS);
+        ModCreativeTabs.add(ChronoRegistries.REWINDING_HOURGLASS, UpfallTab.ITEMS);
         NeoForge.EVENT_BUS.addListener(HourglassTracker::onPlayerTick);
         NeoForge.EVENT_BUS.addListener(HourglassTracker::onLogout);
     }

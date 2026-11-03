@@ -6,6 +6,8 @@ import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.machines.MachinesItems;
 import net.itsthesky.upfall.content.quantum.gas.BottledVeilGasItem;
 import net.itsthesky.upfall.item.UpfallSmithingTemplates;
+import net.itsthesky.upfall.registry.ModCreativeTabs;
+import net.itsthesky.upfall.registry.UpfallTab;
 import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvents;
@@ -18,7 +20,6 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 //? if <26.1 {
@@ -33,7 +34,6 @@ public final class QuantumItems {
     //? if <26.1 {
     public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS = DeferredRegister.create(Registries.ARMOR_MATERIAL, Upfall.MODID);
     //?}
-    static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
 
     //? if >=26.1 {
     /*public static final net.minecraft.world.item.equipment.ArmorMaterial VEIL_MASK_MATERIAL = new net.minecraft.world.item.equipment.ArmorMaterial(
@@ -76,7 +76,6 @@ public final class QuantumItems {
     }
 
     private static <I extends Item> DeferredItem<I> add(DeferredItem<I> item) {
-        CREATIVE_ORDER.add(item);
-        return item;
+        return ModCreativeTabs.add(item, UpfallTab.ITEMS);
     }
 }

@@ -4,6 +4,7 @@ import net.itsthesky.upfall.content.UpfallModule;
 import net.itsthesky.upfall.datagen.DataContribution;
 import net.itsthesky.upfall.registry.ModCreativeTabs;
 import net.neoforged.bus.api.IEventBus;
+import net.itsthesky.upfall.registry.UpfallTab;
 
 public class WorldModule implements UpfallModule {
     @Override
@@ -13,9 +14,8 @@ public class WorldModule implements UpfallModule {
         WorldItems.ITEMS.register(modEventBus);
         WorldFeatures.FEATURES.register(modEventBus);
         WorldParticles.PARTICLE_TYPES.register(modEventBus);
-        ModCreativeTabs.EXTRA.addAll(WorldBlocks.CREATIVE_ORDER);
-        ModCreativeTabs.EXTRA.add(WorldItems.CLOUD_PEARL);
-        ModCreativeTabs.EXTRA.add(WorldItems.NIMBUS_FLASK);
+        ModCreativeTabs.add(WorldItems.CLOUD_PEARL, UpfallTab.ITEMS);
+        ModCreativeTabs.add(WorldItems.NIMBUS_FLASK, UpfallTab.ITEMS);
     }
 
     @Override

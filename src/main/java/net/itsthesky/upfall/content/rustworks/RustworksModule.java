@@ -7,6 +7,7 @@ import net.itsthesky.upfall.content.rustworks.worldgen.RustworksStructures;
 import net.itsthesky.upfall.datagen.DataContribution;
 import net.itsthesky.upfall.registry.ModCreativeTabs;
 import net.neoforged.bus.api.IEventBus;
+import net.itsthesky.upfall.registry.UpfallTab;
 
 public class RustworksModule implements UpfallModule {
     @Override
@@ -19,10 +20,9 @@ public class RustworksModule implements UpfallModule {
         RustworksFloraWorldgen.FEATURES.register(modEventBus);
         RustworksStructures.TYPES.register(modEventBus);
         RustworksStructures.PIECES.register(modEventBus);
-        ModCreativeTabs.EXTRA.addAll(RustworksBlocks.CREATIVE_ORDER);
-        ModCreativeTabs.EXTRA.add(RustworksItems.KAIRITE_DUST);
-        ModCreativeTabs.EXTRA.add(RustworksItems.KAIRITE_GEAR);
-        ModCreativeTabs.EXTRA.add(RustworksItems.RUSTY_PLATE);
+        ModCreativeTabs.add(RustworksItems.KAIRITE_DUST, UpfallTab.ITEMS);
+        ModCreativeTabs.add(RustworksItems.KAIRITE_GEAR, UpfallTab.ITEMS);
+        ModCreativeTabs.add(RustworksItems.RUSTY_PLATE, UpfallTab.ITEMS);
         //? if >=26.1 {
         /*modEventBus.addListener((net.neoforged.neoforge.event.RegisterCauldronInteractionEvent.Dispatcher event) ->
                 event.register(net.itsthesky.upfall.Upfall.id("stillflow"), net.itsthesky.upfall.content.rustworks.block.StillflowCauldronBlock.INTERACTIONS));

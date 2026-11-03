@@ -14,6 +14,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
+import net.itsthesky.upfall.registry.UpfallTab;
 
 public final class MobItems {
     private MobItems() {}
@@ -45,13 +46,13 @@ public final class MobItems {
 
     private static DeferredItem<Item> simple(String name, Item.Properties props) {
         DeferredItem<Item> item = McRegistration.simpleItem(ITEMS, name, props);
-        ModCreativeTabs.EXTRA.add(item);
+        ModCreativeTabs.add(item, UpfallTab.ITEMS);
         return item;
     }
 
     private static DeferredItem<Item> egg(String name, Supplier<? extends EntityType<? extends Mob>> type, int primary, int secondary) {
         DeferredItem<Item> item = McRegistration.spawnEgg(ITEMS, name + "_spawn_egg", type, primary, secondary);
-        ModCreativeTabs.EXTRA.add(item);
+        ModCreativeTabs.add(item, UpfallTab.ITEMS);
         return item;
     }
 }

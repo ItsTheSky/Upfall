@@ -9,15 +9,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.itsthesky.upfall.registry.ModCreativeTabs;
+import net.itsthesky.upfall.registry.UpfallTab;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public final class ReliquaryItems {
     private ReliquaryItems() {}
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Upfall.MODID);
-    static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
 
     public static final DeferredItem<Item> FOLD_SHARD = McRegistration.item(ITEMS, "fold_shard", FoldShardItem::new, new Item.Properties().rarity(Rarity.RARE));
     public static final DeferredItem<FoldAnchorItem> FOLD_ANCHOR = McRegistration.item(ITEMS, "fold_anchor", FoldAnchorItem::new, ReliquaryItems::anchorProperties);
@@ -35,9 +34,9 @@ public final class ReliquaryItems {
     }
 
     static {
-        CREATIVE_ORDER.add(FOLD_SHARD);
-        CREATIVE_ORDER.add(FOLD_ANCHOR);
-        CREATIVE_ORDER.add(FOLD_HEART);
-        CREATIVE_ORDER.add(FOLD_WARDEN_SPAWN_EGG);
+        ModCreativeTabs.add(FOLD_SHARD, UpfallTab.ITEMS);
+        ModCreativeTabs.add(FOLD_ANCHOR, UpfallTab.ITEMS);
+        ModCreativeTabs.add(FOLD_HEART, UpfallTab.ITEMS);
+        ModCreativeTabs.add(FOLD_WARDEN_SPAWN_EGG, UpfallTab.ITEMS);
     }
 }

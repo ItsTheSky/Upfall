@@ -24,38 +24,40 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
+import net.itsthesky.upfall.registry.ModCreativeTabs;
+import net.itsthesky.upfall.registry.UpfallTab;
+
+import static net.itsthesky.upfall.registry.UpfallTab.BUILDING;
+import static net.itsthesky.upfall.registry.UpfallTab.NATURE;
 
 public final class WorldBlocks {
     private WorldBlocks() {}
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Upfall.MODID);
     public static final DeferredRegister.Items BLOCK_ITEMS = DeferredRegister.createItems(Upfall.MODID);
-    static final List<DeferredItem<? extends Item>> CREATIVE_ORDER = new ArrayList<>();
 
     public static final DeferredBlock<Block> SKYSILT = block("skysilt", Block::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.TERRACOTTA_WHITE).strength(0.5F).sound(SoundType.SAND).instrument(NoteBlockInstrument.SNARE));
+            .mapColor(MapColor.TERRACOTTA_WHITE).strength(0.5F).sound(SoundType.SAND).instrument(NoteBlockInstrument.SNARE), NATURE);
     public static final DeferredBlock<SkyreedBlock> SKYREED = McRegistration.block(BLOCKS, "skyreed", SkyreedBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().instabreak().sound(SoundType.GRASS)
             .offsetType(BlockBehaviour.OffsetType.XZ).ignitedByLava().pushReaction(PushReaction.DESTROY));
-    public static final DeferredItem<DoubleHighBlockItem> SKYREED_ITEM = item("skyreed", props -> new DoubleHighBlockItem(SKYREED.get(), props));
+    public static final DeferredItem<DoubleHighBlockItem> SKYREED_ITEM = item("skyreed", props -> new DoubleHighBlockItem(SKYREED.get(), props), NATURE);
     public static final DeferredBlock<SkylilyBlock> SKYLILY = McRegistration.block(BLOCKS, "skylily", SkylilyBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_PINK).instabreak().sound(SoundType.LILY_PAD).noOcclusion().lightLevel(s -> 6)
             .pushReaction(PushReaction.DESTROY));
-    public static final DeferredItem<PlaceOnWaterBlockItem> SKYLILY_ITEM = item("skylily", props -> new PlaceOnWaterBlockItem(SKYLILY.get(), props));
+    public static final DeferredItem<PlaceOnWaterBlockItem> SKYLILY_ITEM = item("skylily", props -> new PlaceOnWaterBlockItem(SKYLILY.get(), props), NATURE);
 
     public static final DeferredBlock<DenseCloudBlock> PEARLED_CLOUD = block("pearled_cloud", DenseCloudBlock::new, cloud(MapColor.SNOW)
-            .strength(0.8F).lightLevel(s -> 9));
-    public static final DeferredBlock<RaincloudBlock> RAINCLOUD = block("raincloud", RaincloudBlock::new, cloud(MapColor.COLOR_LIGHT_GRAY));
+            .strength(0.8F).lightLevel(s -> 9), NATURE);
+    public static final DeferredBlock<RaincloudBlock> RAINCLOUD = block("raincloud", RaincloudBlock::new, cloud(MapColor.COLOR_LIGHT_GRAY), NATURE);
     public static final DeferredBlock<CloudstalkBlock> CLOUDSTALK = block("cloudstalk", CloudstalkBlock::new, BlockBehaviour.Properties.of()
-            .mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().instabreak().sound(SoundType.WOOL).pushReaction(PushReaction.DESTROY));
+            .mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().instabreak().sound(SoundType.WOOL).pushReaction(PushReaction.DESTROY), NATURE);
     public static final DeferredBlock<CloudbloomBlock> CLOUDBLOOM = block("cloudbloom", CloudbloomBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_YELLOW).instabreak().sound(SoundType.WOOL).noOcclusion().lightLevel(s -> 13)
-            .pushReaction(PushReaction.DESTROY));
+            .pushReaction(PushReaction.DESTROY), NATURE);
     public static final DeferredBlock<Block> CLOUD_LAMP = block("cloud_lamp", Block::new, cloud(MapColor.SNOW).strength(0.6F)
-            .lightLevel(s -> 15));
+            .lightLevel(s -> 15), BUILDING);
     public static final DeferredBlock<FadingCloudBlock> FADING_CLOUD = McRegistration.block(BLOCKS, "fading_cloud", FadingCloudBlock::new,
             cloud(MapColor.SNOW).strength(0.2F).noOcclusion().noLootTable().isValidSpawn(Blocks::never)
                     .isViewBlocking((s, l, p) -> false).isSuffocating((s, l, p) -> false).pushReaction(PushReaction.DESTROY));
@@ -65,15 +67,14 @@ public final class WorldBlocks {
     }
 
     private static <B extends Block> DeferredBlock<B> block(String name, Function<BlockBehaviour.Properties, ? extends B> factory,
-                                                           BlockBehaviour.Properties props) {
+                                                           BlockBehaviour.Properties props, UpfallTab... tabs) {
         DeferredBlock<B> block = McRegistration.block(BLOCKS, name, factory, props);
-        CREATIVE_ORDER.add(BLOCK_ITEMS.registerSimpleBlockItem(block));
+        ModCreativeTabs.add(BLOCK_ITEMS.registerSimpleBlockItem(block), tabs);
         return block;
     }
 
-    private static <I extends BlockItem> DeferredItem<I> item(String name, Function<Item.Properties, I> factory) {
+    private static <I extends BlockItem> DeferredItem<I> item(String name, Function<Item.Properties, I> factory, UpfallTab... tabs) {
         DeferredItem<I> item = McRegistration.blockItem(BLOCK_ITEMS, name, factory);
-        CREATIVE_ORDER.add(item);
-        return item;
+        return ModCreativeTabs.add(item, tabs);
     }
 }
