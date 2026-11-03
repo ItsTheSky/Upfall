@@ -10,6 +10,7 @@ import net.itsthesky.upfall.content.guide.GuideModule;
 import net.itsthesky.upfall.content.hamlet.HamletModule;
 import net.itsthesky.upfall.content.machines.MachinesModule;
 import net.itsthesky.upfall.content.mobs.MobsModule;
+import net.itsthesky.upfall.content.music.MusicModule;
 import net.itsthesky.upfall.content.quantum.QuantumModule;
 import net.itsthesky.upfall.content.reliquary.ReliquaryModule;
 import net.itsthesky.upfall.content.reliquary.ReliquaryWorldgenModule;
@@ -38,6 +39,7 @@ public final class UpfallModules {
             new AerieModule(),
             new ReliquaryModule(),
             new ReliquaryWorldgenModule(),
+            new MusicModule(),
             new GuideModule());
 
     public static void forEachData(Consumer<DataContribution> action) {

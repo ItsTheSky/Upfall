@@ -50,7 +50,7 @@ public class ModSoundProvider extends SoundDefinitionsProvider {
                 event("entity.phantom.flap").pitch(1.3).volume(0.4)));
         add(ModSounds.SKYRAY_HURT, def(ModSounds.SKYRAY_HURT).with(event("entity.phantom.hurt").pitch(1.5)));
         add(ModSounds.SKYRAY_DEATH, def(ModSounds.SKYRAY_DEATH).with(event("entity.phantom.death").pitch(1.4)));
-        add(ModSounds.MUSIC_UPFALL, def(ModSounds.MUSIC_UPFALL).with(event("music.overworld.cherry_grove"), event("music.overworld.meadow")));
+        add(ModSounds.MUSIC_UPFALL, music("imprint_on_another_world"));
         UpfallModules.forEachData(data -> data.sounds(this));
     }
 
@@ -60,6 +60,11 @@ public class ModSoundProvider extends SoundDefinitionsProvider {
 
     public static SoundDefinition def(DeferredHolder<SoundEvent, SoundEvent> event) {
         return definition().subtitle(ModLanguageProvider.subtitle(event.getId().getPath()));
+    }
+
+    public static SoundDefinition music(String track) {
+        return definition().subtitle(ModLanguageProvider.subtitle(ModSounds.MUSIC_UPFALL.getId().getPath()))
+                .with(sound(Upfall.id("music/" + track)).stream());
     }
 
     public static SoundDefinition.Sound event(String vanillaEvent) {

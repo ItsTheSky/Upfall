@@ -9,6 +9,7 @@ import net.itsthesky.upfall.content.hamlet.client.HamletClientModule;
 import net.itsthesky.upfall.content.machines.client.ClockworkClientModule;
 import net.itsthesky.upfall.content.machines.client.MachinesClientModule;
 import net.itsthesky.upfall.content.mobs.client.MobsClientModule;
+import net.itsthesky.upfall.content.music.client.MusicClientModule;
 import net.itsthesky.upfall.content.quantum.client.QuantumClientModule;
 import net.itsthesky.upfall.content.reliquary.client.ReliquaryClientModule;
 import net.itsthesky.upfall.content.world.client.WorldClientModule;
@@ -30,5 +31,6 @@ public final class UpfallClientModules {
             new ClockworkClientModule(),
             new QuantumClientModule(),
             new ReliquaryClientModule(),
+            new MusicClientModule(),
             new ArmorClientModule());
 }

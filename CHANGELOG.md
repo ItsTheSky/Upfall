@@ -7,6 +7,13 @@
 - JEI and GuideME are supported on both versions; EMI integration is 1.21.1 only.
 - Jars are now named upfall-<version>+<minecraft version>.jar.
 
+### Music
+- The Upfall now has its own soundtrack (Pixelsphere, by cynicmusic) instead of reusing vanilla tracks: Imprint on
+  Another World across the dimension and New Radius in the Rustworks.
+- Structures play their own music while you are inside: Sirens in Darkness (Tilted Reliquary), Synthwave 1.0
+  (Chronospire, Crystal Grotto), Synthwave 15k (Pearl Aerie, Cloud Hamlet) and Another August (Shifting Vault,
+  Stalled Engine).
+
 ### Gear
 - New textures for the Nimbusite and Levitite ingots and tools.
 - Nimbusite and Levitite armor now use their own 3D models (shoulder pads, chest straps, leg flaps, and wings on the

@@ -21,7 +21,7 @@
       "max_delay": 18000,
       "min_delay": 6000,
       "replace_current_music": false,
-      "sound": "upfall:music.upfall"
+      "sound": "upfall:music.rustworks"
     },
     "particle": {
       "options": {

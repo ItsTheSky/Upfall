@@ -123,6 +123,12 @@ Vault chest relocates, the Quantum Pedestal collapses if you look away. Light or
 * Minecraft's **GameTest** framework for the gameplay tests
 * Paint.NET for all the textures (if you're good at pixel art, I'd love to work with you! Mine are a bit rough)
 
+## Music
+
+Music by [cynicmusic](https://cynicmusic.com/) (The Cynic Project / [pixelsphere.org](https://pixelsphere.org/)), from the
+Pixelsphere soundtrack, released CC0: *Imprint on Another World*, *New Radius* (shortened), *Synthwave 1.0*,
+*Synthwave 15k*, *Sirens in Darkness* and *Another August*.
+
 ## License
 
 Upfall is licensed under the [GNU Lesser General Public License v3.0](LICENSE) (see also [COPYING](COPYING) for the

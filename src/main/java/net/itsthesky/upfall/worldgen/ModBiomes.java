@@ -3,6 +3,7 @@ package net.itsthesky.upfall.worldgen;
 import com.mojang.datafixers.util.Pair;
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.UpfallModules;
+import net.itsthesky.upfall.content.music.MusicSounds;
 import net.itsthesky.upfall.content.rustworks.RustworksSounds;
 import net.itsthesky.upfall.registry.ModEntities;
 import net.itsthesky.upfall.registry.ModParticles;
@@ -26,8 +27,7 @@ import net.minecraft.world.level.biome.MultiNoiseBiomeSource;
 import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 //? if >=26.1 {
-/*import net.minecraft.sounds.Musics;
-import net.minecraft.util.ARGB;
+/*import net.minecraft.util.ARGB;
 import net.minecraft.world.attribute.AmbientAdditionsSettings;
 import net.minecraft.world.attribute.AmbientMoodSettings;
 import net.minecraft.world.attribute.AmbientParticle;
@@ -135,8 +135,8 @@ public final class ModBiomes {
         return builder.build();
     }
 
-    private static Music music() {
-        return new Music(ModSounds.MUSIC_UPFALL, 6000, 18000, false);
+    private static Music music(ResourceKey<Biome> key) {
+        return new Music(key == RUSTWORKS ? MusicSounds.RUSTWORKS : ModSounds.MUSIC_UPFALL, 6000, 18000, false);
     }
 
     private static Biome biome(HolderGetter<PlacedFeature> features, HolderGetter<ConfiguredWorldCarver<?>> carvers,
@@ -148,11 +148,11 @@ public final class ModBiomes {
                 .hasPrecipitation(false)
                 .temperature(0.7F)
                 .downfall(0.4F)
-                .specialEffects(look.effects())
+                .specialEffects(look.effects(music(key)))
                 .mobSpawnSettings(spawns(key))
                 .generationSettings(generation.build());
         //? if >=26.1 {
-        /*look.applyAttributes(builder);
+        /*look.applyAttributes(builder, music(key));
         *///?}
         return builder.build();
     }
@@ -221,14 +221,14 @@ public final class ModBiomes {
             return this;
         }
 
-        BiomeSpecialEffects effects() {
+        BiomeSpecialEffects effects(Music music) {
             BiomeSpecialEffects.Builder builder = new BiomeSpecialEffects.Builder()
                     .waterColor(water).grassColorOverride(grass).foliageColorOverride(foliage);
             //? if <26.1 {
             builder.skyColor(sky).fogColor(fog).waterFogColor(waterFog)
                     .ambientParticle(new AmbientParticleSettings(particle, particleChance))
                     .ambientMoodSound(mood)
-                    .backgroundMusic(music());
+                    .backgroundMusic(music);
             if (loop != null) builder.ambientLoopSound(loop);
             if (additions != null) builder.ambientAdditionsSound(additions);
             //?}
@@ -236,7 +236,7 @@ public final class ModBiomes {
         }
 
         //? if >=26.1 {
-        /*void applyAttributes(Biome.BiomeBuilder builder) {
+        /*void applyAttributes(Biome.BiomeBuilder builder, Music music) {
             // The fog scale is the 1.21.1 UpfallSkyEffects#getBrightnessDependentFogColor factor at the fixed dimension time.
             builder.setAttribute(EnvironmentAttributes.SKY_COLOR, ARGB.opaque(sky))
                     .setAttribute(EnvironmentAttributes.FOG_COLOR, ARGB.scaleRGB(ARGB.opaque(fog), 1.0F, 0.98F, 0.97F))
@@ -244,7 +244,7 @@ public final class ModBiomes {
                     .setAttribute(EnvironmentAttributes.AMBIENT_PARTICLES, AmbientParticle.of(particle, particleChance))
                     .setAttribute(EnvironmentAttributes.AMBIENT_SOUNDS, new AmbientSounds(Optional.ofNullable(loop), Optional.of(mood),
                             additions == null ? List.of() : List.of(additions)))
-                    .setAttribute(EnvironmentAttributes.BACKGROUND_MUSIC, new BackgroundMusic(Optional.of(music()), Optional.of(Musics.CREATIVE), Optional.empty()));
+                    .setAttribute(EnvironmentAttributes.BACKGROUND_MUSIC, new BackgroundMusic(music));
         }
         *///?}
     }

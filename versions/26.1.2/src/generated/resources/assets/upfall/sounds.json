@@ -1224,15 +1224,83 @@
     ],
     "subtitle": "subtitles.upfall.item.bottle.fill_veil_gas"
   },
+  "music.rustworks": {
+    "sounds": [
+      {
+        "name": "upfall:music/new_radius",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.upfall.music.upfall"
+  },
+  "music.structure.chronospire": {
+    "sounds": [
+      {
+        "name": "upfall:music/synthwave",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.upfall.music.upfall"
+  },
+  "music.structure.cloud_hamlet": {
+    "sounds": [
+      {
+        "name": "upfall:music/synthwave_15k",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.upfall.music.upfall"
+  },
+  "music.structure.crystal_grotto": {
+    "sounds": [
+      {
+        "name": "upfall:music/synthwave",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.upfall.music.upfall"
+  },
+  "music.structure.pearl_aerie": {
+    "sounds": [
+      {
+        "name": "upfall:music/synthwave_15k",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.upfall.music.upfall"
+  },
+  "music.structure.shifting_vault": {
+    "sounds": [
+      {
+        "name": "upfall:music/another_august",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.upfall.music.upfall"
+  },
+  "music.structure.stalled_engine": {
+    "sounds": [
+      {
+        "name": "upfall:music/another_august",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.upfall.music.upfall"
+  },
+  "music.structure.tilted_reliquary": {
+    "sounds": [
+      {
+        "name": "upfall:music/sirens_in_darkness",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.upfall.music.upfall"
+  },
   "music.upfall": {
     "sounds": [
       {
-        "type": "event",
-        "name": "music.overworld.cherry_grove"
-      },
-      {
-        "type": "event",
-        "name": "music.overworld.meadow"
+        "name": "upfall:music/imprint_on_another_world",
+        "stream": true
       }
     ],
     "subtitle": "subtitles.upfall.music.upfall"
