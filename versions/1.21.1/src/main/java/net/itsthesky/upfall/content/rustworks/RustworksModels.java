@@ -3,6 +3,7 @@ package net.itsthesky.upfall.content.rustworks;
 import net.itsthesky.upfall.content.rustworks.block.ExhaustVentBlock;
 import net.itsthesky.upfall.content.rustworks.block.KairiteOreBlock;
 import net.itsthesky.upfall.content.rustworks.block.PipeValveBlock;
+import net.itsthesky.upfall.content.rustworks.block.RustyCogBlock;
 import net.itsthesky.upfall.datagen.ModBlockStateProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -30,8 +31,7 @@ final class RustworksModels {
         pipe(states, RustworksBlocks.LEAKING_PIPE.get(), "leaking_pipe_side");
         valve(states);
 
-        states.axisBlock(RustworksBlocks.RUSTY_COG.get(), states.blockTexture("rusty_cog_side"), states.blockTexture("rusty_cog_end"));
-        states.blockItem(RustworksBlocks.RUSTY_COG.get());
+        cog(states);
 
         ResourceLocation content = states.blockTexture("stillflow_still");
         ModelFile[] levels = {
@@ -64,6 +64,27 @@ final class RustworksModels {
         states.getVariantBuilder(RustworksBlocks.EXHAUST_VENT.get()).forAllStates(state -> ConfiguredModel.builder()
                 .modelFile(state.getValue(ExhaustVentBlock.ACTIVE) ? active : idle).build());
         states.blockItem(RustworksBlocks.EXHAUST_VENT.get());
+    }
+
+    private static void cog(ModBlockStateProvider states) {
+        ModelFile[] idle = cogModels(states, "rusty_cog", "rusty_cog_side_off", "rusty_cog_end_off");
+        ModelFile[] powered = cogModels(states, "rusty_cog_powered", "rusty_cog_side", "rusty_cog_end");
+        states.getVariantBuilder(RustworksBlocks.RUSTY_COG.get()).forAllStates(state -> {
+            ModelFile[] models = state.getValue(RustyCogBlock.POWERED) ? powered : idle;
+            return switch (state.getValue(RotatedPillarBlock.AXIS)) {
+                case Y -> ConfiguredModel.builder().modelFile(models[0]).build();
+                case Z -> ConfiguredModel.builder().modelFile(models[1]).rotationX(90).build();
+                case X -> ConfiguredModel.builder().modelFile(models[1]).rotationX(90).rotationY(90).build();
+            };
+        });
+        states.blockItem(RustworksBlocks.RUSTY_COG.get());
+    }
+
+    private static ModelFile[] cogModels(ModBlockStateProvider states, String name, String side, String end) {
+        ResourceLocation sideTexture = states.blockTexture(side);
+        ResourceLocation endTexture = states.blockTexture(end);
+        return new ModelFile[]{states.models().cubeColumn(name, sideTexture, endTexture),
+                states.models().cubeColumnHorizontal(name + "_horizontal", sideTexture, endTexture)};
     }
 
     private static void kairiteOre(ModBlockStateProvider states) {

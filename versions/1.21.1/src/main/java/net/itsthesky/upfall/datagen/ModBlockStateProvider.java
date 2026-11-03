@@ -110,6 +110,26 @@ public class ModBlockStateProvider extends BlockStateProvider {
         itemModels().wallInventory(name(variants.wall().get()), texture);
     }
 
+    /** Like {@link #stone}, but the full block picks randomly between its texture and {@code <name>_1..<name>_n}. */
+    public void stoneRandomized(DeferredBlock<Block> base, ModBlocks.StoneVariants variants, int extraTextures) {
+        String name = name(base.get());
+        ResourceLocation texture = blockTexture(name);
+        ModelFile main = cubeAll(base.get());
+        ConfiguredModel[] models = new ConfiguredModel[extraTextures + 1];
+        models[0] = new ConfiguredModel(main);
+        for (int i = 1; i <= extraTextures; i++) {
+            models[i] = new ConfiguredModel(models().cubeAll(name + "_" + i, blockTexture(name + "_" + i)));
+        }
+        simpleBlock(base.get(), models);
+        simpleBlockItem(base.get(), main);
+        stairsBlock(variants.stairs().get(), texture);
+        slabBlock(variants.slab().get(), modLoc("block/" + name), texture);
+        wallBlock(variants.wall().get(), texture);
+        blockItem(variants.stairs().get());
+        blockItem(variants.slab().get());
+        itemModels().wallInventory(name(variants.wall().get()), texture);
+    }
+
     public void stoneColumn(DeferredBlock<Block> base, ModBlocks.StoneVariants variants) {
         ResourceLocation side = blockTexture(name(base.get()) + "_side");
         ResourceLocation top = blockTexture(name(base.get()) + "_top");

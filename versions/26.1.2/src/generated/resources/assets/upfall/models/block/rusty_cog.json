@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "upfall:block/rusty_cog_end",
-    "side": "upfall:block/rusty_cog_side"
+    "end": "upfall:block/rusty_cog_end_off",
+    "side": "upfall:block/rusty_cog_side_off"
   }
 }

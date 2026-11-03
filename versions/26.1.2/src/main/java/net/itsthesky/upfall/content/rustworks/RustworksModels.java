@@ -2,6 +2,7 @@ package net.itsthesky.upfall.content.rustworks;
 
 import net.itsthesky.upfall.content.rustworks.block.ExhaustVentBlock;
 import net.itsthesky.upfall.content.rustworks.block.KairiteOreBlock;
+import net.itsthesky.upfall.content.rustworks.block.RustyCogBlock;
 import net.itsthesky.upfall.datagen.ModBlockStateProvider;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.MultiVariant;
@@ -38,8 +39,7 @@ final class RustworksModels {
         pipe(states, RustworksBlocks.LEAKING_PIPE.get(), "leaking_pipe_side");
         valve(states);
 
-        axisBlock(states, RustworksBlocks.RUSTY_COG.get(), "rusty_cog_side", "rusty_cog_end");
-        states.blockItem(RustworksBlocks.RUSTY_COG.get());
+        cog(states);
 
         TextureMapping content = TextureMapping.cauldron(states.blockMaterial("stillflow_still"));
         Identifier level1 = ModelTemplates.CAULDRON_LEVEL1.create(states.modLoc("block/stillflow_cauldron_level1"), content, states.modelOutput());
@@ -141,12 +141,24 @@ final class RustworksModels {
         states.blockItem(RustworksBlocks.PIPE_VALVE.get());
     }
 
-    private static void axisBlock(ModBlockStateProvider states, Block block, String side, String end) {
-        String name = ModBlockStateProvider.name(block);
+    private static void cog(ModBlockStateProvider states) {
+        Identifier[] idle = cogModels(states, "rusty_cog", "rusty_cog_side_off", "rusty_cog_end_off");
+        Identifier[] powered = cogModels(states, "rusty_cog_powered", "rusty_cog_side", "rusty_cog_end");
+        states.blockStateOutput().accept(MultiVariantGenerator.dispatch(RustworksBlocks.RUSTY_COG.get())
+                .with(PropertyDispatch.initial(RustyCogBlock.POWERED, RotatedPillarBlock.AXIS).generate((isPowered, axis) -> {
+                    Identifier[] models = isPowered ? powered : idle;
+                    return switch (axis) {
+                        case Y -> BlockModelGenerators.plainVariant(models[0]);
+                        case Z -> BlockModelGenerators.plainVariant(models[1]).with(BlockModelGenerators.X_ROT_90);
+                        case X -> BlockModelGenerators.plainVariant(models[1]).with(BlockModelGenerators.X_ROT_90.then(BlockModelGenerators.Y_ROT_90));
+                    };
+                })));
+        states.blockModels().registerSimpleItemModel(RustworksBlocks.RUSTY_COG.get(), idle[0]);
+    }
+
+    private static Identifier[] cogModels(ModBlockStateProvider states, String name, String side, String end) {
         TextureMapping textures = TextureMapping.column(states.blockMaterial(side), states.blockMaterial(end));
-        Identifier vertical = ModelTemplates.CUBE_COLUMN.create(states.modLoc("block/" + name), textures, states.modelOutput());
-        Identifier horizontal = ModelTemplates.CUBE_COLUMN_HORIZONTAL.create(states.modLoc("block/" + name + "_horizontal"), textures, states.modelOutput());
-        states.blockStateOutput().accept(BlockModelGenerators.createRotatedPillarWithHorizontalVariant(block,
-                BlockModelGenerators.plainVariant(vertical), BlockModelGenerators.plainVariant(horizontal)));
+        return new Identifier[]{ModelTemplates.CUBE_COLUMN.create(states.modLoc("block/" + name), textures, states.modelOutput()),
+                ModelTemplates.CUBE_COLUMN_HORIZONTAL.create(states.modLoc("block/" + name + "_horizontal"), textures, states.modelOutput())};
     }
 }

@@ -59,7 +59,7 @@ final class RustworksData implements DataContribution {
         states.stone(RustworksBlocks.RUSTSLATE, RustworksBlocks.RUSTSLATE_VARIANTS);
         states.stone(RustworksBlocks.COBBLED_RUSTSLATE, RustworksBlocks.COBBLED_RUSTSLATE_VARIANTS);
         states.stone(RustworksBlocks.POLISHED_RUSTSLATE, RustworksBlocks.POLISHED_RUSTSLATE_VARIANTS);
-        states.stone(RustworksBlocks.RUSTSLATE_BRICKS, RustworksBlocks.RUSTSLATE_BRICK_VARIANTS);
+        states.stoneRandomized(RustworksBlocks.RUSTSLATE_BRICKS, RustworksBlocks.RUSTSLATE_BRICK_VARIANTS, 2);
 
         RustworksVentData.blockStates(states);
         RustworksModels.blockStates(states);

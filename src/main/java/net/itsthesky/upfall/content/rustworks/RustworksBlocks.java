@@ -8,6 +8,7 @@ import net.itsthesky.upfall.content.rustworks.block.LeakingPipeBlock;
 import net.itsthesky.upfall.content.rustworks.block.OxideTurfBlock;
 import net.itsthesky.upfall.content.rustworks.block.PipeValveBlock;
 import net.itsthesky.upfall.content.rustworks.block.RivetgrassBlock;
+import net.itsthesky.upfall.content.rustworks.block.RustyCogBlock;
 import net.itsthesky.upfall.content.rustworks.block.RustyPipeBlock;
 import net.itsthesky.upfall.content.rustworks.block.StillflowCauldronBlock;
 import net.itsthesky.upfall.content.rustworks.block.TallRivetgrassBlock;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CarpetBlock;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.FlowerPotBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
@@ -71,8 +71,8 @@ public final class RustworksBlocks {
             metal(MapColor.TERRACOTTA_ORANGE, 3.0F).noOcclusion());
     public static final DeferredBlock<PipeValveBlock> PIPE_VALVE = block("pipe_valve", PipeValveBlock::new,
             metal(MapColor.COLOR_RED, 3.0F).noOcclusion());
-    public static final DeferredBlock<RotatedPillarBlock> RUSTY_COG = block("rusty_cog", RotatedPillarBlock::new,
-            metal(MapColor.TERRACOTTA_ORANGE, 4.0F));
+    public static final DeferredBlock<RustyCogBlock> RUSTY_COG = block("rusty_cog", RustyCogBlock::new,
+            metal(MapColor.TERRACOTTA_ORANGE, 4.0F).lightLevel(RustyCogBlock::light));
     public static final DeferredBlock<ExhaustVentBlock> EXHAUST_VENT = block("exhaust_vent", ExhaustVentBlock::new,
             metal(MapColor.TERRACOTTA_ORANGE, 3.5F).lightLevel(ExhaustVentBlock::light));
     public static final DeferredBlock<Block> HEARTGEAR = block("heartgear", Block::new,

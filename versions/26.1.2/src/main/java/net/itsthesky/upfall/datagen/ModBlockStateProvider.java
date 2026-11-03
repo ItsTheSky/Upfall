@@ -22,6 +22,7 @@ import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.data.models.model.TexturedModel;
+import net.minecraft.client.renderer.block.dispatch.Variant;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -171,6 +172,43 @@ public class ModBlockStateProvider {
 
     public void stone(DeferredBlock<Block> base, ModBlocks.StoneVariants variants) {
         blocks.family(base.get()).stairs(variants.stairs().get()).slab(variants.slab().get()).wall(variants.wall().get());
+    }
+
+    /** Like {@link #stone}, but the full block picks randomly between its texture and {@code <name>_1..<name>_n}. */
+    public void stoneRandomized(DeferredBlock<Block> base, ModBlocks.StoneVariants variants, int extraTextures) {
+        Block block = base.get();
+        String name = name(block);
+        TextureMapping mapping = TextureMapping.cube(block);
+        Identifier full = ModelTemplates.CUBE_ALL.create(block, mapping, modelOutput());
+        Variant[] textures = new Variant[extraTextures + 1];
+        textures[0] = BlockModelGenerators.plainModel(full);
+        for (int i = 1; i <= extraTextures; i++) {
+            textures[i] = BlockModelGenerators.plainModel(ModelTemplates.CUBE_ALL.create(modLoc("block/" + name + "_" + i),
+                    TextureMapping.cube(blockMaterial(name + "_" + i)), modelOutput()));
+        }
+        blockStateOutput().accept(BlockModelGenerators.createSimpleBlock(block, BlockModelGenerators.variants(textures)));
+        blocks.registerSimpleItemModel(block, full);
+
+        Block stairs = variants.stairs().get();
+        blockStateOutput().accept(BlockModelGenerators.createStairs(stairs,
+                BlockModelGenerators.plainVariant(ModelTemplates.STAIRS_INNER.create(stairs, mapping, modelOutput())),
+                BlockModelGenerators.plainVariant(ModelTemplates.STAIRS_STRAIGHT.create(stairs, mapping, modelOutput())),
+                BlockModelGenerators.plainVariant(ModelTemplates.STAIRS_OUTER.create(stairs, mapping, modelOutput()))));
+        blockItem(stairs);
+
+        Block slab = variants.slab().get();
+        blockStateOutput().accept(BlockModelGenerators.createSlab(slab,
+                BlockModelGenerators.plainVariant(ModelTemplates.SLAB_BOTTOM.create(slab, mapping, modelOutput())),
+                BlockModelGenerators.plainVariant(ModelTemplates.SLAB_TOP.create(slab, mapping, modelOutput())),
+                BlockModelGenerators.plainVariant(full)));
+        blockItem(slab);
+
+        Block wall = variants.wall().get();
+        blockStateOutput().accept(BlockModelGenerators.createWall(wall,
+                BlockModelGenerators.plainVariant(ModelTemplates.WALL_POST.create(wall, mapping, modelOutput())),
+                BlockModelGenerators.plainVariant(ModelTemplates.WALL_LOW_SIDE.create(wall, mapping, modelOutput())),
+                BlockModelGenerators.plainVariant(ModelTemplates.WALL_TALL_SIDE.create(wall, mapping, modelOutput()))));
+        blocks.registerSimpleItemModel(wall, ModelTemplates.WALL_INVENTORY.create(wall, mapping, modelOutput()));
     }
 
     public void stoneColumn(DeferredBlock<Block> base, ModBlocks.StoneVariants variants) {

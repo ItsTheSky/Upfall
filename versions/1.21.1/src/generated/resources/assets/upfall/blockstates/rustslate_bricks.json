@@ -1,7 +1,15 @@
 {
   "variants": {
-    "": {
-      "model": "upfall:block/rustslate_bricks"
-    }
+    "": [
+      {
+        "model": "upfall:block/rustslate_bricks"
+      },
+      {
+        "model": "upfall:block/rustslate_bricks_1"
+      },
+      {
+        "model": "upfall:block/rustslate_bricks_2"
+      }
+    ]
   }
 }
