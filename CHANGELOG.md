@@ -1,11 +1,26 @@
 # Changelog
 
-## Unreleased
+## 1.3.0
 
 ### Versions
 - Upfall now also runs on Minecraft 26.1.2 (NeoForge 26.1, Java 25) with the same content as 1.21.1.
 - JEI and GuideME are supported on both versions; EMI integration is 1.21.1 only.
+- GuideME is now optional: the Sky Almanac is only available when it is installed.
 - Jars are now named upfall-<version>+<minecraft version>.jar.
+
+### Retexture, part 1
+A large share of the textures has been redrawn; the rest will follow in a future update.
+- Terrain: Skygrass, Skysoil, Oxide Turf and Rustsoil.
+- Stone: the Pearlstone, Duskslate and Rustslate families. Duskslate and Gilded Duskslate now have distinct top and
+  side faces.
+- Rustworks: Rusty Plating, Cog Plating, pipes, valves, Drain Valve, Exhaust Vents, Heartgear, Kairite Ore and
+  animated Rusty Cogs.
+- Clouds: Dense Cloud, Fading Cloud, Raincloud and Cloud Lamp.
+- Nimbusite and Levitite ores and blocks, Updraft Vents and the Levitite Shard, several of them animated.
+- Nimbusite and Levitite ingots, tools and upgrade smithing templates.
+
+### Creative tabs
+- The single Upfall tab is split into four: Building, Nature, Functional, and Items & Gear.
 
 ### Music
 - The Upfall now has its own soundtrack (Pixelsphere, by cynicmusic) instead of reusing vanilla tracks: Imprint on
@@ -15,7 +30,6 @@
   Stalled Engine).
 
 ### Gear
-- New textures for the Nimbusite and Levitite ingots and tools.
 - Nimbusite and Levitite armor now use their own 3D models (shoulder pads, chest straps, leg flaps, and wings on the
   Levitite helmet) instead of the vanilla armor shape.
 
