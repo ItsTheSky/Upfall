@@ -31,6 +31,10 @@ public final class ModFluids {
                     .descriptionId("block.upfall.skywater")
                     .canSwim(true).canDrown(true).canExtinguish(true).canConvertToSource(true).supportsBoating(true).canHydrate(true)
                     .fallDistanceModifier(0.0F).motionScale(0.014).pathType(PathType.WATER).adjacentPathType(null)
+                    // 26.1 LivingEntity.travelInFluid only moves entities through water-like or lava fluids, players froze in place otherwise
+                    //? if >=26.1 {
+                    /*.isWaterLike(true)
+                    *///?}
                     .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
                     .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
                     .sound(SoundActions.FLUID_VAPORIZE, SoundEvents.FIRE_EXTINGUISH)));
