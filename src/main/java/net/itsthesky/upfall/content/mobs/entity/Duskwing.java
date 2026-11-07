@@ -7,8 +7,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
@@ -22,6 +24,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
@@ -119,6 +122,32 @@ public class Duskwing extends UpfallFlyingMob implements Enemy {
         return 200;
     }
 
+    // The dive ends almost straight above the target's head, where the shield's front/back check flips on a few
+    // hundredths of a block: the hit is sourced from where the swoop came from instead
+    private boolean strike(LivingEntity target, Vec3 from) {
+        DamageSource source = new DamageSource(damageSources().mobAttack(this).typeHolder(), this, this, from);
+        float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
+        ServerLevel level = (ServerLevel) level();
+        //? if >=26.1 {
+        /*Vec3 oldMovement = target.getDeltaMovement();
+        boolean hurt = target.hurtServer(level, source, damage);
+        if (hurt) causeExtraKnockback(target, getKnockback(target, source), oldMovement);
+        *///?} else {
+        boolean hurt = target.hurt(source, damage);
+        float knockback = getKnockback(target, source);
+        if (hurt && knockback > 0.0F) {
+            target.knockback(knockback * 0.5F, Mth.sin(getYRot() * Mth.DEG_TO_RAD), -Mth.cos(getYRot() * Mth.DEG_TO_RAD));
+            setDeltaMovement(getDeltaMovement().multiply(0.6, 1.0, 0.6));
+        }
+        //?}
+        if (hurt) {
+            EnchantmentHelper.doPostAttackEffects(level, target, source);
+            setLastHurtMob(target);
+            playAttackSound();
+        }
+        return hurt;
+    }
+
     private enum Phase {
         CIRCLE, DIVE, CLIMB
     }
@@ -129,6 +158,7 @@ public class Duskwing extends UpfallFlyingMob implements Enemy {
         private int circleDuration;
         private double angle;
         private Vec3 retreat = Vec3.ZERO;
+        private Vec3 swoopFrom = Vec3.ZERO;
 
         DiveAttackGoal() {
             setFlags(EnumSet.of(Flag.MOVE));
@@ -161,6 +191,7 @@ public class Duskwing extends UpfallFlyingMob implements Enemy {
             phaseTicks = 0;
             entityData.set(DIVING, next == Phase.DIVE);
             if (next == Phase.CIRCLE) circleDuration = 50 + getRandom().nextInt(50);
+            if (next == Phase.DIVE) swoopFrom = position();
         }
 
         @Override
@@ -186,12 +217,9 @@ public class Duskwing extends UpfallFlyingMob implements Enemy {
                 case DIVE -> {
                     getMoveControl().setWantedPosition(target.getX(), target.getY(0.5), target.getZ(), 1.7);
                     getLookControl().setLookAt(target, 30.0F, 30.0F);
+                    if (distanceToSqr(target.getX(), getY(), target.getZ()) > 2.0 * 2.0) swoopFrom = position();
                     if (getBoundingBox().inflate(0.35).intersects(target.getBoundingBox())) {
-                        //? if >=26.1 {
-                        /*doHurtTarget(getServerLevel(level()), target);
-                        *///?} else {
-                        doHurtTarget(target);
-                        //?}
+                        strike(target, swoopFrom);
                         Vec3 away = position().subtract(target.position()).multiply(1, 0, 1);
                         retreat = (away.lengthSqr() < 1.0E-4 ? new Vec3(1, 0, 0) : away.normalize()).scale(10);
                         enter(Phase.CLIMB);
