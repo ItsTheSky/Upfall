@@ -1,5 +1,6 @@
 package net.itsthesky.upfall.content.reliquary;
 
+import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.reliquary.block.FoldSocketBlock;
 import net.itsthesky.upfall.datagen.ModBlockStateProvider;
 import net.itsthesky.upfall.datagen.ModItemModelProvider;
@@ -20,6 +21,9 @@ final class ReliquaryModels {
     }
 
     static void itemModels(ModItemModelProvider models) {
+        models.basicItem(Upfall.id("fold_anchor_on"));
+        models.basicItem(ReliquaryItems.FOLD_ANCHOR.get()).override().predicate(Upfall.id("bound"), 1.0F)
+                .model(new ModelFile.UncheckedModelFile(models.modLoc("item/fold_anchor_on"))).end();
         models.withExistingParent(ReliquaryItems.FOLD_WARDEN_SPAWN_EGG.getId().getPath(), models.mcLoc("item/template_spawn_egg"));
     }
 }

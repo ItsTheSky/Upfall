@@ -3,12 +3,16 @@ package net.itsthesky.upfall.content.reliquary;
 import net.itsthesky.upfall.content.reliquary.block.FoldSocketBlock;
 import net.itsthesky.upfall.datagen.ModBlockStateProvider;
 import net.itsthesky.upfall.datagen.ModItemModelProvider;
+import net.itsthesky.upfall.registry.ModDataComponents;
 import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 final class ReliquaryModels {
@@ -27,6 +31,11 @@ final class ReliquaryModels {
     }
 
     static void itemModels(ModItemModelProvider models) {
+        Item anchor = ReliquaryItems.FOLD_ANCHOR.get();
+        ItemModelGenerators items = models.itemModels();
+        items.itemModelOutput.accept(anchor, ItemModelUtils.conditional(ItemModelUtils.hasComponent(ModDataComponents.FOLD_ANCHOR.get()),
+                ItemModelUtils.plainModel(items.createFlatItemModel(anchor, "_on", ModelTemplates.FLAT_ITEM)),
+                ItemModelUtils.plainModel(items.createFlatItemModel(anchor, ModelTemplates.FLAT_ITEM))));
         models.basicItem(ReliquaryItems.FOLD_WARDEN_SPAWN_EGG.get());
     }
 

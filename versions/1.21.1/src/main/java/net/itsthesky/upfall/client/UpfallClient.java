@@ -2,6 +2,7 @@ package net.itsthesky.upfall.client;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.UpfallClientModules;
+import net.itsthesky.upfall.content.reliquary.ReliquaryItems;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModDataComponents;
 import net.itsthesky.upfall.registry.ModEntities;
@@ -53,8 +54,12 @@ public class UpfallClient {
     }
 
     private static void clientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> ItemProperties.register(ModItems.UPDRAFT_COMPASS.get(), ResourceLocation.withDefaultNamespace("angle"),
-                new CompassItemPropertyFunction((level, stack, entity) -> stack.get(ModDataComponents.UPDRAFT_TARGET.get()))));
+        event.enqueueWork(() -> {
+            ItemProperties.register(ModItems.UPDRAFT_COMPASS.get(), ResourceLocation.withDefaultNamespace("angle"),
+                    new CompassItemPropertyFunction((level, stack, entity) -> stack.get(ModDataComponents.UPDRAFT_TARGET.get())));
+            ItemProperties.register(ReliquaryItems.FOLD_ANCHOR.get(), Upfall.id("bound"),
+                    (stack, level, entity, seed) -> stack.has(ModDataComponents.FOLD_ANCHOR.get()) ? 1.0F : 0.0F);
+        });
     }
 
     private static void registerDimensionEffects(RegisterDimensionSpecialEffectsEvent event) {

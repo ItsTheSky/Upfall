@@ -158,7 +158,6 @@ final class ReliquaryData implements DataContribution {
     @Override
     public void itemModels(ModItemModelProvider models) {
         models.basicItem(ReliquaryItems.FOLD_SHARD.get());
-        models.basicItem(ReliquaryItems.FOLD_ANCHOR.get());
         models.basicItem(ReliquaryItems.FOLD_HEART.get());
         ReliquaryModels.itemModels(models);
     }
