@@ -84,8 +84,9 @@ public final class ModTagProviders {
             tag(BlockTags.MINEABLE_WITH_SHOVEL).add(ModBlocks.SKYSOIL.get(), ModBlocks.SKYGRASS_BLOCK.get(), ModBlocks.DENSE_CLOUD.get(), ModBlocks.MIST.get());
 
             tag(BlockTags.NEEDS_DIAMOND_TOOL).add(ModBlocks.HALO_FRAME.get());
-            tag(Tags.Blocks.NEEDS_NETHERITE_TOOL).add(ModBlocks.NIMBUSITE_ORE.get(), ModBlocks.DUSKSLATE_NIMBUSITE_ORE.get(),
+            tag(ModTags.Blocks.NEEDS_NETHERITE_TOOL).add(ModBlocks.NIMBUSITE_ORE.get(), ModBlocks.DUSKSLATE_NIMBUSITE_ORE.get(),
                     ModBlocks.RAW_NIMBUSITE_BLOCK.get(), ModBlocks.NIMBUSITE_BLOCK.get());
+            tag(Tags.Blocks.NEEDS_NETHERITE_TOOL).addTag(ModTags.Blocks.NEEDS_NETHERITE_TOOL);
             tag(ModTags.Blocks.NEEDS_NIMBUSITE_TOOL).add(ModBlocks.LEVITITE_ORE.get(), ModBlocks.LEVITITE_BLOCK.get());
             for (TagKey<Block> incorrect : List.of(BlockTags.INCORRECT_FOR_WOODEN_TOOL, BlockTags.INCORRECT_FOR_STONE_TOOL,
                     BlockTags.INCORRECT_FOR_IRON_TOOL, BlockTags.INCORRECT_FOR_GOLD_TOOL, BlockTags.INCORRECT_FOR_DIAMOND_TOOL,
@@ -240,6 +241,9 @@ public final class ModTagProviders {
             tag(c(Tags.Items.RAW_MATERIALS, "nimbusite")).add(ModItems.RAW_NIMBUSITE.get());
             tag(Tags.Items.RAW_MATERIALS).addTag(c(Tags.Items.RAW_MATERIALS, "nimbusite"));
             tag(ItemTags.FOX_FOOD).add(ModItems.CLOUDBERRY.get());
+            for (TagKey<Item> stone : List.of(ItemTags.STONE_TOOL_MATERIALS, ItemTags.STONE_CRAFTING_MATERIALS)) {
+                tag(stone).add(ModBlocks.COBBLED_PEARLSTONE.get().asItem(), ModBlocks.COBBLED_DUSKSLATE.get().asItem());
+            }
             //? if >=26.1 {
             /*tag(ModTags.Items.REPAIRS_NIMBUSITE).add(ModItems.NIMBUSITE_INGOT.get());
             tag(ModTags.Items.REPAIRS_LEVITITE).add(ModItems.LEVITITE_INGOT.get());

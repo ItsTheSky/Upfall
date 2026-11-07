@@ -14,6 +14,7 @@ import net.itsthesky.upfall.gametest.ChronospireGameTests;
 import net.itsthesky.upfall.gametest.ClockworkGameTests;
 import net.itsthesky.upfall.gametest.EnchantingGameTests;
 import net.itsthesky.upfall.gametest.EngineGameTests;
+import net.itsthesky.upfall.gametest.FarmingGameTests;
 import net.itsthesky.upfall.gametest.GasCaveGameTests;
 import net.itsthesky.upfall.gametest.GearGameTests;
 import net.itsthesky.upfall.gametest.GravityGameTests;
@@ -43,6 +44,7 @@ public final class UpfallGameTestClasses {
             ClockworkGameTests.class,
             EnchantingGameTests.class,
             EngineGameTests.class,
+            FarmingGameTests.class,
             GasCaveGameTests.class,
             GearGameTests.class,
             GravityGameTests.class,

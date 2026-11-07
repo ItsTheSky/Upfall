@@ -28,6 +28,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.neoforged.neoforge.client.model.generators.template.ExtendedModelTemplateBuilder;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
@@ -299,6 +300,10 @@ public class ModBlockStateProvider {
         Material material = blockMaterial(texture);
         blocks.createCrossBlock(block, BlockModelGenerators.PlantType.NOT_TINTED, TextureMapping.cross(material));
         blocks.registerSimpleItemModel(block.asItem(), ModelTemplates.FLAT_ITEM.create(block.asItem(), TextureMapping.layer0(material), modelOutput()));
+    }
+
+    public void crop(Block block, Property<Integer> age, int... stages) {
+        blocks.createCropBlock(block, age, stages);
     }
 
     public void pottedPlant(Block pot, String texture) {

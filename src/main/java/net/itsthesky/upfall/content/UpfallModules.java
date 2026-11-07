@@ -4,6 +4,7 @@ import net.itsthesky.upfall.content.aerie.AerieModule;
 import net.itsthesky.upfall.content.chronospire.ChronospireModule;
 import net.itsthesky.upfall.content.enchanting.EnchantingModule;
 import net.itsthesky.upfall.content.engine.EngineModule;
+import net.itsthesky.upfall.content.farming.FarmingModule;
 import net.itsthesky.upfall.content.gravity.GravityModule;
 import net.itsthesky.upfall.content.grotto.GrottoModule;
 import net.itsthesky.upfall.content.guide.GuideModule;
@@ -11,10 +12,12 @@ import net.itsthesky.upfall.content.hamlet.HamletModule;
 import net.itsthesky.upfall.content.machines.MachinesModule;
 import net.itsthesky.upfall.content.mobs.MobsModule;
 import net.itsthesky.upfall.content.music.MusicModule;
+import net.itsthesky.upfall.content.ores.OresModule;
 import net.itsthesky.upfall.content.quantum.QuantumModule;
 import net.itsthesky.upfall.content.reliquary.ReliquaryModule;
 import net.itsthesky.upfall.content.reliquary.ReliquaryWorldgenModule;
 import net.itsthesky.upfall.content.rustworks.RustworksModule;
+import net.itsthesky.upfall.content.skybound.SkyboundModule;
 import net.itsthesky.upfall.content.world.WorldModule;
 import net.itsthesky.upfall.datagen.DataContribution;
 
@@ -40,7 +43,10 @@ public final class UpfallModules {
             new ReliquaryModule(),
             new ReliquaryWorldgenModule(),
             new MusicModule(),
-            new GuideModule());
+            new GuideModule(),
+            new OresModule(),
+            new FarmingModule(),
+            new SkyboundModule());
 
     public static void forEachData(Consumer<DataContribution> action) {
         for (UpfallModule module : ALL) {

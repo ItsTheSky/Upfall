@@ -1,5 +1,32 @@
 # Changelog
 
+## Unreleased
+
+### Two ways to play
+Upfall can now be played in two modes, picked when creating the world:
+- **Classic**: a normal Overworld, with The Upfall as a dimension reached through the Halo Portal. Nothing changes from
+  previous versions.
+- **The Upfall only**: choose the new "The Upfall" world type. The whole world is The Upfall, with no Nether or End.
+  - You spawn on a Drifting Archipelago island.
+  - Hostile mobs have 20% of their usual health and deal 20% of their usual damage. Bosses keep their full stats. Both
+    multipliers can be changed in the `skybound` section of the config.
+  - A built-in data pack ("Upfall: Skybound Recipes") is enabled when the world first starts. It removes the Nether
+    and End requirements: Nimbusite gear is upgraded from diamond gear, and Nimbusite ore needs a diamond pickaxe. It
+    can be turned off with `enableRecipePack`.
+  - The Halo Frame and Skyward Key cannot be crafted, and the Halo Portal cannot be lit.
+
+### Vanilla ores
+- New Pearlstone and Rustslate variants of Coal, Iron and Diamond ore generate in the Drifting Archipelago and the
+  Rustworks. They drop the vanilla resources and smelt like the vanilla ores.
+
+### Farming
+- Skygrass and Skysoil can be tilled into farmland with a hoe.
+- New Cloudberry Seeds grow into a Cloudberry Bush that yields cloudberries when mature.
+- Cloud Ferns, Rivetgrass and Tall Rivetgrass can drop Cloudberry Seeds and Wheat Seeds.
+
+### Stone
+- Cobbled Pearlstone, Cobbled Duskslate and Cobbled Rustslate can craft stone tools and furnaces.
+
 ## 1.3.0
 
 ### Versions

@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.content.rustworks;
 
 import net.itsthesky.upfall.Upfall;
+import net.itsthesky.upfall.content.farming.FarmingLoot;
 import net.itsthesky.upfall.datagen.ModBlockLootProvider;
 import net.itsthesky.upfall.datagen.ModBlockStateProvider;
 import net.itsthesky.upfall.datagen.ModDataMapProvider;
@@ -33,8 +34,10 @@ final class RustworksFloraData {
     }
 
     static void blockLoot(ModBlockLootProvider loot) {
-        loot.add(RustworksBlocks.RIVETGRASS.get(), loot.shearsOnlyDrop(RustworksBlocks.RIVETGRASS.get()));
-        loot.add(RustworksBlocks.TALL_RIVETGRASS.get(), loot.doublePlantShearsDrop(RustworksBlocks.RIVETGRASS.get()));
+        loot.add(RustworksBlocks.RIVETGRASS.get(), FarmingLoot.withSeeds(loot, RustworksBlocks.RIVETGRASS.get(),
+                loot.shearsOnlyDrop(RustworksBlocks.RIVETGRASS.get())));
+        loot.add(RustworksBlocks.TALL_RIVETGRASS.get(), FarmingLoot.withSeeds(loot, RustworksBlocks.TALL_RIVETGRASS.get(),
+                loot.doublePlantShearsDrop(RustworksBlocks.RIVETGRASS.get())));
         loot.pottedContents(RustworksBlocks.POTTED_VERDIGRIS_BLOOM.get());
         loot.add(RustworksBlocks.WIREVINE.get(), loot.shearsOnlyDrop(RustworksBlocks.WIREVINE.get()));
         loot.add(RustworksBlocks.WIREVINE_PLANT.get(), loot.shearsOnlyDrop(RustworksBlocks.WIREVINE.get()));

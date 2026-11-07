@@ -28,7 +28,7 @@ public final class UpfallFog {
 
     public static void onComputeFogColor(ViewportEvent.ComputeFogColor event) {
         Minecraft mc = Minecraft.getInstance();
-        if (mc.level == null || mc.level.dimension() != ModDimensions.UPFALL) return;
+        if (mc.level == null || !ModDimensions.isUpfall(mc.level)) return;
         if (blindWeight > 0.001F) {
             event.setRed(Mth.lerp(blindWeight, event.getRed(), 0.95F));
             event.setGreen(Mth.lerp(blindWeight, event.getGreen(), 0.93F));
@@ -59,7 +59,7 @@ public final class UpfallFog {
 
     public static void onRenderFog(ViewportEvent.RenderFog event) {
         Minecraft mc = Minecraft.getInstance();
-        if (mc.level == null || mc.level.dimension() != ModDimensions.UPFALL) return;
+        if (mc.level == null || !ModDimensions.isUpfall(mc.level)) return;
         //? if >=26.1 {
         /*if (event.getType() != FogType.ATMOSPHERIC) return;
         if (blindWeight > 0.001F) {

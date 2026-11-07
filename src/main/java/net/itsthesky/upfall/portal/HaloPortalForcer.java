@@ -41,6 +41,7 @@ public final class HaloPortalForcer {
 
     @Nullable
     public static DimensionTransition destination(ServerLevel level, Entity entity, BlockPos portalPos) {
+        if (ModDimensions.isSkybound(level.getServer())) return null;
         ResourceKey<Level> targetKey;
         if (level.dimension() == ModDimensions.UPFALL) {
             targetKey = Level.OVERWORLD;

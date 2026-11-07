@@ -65,7 +65,7 @@ public final class UpfallWorldEvents {
     private static void onCanSleep(CanPlayerSleepEvent event) {
         //? if >=26.1 {
         /*Player.BedSleepingProblem problem = event.getProblem();
-        if (event.getLevel().dimension() == ModDimensions.UPFALL && problem != null) {
+        if (ModDimensions.isUpfall(event.getLevel()) && problem != null) {
             net.minecraft.world.attribute.BedRule rule = event.getLevel().environmentAttributes()
                     .getValue(net.minecraft.world.attribute.EnvironmentAttributes.BED_RULE, event.getPos());
             if (rule.canSetSpawn(event.getLevel()) && !rule.canSleep(event.getLevel()) && problem.equals(rule.asProblem())) {
@@ -73,7 +73,7 @@ public final class UpfallWorldEvents {
             }
         }
         *///?} else {
-        if (event.getLevel().dimension() == ModDimensions.UPFALL && event.getProblem() == Player.BedSleepingProblem.NOT_POSSIBLE_NOW) {
+        if (ModDimensions.isUpfall(event.getLevel()) && event.getProblem() == Player.BedSleepingProblem.NOT_POSSIBLE_NOW) {
             event.setProblem(null);
         }
         //?}

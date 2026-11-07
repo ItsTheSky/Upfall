@@ -13,6 +13,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -220,6 +221,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
     public void crossPlant(Block block, String texture) {
         simpleBlock(block, models().cross(name(block), blockTexture(texture)).renderType("cutout"));
         itemModels().withExistingParent(name(block), mcLoc("item/generated")).texture("layer0", blockTexture(texture));
+    }
+
+    public void crop(Block block, Property<Integer> age, int... stages) {
+        getVariantBuilder(block).forAllStates(state -> {
+            String stage = name(block) + "_stage" + stages[state.getValue(age)];
+            return ConfiguredModel.builder().modelFile(models().crop(stage, blockTexture(stage)).renderType("cutout")).build();
+        });
     }
 
     public void pottedPlant(Block pot, String texture) {

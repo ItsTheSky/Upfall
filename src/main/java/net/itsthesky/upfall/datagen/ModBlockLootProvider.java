@@ -3,6 +3,7 @@ package net.itsthesky.upfall.datagen;
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.compat.mc.McIds;
 import net.itsthesky.upfall.content.UpfallModules;
+import net.itsthesky.upfall.content.farming.FarmingLoot;
 import net.itsthesky.upfall.registry.ModBlocks;
 import net.itsthesky.upfall.registry.ModItems;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -67,10 +68,10 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
                         .add(applyExplosionCondition(b, LootItem.lootTableItem(ModItems.GILDFRUIT.get()))
                                 .when(BonusLevelTableCondition.bonusLevelFlatChance(fortune(), 0.03F, 0.035F, 0.04F, 0.05F, 0.1F)))));
 
-        add(ModBlocks.CLOUD_FERN.get(), b -> createShearsDispatchTable(b, applyExplosionDecay(b,
+        add(ModBlocks.CLOUD_FERN.get(), b -> FarmingLoot.withSeeds(this, b, createShearsDispatchTable(b, applyExplosionDecay(b,
                 LootItem.lootTableItem(ModItems.CLOUDBERRY.get())
                         .when(LootItemRandomChanceCondition.randomChance(0.3F))
-                        .apply(ApplyBonusCount.addUniformBonusCount(fortune(), 1)))));
+                        .apply(ApplyBonusCount.addUniformBonusCount(fortune(), 1))))));
         add(ModBlocks.GILDED_TUFT.get(), b -> createShearsOnlyDrop(b));
         addNetherVinesDropTable(ModBlocks.GLOWVINE.get(), ModBlocks.GLOWVINE_PLANT.get());
 
@@ -123,6 +124,12 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
     }
 
     @Override
+    public LootTable.Builder createCropDrops(Block crop, net.minecraft.world.item.Item grown, net.minecraft.world.item.Item seeds,
+                                             LootItemCondition.Builder mature) {
+        return super.createCropDrops(crop, grown, seeds, mature);
+    }
+
+    @Override
     public LootTable.Builder createSlabItemTable(Block block) {
         return super.createSlabItemTable(block);
     }
@@ -166,7 +173,7 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         return registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
     }
 
-    private LootItemCondition.Builder shearsOrSilkTouch() {
+    public LootItemCondition.Builder shearsOrSilkTouch() {
         //? if >=26.1 {
         /*return hasShears().or(hasSilkTouch());
         *///?} else {

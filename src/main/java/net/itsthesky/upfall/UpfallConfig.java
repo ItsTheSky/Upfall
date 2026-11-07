@@ -53,6 +53,10 @@ public final class UpfallConfig {
     public static final ModConfigSpec.DoubleValue REWIND_HEALTH;
     public static final ModConfigSpec.IntValue REWIND_COOLDOWN;
 
+    public static final ModConfigSpec.DoubleValue SKYBOUND_MOB_HEALTH;
+    public static final ModConfigSpec.DoubleValue SKYBOUND_MOB_DAMAGE;
+    public static final ModConfigSpec.BooleanValue SKYBOUND_RECIPE_PACK;
+
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
 
@@ -139,6 +143,15 @@ public final class UpfallConfig {
                 .defineInRange("rewindHealth", 0.3, 0.05, 1.0);
         REWIND_COOLDOWN = b.comment("Cooldown of Rewind in ticks (24000 = one game day)")
                 .defineInRange("rewindCooldown", 24000, 0, 1000000);
+        b.pop();
+
+        b.comment("Worlds created with the \"The Upfall\" world preset").push("skybound");
+        SKYBOUND_MOB_HEALTH = b.comment("Max health multiplier applied to hostile mobs (bosses excluded)")
+                .defineInRange("mobHealthMultiplier", 0.2, 0.05, 1.0);
+        SKYBOUND_MOB_DAMAGE = b.comment("Damage multiplier applied to attacks from hostile mobs (bosses excluded)")
+                .defineInRange("mobDamageMultiplier", 0.2, 0.0, 1.0);
+        SKYBOUND_RECIPE_PACK = b.comment("Enable the built-in recipe pack that removes Nether and End requirements when such a world starts")
+                .define("enableRecipePack", true);
         b.pop();
 
         SPEC = b.build();

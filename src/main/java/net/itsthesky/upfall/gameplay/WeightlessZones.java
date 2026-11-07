@@ -25,7 +25,7 @@ public final class WeightlessZones {
     private static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!(event.getEntity() instanceof ServerPlayer player) || player.tickCount % CHECK_INTERVAL != 0 || player.isSpectator()) return;
         ServerLevel level = McLevel.serverLevel(player);
-        if (level.dimension() != ModDimensions.UPFALL) return;
+        if (!ModDimensions.isUpfall(level)) return;
         if (isInZone(level, player.blockPosition())) {
             player.addEffect(new MobEffectInstance(ModEffects.WEIGHTLESS, EFFECT_TICKS, 0, true, false, true));
         }

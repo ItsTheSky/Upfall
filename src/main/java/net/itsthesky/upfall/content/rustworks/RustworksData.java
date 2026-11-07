@@ -23,6 +23,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -179,6 +180,12 @@ final class RustworksData implements DataContribution {
         recipes.save(recipes.stonecutting(Ingredient.of(input), RecipeCategory.BUILDING_BLOCKS, result, count)
                 .unlockedBy(RecipeContext.hasName(input), recipes.has(input)),
                 Upfall.id(RecipeContext.itemName(result) + "_from_" + RecipeContext.itemName(input) + "_stonecutting"));
+    }
+
+    @Override
+    public void itemTags(ModTagProviders.Items tags) {
+        tags.tag(ItemTags.STONE_TOOL_MATERIALS).add(RustworksBlocks.COBBLED_RUSTSLATE.get().asItem());
+        tags.tag(ItemTags.STONE_CRAFTING_MATERIALS).add(RustworksBlocks.COBBLED_RUSTSLATE.get().asItem());
     }
 
     @Override

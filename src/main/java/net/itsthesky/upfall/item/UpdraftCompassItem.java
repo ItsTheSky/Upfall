@@ -43,7 +43,7 @@ public class UpdraftCompassItem extends Item {
     private void refresh(ItemStack stack, ServerLevel level, Entity entity) {
         if (level.getGameTime() % REFRESH_TICKS != 0) return;
         GlobalPos target = null;
-        if (level.dimension() == ModDimensions.UPFALL) {
+        if (ModDimensions.isUpfall(level)) {
             target = findNearestVent(level, entity.blockPosition())
                     .map(pos -> GlobalPos.of(level.dimension(), pos))
                     .orElse(null);

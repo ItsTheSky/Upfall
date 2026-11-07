@@ -10,6 +10,10 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.metadata.PackMetadataGenerator;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.network.chat.Component;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.packs.PackType;
@@ -80,7 +84,28 @@ public final class DataGenContext {
     }
 
     public <T> void tags(ResourceKey<? extends Registry<T>> registry, String name, Consumer<TagSink<T>> body) {
-        add(new KeyTags<>(output(), registry, registries, helper, name, body));
+        tags(output(), registry, name, body);
+    }
+
+    public <T> void tags(PackOutput output, ResourceKey<? extends Registry<T>> registry, String name, Consumer<TagSink<T>> body) {
+        add(new KeyTags<>(output, registry, registries, helper, name, body));
+    }
+
+    public PackOutput builtinPack(String name) {
+        return new PackOutput(output().getOutputFolder(PackOutput.Target.DATA_PACK).resolve(Upfall.MODID).resolve("datapacks").resolve(name));
+    }
+
+    public void packMetadata(PackOutput output, String name, Component description) {
+        add(new Named(name, PackMetadataGenerator.forFeaturePack(output, description)));
+    }
+
+    public void recipes(PackOutput output, String name, Consumer<RecipeContext> body) {
+        add(new Named(name, new RecipeProvider(output, registries) {
+            @Override
+            protected void buildRecipes(RecipeOutput recipeOutput) {
+                body.accept(new RecipeContext(recipeOutput));
+            }
+        }));
     }
 
     private static final class KeyTags<T> extends TagsProvider<T> {
@@ -105,6 +130,11 @@ public final class DataGenContext {
                 @Override
                 public void putTag(TagKey<T> tag, TagKey<T> child) {
                     KeyTags.this.tag(tag).addTag(child);
+                }
+
+                @Override
+                public void replace(TagKey<T> tag) {
+                    KeyTags.this.tag(tag).replace();
                 }
             });
         }

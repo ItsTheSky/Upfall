@@ -6,6 +6,9 @@
     "upfall:cloudberry": {
       "chance": 0.3
     },
+    "upfall:cloudberry_seeds": {
+      "chance": 0.3
+    },
     "upfall:cloudberry_tart": {
       "chance": 1.0
     },

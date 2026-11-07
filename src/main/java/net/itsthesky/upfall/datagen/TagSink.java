@@ -8,6 +8,8 @@ public interface TagSink<T> {
 
     void putTag(TagKey<T> tag, TagKey<T> child);
 
+    void replace(TagKey<T> tag);
+
     default Appender<T> tag(TagKey<T> tag) {
         return new Appender<>(this, tag);
     }
@@ -31,6 +33,11 @@ public interface TagSink<T> {
 
         public Appender<T> addTag(TagKey<T> child) {
             sink.putTag(tag, child);
+            return this;
+        }
+
+        public Appender<T> replace() {
+            sink.replace(tag);
             return this;
         }
     }

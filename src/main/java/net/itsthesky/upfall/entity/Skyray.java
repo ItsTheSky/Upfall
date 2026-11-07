@@ -39,7 +39,7 @@ public class Skyray extends UpfallFlyingMob {
     }
 
     public static boolean checkSpawnRules(EntityType<Skyray> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return level.getLevel().dimension() == ModDimensions.UPFALL && pos.getY() > MIN_GLIDE_Y && pos.getY() < MAX_GLIDE_Y
+        return ModDimensions.isUpfall(level.getLevel()) && pos.getY() > MIN_GLIDE_Y && pos.getY() < MAX_GLIDE_Y
                 && level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isAir() && level.getBlockState(pos.above()).isAir();
     }
 

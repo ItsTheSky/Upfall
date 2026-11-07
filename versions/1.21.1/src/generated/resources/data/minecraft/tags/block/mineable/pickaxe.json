@@ -117,6 +117,12 @@
     "upfall:weathered_pearlstone_bricks",
     "upfall:lattice_stone",
     "upfall:carved_lattice_stone",
-    "upfall:lattice_beam"
+    "upfall:lattice_beam",
+    "upfall:pearlstone_coal_ore",
+    "upfall:pearlstone_iron_ore",
+    "upfall:pearlstone_diamond_ore",
+    "upfall:rustslate_coal_ore",
+    "upfall:rustslate_iron_ore",
+    "upfall:rustslate_diamond_ore"
   ]
 }

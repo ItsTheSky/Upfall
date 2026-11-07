@@ -55,7 +55,10 @@
     [
       "upfall:ore_nimbusite",
       "upfall:ore_pearled_cloud",
-      "upfall:ore_kairite"
+      "upfall:ore_kairite",
+      "upfall:ore_coal",
+      "upfall:ore_iron",
+      "upfall:ore_diamond"
     ],
     [
       "upfall:mistglow_crystal",

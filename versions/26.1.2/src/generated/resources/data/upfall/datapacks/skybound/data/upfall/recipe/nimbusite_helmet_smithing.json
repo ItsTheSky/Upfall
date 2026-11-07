@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "upfall:nimbusite_ingot",
+  "base": "minecraft:diamond_helmet",
+  "result": {
+    "id": "upfall:nimbusite_helmet"
+  },
+  "template": "upfall:nimbusite_upgrade_smithing_template"
+}

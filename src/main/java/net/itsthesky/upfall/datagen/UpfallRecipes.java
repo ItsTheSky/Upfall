@@ -214,7 +214,7 @@ public final class UpfallRecipes {
                 .save(r.output());
     }
 
-    private static void upgrade(RecipeContext r, Item template, Item base, Item addition, Item result) {
+    public static void upgrade(RecipeContext r, Item template, Item base, Item addition, Item result) {
         r.smithing(Ingredient.of(template), Ingredient.of(base), Ingredient.of(addition), RecipeCategory.COMBAT, result)
                 .unlocks(RecipeContext.hasName(addition), r.has(addition))
                 .save(r.output(), Upfall.id(RecipeContext.itemName(result) + "_smithing").toString());

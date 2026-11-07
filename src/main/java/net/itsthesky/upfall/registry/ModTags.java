@@ -15,6 +15,7 @@ public final class ModTags {
         public static final TagKey<Block> SKY_PLANTABLE = tag("sky_plantable");
         public static final TagKey<Block> UPFALL_STONE = tag("upfall_stone");
         public static final TagKey<Block> NEEDS_NIMBUSITE_TOOL = tag("needs_nimbusite_tool");
+        public static final TagKey<Block> NEEDS_NETHERITE_TOOL = tag("needs_netherite_tool");
         public static final TagKey<Block> INCORRECT_FOR_NIMBUSITE_TOOL = tag("incorrect_for_nimbusite_tool");
         public static final TagKey<Block> INCORRECT_FOR_LEVITITE_TOOL = tag("incorrect_for_levitite_tool");
         public static final TagKey<Block> SKYREACH_LOGS = tag("skyreach_logs");

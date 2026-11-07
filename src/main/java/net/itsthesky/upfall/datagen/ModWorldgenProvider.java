@@ -2,6 +2,7 @@ package net.itsthesky.upfall.datagen;
 
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.content.UpfallModules;
+import net.itsthesky.upfall.content.skybound.SkyboundPreset;
 import net.itsthesky.upfall.worldgen.ModBiomes;
 import net.itsthesky.upfall.worldgen.ModConfiguredFeatures;
 import net.itsthesky.upfall.worldgen.ModPlacedFeatures;
@@ -30,7 +31,8 @@ public class ModWorldgenProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.STRUCTURE, context -> UpfallModules.forEachData(data -> data.structures(context)))
             .add(Registries.STRUCTURE_SET, context -> UpfallModules.forEachData(data -> data.structureSets(context)))
             .add(Registries.ENCHANTMENT, context -> UpfallModules.forEachData(data -> data.enchantments(context)))
-            .add(Registries.LEVEL_STEM, ModDimensions::bootstrapStem);
+            .add(Registries.LEVEL_STEM, ModDimensions::bootstrapStem)
+            .add(Registries.WORLD_PRESET, SkyboundPreset::bootstrap);
 
     public ModWorldgenProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, BUILDER, Set.of(Upfall.MODID));

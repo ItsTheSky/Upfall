@@ -43,7 +43,7 @@ public class Cragmaw extends Monster {
     }
 
     public static boolean checkSpawnRules(EntityType<Cragmaw> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return level.getLevel().dimension() == ModDimensions.UPFALL && pos.getY() >= MIN_SPAWN_Y
+        return ModDimensions.isUpfall(level.getLevel()) && pos.getY() >= MIN_SPAWN_Y
                 && Monster.checkAnyLightMonsterSpawnRules(type, level, spawnType, pos, random);
     }
 

@@ -50,7 +50,7 @@ public class Duskwing extends UpfallFlyingMob implements Enemy {
     }
 
     public static boolean checkSpawnRules(EntityType<Duskwing> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return level.getDifficulty() != Difficulty.PEACEFUL && level.getLevel().dimension() == ModDimensions.UPFALL
+        return level.getDifficulty() != Difficulty.PEACEFUL && ModDimensions.isUpfall(level.getLevel())
                 && pos.getY() > MIN_Y && pos.getY() < MAX_Y
                 && level.getBlockState(pos).isAir() && level.getBlockState(pos.above()).isAir() && level.getBlockState(pos.below()).isAir();
     }

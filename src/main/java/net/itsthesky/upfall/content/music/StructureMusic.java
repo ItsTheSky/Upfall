@@ -79,7 +79,7 @@ public final class StructureMusic {
     }
 
     private static int structureAt(ServerPlayer player) {
-        if (!player.level().dimension().equals(ModDimensions.UPFALL)) return NONE;
+        if (!ModDimensions.isUpfall(player.level())) return NONE;
         StructureManager structures = McLevel.serverLevel(player).structureManager();
         BlockPos pos = player.blockPosition();
         for (int i = 0; i < ENTRIES.size(); i++) {

@@ -53,7 +53,7 @@ public class Skygrazer extends Animal {
     }
 
     public static boolean checkSpawnRules(EntityType<Skygrazer> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        return level.getLevel().dimension() == ModDimensions.UPFALL && level.getBlockState(pos.below()).is(ModBlocks.SKYGRASS_BLOCK.get());
+        return ModDimensions.isUpfall(level.getLevel()) && level.getBlockState(pos.below()).is(ModBlocks.SKYGRASS_BLOCK.get());
     }
 
     @Override

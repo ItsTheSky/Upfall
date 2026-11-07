@@ -5,6 +5,7 @@ import net.itsthesky.upfall.compat.mc.UseResults;
 import net.itsthesky.upfall.portal.HaloPortalShape;
 import net.itsthesky.upfall.registry.ModSounds;
 import net.itsthesky.upfall.registry.ModTriggers;
+import net.itsthesky.upfall.worldgen.ModDimensions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -37,6 +38,12 @@ public class SkywardKeyItem extends Item {
         Optional<HaloPortalShape> shape = HaloPortalShape.findEmptyPortalShape(level, pos, context.getHorizontalDirection().getClockWise().getAxis());
         if (shape.isEmpty()) {
             return InteractionResult.PASS;
+        }
+        if (ModDimensions.isUpfall(level)) {
+            if (player != null && !level.isClientSide()) {
+                McPlayers.overlay(player, Component.translatable("message.upfall.key_silent_upfall").withStyle(ChatFormatting.LIGHT_PURPLE));
+            }
+            return UseResults.sided(level);
         }
         if (level.dimension() != Level.OVERWORLD || shape.get().bottomLeft().getY() <= MIN_PORTAL_Y) {
             if (player != null && !level.isClientSide()) {

@@ -23,7 +23,7 @@ public class PhaseWatchItem extends Item {
     }
 
     public static boolean hasSignal(Level level) {
-        return level.dimension() == ModDimensions.UPFALL;
+        return ModDimensions.isUpfall(level);
     }
 
     public static Component describe(Level level) {

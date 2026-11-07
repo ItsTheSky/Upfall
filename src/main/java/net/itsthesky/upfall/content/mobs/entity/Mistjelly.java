@@ -44,7 +44,7 @@ public class Mistjelly extends UpfallFlyingMob {
     }
 
     public static boolean checkSpawnRules(EntityType<Mistjelly> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
-        if (level.getLevel().dimension() != ModDimensions.UPFALL || pos.getY() < MIN_Y || pos.getY() > MAX_Y) return false;
+        if (!ModDimensions.isUpfall(level.getLevel()) || pos.getY() < MIN_Y || pos.getY() > MAX_Y) return false;
         BlockState state = level.getBlockState(pos);
         if (!state.isAir() && !state.is(ModBlocks.MIST.get())) return false;
         for (int depth = 1; depth <= 24; depth++) {

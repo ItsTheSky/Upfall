@@ -1,5 +1,7 @@
 {
   "values": [
-    "upfall:kairite_ore"
+    "upfall:kairite_ore",
+    "upfall:pearlstone_diamond_ore",
+    "upfall:rustslate_diamond_ore"
   ]
 }

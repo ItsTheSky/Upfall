@@ -6,6 +6,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
@@ -39,6 +41,19 @@ public final class ModDimensions {
     public static final ResourceLocation UPFALL_EFFECTS = UPFALL_ID;
 
     public static final long FIXED_TIME = 11800L;
+
+    public static boolean isUpfall(Level level) {
+        return level.dimensionTypeRegistration().is(UPFALL_TYPE);
+    }
+
+    public static boolean isSkybound(MinecraftServer server) {
+        ServerLevel overworld = server.overworld();
+        return overworld != null && isUpfall(overworld);
+    }
+
+    public static boolean isSkybound(Level level) {
+        return level.getServer() != null && isSkybound(level.getServer());
+    }
 
     public static void bootstrapType(BootstrapContext<DimensionType> context) {
         //? if >=26.1 {
@@ -102,7 +117,11 @@ public final class ModDimensions {
         HolderGetter<DimensionType> types = context.lookup(Registries.DIMENSION_TYPE);
         HolderGetter<NoiseGeneratorSettings> settings = context.lookup(Registries.NOISE_SETTINGS);
         HolderGetter<Biome> biomes = context.lookup(Registries.BIOME);
-        context.register(UPFALL_STEM, new LevelStem(types.getOrThrow(UPFALL_TYPE),
-                new NoiseBasedChunkGenerator(ModBiomes.biomeSource(biomes), settings.getOrThrow(UpfallTerrain.SETTINGS))));
+        context.register(UPFALL_STEM, stem(types, settings, biomes));
+    }
+
+    public static LevelStem stem(HolderGetter<DimensionType> types, HolderGetter<NoiseGeneratorSettings> settings, HolderGetter<Biome> biomes) {
+        return new LevelStem(types.getOrThrow(UPFALL_TYPE),
+                new NoiseBasedChunkGenerator(ModBiomes.biomeSource(biomes), settings.getOrThrow(UpfallTerrain.SETTINGS)));
     }
 }
