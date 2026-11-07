@@ -85,7 +85,7 @@ Shards.
 
 | | |
 |---|---|
-| ![Walking on the ceiling](docs/screenshots/ceiling.jpg) | ![Levitite set](docs/screenshots/levitite.jpg) |
+| ![Nimbusite set](docs/screenshots/nimbusite.jpg) | ![Levitite set](docs/screenshots/levitite.jpg) |
 | **Nimbusite** (tier 1): smithed from netherite. Full set: -75% fall damage. | **Levitite** (tier 2): smithed from Nimbusite. Full set: no fall damage, double jump, glide. |
 
 * Enchantments: **Skywalker** (faster in Mist), **Uplifted** (faster updrafts), **Cloudsight** (clear vision in Mist),
