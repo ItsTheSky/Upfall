@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public final class UpfallArmorModels {
-    public enum Style { LEVITITE, NIMBUSITE }
+    public enum Style { LEVITITE, NIMBUSITE, VEIL_MASK }
 
     private static final int OUTER_WIDTH = 64, OUTER_HEIGHT = 64;
     private static final int INNER_WIDTH = 64, INNER_HEIGHT = 32;
@@ -28,9 +28,23 @@ public final class UpfallArmorModels {
     }
 
     private static HumanoidModel<?> create(Style style, EquipmentSlot slot) {
-        Root root = slot == EquipmentSlot.LEGS ? new Root(INNER_WIDTH, INNER_HEIGHT) : new Root(OUTER_WIDTH, OUTER_HEIGHT);
+        Root root = slot == EquipmentSlot.LEGS || style == Style.VEIL_MASK ? new Root(INNER_WIDTH, INNER_HEIGHT) : new Root(OUTER_WIDTH, OUTER_HEIGHT);
         switch (slot) {
             case HEAD -> {
+                if (style == Style.VEIL_MASK) {
+                    root.head.box(32, 0, false, -4, -8, -4, 8, 8, 8, 0.8F)
+                            .box(0, 0, false, -4, -8, -4, 8, 8, 8, 0.6F)
+                            .box(42, 17, false, -5.39645F, -2, -6.64645F, 4, 4, 3, 0)
+                            .box(42, 17, true, 1.60355F, -2, -6.64645F, 4, 4, 3, 0)
+                            .box(24, 0, false, -5, -6.5F, -6.05F, 4, 4, 1, 0)
+                            .box(0, 0, true, -4.5F, -6, -5.05F, 3, 3, 1, 0)
+                            .box(24, 0, false, 1, -6.5F, -6.05F, 4, 4, 1, 0)
+                            .box(0, 0, false, 1.5F, -6, -5.05F, 3, 3, 1, 0)
+                            .box(12, 17, false, -2.5F, -3.25F, -7.75F, 5, 4, 3, 0)
+                            .box(28, 17, false, -2.5F, -3.25F, -9.75F, 5, 5, 2, 0)
+                            .box(0, 17, false, -2.5F, -3.25F, -10.75F, 5, 6, 1, 0);
+                    break;
+                }
                 root.head.box(32, 0, false, -4, -8, -4, 8, 8, 8, 0.8F);
                 root.head.box(0, 0, false, -4, -8, -4, 8, 8, 8, 0.6F);
                 root.head.box(0, 32, false, -4.5F, -5.6F, -4.5F, 9, 3, 7, 0.6F);

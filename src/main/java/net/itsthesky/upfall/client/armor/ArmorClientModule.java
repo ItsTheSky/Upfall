@@ -1,6 +1,7 @@
 package net.itsthesky.upfall.client.armor;
 
 import net.itsthesky.upfall.content.UpfallClientModule;
+import net.itsthesky.upfall.content.quantum.QuantumItems;
 import net.itsthesky.upfall.registry.ModItems;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -32,6 +33,7 @@ public class ArmorClientModule implements UpfallClientModule {
         register(event, UpfallArmorModels.Style.NIMBUSITE, EquipmentSlot.CHEST, ModItems.NIMBUSITE_CHESTPLATE);
         register(event, UpfallArmorModels.Style.NIMBUSITE, EquipmentSlot.LEGS, ModItems.NIMBUSITE_LEGGINGS);
         register(event, UpfallArmorModels.Style.NIMBUSITE, EquipmentSlot.FEET, ModItems.NIMBUSITE_BOOTS);
+        register(event, UpfallArmorModels.Style.VEIL_MASK, EquipmentSlot.HEAD, QuantumItems.VEIL_MASK);
     }
 
     private static void register(RegisterClientExtensionsEvent event, UpfallArmorModels.Style style, EquipmentSlot slot, DeferredItem<?> item) {
