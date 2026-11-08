@@ -127,6 +127,7 @@ public final class MobsGameTests {
         floor(helper);
         var player = helper.makeMockPlayer(GameType.SURVIVAL);
         McEntities.snapTo(player, helper.absoluteVec(new net.minecraft.world.phys.Vec3(12.5, 1.0, 12.5)));
+        player.setItemSlot(net.minecraft.world.entity.EquipmentSlot.CHEST, new ItemStack(net.itsthesky.upfall.registry.ModItems.NIMBUSITE_CHESTPLATE.get()));
         Mob mob = helper.spawn(MobEntities.DUSKWING.get(), 8, 8, 8);
         mob.setTarget(player);
         float start = player.getHealth();

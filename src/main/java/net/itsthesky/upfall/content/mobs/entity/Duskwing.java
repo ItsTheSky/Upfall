@@ -2,6 +2,7 @@ package net.itsthesky.upfall.content.mobs.entity;
 
 import net.itsthesky.upfall.compat.mc.UpfallFlyingMob;
 import net.itsthesky.upfall.content.mobs.MobSounds;
+import net.itsthesky.upfall.registry.ModTags;
 import net.itsthesky.upfall.worldgen.ModDimensions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -15,6 +16,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
@@ -24,17 +26,24 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
+import java.util.List;
 
 public class Duskwing extends UpfallFlyingMob implements Enemy {
     private static final EntityDataAccessor<Boolean> DIVING = SynchedEntityData.defineId(Duskwing.class, EntityDataSerializers.BOOLEAN);
     private static final int MIN_Y = 70;
     private static final int MAX_Y = 240;
+    private static final int SPAWN_RARITY = 8;
+    private static final int MAX_NEARBY = 2;
+    private static final double CROWD_RANGE = 128.0;
+    private static final List<EquipmentSlot> ARMOR_SLOTS = List.of(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET);
 
     public Duskwing(EntityType<? extends Duskwing> type, Level level) {
         super(type, level);
@@ -55,7 +64,14 @@ public class Duskwing extends UpfallFlyingMob implements Enemy {
     public static boolean checkSpawnRules(EntityType<Duskwing> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return level.getDifficulty() != Difficulty.PEACEFUL && ModDimensions.isUpfall(level.getLevel())
                 && pos.getY() > MIN_Y && pos.getY() < MAX_Y
-                && level.getBlockState(pos).isAir() && level.getBlockState(pos.above()).isAir() && level.getBlockState(pos.below()).isAir();
+                && level.getBlockState(pos).isAir() && level.getBlockState(pos.above()).isAir() && level.getBlockState(pos.below()).isAir()
+                && (spawnType != MobSpawnType.NATURAL || rareAndUncrowded(level, pos, random));
+    }
+
+    // Open sky passes the placement checks almost everywhere, so without this the monster cap fills with duskwings
+    private static boolean rareAndUncrowded(ServerLevelAccessor level, BlockPos pos, RandomSource random) {
+        return random.nextInt(SPAWN_RARITY) == 0
+                && level.getEntitiesOfClass(Duskwing.class, AABB.ofSize(Vec3.atCenterOf(pos), CROWD_RANGE, CROWD_RANGE, CROWD_RANGE)).size() < MAX_NEARBY;
     }
 
     @Override
@@ -72,7 +88,19 @@ public class Duskwing extends UpfallFlyingMob implements Enemy {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new DiveAttackGoal());
         this.goalSelector.addGoal(2, new AirSteering.DriftGoal(this, MIN_Y, MAX_Y, 28, 8, 0.8, 160));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        //? if >=26.1 {
+        /*this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, (target, level) -> wearsSkyMetal(target)));
+        *///?} else {
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, Duskwing::wearsSkyMetal));
+        //?}
+    }
+
+    public static boolean wearsSkyMetal(LivingEntity entity) {
+        for (EquipmentSlot slot : ARMOR_SLOTS) {
+            ItemStack stack = entity.getItemBySlot(slot);
+            if (stack.is(ModTags.Items.NIMBUSITE_ARMOR) || stack.is(ModTags.Items.LEVITITE_ARMOR)) return true;
+        }
+        return false;
     }
 
     @Override
@@ -82,6 +110,7 @@ public class Duskwing extends UpfallFlyingMob implements Enemy {
             discard();
             return;
         }
+        if (!level().isClientSide() && getTarget() != null && !wearsSkyMetal(getTarget())) setTarget(null);
         AirSteering.faceMotion(this, isDiving() ? 25.0F : 8.0F);
     }
 
