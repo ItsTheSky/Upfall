@@ -17,14 +17,17 @@ public final class UpfallConfig {
     public static final ModConfigSpec.IntValue GAS_DAMAGE_INTERVAL;
 
     public static final ModConfigSpec.BooleanValue CAVES_ENABLED;
-    public static final ModConfigSpec.DoubleValue CAVES_CHUNK_CHANCE;
-    public static final ModConfigSpec.DoubleValue CAVES_DENSITY_MARGIN;
+    public static final ModConfigSpec.DoubleValue CAVES_NETWORK_CHANCE;
     public static final ModConfigSpec.IntValue CAVES_MIN_Y;
-    public static final ModConfigSpec.IntValue CAVES_MAX_LENGTH;
-    public static final ModConfigSpec.DoubleValue CAVES_BRANCH_CHANCE;
-    public static final ModConfigSpec.DoubleValue CAVES_ENTRANCE_CHANCE;
-    public static final ModConfigSpec.DoubleValue CAVES_DUG_CHANCE;
-    public static final ModConfigSpec.DoubleValue CAVES_DEAD_END_FEATURE_CHANCE;
+    public static final ModConfigSpec.IntValue CAVES_GRID_SIZE;
+    public static final ModConfigSpec.IntValue CAVES_ROOMS;
+    public static final ModConfigSpec.DoubleValue CAVES_ROOM_RADIUS;
+    public static final ModConfigSpec.IntValue CAVES_SHELL;
+    public static final ModConfigSpec.DoubleValue CAVES_LOOPS;
+    public static final ModConfigSpec.DoubleValue CAVES_SINUOSITY;
+    public static final ModConfigSpec.DoubleValue CAVES_CORRIDOR_RADIUS;
+    public static final ModConfigSpec.DoubleValue CAVES_ENTRANCE_RADIUS;
+    public static final ModConfigSpec.DoubleValue CAVES_MARKER_CHANCE;
     public static final ModConfigSpec.DoubleValue CAVES_CLUSTER_CHANCE;
 
     public static final ModConfigSpec.DoubleValue CLUSTER_JUMP_CHANCE;
@@ -82,21 +85,28 @@ public final class UpfallConfig {
 
         b.comment("Gas caves carved inside the islands (world generation)").push("gas_caves");
         CAVES_ENABLED = b.define("enabled", true);
-        CAVES_CHUNK_CHANCE = b.comment("Chance for a chunk to start a cave network")
-                .defineInRange("chunkChance", 0.05, 0.0, 1.0);
-        CAVES_DENSITY_MARGIN = b.comment("Terrain density required around a tunnel; roughly the minimum number of blocks between a tunnel and the island surface")
-                .defineInRange("densityMargin", 7.0, 1.0, 40.0);
+        CAVES_NETWORK_CHANCE = b.comment("Chance for each region (gridSize + 32 blocks wide) to hold a cave network")
+                .defineInRange("networkChance", 0.6, 0.0, 1.0);
         CAVES_MIN_Y = b.defineInRange("minY", 72, -64, 320);
-        CAVES_MAX_LENGTH = b.comment("Max tunnel blocks per network")
-                .defineInRange("maxLength", 260, 20, 2000);
-        CAVES_BRANCH_CHANCE = b.defineInRange("branchChance", 0.55, 0.0, 1.0);
-        CAVES_ENTRANCE_CHANCE = b.comment("Chance for a network to open on the flank of its island")
-                .defineInRange("entranceChance", 0.3, 0.0, 1.0);
-        CAVES_DUG_CHANCE = b.comment("Chance for a tunnel segment to be a dug section with Ironbark supports")
-                .defineInRange("dugChance", 0.3, 0.0, 1.0);
-        CAVES_DEAD_END_FEATURE_CHANCE = b.defineInRange("deadEndFeatureChance", 0.7, 0.0, 1.0);
-        CAVES_CLUSTER_CHANCE = b.comment("Chance per tunnel block to grow a Flicker Shard Cluster on the wall")
-                .defineInRange("clusterChance", 0.025, 0.0, 1.0);
+        CAVES_GRID_SIZE = b.comment("Width in blocks of the area sampled around a network; caves never reach past it")
+                .defineInRange("gridSize", 96, 48, 160);
+        CAVES_ROOMS = b.comment("Max rooms per network")
+                .defineInRange("rooms", 12, 1, 64);
+        CAVES_ROOM_RADIUS = b.comment("Base horizontal radius of a room")
+                .defineInRange("roomRadius", 5.5, 2.0, 16.0);
+        CAVES_SHELL = b.comment("Min rock depth kept between a room and the island surface")
+                .defineInRange("shell", 3, 1, 16);
+        CAVES_LOOPS = b.comment("Extra corridors on top of the spanning tree, as a fraction of the room count")
+                .defineInRange("loops", 0.05, 0.0, 2.0);
+        CAVES_SINUOSITY = b.comment("Sideways wander of corridors, 0 for straight")
+                .defineInRange("sinuosity", 0.05, 0.0, 1.0);
+        CAVES_CORRIDOR_RADIUS = b.defineInRange("corridorRadius", 1.1, 0.8, 4.0);
+        CAVES_ENTRANCE_RADIUS = b.comment("Base radius of the cliff, chimney and spiral entrances")
+                .defineInRange("entranceRadius", 2.5, 1.0, 6.0);
+        CAVES_MARKER_CHANCE = b.comment("Chance for a rock block around an entrance to become Mistglow Crystal")
+                .defineInRange("markerChance", 0.25, 0.0, 1.0);
+        CAVES_CLUSTER_CHANCE = b.comment("Chance per room or corridor block to grow a Flicker Shard Cluster on an adjacent wall")
+                .defineInRange("clusterChance", 0.01, 0.0, 1.0);
         b.pop();
 
         b.push("flicker_shard_cluster");

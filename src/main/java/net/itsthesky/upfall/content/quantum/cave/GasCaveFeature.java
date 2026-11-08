@@ -28,8 +28,9 @@ public class GasCaveFeature extends Feature<NoneFeatureConfiguration> {
         ChunkPos chunk = McChunks.of(context.origin());
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         boolean placed = false;
-        for (int dx = -GasCaveNetworks.RANGE; dx <= GasCaveNetworks.RANGE; dx++) {
-            for (int dz = -GasCaveNetworks.RANGE; dz <= GasCaveNetworks.RANGE; dz++) {
+        int range = GasCaveNetworks.range();
+        for (int dx = -range; dx <= range; dx++) {
+            for (int dz = -range; dz <= range; dz++) {
                 GasCaveNetwork network = GasCaveNetworks.get(state, new ChunkPos(McChunks.x(chunk) + dx, McChunks.z(chunk) + dz));
                 if (network.isEmpty()) continue;
                 for (GasCaveNetwork.Prop prop : network.propsIn(chunk)) {

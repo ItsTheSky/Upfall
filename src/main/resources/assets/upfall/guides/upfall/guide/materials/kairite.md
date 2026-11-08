@@ -33,7 +33,7 @@ Silk Touch keeps the ore block. Time your swing on the flare to get gears direct
 
 ## Kairite Dust
 
-<ItemLink id="kairite_dust" /> is the raw by-product. It is also found in chests of the Stalled Engine, Stalled Automaton and gas caves. Nine dust compress into a gear:
+<ItemLink id="kairite_dust" /> is the raw by-product. It is also found in chests of the Stalled Engine and Stalled Automaton. Nine dust compress into a gear:
 
 <RecipeFor id="kairite_gear" />
 

@@ -18,7 +18,7 @@ Most structures are rare and far apart. Instead of wandering, buy a map. Every [
 
 | Map | Loftkin price (plus a Compass) | Also found in |
 |---|---|---|
-| Stalled Engine Map | 3 <ItemLink id="gildfruit" /> | Gas cave supply chests (10%) |
+| Stalled Engine Map | 3 <ItemLink id="gildfruit" /> | - |
 | Pearl Aerie Map | 3 <ItemLink id="nimbusite_ingot" /> | Drifting Ruins (5%), Cloud Hamlet homes (8%) |
 | Chronospire Map | 3 <ItemLink id="nimbusite_ingot" /> | Drifting Ruins (5%) |
 | Shifting Vault Map | 6 <ItemLink id="raw_nimbusite" /> | Stalled Engine hall caches (12%) |
@@ -67,7 +67,7 @@ These run in parallel: start them as soon as you arrive, but the Quantum Pedesta
 ### Gas caves
 
 - **Need**: a Veil Mask, or a lot of care. See [Gas Caves](../world/gas_caves.md).
-- **Where**: winding tunnels inside the islands. Supply chests hold <ItemLink id="flicker_shard" />, Kairite Dust and <ItemLink id="bottled_veil_gas" />, and the clusters on the walls give Flicker Shards for the Quantum Stone and incantations.
+- **Where**: rooms and corridors inside the islands, reached through cliff mouths, chimneys or spiral shafts marked with Mistglow Crystal. The clusters on the walls give <ItemLink id="flicker_shard" /> for the Quantum Stone and incantations.
 - **Advancements**: Holding Your Breath, Don't Blink.
 
 ### Structures

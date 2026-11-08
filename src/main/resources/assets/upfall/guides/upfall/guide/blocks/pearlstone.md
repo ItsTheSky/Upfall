@@ -46,7 +46,7 @@ Pale, calcite-like stone: the main body of every floating island and the default
 ## Where to find it
 
 - Pearlstone forms the core of nearly all islands and the needle spires under them; grass and soil only cover the top layer.
-- Cobbled Pearlstone also turns up as rubble in the gas caves and in ruined structures.
+- Cobbled Pearlstone also turns up as rubble in ruined structures.
 - Polished Pearlstone and Pearlstone Bricks are what many Upfall builders used, from the Chronospire to abandoned sky towers.
 - It needs a pickaxe. Mining Pearlstone drops **Cobbled Pearlstone**; use Silk Touch to keep the block itself.
 

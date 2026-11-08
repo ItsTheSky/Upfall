@@ -10,7 +10,7 @@ item_ids:
 
 # Gas Caves
 
-Winding tunnels run deep inside the islands, filled with an invisible gas.
+Networks of rooms and corridors run deep inside the islands, filled with an invisible gas.
 
 ## Veil Gas
 
@@ -22,7 +22,11 @@ Wear a <ItemLink id="veil_mask" /> (or a Levitite helmet with the Veilsight upgr
 
 ## The caves
 
-Gas caves are narrow, worm-like tunnels that branch inside island rock, sometimes opening on the flank of an island. Some are dug out with Ironbark supports. Look for dead-end scenes (abandoned pickaxes, cracked masks, scattered bones, spent lanterns) and supply caches. Supply caches hold <ItemLink id="flicker_shard" />, <ItemLink id="kairite_dust" /> and <ItemLink id="bottled_veil_gas" />, and sometimes (10 percent) a Stalled Engine Map, a good lead toward the Kairite and the Veil Mask Blueprint.
+A gas cave is a set of rooms joined by corridors, carved deep in island rock. A thick shell of rock hides it from the outside: the only ways in are its one or two entrances, and the rock around each entrance glows with <ItemLink id="mistglow_crystal" />.
+
+- **Cliff mouths** open on the flank of an island and slope down into the network.
+- **Chimneys** rise into thick islands from their underside.
+- **Spiral shafts** wind down from the island surface.
 
 ## Bottled Veil Gas
 

@@ -42,7 +42,7 @@ public class GasCaveCarver extends WorldCarver<CarverConfiguration> {
             pos.set(cells.getLong(i));
             if (pos.getY() <= McLevel.minY(chunk) || pos.getY() >= McLevel.maxYExclusive(chunk)) continue;
             BlockState current = chunk.getBlockState(pos);
-            if (current.isAir() || !canReplaceBlock(config, current)) continue;
+            if (current.isAir() || !network.isEntrance(pos.asLong()) && !canReplaceBlock(config, current)) continue;
             //? if >=26.1 {
             /*chunk.setBlockState(pos, gas);
             *///?} else {
