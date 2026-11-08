@@ -27,6 +27,15 @@ Upfall can now be played in two modes, picked when creating the world:
 ### Stone
 - Cobbled Pearlstone, Cobbled Duskslate and Cobbled Rustslate can craft stone tools and furnaces.
 
+### Duskwings
+- Duskwings spawn far less often, and no more than two gather in the same area.
+- They now only hunt players wearing at least one piece of Nimbusite or Levitite armor, and leave everyone else alone.
+  Taking the armor off makes them lose interest.
+
+### Fixes
+- Walking into Skywater in survival no longer leaves the player stuck in place on Minecraft 26.1.2.
+- Shields now block Duskwing dives reliably.
+
 ## 1.3.0
 
 ### Versions
