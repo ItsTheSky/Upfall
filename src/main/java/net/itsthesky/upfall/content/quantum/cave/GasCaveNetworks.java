@@ -70,7 +70,7 @@ public final class GasCaveNetworks {
                 || McChunks.z(source) != regionZ * spacing + region.nextInt(spacing - span)) return GasCaveNetwork.EMPTY;
         if (region.nextDouble() >= UpfallConfig.getDouble(UpfallConfig.CAVES_NETWORK_CHANCE)) return GasCaveNetwork.EMPTY;
         RandomSource random = factory.at(McChunks.x(source), 0, McChunks.z(source));
-        return GasCaveNetwork.build(source, random, state.router().finalDensity(), settings());
+        return GasCaveNetwork.build(source, random, state.router(), settings());
     }
 
     private static final int CELL_WIDTH = 4;
@@ -174,8 +174,10 @@ public final class GasCaveNetworks {
                 UpfallConfig.getDouble(UpfallConfig.CAVES_LOOPS),
                 UpfallConfig.getDouble(UpfallConfig.CAVES_SINUOSITY),
                 UpfallConfig.getDouble(UpfallConfig.CAVES_CORRIDOR_RADIUS),
+                UpfallConfig.getDouble(UpfallConfig.CAVES_FISSURE_CHANCE),
                 UpfallConfig.getDouble(UpfallConfig.CAVES_ENTRANCE_RADIUS),
                 UpfallConfig.getDouble(UpfallConfig.CAVES_MARKER_CHANCE),
-                UpfallConfig.getDouble(UpfallConfig.CAVES_CLUSTER_CHANCE));
+                UpfallConfig.getDouble(UpfallConfig.CAVES_CLUSTER_CHANCE),
+                UpfallConfig.getDouble(UpfallConfig.CAVES_ORE_CHANCE));
     }
 }

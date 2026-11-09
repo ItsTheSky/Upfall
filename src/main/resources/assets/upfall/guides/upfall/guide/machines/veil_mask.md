@@ -25,3 +25,5 @@ Smith an Iron Helmet, a <ItemLink id="kairite_gear" /> and a [Veil Mask Blueprin
 Veil Gas hurts you only when it touches your head, so the mask is what lets you explore gas caves.
 
 The mask is also one of the offerings for the [Veilsight](quantum_pedestal.md) incantation, which gives the same protection to a Levitite Helmet.
+
+Cracked Veil Masks lie on the floor of some abandoned gas cave camps, a hint of whoever explored them before you.

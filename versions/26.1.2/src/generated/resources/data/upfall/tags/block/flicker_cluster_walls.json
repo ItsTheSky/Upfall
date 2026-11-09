@@ -1,5 +1,17 @@
 {
   "values": [
-    "#upfall:gas_cave_replaceable"
+    "#upfall:gas_cave_replaceable",
+    "upfall:cobbled_pearlstone",
+    "minecraft:tuff",
+    "upfall:duskslate",
+    "upfall:moonshell",
+    "minecraft:calcite",
+    "upfall:cobbled_duskslate",
+    "upfall:lumen_rock",
+    "upfall:gilded_duskslate",
+    "upfall:pearlstone",
+    "upfall:cobbled_rustslate",
+    "upfall:rustsoil",
+    "minecraft:dripstone_block"
   ]
 }

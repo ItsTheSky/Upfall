@@ -190,12 +190,14 @@ final class QuantumData implements DataContribution {
         tags.tag(ModTags.Blocks.GAS_CAVE_REPLACEABLE).addTag(ModTags.Blocks.UPFALL_STONE)
                 .add(ModBlocks.PEARLSTONE.get(), ModBlocks.DUSKSLATE.get(), ModBlocks.SKYSOIL.get(), ModBlocks.GILDED_DUSKSLATE.get(),
                         RustworksBlocks.RUSTSLATE.get(), RustworksBlocks.RUSTSOIL.get());
-        tags.tag(ModTags.Blocks.FLICKER_CLUSTER_WALLS).addTag(ModTags.Blocks.GAS_CAVE_REPLACEABLE);
+        tags.tag(ModTags.Blocks.FLICKER_CLUSTER_WALLS).addTag(ModTags.Blocks.GAS_CAVE_REPLACEABLE)
+                .add(net.itsthesky.upfall.content.quantum.cave.GasCaveWalls.blocks().toArray(Block[]::new)).add(Blocks.DRIPSTONE_BLOCK);
         tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(QuantumBlocks.SPENT_LANTERN.get(), QuantumBlocks.FLICKER_SHARD_CLUSTER.get(),
                 QuantumBlocks.PEDESTAL.get(), QuantumBlocks.QUANTUM_PEDESTAL.get());
         tags.tag(BlockTags.DRAGON_IMMUNE).add(vaultBlocks());
         tags.tag(BlockTags.WITHER_IMMUNE).add(vaultBlocks());
         tags.tag(BlockTags.IMPERMEABLE).add(QuantumBlocks.VAULT_GLASS.get(), QuantumBlocks.FROST_GLASS.get());
+        tags.tag(BlockTags.PREVENT_MOB_SPAWNING_INSIDE).add(QuantumBlocks.VEIL_GAS.get());
     }
 
     private static Block[] vaultBlocks() {

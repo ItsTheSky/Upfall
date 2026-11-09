@@ -26,9 +26,11 @@ public final class UpfallConfig {
     public static final ModConfigSpec.DoubleValue CAVES_LOOPS;
     public static final ModConfigSpec.DoubleValue CAVES_SINUOSITY;
     public static final ModConfigSpec.DoubleValue CAVES_CORRIDOR_RADIUS;
+    public static final ModConfigSpec.DoubleValue CAVES_FISSURE_CHANCE;
     public static final ModConfigSpec.DoubleValue CAVES_ENTRANCE_RADIUS;
     public static final ModConfigSpec.DoubleValue CAVES_MARKER_CHANCE;
     public static final ModConfigSpec.DoubleValue CAVES_CLUSTER_CHANCE;
+    public static final ModConfigSpec.DoubleValue CAVES_ORE_CHANCE;
 
     public static final ModConfigSpec.DoubleValue CLUSTER_JUMP_CHANCE;
     public static final ModConfigSpec.IntValue CLUSTER_JUMP_RADIUS;
@@ -100,13 +102,17 @@ public final class UpfallConfig {
                 .defineInRange("loops", 0.05, 0.0, 2.0);
         CAVES_SINUOSITY = b.comment("Sideways wander of corridors, 0 for straight")
                 .defineInRange("sinuosity", 0.05, 0.0, 1.0);
-        CAVES_CORRIDOR_RADIUS = b.defineInRange("corridorRadius", 1.1, 0.8, 4.0);
+        CAVES_CORRIDOR_RADIUS = b.defineInRange("corridorRadius", 1.8, 0.8, 4.0);
+        CAVES_FISSURE_CHANCE = b.comment("Chance for a corridor to be a narrow, tall fissure instead of a round tube")
+                .defineInRange("fissureChance", 0.3, 0.0, 1.0);
         CAVES_ENTRANCE_RADIUS = b.comment("Base radius of the cliff, chimney and spiral entrances")
                 .defineInRange("entranceRadius", 2.5, 1.0, 6.0);
         CAVES_MARKER_CHANCE = b.comment("Chance for a rock block around an entrance to become Mistglow Crystal")
                 .defineInRange("markerChance", 0.25, 0.0, 1.0);
         CAVES_CLUSTER_CHANCE = b.comment("Chance per room or corridor block to grow a Flicker Shard Cluster on an adjacent wall")
-                .defineInRange("clusterChance", 0.01, 0.0, 1.0);
+                .defineInRange("clusterWallChance", 0.0125, 0.0, 1.0);
+        CAVES_ORE_CHANCE = b.comment("Chance per room wall block to start a small ore vein facing the room")
+                .defineInRange("oreChance", 0.012, 0.0, 1.0);
         b.pop();
 
         b.push("flicker_shard_cluster");

@@ -28,6 +28,15 @@ A gas cave is a set of rooms joined by corridors, carved deep in island rock. A 
 - **Chimneys** rise into thick islands from their underside.
 - **Spiral shafts** wind down from the island surface.
 
+Rooms come in many shapes: low domes, tall cathedrals, rooms of several lobes, often with rock pillars and dripstone stalactites and stalagmites. Their walls are streaked with bands of Moonshell, Calcite and Tuff, with darker intrusions and worn, cobbled floors. Corridors are round tubes or narrow, tall fissures, with patches of gravel and hanging roots near the island surface. Small ore veins crop out of the room walls: coal, iron and Nimbusite, and sometimes diamond. Mobs never spawn inside the gas.
+
+Some rooms are special:
+
+- **Abandoned camps**: supply barrels, spent lanterns, an abandoned pickaxe, sometimes a cracked mask and bones. Supply barrels hold <ItemLink id="flicker_shard" />, <ItemLink id="kairite_dust" /> and <ItemLink id="bottled_veil_gas" />, and sometimes (10 percent) a Stalled Engine Map, a good lead toward the Kairite and the Veil Mask Blueprint.
+- **Lumen grottos**: walls of Lumen Rock and Lumen Druse, a floor of Lumen Moss and sprouts, Glowvine hanging from the ceiling.
+- **Quantum rooms**: walls bristling with Flicker Shard Clusters, and a pit hidden under a Crumbling Floor, with more clusters at the bottom.
+- **Kairite seams**, in the Rustworks only: Kairite Ore in the walls and Verdigris Moss on the floor.
+
 ## Bottled Veil Gas
 
 <ItemImage id="bottled_veil_gas" scale="2" />
