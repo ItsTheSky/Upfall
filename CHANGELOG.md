@@ -32,6 +32,35 @@ Upfall can now be played in two modes, picked when creating the world:
 - They now only hunt players wearing at least one piece of Nimbusite or Levitite armor, and leave everyone else alone.
   Taking the armor off makes them lose interest.
 
+### Gear and textures
+- The Veil Mask now has its own 3D model when worn, with goggles, side filters and a respirator snout, instead of the
+  vanilla helmet shape.
+- New textures for the Veil Mask, the Sky Almanac and the Gearlift, Hastening Gear, Phase Watch, Pneumatic Pipe,
+  Quantum Pedestal, Rewinder, Veil Mask and Void Tether blueprints.
+
+### Gas caves
+Gas caves have been rebuilt from scratch. Existing caves are kept; the new ones appear in newly generated chunks.
+- Each network is a set of rooms joined by corridors, hidden behind a thick shell of rock. The only ways in are one or
+  two entrances: a cliff mouth on the island flank, a chimney rising from the underside, or a spiral shaft from the
+  surface. The rock around each entrance glows with Mistglow Crystal.
+- Rooms take many shapes (low domes, tall cathedrals, rooms of several lobes) with flat floors, rock pillars and
+  dripstone stalactites and stalagmites.
+- Some rooms are special:
+  - **Abandoned camps** hold supply barrels, spent lanterns, an abandoned pickaxe and sometimes a cracked mask and
+    bones.
+  - **Lumen grottos** are lined with Lumen Rock, Lumen Moss and Glowvine.
+  - **Quantum rooms** bristle with Flicker Shard Clusters around a pit hidden under a Crumbling Floor.
+  - **Kairite seams**, in the Rustworks only, show Kairite Ore and Verdigris Moss.
+- Corridors are wide tubes or narrow, tall fissures, with gravel patches, hanging roots and glowvines.
+- Cave walls mix bands and patches of Moonshell, Calcite, Tuff and cobbled stone into the island rock, and small ore
+  veins (coal, iron, Nimbusite, sometimes diamond) crop out of the room walls.
+- Flicker Shard Clusters are less common outside quantum rooms.
+- Mobs no longer spawn inside Veil Gas.
+- Ironbark-supported tunnels and dead-end scenes are gone; their props now appear in the abandoned camps.
+- The `gas_caves` config section has new options (room count and size, corridor width, fissure, marker, cluster and ore
+  chances). `chunkChance`, `densityMargin`, `maxLength`, `branchChance`, `entranceChance`, `dugChance` and
+  `deadEndFeatureChance` are removed, and `clusterChance` is replaced by `clusterWallChance`.
+
 ### Fixes
 - Walking into Skywater in survival no longer leaves the player stuck in place on Minecraft 26.1.2.
 - Shields now block Duskwing dives reliably.
