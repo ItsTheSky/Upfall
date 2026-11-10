@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "F": {
+      "item": "upfall:cragmaw_fang"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "T": {
+      "item": "upfall:down_tuft"
+    }
+  },
+  "pattern": [
+    "STS",
+    "TFT",
+    "STS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "upfall:down_glider"
+  }
+}

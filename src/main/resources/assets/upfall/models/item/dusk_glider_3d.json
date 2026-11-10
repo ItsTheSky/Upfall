@@ -1,0 +1,7 @@
+{
+  "parent": "upfall:item/glider",
+  "textures": {
+    "0": "upfall:item/dusk_glider_3d",
+    "particle": "upfall:item/dusk_glider_3d"
+  }
+}

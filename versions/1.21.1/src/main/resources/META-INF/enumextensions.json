@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "UPFALL_GLIDER",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "net/itsthesky/upfall/content/gliding/client/GliderArmPose",
+        "field": "PROXY"
+      }
+    }
+  ]
+}

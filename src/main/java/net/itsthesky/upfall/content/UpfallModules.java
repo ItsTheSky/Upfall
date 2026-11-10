@@ -5,6 +5,7 @@ import net.itsthesky.upfall.content.chronospire.ChronospireModule;
 import net.itsthesky.upfall.content.enchanting.EnchantingModule;
 import net.itsthesky.upfall.content.engine.EngineModule;
 import net.itsthesky.upfall.content.farming.FarmingModule;
+import net.itsthesky.upfall.content.gliding.GlidingModule;
 import net.itsthesky.upfall.content.gravity.GravityModule;
 import net.itsthesky.upfall.content.grotto.GrottoModule;
 import net.itsthesky.upfall.content.guide.GuideModule;
@@ -46,6 +47,7 @@ public final class UpfallModules {
             new GuideModule(),
             new OresModule(),
             new FarmingModule(),
+            new GlidingModule(),
             new SkyboundModule());
 
     public static void forEachData(Consumer<DataContribution> action) {

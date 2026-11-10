@@ -8,6 +8,7 @@ version="${mod_version}"
 displayName="${mod_name}"
 authors="ItsTheSky"
 logoFile="upfall_logo.png"
+enumExtensions="META-INF/enumextensions.json"
 description='''
 A twilight sky dimension where gravity is upside down in places: drifting archipelagos above a sea of clouds, inverted islands with forests hanging downward, and waterfalls that fall towards the sky. Adds two gear tiers beyond netherite.
 '''

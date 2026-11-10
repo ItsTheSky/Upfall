@@ -1,0 +1,20 @@
+{
+  "loader": "neoforge:separate_transforms",
+  "base": {
+    "parent": "upfall:item/down_glider_3d"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "upfall:item/down_glider"
+      }
+    },
+    "fixed": {
+      "parent": "minecraft:item/generated",
+      "textures": {
+        "layer0": "upfall:item/down_glider"
+      }
+    }
+  }
+}

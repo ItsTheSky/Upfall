@@ -3,6 +3,7 @@ package net.itsthesky.upfall.content;
 import net.itsthesky.upfall.client.armor.ArmorClientModule;
 import net.itsthesky.upfall.content.chronospire.client.ChronospireClientModule;
 import net.itsthesky.upfall.content.enchanting.client.EnchantingClientModule;
+import net.itsthesky.upfall.content.gliding.client.GlidingClientModule;
 import net.itsthesky.upfall.content.gravity.client.GravityClientModule;
 import net.itsthesky.upfall.content.grotto.client.GrottoClientModule;
 import net.itsthesky.upfall.content.hamlet.client.HamletClientModule;
@@ -32,5 +33,6 @@ public final class UpfallClientModules {
             new QuantumClientModule(),
             new ReliquaryClientModule(),
             new MusicClientModule(),
-            new ArmorClientModule());
+            new ArmorClientModule(),
+            new GlidingClientModule());
 }

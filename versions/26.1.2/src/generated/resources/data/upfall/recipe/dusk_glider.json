@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": "upfall:duskwing_plume",
+    "G": "upfall:down_glider",
+    "M": "upfall:mist_gel",
+    "P": "upfall:cloud_pearl"
+  },
+  "pattern": [
+    "PDM",
+    "DGD",
+    "MDP"
+  ],
+  "result": {
+    "id": "upfall:dusk_glider"
+  }
+}
