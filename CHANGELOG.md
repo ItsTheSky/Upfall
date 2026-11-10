@@ -32,6 +32,20 @@ Upfall can now be played in two modes, picked when creating the world:
 - They now only hunt players wearing at least one piece of Nimbusite or Levitite armor, and leave everyone else alone.
   Taking the armor off makes them lose interest.
 
+### Gliders
+- New Down Glider and Dusk Glider. Hold one in either hand while falling to glide down slowly, steering with your view.
+  The Down Glider flies 1.5 times as fast as sprinting, the Dusk Glider twice as fast.
+- While a glider is held you take no fall damage, and your fall distance is cleared, so letting go of it just above the
+  ground is safe.
+- Holding a glider raises both arms and carries it above your head. Inventories and item frames show a flat icon.
+- Gliding wears the glider by 1 durability per second, up to 10 per flight, taken when you land. The Down Glider has 160
+  durability and is repaired with Down Tuft, the Dusk Glider has 320 and is repaired with Duskwing Plume. Both accept
+  Unbreaking and Mending.
+- Down Glider: 4 Sticks in the corners, 4 Down Tufts on the sides and a Cragmaw Fang in the center. Dusk Glider: a Down
+  Glider in the center, 4 Duskwing Plumes on the sides, Cloud Pearls top left and bottom right, Mist Gel top right and
+  bottom left.
+- Gliders do not work with Elytra, while swimming, climbing, riding or under inverted gravity.
+
 ### Gear and textures
 - The Veil Mask now has its own 3D model when worn, with goggles, side filters and a respirator snout, instead of the
   vanilla helmet shape.
