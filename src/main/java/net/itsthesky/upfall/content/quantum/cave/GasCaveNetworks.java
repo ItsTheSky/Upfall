@@ -108,6 +108,8 @@ public final class GasCaveNetworks {
 
     // Single-point sampling skips NoiseChunk's flat caches, which would recompute every 2D layer per block.
     public static DensityFunction columnCached(DensityFunction density) {
+        // Optimizers like C2ME compile the router and cast visitor results to their own cache types.
+        if (!density.getClass().getName().startsWith("net.minecraft.")) return density;
         return density.mapAll(function -> {
             if (function instanceof DensityFunctions.MarkerOrMarked marker) {
                 String type = String.valueOf((Object) marker.type());
