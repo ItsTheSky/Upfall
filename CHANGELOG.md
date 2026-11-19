@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.4.0
 
 ### Two ways to play
 Upfall can now be played in two modes, picked when creating the world:
@@ -46,11 +46,23 @@ Upfall can now be played in two modes, picked when creating the world:
   bottom left.
 - Gliders do not work with Elytra, while swimming, climbing, riding or under inverted gravity.
 
-### Gear and textures
+### Veil Mask
 - The Veil Mask now has its own 3D model when worn, with goggles, side filters and a respirator snout, instead of the
   vanilla helmet shape.
-- New textures for the Veil Mask, the Sky Almanac and the Gearlift, Hastening Gear, Phase Watch, Pneumatic Pipe,
-  Quantum Pedestal, Rewinder, Veil Mask and Void Tether blueprints.
+
+### Retexture, part 2
+- Woods: logs, stripped logs, planks, leaves, saplings, doors and trapdoors of Gildroot, Ironbark and Skyreach.
+- Lumen and crystals: Lumen Rock, Lumen Moss, Lumen Druse, Mistglow Crystal, Moonshell, the animated Prism Pool, the
+  Azure, Rose and Verdant crystal blocks, buds and clusters, and Flicker Shard Clusters.
+- Foliage: Cloud Fern, Cloudbloom, Cloudstalk, Duskbloom, Gilded Tuft, Glowvine, Lumen Sprouts, Rivetgrass, Skylily,
+  Skyreed, Verdigris Bloom, Verdigris Moss and Wirevine.
+- Nimbusite ores, Raw Nimbusite, and the Nimbusite and Levitite armor.
+- Items: food, Cloud Pearl, Cragmaw Fang, Down Tuft, Duskwing Plume, Flicker Shard, Quantum Stone, Lumen Shard, Mist
+  Gel, Mistglow Dust, Kairite Dust and Gear, Rusty Plate, Nimbus Flask, Bottled Veil Gas, Skywater Bucket, Phase Watch,
+  Rewinding Hourglass, Updraft Compass, ropes, Rope Bridge and Zipline Handle.
+- The Fold Anchor shows a distinct texture while it holds a position.
+- The Veil Mask, the Sky Almanac and the Gearlift, Hastening Gear, Phase Watch, Pneumatic Pipe, Quantum Pedestal,
+  Rewinder, Veil Mask and Void Tether blueprints.
 
 ### Gas caves
 Gas caves have been rebuilt from scratch. Existing caves are kept; the new ones appear in newly generated chunks.
