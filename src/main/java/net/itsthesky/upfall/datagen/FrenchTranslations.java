@@ -138,6 +138,7 @@ public final class FrenchTranslations {
             Map.entry("block.upfall.heartgear", "Cœur d'engrenages"),
             Map.entry("block.upfall.hour_dial", "Cadran horaire"),
             Map.entry("block.upfall.hour_dial.desc", "Indique l'heure de la Chronospire. La tour suit les jours de l'Overworld : aube, midi, crépuscule et minuit, cinq minutes chacun."),
+            Map.entry("block.upfall.iron_veined_ironbark_log", "Bûche d'ironbark veinée de fer"),
             Map.entry("block.upfall.ironbark_button", "Bouton en ironbark"),
             Map.entry("block.upfall.ironbark_door", "Porte en ironbark"),
             Map.entry("block.upfall.ironbark_fence", "Barrière en ironbark"),

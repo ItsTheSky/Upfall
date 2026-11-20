@@ -3,6 +3,7 @@ package net.itsthesky.upfall.content.rustworks;
 import net.itsthesky.upfall.Upfall;
 import net.itsthesky.upfall.compat.mc.McRegistration;
 import net.itsthesky.upfall.content.rustworks.block.ExhaustVentBlock;
+import net.itsthesky.upfall.content.rustworks.block.IronVeinedIronbarkLogBlock;
 import net.itsthesky.upfall.content.rustworks.block.KairiteOreBlock;
 import net.itsthesky.upfall.content.rustworks.block.LeakingPipeBlock;
 import net.itsthesky.upfall.content.rustworks.block.OxideTurfBlock;
@@ -64,6 +65,10 @@ public final class RustworksBlocks {
 
     public static final DeferredBlock<KairiteOreBlock> KAIRITE_ORE = block("kairite_ore", KairiteOreBlock::new,
             stone(4.0F, SoundType.DEEPSLATE).mapColor(MapColor.WARPED_NYLIUM).lightLevel(KairiteOreBlock::light), NATURE);
+    public static final DeferredBlock<IronVeinedIronbarkLogBlock> IRON_VEINED_IRONBARK_LOG = block("iron_veined_ironbark_log",
+            IronVeinedIronbarkLogBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
+                    .instrument(NoteBlockInstrument.BASS).strength(2.5F, 3.0F).sound(SoundType.CHERRY_WOOD).ignitedByLava(),
+            BUILDING, NATURE);
 
     public static final DeferredBlock<Block> RUSTY_PLATING = block("rusty_plating", Block::new, metal(MapColor.TERRACOTTA_ORANGE, 4.0F), BUILDING);
     public static final DeferredBlock<Block> COG_PLATING = block("cog_plating", Block::new, metal(MapColor.COLOR_GRAY, 4.0F), BUILDING);

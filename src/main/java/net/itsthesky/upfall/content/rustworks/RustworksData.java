@@ -14,6 +14,7 @@ import net.itsthesky.upfall.datagen.ModSoundProvider;
 import net.itsthesky.upfall.datagen.ModTagProviders;
 import net.itsthesky.upfall.datagen.RecipeContext;
 import net.itsthesky.upfall.registry.ModBlocks;
+import net.itsthesky.upfall.registry.ModTags;
 import net.itsthesky.upfall.worldgen.ModBiomes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.biome.Biome;
@@ -45,6 +46,7 @@ import java.util.List;
 final class RustworksData implements DataContribution {
     @Override
     public void lang(ModLanguageProvider lang) {
+        lang.add(RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get(), "Iron-Veined Ironbark Log");
         RustworksSounds.SUBTITLES.forEach((path, text) -> lang.add(ModLanguageProvider.subtitle(path), text));
     }
 
@@ -82,6 +84,8 @@ final class RustworksData implements DataContribution {
             loot.add(variants.slab().get(), loot.createSlabItemTable(variants.slab().get()));
         }
         kairiteOreLoot(loot);
+        loot.add(RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get(),
+                loot.createSingleItemTableWithSilkTouch(RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get(), ModBlocks.IRONBARK.log().get()));
         loot.dropOther(RustworksBlocks.STILLFLOW_CAULDRON.get(), Items.CAULDRON);
     }
 
@@ -208,6 +212,7 @@ final class RustworksData implements DataContribution {
         tags.tag(BlockTags.NEEDS_IRON_TOOL).add(RustworksBlocks.KAIRITE_ORE.get());
         tags.tag(BlockTags.NEEDS_DIAMOND_TOOL).add(RustworksBlocks.HEARTGEAR.get());
         tags.tag(BlockTags.CAULDRONS).add(RustworksBlocks.STILLFLOW_CAULDRON.get());
+        tags.tag(ModTags.Blocks.IRONBARK_LOGS).add(RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get());
     }
 
     @Override

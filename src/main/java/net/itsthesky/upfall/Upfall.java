@@ -91,6 +91,7 @@ public class Upfall {
                 }
                 fire.setFlammable(set.leaves().get(), 30, 60);
             }
+            fire.setFlammable(net.itsthesky.upfall.content.rustworks.RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get(), 5, 5);
             for (Block plant : new Block[]{ModBlocks.DUSKBLOOM.get(), ModBlocks.CLOUD_FERN.get(), ModBlocks.GILDED_TUFT.get()}) {
                 fire.setFlammable(plant, 60, 100);
             }

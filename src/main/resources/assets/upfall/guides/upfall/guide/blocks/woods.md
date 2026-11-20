@@ -36,6 +36,7 @@ item_ids:
   - upfall:gildroot_leaves
   - upfall:gildroot_sapling
   - upfall:ironbark_log
+  - upfall:iron_veined_ironbark_log
   - upfall:ironbark_wood
   - upfall:stripped_ironbark_log
   - upfall:stripped_ironbark_wood
@@ -161,8 +162,11 @@ The Gildroot sapling is special: it hangs from the underside of a block instead 
 
 A hardy, dark purple tree with orange leaves that grows in the Rustworks, on Oxide Turf. You will find solitary trees, small groves and large trees. Plant four saplings in a 2x2 square to grow the large version.
 
+Some logs grow with iron embedded in the bark (<ItemLink id="iron_veined_ironbark_log" />), especially when the tree grows on Oxide Turf or Rustsoil. Right-click them with an axe to strip them and pry out Iron Nuggets (and occasionally a <ItemLink id="rusty_plate" />); chopping them normally drops a regular Ironbark Log.
+
 <ItemGrid>
   <ItemIcon id="ironbark_log" />
+  <ItemIcon id="iron_veined_ironbark_log" />
   <ItemIcon id="ironbark_wood" />
   <ItemIcon id="stripped_ironbark_log" />
   <ItemIcon id="stripped_ironbark_wood" />

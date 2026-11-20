@@ -34,6 +34,14 @@ final class RustworksModels {
         states.blockItem(RustworksBlocks.OXIDE_TURF.get());
 
         kairiteOre(states);
+        TextureMapping veinedLog = TextureMapping.column(states.blockMaterial("iron_veined_ironbark_log"), states.blockMaterial("ironbark_log_top"));
+        Identifier veinedV = ModelTemplates.CUBE_COLUMN.create(RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get(), veinedLog, states.modelOutput());
+        Identifier veinedH = ModelTemplates.CUBE_COLUMN_HORIZONTAL.create(RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get(), veinedLog, states.modelOutput());
+        states.blockStateOutput().accept(BlockModelGenerators.createRotatedPillarWithHorizontalVariant(
+                RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get(),
+                BlockModelGenerators.plainVariant(veinedV),
+                BlockModelGenerators.plainVariant(veinedH)));
+        states.blockItem(RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get());
 
         pipe(states, RustworksBlocks.RUSTY_PIPE.get(), "rusty_pipe_side");
         pipe(states, RustworksBlocks.LEAKING_PIPE.get(), "leaking_pipe_side");

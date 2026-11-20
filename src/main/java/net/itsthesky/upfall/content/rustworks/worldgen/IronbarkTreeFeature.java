@@ -102,9 +102,14 @@ public class IronbarkTreeFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
 
+        BlockState originGround = level.getBlockState(origin.below());
+        boolean ironRichGround = originGround.is(RustworksBlocks.OXIDE_TURF.get()) || originGround.is(RustworksBlocks.RUSTSOIL.get());
+        float veinedChance = ironRichGround ? 0.25F : 0.10F;
         BlockState logState = ModBlocks.IRONBARK.log().get().defaultBlockState();
+        BlockState veinedState = RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get().defaultBlockState();
         for (Map.Entry<BlockPos, Direction.Axis> entry : logs.entrySet()) {
-            level.setBlock(entry.getKey(), logState.setValue(RotatedPillarBlock.AXIS, entry.getValue()), Block.UPDATE_CLIENTS);
+            BlockState chosen = random.nextFloat() < veinedChance ? veinedState : logState;
+            level.setBlock(entry.getKey(), chosen.setValue(RotatedPillarBlock.AXIS, entry.getValue()), Block.UPDATE_CLIENTS);
         }
         Map<BlockPos, Integer> distance = new HashMap<>();
         ArrayDeque<BlockPos> queue = new ArrayDeque<>();

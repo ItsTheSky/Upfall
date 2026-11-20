@@ -26,6 +26,9 @@ final class RustworksModels {
         states.blockItem(RustworksBlocks.OXIDE_TURF.get());
 
         kairiteOre(states);
+        states.axisBlock(RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get(),
+                states.blockTexture("iron_veined_ironbark_log"), states.blockTexture("ironbark_log_top"));
+        states.blockItem(RustworksBlocks.IRON_VEINED_IRONBARK_LOG.get());
 
         pipe(states, RustworksBlocks.RUSTY_PIPE.get(), "rusty_pipe_side");
         pipe(states, RustworksBlocks.LEAKING_PIPE.get(), "leaking_pipe_side");
